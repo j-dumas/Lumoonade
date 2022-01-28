@@ -1,0 +1,105 @@
+.navbar {
+    width: 100%;
+}
+
+.lil-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 0px 0px 10px 0px;
+    padding: 5px 15px 5px 15px;
+    border-radius: 40px;
+
+    transition: .5s;
+
+    position: fixed;
+    bottom: 0;
+
+    z-index: 99999999;
+}
+
+.lil-nav:hover {
+    margin: 0px 0px 10px 10px;
+    background-color: rgba(114, 137, 218, .95)
+}
+
+.menu-icon {
+    z-index: 99999999;
+    font-size: 25px;
+    
+    margin-right: 10px;
+}
+
+.navbar-logo {
+    color: white;
+    text-decoration: none;
+    display:flex;
+    font-family: Amaranth, Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.fas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    background-color: rgb(36, 36, 37);;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.nav-item {
+    list-style: none;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.active {
+    visibility: visible;
+}
+
+.nav-links {
+    display: block;
+    min-width: 100%;
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    font-size: 1.5rem;
+
+}
+.nav-links:hover {
+    background-color: rgba(236, 105, 95, .5);
+
+}
+.nav-links:active {
+    color: rgb(114, 137, 218);
+    background-color: rgba(182, 182, 182, .5);
+}
+
+.scrolled {
+    margin: 0px 0px 10px 10px;
+    background-color: rgba(236, 105, 95, .95);
+}

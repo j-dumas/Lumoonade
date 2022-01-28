@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+
+:root {
+    --headline: calc(45px + 5.75vw);
+    --title: calc(45px + 2vw);
+    --subtitle: calc(var(--title)/3);
+    --subtitle-small: calc(var(--title)/4);
+    --text: calc(var(--title)/4);
+
+    --red: rgb(236, 105, 95);
+    --blue: #0586E5;
+    --t-blue:rgba(5, 134, 229, 0.3);
+    --lightBlue: #01A8FF;
+    --t-lightBlue:rgba(1, 168, 255, 0.3);
+    --orange: #E38215;
+    --yellow: #F4D933;
+    --lightGray: rgb(200,200,200);
+    --gray: rgb(15, 15, 21 );
+    --grey: rgb(20, 20, 28);
+    --green: #54E346;
+    --white: white;
+
+    --font: Amaranth, Arial, Helvetica, sans-serif;
+
+    --background-color-2: rgb(15, 16, 18);
+    --background-color: rgb(25, 26, 28);
+    --font-color: white;
+}
+
+html, body, main {
+    width: 100%;
+    min-height: 100%;
+    height: 100vh;
+    font-family: var(--font);
+    cursor: none;
+    background-color: var(--background-color);
+    overflow-x: hidden;
+}
+
+html {
+    color: var(--font-color);
+}
+
+.second {
+    background-color: var(--background-color-2);
+    color: white;
+}
+
+.svg {
+    position: relative;
+    top: 10px;
+    
+}
+
+svg path {
+    fill: var(--background-color-2);
+}
+
+h1,h2,h3,h4,h5,h6,p {
+    font-weight: normal;
+}
+p{
+    font-size: var(--text);
+}
+
+.item {
+    width: 90%;
+}
+
+.website-title {
+    font-size: var(--headline);
+    margin: 0;
+    font-weight: bold;
+    text-align: left;
+}
+
+main {
+    min-width: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+.title, .subtitle, .subtitle-small {
+    font-weight: normal;
+    text-align: left;
+    margin: 10px;
+}
+
+.title {
+    font-size: var(--title);
+    letter-spacing: .75rem;
+}
+
+.subtitle {
+    font-size: var(--subtitle);
+    margin-top: 0px;
+}
+
+.subtitle-small {
+    font-size: var(--subtitle-small);
+}
+
+.quote {
+    position: relative;
+    top: 20vh;
+    color: var(--blue);
+    letter-spacing: 0.1vw;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.4rem;
+}
+
+.btn {
+    background-color: var(--blue);
+    color: white;
+    border-radius: 20px;
+    padding: 3px 9px 2px 7px;
+
+    transition: .5s;
+    border: 3px solid var(--blue);
+}
+
+.btn:hover {
+    background-color: white;
+    color: var(--blue);
+    border-radius: 20px;
+    padding: 3px 9px 2px 7px;
+}
+
+.dynamic {
+    border-radius: 20px;
+    padding: 2px 6.5px 4px 5.5px;
+    background-color: var(--green);
+    color: white;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: transparent
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: var(--orange);
+border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--yellow);
+}
+
