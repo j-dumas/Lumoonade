@@ -4,9 +4,35 @@
 # Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+image: node:16
+
 stages:
-- test
+  - sec
+  - tests
+  - deploy
+
 sast:
-  stage: test
+  stage: sec
 include:
-- template: Security/SAST.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+
+#utests:
+#  stage: tests
+#  script:
+#    - npm install
+#    - npm run test
+
+test-deploy:
+  stage: deploy
+  script:
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD")
+    - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD_GIT")
+    - mkdir -p ~/.ssh/ 
+    - echo -e "Host $GCLOUD_BACKEND_IP \n\tForwardAgent yes" > ~/.ssh/config
+    - more ~/.ssh/config
+    - ssh -o StrictHostKeyChecking=no $GCLOUD_USER@$GCLOUD_BACKEND_IP "cd ~/p-synthese-csfoy-ritzkick/ &&
+        git fetch origin main && git reset --hard origin/main && exit"
+  only:
+    refs:
+      - main
