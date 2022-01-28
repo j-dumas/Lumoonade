@@ -10,10 +10,17 @@
 		"test-dev": "jest --watch"
 	},
 	"dependencies": {
+<<<<<<< HEAD
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
 		"@fortawesome/react-fontawesome": "^0.1.17",
 		"chart.js": "^3.7.0",
+=======
+		"chalk": "^4.1.2",
+		"dotenv": "^14.3.2",
+		"json-web-token": "^3.2.0",
+		"mongoose": "^6.1.8",
+>>>>>>> 038be0347c9ec6daa008b63c8d60870c5a3944a5
 		"next": "12.0.9",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
@@ -22,6 +29,7 @@
 	"devDependencies": {
 		"eslint": "8.7.0",
 		"eslint-config-next": "12.0.9",
-		"jest": "^27.4.7"
+		"jest": "^27.4.7",
+		"supertest": "^6.2.2"
 	}
 }
