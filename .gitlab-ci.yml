@@ -29,7 +29,7 @@ test-deploy:
     - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD")
     - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD_GIT")
     - mkdir -p ~/.ssh/ 
-    - echo -e "Host $GCLOUD_BACKEND_IP \n\tForwardAgent yes" > ~/.ssh/config
+    - echo -e "Host $GCLOUD_IP \n\tForwardAgent yes" > ~/.ssh/config
     - more ~/.ssh/config
     - ssh -o StrictHostKeyChecking=no $GCLOUD_USER@$GCLOUD_IP "cd ~/p-synthese-csfoy-ritzkick/ &&
         git fetch origin main && git reset --hard origin/main && exit"
