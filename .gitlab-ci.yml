@@ -7,14 +7,14 @@
 image: node:16
 
 stages:
-  - sec
-  - tests
-  - deploy
+    - sec
+    - tests
+    - deploy
 
 sast:
-  stage: sec
+    stage: sec
 include:
-  - template: Security/SAST.gitlab-ci.yml
+    - template: Security/SAST.gitlab-ci.yml
 
 #utests:
 #  stage: tests
@@ -23,16 +23,16 @@ include:
 #    - npm run test
 
 test-deploy:
-  stage: deploy
-  script:
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD")
-    - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD_GIT")
-    - mkdir -p ~/.ssh/ 
-    - echo -e "Host $GCLOUD_IP \n\tForwardAgent yes" > ~/.ssh/config
-    - more ~/.ssh/config
-    - ssh -o StrictHostKeyChecking=no $GCLOUD_USER@$GCLOUD_IP "cd ~/p-synthese-csfoy-ritzkick/ &&
-        git fetch origin main && git reset --hard origin/main && exit"
-  only:
-    refs:
-      - main
+    stage: deploy
+    script:
+        - eval $(ssh-agent -s)
+        - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD")
+        - ssh-add <(echo "$SSH_PRIVATE_KEY_GCLOUD_GIT")
+        - mkdir -p ~/.ssh/
+        - echo -e "Host $GCLOUD_IP \n\tForwardAgent yes" > ~/.ssh/config
+        - more ~/.ssh/config
+        - ssh -o StrictHostKeyChecking=no $GCLOUD_USER@$GCLOUD_IP "cd ~/p-synthese-csfoy-ritzkick/ &&
+          git fetch origin main && git reset --hard origin/main && cd ritzkick && sudo ./run.sh && exit"
+    only:
+        refs:
+            - main
