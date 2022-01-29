@@ -11,6 +11,7 @@ export default function Home() {
   return (
     <div>
       <DomHead/>
+      <Header/>
 
       <main className='column'>
         <section className='section row principal center'>
