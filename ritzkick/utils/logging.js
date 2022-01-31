@@ -20,9 +20,4 @@ const debug = (namespace, message, object = '') => {
 	console.log(chalk.blue(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object))
 }
 
-export = {
-    info,
-    warn,
-    error,
-    debug
-}
+module.exports = { info, warn, error, debug }
