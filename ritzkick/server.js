@@ -8,6 +8,7 @@ const userRouter = require('./api/router/user')
 const walletRouter = require('./api/router/wallet')
 const watchlistRouter = require('./api/router/watchlist')
 const favoriteRouter = require('./api/router/favorite')
+const assetRouter = require('./api/router/asset')
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
@@ -19,6 +20,7 @@ app.prepare()
 	.then(() => {
 		const server = express()
 
+		server.use(assetRouter)
 		server.use(favoriteRouter)
 		server.use(watchlistRouter)
 		server.use(walletRouter)
