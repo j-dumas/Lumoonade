@@ -7,7 +7,7 @@ export default function Login() {
     return (
         <div>
           <DomHead/>
-          <main className='row'>
+          <main>
             <LoginForm />
             <Clouds />
           </main>

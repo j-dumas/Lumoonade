@@ -41,7 +41,7 @@ class LoginForm extends React.Component{
     render(){
         return (
             <Container className="p-3" className="form">
-                <h1 id='title'>{TITLE}</h1>
+                <h1 id='loginTitle'>{TITLE}</h1>
                 <form onSubmit={this.handleSubmit}>
                     <input id="userField" type="text" placeholder="Courriel" onChange={this.handleUsernameChange} required/>
                     <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required/>

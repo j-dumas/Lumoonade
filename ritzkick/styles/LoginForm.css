@@ -9,28 +9,28 @@
 
 @keyframes slideInFromAbove {
     0% {
-      transform: translateY(0%);
+      transform: translateY(50%);
     }
     100% {
-      transform: translateY(-50%);
+      transform: translateY(0%);
     }
 }
 
 .form {
     display: flex;
     position: absolute;
-    top: 40%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    top: 10%;
     text-align: center;
     animation: 1s ease-out 0s 1 slideInFromAbove, fadein 3s;
     flex-direction: column;
     z-index: 2;
-    width: 25%;
+    width: 25vw;
+    min-width: 300px;
 }
 
 input[type=text], input[type=password], input[type=email] {
     width: 100%;
+    height: auto;
     padding: 12px 20px;
     margin: 8px 0;
     border-radius: 10px;
@@ -54,6 +54,7 @@ input[type=submit] {
     border-radius: 10px;
     padding: 12px;
     width: 30%;
+    height: auto;
     margin: 8px;
 }
 
@@ -74,25 +75,17 @@ input[type=submit]:hover {
     text-align: center;
 }
 
-input {
-    size: 120%;
-}
-
 
 #registerTitle, #loginTitle {
     text-align: center;
     font-style: italic;
     animation: fadein 3s;
-    font-size: 600%;
+    font-size: calc(50px + 1.5vw);
     font-family: var(--font);
 }
 
 input:focus::placeholder{
     color: transparent;
-}
-
-body {
-    overflow: hidden;
 }
 
 .line {
@@ -114,4 +107,8 @@ body {
 .longLine {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+body{
+    overflow: hidden;
 }
