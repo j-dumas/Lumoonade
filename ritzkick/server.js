@@ -1,6 +1,10 @@
 require('dotenv').config()
-const express = require('express')
-const next = require('next')
+
+const express = require('express'),
+	next = require('next')
+
+const expressJSDocSwagger = require('express-jsdoc-swagger')
+const swaggerOptions = require('./config/swagger')
 
 const hello = require('./api/hello')
 
@@ -13,6 +17,7 @@ const handle = app.getRequestHandler()
 app.prepare()
 	.then(() => {
 		const server = express()
+		expressJSDocSwagger(server)(swaggerOptions)
 
 		server.use(hello)
 
