@@ -1,7 +1,7 @@
 import DomHead from '../components/DomHead'
 import Footer from '../components/Footer'
 import RegisterForm from '../components/RegisterForm'
-import Clouds from '../components/Clouds'
+import Bubbles from '../components/Bubbles'
 
 export default function Login() {
     return (
@@ -9,7 +9,7 @@ export default function Login() {
           <DomHead/>
           <main className='row'>
             <RegisterForm/>
-            <Clouds />
+            <Bubbles />
           </main>
           <Footer/>
           <div className='cursor'></div>

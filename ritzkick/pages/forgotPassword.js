@@ -1,14 +1,14 @@
 import DomHead from '../components/DomHead'
 import Footer from '../components/Footer'
 import ForgotPasswordForm from '../components/ForgotPasswordForm'
-import Clouds from '../components/Clouds'
+import Bubbles from '../components/Bubbles'
 
 export default function ForgotPassword() {
     return (
         <div>
           <DomHead/>
           <main className='row'>
-            <Clouds />
+            <Bubbles />
             <ForgotPasswordForm />
           </main>
           <Footer/>

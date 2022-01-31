@@ -2,7 +2,7 @@ import React from 'react';
 
 //Pixabay.com
 
-function Clouds() {
+function Bubbles() {
     return (
         <div>
                 <img className='bubble x1' src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=018" /> 
@@ -19,4 +19,4 @@ function Clouds() {
     );
 }
 
-export default Clouds;
+export default Bubbles;
