@@ -38,18 +38,18 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 input[type=text]:valid, input[type=password]:valid, input[type=email]:valid{
-    outline-color: #34eb37;
-    border: #34eb37;
+    outline-color: var(--green);
+    border: var(--green);
 }
 
 input[type=text]:invalid, input[type=password]:invalid, input[type=email]:invalid{
-    outline-color: #eb3a34;
-    border: #eb3a34;
+    outline-color: var(--red);
+    border: var(--red);
 }
 
 input[type=submit] {
-    background-color: #34b1eb;
-    color: white;
+    background-color: var(--orange);
+    color: var(--font-color);
     border: none;
     border-radius: 10px;
     padding: 12px;
@@ -58,12 +58,12 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-    background-color: #4144f2;
+    background-color: var(--yellow);
     transition-duration: 0.5s;
 }
 
 .link{
-    color: #34b1eb;
+    color: var(--orange);
     text-decoration: underline;
     margin: 10px;
 }
@@ -84,6 +84,7 @@ input {
     font-style: italic;
     animation: fadein 3s;
     font-size: 600%;
+    font-family: var(--font);
 }
 
 input:focus::placeholder{
