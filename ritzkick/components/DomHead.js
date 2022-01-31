@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import React, {useEffect} from 'react';
 
-const WEBSITE_TITLE = "Révolv'Air"
-const WEBSITE_DESCRIPTION = "Révolv'Air"
+const WEBSITE_TITLE = "CRYPTOOL"
+const WEBSITE_DESCRIPTION = "CRYPTOOL"
         
 function DomHead() {
 
