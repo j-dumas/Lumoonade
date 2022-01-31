@@ -11,7 +11,7 @@ import '../styles/Icons.css'
 import '../styles/Particules.scss'
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+	return <Component {...pageProps} />
 }
 
 export default MyApp
