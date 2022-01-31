@@ -84,6 +84,14 @@ input[type=submit]:hover {
     font-family: var(--font);
 }
 
+.form-subtitle{
+    text-align: center;
+    font-style: italic;
+    animation: fadein 3s;
+    font-size: calc(20px + 1.5vw);
+    font-family: var(--font);
+}
+
 input:focus::placeholder{
     color: transparent;
 }
