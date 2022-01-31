@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee, faCheckSquare, faShoppingCart, faChevronDown, faChartLine, faWallet, faGlobe, faCoins, faUserCircle, faMedal, faInfoCircle, faQuestionCircle, faTicketAlt, faHandsHelping, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee, faCheckSquare, faShoppingCart, faChevronDown, faChartLine, faWallet, faGlobe, faCoins, faUserCircle, faMedal, faInfoCircle, faQuestionCircle, faTicketAlt, faHandsHelping, faBars, faTimes, faHome, faDoorClosed, faDoorOpen } from '@fortawesome/free-solid-svg-icons'
 
 const Icons = {
     Cart: () => { return(<FontAwesomeIcon className='icon' icon={faShoppingCart}/>) },
@@ -15,7 +15,10 @@ const Icons = {
     Times: () => { return(<FontAwesomeIcon className='icon' icon={faTimes}/>) },
     InfoCircle: () => { return(<FontAwesomeIcon className='icon' icon={faInfoCircle}/>) },
     QuestionCircle: () => { return(<FontAwesomeIcon className='icon' icon={faQuestionCircle}/>) },
-    Ticket: () => { return(<FontAwesomeIcon className='icon' icon={faTicketAlt}/>) }
+    Ticket: () => { return(<FontAwesomeIcon className='icon' icon={faTicketAlt}/>) },
+    Home: () => { return(<FontAwesomeIcon className='icon' icon={faHome}/>) },
+    DoorClosed: () => { return(<FontAwesomeIcon className='icon' icon={faDoorClosed}/>) },
+    DoorOpen: () => { return(<FontAwesomeIcon className='icon' icon={faDoorOpen}/>) },
 }
 
 export default Icons;
