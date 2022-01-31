@@ -1,7 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/api/hello', (req, res) => {
+/**
+ * GET /api
+ * @summary The default endpoint
+ * @return {object} 200 - success
+ */
+router.get('/api/', (req, res) => {
 	res.status(200).send({
 		message: 'Hello',
 	})
