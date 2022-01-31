@@ -76,7 +76,7 @@ input[type=submit]:hover {
 }
 
 
-#registerTitle, #loginTitle {
+.form-title {
     text-align: center;
     font-style: italic;
     animation: fadein 3s;
@@ -109,6 +109,7 @@ input:focus::placeholder{
     margin-right: 10px;
 }
 
-body{
+html, body, main{
     overflow: hidden;
 }
+

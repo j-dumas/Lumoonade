@@ -98,7 +98,7 @@ class RegisterForm extends React.Component{
     render(){
         return (
             <Container className="p-3" className="form">
-                <h1 id='registerTitle'>{TITLE}</h1>
+                <h1 className="form-title">{TITLE}</h1>
                 <Google />
                 <AndSeparator />
                 <form onSubmit={this.handleSubmit} id="registerForm">

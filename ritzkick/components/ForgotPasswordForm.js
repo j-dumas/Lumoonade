@@ -35,7 +35,7 @@ class ForgotPasswordForm extends React.Component{
     render(){
         return (
             <Container className="p-3" className="form">
-                <h1>Problème de connexion?</h1>
+                <h1 className="form-title">Problème de connexion?</h1>
                 <h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
                 <form>
                     <input id="emailField" type="email" placeholder="Courriel" onChange={this.handleEmailChange} required></input>
