@@ -1,0 +1,190 @@
+@keyframes fadein {
+    from { opacity: 0;}
+    to { opacity: 1;}
+}
+@keyframes cloudFadeout {
+    from { opacity: 1;}
+    to { opacity: 0.3;}
+}
+
+@keyframes slideInFromAbove {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+}
+
+.form {
+    display: flex;
+    position: absolute;
+    top: 40%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-align: center;
+    animation: 1s ease-out 0s 1 slideInFromAbove, fadein 3s;
+    flex-direction: column;
+    z-index: 2;
+    width: 25%;
+}
+
+input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 10px;
+    color: black;
+}
+
+input[type=text]:valid, input[type=password]:valid, input[type=email]:valid{
+    outline-color: #34eb37;
+    border: #34eb37;
+}
+
+input[type=text]:invalid, input[type=password]:invalid, input[type=email]:invalid{
+    outline-color: #eb3a34;
+    border: #eb3a34;
+}
+
+input[type=submit] {
+    background-color: #34b1eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    width: 30%;
+    margin: 8px;
+}
+
+input[type=submit]:hover {
+    background-color: #4144f2;
+    transition-duration: 0.5s;
+}
+
+.link{
+    color: #34b1eb;
+    text-decoration: underline;
+    margin: 10px;
+}
+
+#Signup{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+input {
+    size: 120%;
+}
+
+
+#registerTitle, #loginTitle {
+    text-align: center;
+    font-style: italic;
+    animation: fadein 3s;
+    font-size: 600%;
+}
+
+input:focus::placeholder{
+    color: transparent;
+}
+
+@keyframes cloud1MoveOut {
+    0% {
+      transform: translate(-20%, 0%);
+    }
+    50% {
+      transform: translate(-20%, 5%); 
+    }
+    100% {
+      transform: translate(-20%, 0%);
+    }
+}
+
+@keyframes cloud4MoveOut {
+    0% {
+        transform: translate(20%, 0%);
+      }
+      50% {
+        transform: translate(20%, 5%); 
+    }
+      100% {
+        transform: translate(20%, 0%);
+    }
+}
+
+@keyframes cloud3MoveOut {
+    0% {
+        transform: translate(-80%, 0%);
+      }
+      50% {
+        transform: translate(-80%, 5%); 
+      }
+      100% {
+        transform: translate(-80%, 0%);
+      }
+}
+
+@keyframes cloud2MoveOut {
+    0% {
+        transform: translate(-120%, 0%);
+      }
+      50% {
+        transform: translate(-120%, 5%); 
+      }
+      100% {
+        transform: translate(-120%, 0%);
+      }
+}
+
+.clouds {
+    position: absolute;
+    width: auto;
+    height: 75%;
+    opacity: 1;
+    z-index: 1;
+}
+
+#cloud1 {
+    animation: cloud1MoveOut 6s ease-in-out infinite;
+}
+
+#cloud2 {
+    animation: cloud2MoveOut 6s ease-in-out infinite;
+}
+
+#cloud3 {
+    transform: translate(-80%, 0%);
+    animation: 6s cloud3MoveOut 1s ease-in-out infinite;
+}
+
+#cloud4 {
+    transform: translate(20%, 0%);
+    animation: 6s cloud4MoveOut 1s ease-in-out infinite;
+}
+
+body {
+    overflow: hidden;
+}
+
+.line {
+    width: 50%;
+    height: 0%;
+    border-radius: 10px;
+    transform: translateY(1050%);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.OU {
+    display: flex;
+    text-align: center;
+    color: lightgray;
+    flex-direction: row;
+}
+
+.longLine {
+    margin-left: 10px;
+    margin-right: 10px;
+}

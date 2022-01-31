@@ -9,6 +9,7 @@ import '../styles/BottomArrow.css'
 import '../styles/Cursor.css'
 import '../styles/Icons.css'
 import '../styles/Particules.scss'
+import '../styles/LoginForm.css'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
