@@ -2,7 +2,12 @@ require('dotenv').config()
 const express = require('express')
 const next = require('next')
 
-const hello = require('./api/hello')
+require('./db/mongodb')
+
+const userRouter = require('./api/router/user')
+const walletRouter = require('./api/router/wallet')
+const watchlistRouter = require('./api/router/watchlist')
+const favoriteRouter = require('./api/router/favorite')
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
@@ -14,7 +19,10 @@ app.prepare()
 	.then(() => {
 		const server = express()
 
-		server.use(hello)
+		server.use(favoriteRouter)
+		server.use(watchlistRouter)
+		server.use(walletRouter)
+		server.use(userRouter)
 
 		server.get('*', (req, res) => {
 			return handle(req, res)
