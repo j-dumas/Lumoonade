@@ -1,4 +1,5 @@
 require('dotenv').config()
+const fs = require('fs')
 
 const express = require('express'),
 	next = require('next')
@@ -15,16 +16,36 @@ const favoriteRouter = require('./api/router/favorite')
 const assetRouter = require('./api/router/asset')
 const defaultRouter = require('./api/default')
 
+const log = require('./utils/logging')
+const { createServer } = require('https')
+const { fstat } = require('fs')
+
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
+const ssl = process.env.SSL || false
+
+const httpsOptions = {}
+if (ssl == 'true') {
+	log.info('SERVER', 'Reading certificates')
+	httpsOptions.key = fs.readFileSync('./certificates/name.key')
+	httpsOptions.cert = fs.readFileSync('./certificates/name.crt')
+}
 
 const app = next({ dev })
 const handle = app.getRequestHandler()
-
-app.prepare().catch((ex) => {
-	console.error(ex.stack)
-	process.exit(1)
-})
+if (ssl == 'true')
+	app.prepare().then(() => {
+		log.info('SERVER', 'Starting in HTTPS')
+		createServer(httpsOptions, (req, res) => {
+			const parsedURL = parse(req.url, true)
+			handle(req, res, parsedURL)
+		})
+	})
+else
+	app.prepare().catch((ex) => {
+		log.error('SERVER', 'Launch error', ex.stack)
+		process.exit(1)
+	})
 
 const server = express()
 
@@ -43,5 +64,5 @@ server.get('*', (req, res) => {
 
 server.listen(port, (err) => {
 	if (err) throw err
-	console.log(`Ready on port ${port}`)
+	log.info('SERVER', `Ready on port ${port}`)
 })
