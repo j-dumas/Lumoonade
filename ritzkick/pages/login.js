@@ -8,10 +8,8 @@ export default function Login() {
         <div>
           <DomHead/>
           <main className='row'>
-            <section className='section column center'>
-                <Clouds />
-            </section>
             <LoginForm />
+            <Clouds />
           </main>
           <Footer/>
           <div className='cursor'></div>

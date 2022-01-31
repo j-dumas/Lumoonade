@@ -8,10 +8,8 @@ export default function ForgotPassword() {
         <div>
           <DomHead/>
           <main className='row'>
-            <section className='section column center'>
-                <Clouds />
-                <ForgotPasswordForm />
-            </section>
+            <Clouds />
+            <ForgotPasswordForm />
           </main>
           <Footer/>
           <div className='cursor'></div>
