@@ -29,9 +29,18 @@
 }
 
 .h-center {
-    justify-content: center;
+    
+    align-items: center;
 }
 
 .v-center {
-    align-items: center;
+    justify-content: center;
+}
+
+.left {
+    justify-content: left;
+}
+
+.right {
+    justify-content: right;
 }

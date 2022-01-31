@@ -7,6 +7,7 @@ const expressJSDocSwagger = require('express-jsdoc-swagger')
 const swaggerOptions = require('./config/swagger')
 
 const hello = require('./api/hello')
+const log = require('./utils/logging')
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
@@ -27,10 +28,10 @@ app.prepare()
 
 		server.listen(port, (err) => {
 			if (err) throw err
-			console.log(`Ready on port ${port}`)
+			log.info('SERVER', `Ready on port ${port}`)
 		})
 	})
 	.catch((ex) => {
-		console.error(ex.stack)
+		log.error('SERVER', ex.stack)
 		process.exit(1)
 	})
