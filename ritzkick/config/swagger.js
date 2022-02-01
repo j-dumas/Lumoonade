@@ -14,7 +14,7 @@ module.exports = {
 		},
 	},
 	baseDir: __dirname,
-	filesPattern: '../api/*.js',
+	filesPattern: '../api/**/*.js',
 	swaggerUIPath: '/api-docs',
 }
 
