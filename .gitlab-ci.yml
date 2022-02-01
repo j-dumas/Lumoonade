@@ -22,7 +22,7 @@ utests:
         - cd ritzkick && npm install
         - npm run test-ci
     services:
-        - mongo:3.2
+        - mongo:latest
 
 test-deploy:
     stage: deploy
