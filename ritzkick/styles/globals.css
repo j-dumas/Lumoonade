@@ -14,3 +14,15 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.c-red {
+  color: lightcoral;
+}
+
+.c-green {
+  color: lightgreen;
+}
+
+.c-white {
+  color: gainsboro;
+}
