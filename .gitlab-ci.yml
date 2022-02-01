@@ -11,16 +11,16 @@ stages:
     - tests
     - deploy
 
-sast:
-    stage: sec
-include:
-    - template: Security/SAST.gitlab-ci.yml
+#sast:
+#    stage: sec
+#include:
+#    - template: Security/SAST.gitlab-ci.yml
 
-#utests:
-#  stage: tests
-#  script:
-#    - npm install
-#    - npm run test
+utests:
+    stage: tests
+    script:
+        - cd ritzkick && npm install
+        - npm run test
 
 test-deploy:
     stage: deploy

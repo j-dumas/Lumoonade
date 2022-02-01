@@ -1,0 +1,46 @@
+.principal {
+    height: 100%;
+}
+
+.section {
+    min-width: 100%;
+    min-width: 360px;
+}
+
+.division {
+    width: 48%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.h-center {
+    
+    align-items: center;
+}
+
+.v-center {
+    justify-content: center;
+}
+
+.left {
+    justify-content: left;
+}
+
+.right {
+    justify-content: right;
+}
