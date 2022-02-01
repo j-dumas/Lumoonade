@@ -2,22 +2,28 @@
 	"name": "ritzkick",
 	"private": true,
 	"scripts": {
-		"dev": "nodemon server.js",
+		"start": "env-cmd -f ./.prod.env node server.js",
+		"dev": "env-cmd -f ./.local.env nodemon server.js",
 		"build": "next build",
 		"lint": "next lint",
-		"test": "jest",
-		"test-dev": "jest --watch"
+		"test": "env-cmd -f ./.test.env jest --runInBand",
+		"test-dev": "env-cmd -f ./.test.env jest --watch --runInBand"
+	},
+	"jest": {
+		"testEnvironment": "node"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
 		"@fortawesome/react-fontawesome": "^0.1.17",
+		"bcryptjs": "^2.4.3",
 		"chalk": "^4.1.2",
 		"chart.js": "^3.7.0",
 		"dotenv": "^14.3.2",
+		"env-cmd": "^10.1.0",
 		"express": "^4.17.2",
 		"express-jsdoc-swagger": "^1.6.7",
-		"json-web-token": "^3.2.0",
+		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^6.1.8",
 		"next": "12.0.9",
 		"react": "17.0.2",

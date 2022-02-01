@@ -1,24 +1,12 @@
-require('dotenv').config()
 const fs = require('fs')
 
-const express = require('express'),
-	next = require('next')
+const next = require('next')
 
 const expressJSDocSwagger = require('express-jsdoc-swagger')
 const swaggerOptions = require('./config/swagger')
 
-require('./db/mongodb')
-
-const userRouter = require('./api/router/user')
-const walletRouter = require('./api/router/wallet')
-const watchlistRouter = require('./api/router/watchlist')
-const favoriteRouter = require('./api/router/favorite')
-const assetRouter = require('./api/router/asset')
-const defaultRouter = require('./api/default')
-
 const log = require('./utils/logging')
 const { createServer } = require('https')
-const { fstat } = require('fs')
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
@@ -47,16 +35,9 @@ else
 		process.exit(1)
 	})
 
-const server = express()
+const server = require('./application/app')
 
 expressJSDocSwagger(server)(swaggerOptions)
-
-server.use(assetRouter)
-server.use(favoriteRouter)
-server.use(watchlistRouter)
-server.use(walletRouter)
-server.use(userRouter)
-server.use(defaultRouter)
 
 server.get('*', (req, res) => {
 	return handle(req, res)
