@@ -99,7 +99,6 @@ input:focus::placeholder{
 .line {
     width: 50%;
     height: 0%;
-    border-radius: 10px;
     transform: translateY(1050%);
     margin-left: 10px;
     margin-right: 10px;
@@ -110,11 +109,12 @@ input:focus::placeholder{
     text-align: center;
     color: lightgray;
     flex-direction: row;
+    margin-top: -10px;
+    margin-bottom: -15px;
 }
 
 .longLine {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 10px;
 }
 
 html, body, main{
