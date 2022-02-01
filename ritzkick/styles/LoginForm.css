@@ -121,3 +121,47 @@ html, body, main{
     overflow: hidden;
 }
 
+.curves {
+    background-color: chartreuse;
+    position: fixed;
+    height: 60%;
+    width: 100%;
+    bottom: 0;
+}
+
+.curves::before{
+    content: '';
+    display: block;
+    position: fixed;
+    border-radius: 50% 50%;
+    width: 55%;
+    height: 100%;
+    background-color: var(--background-color);
+    transform: translate(-5%, -65%);
+}
+
+.curves::after{
+    content: '';
+    display: block;
+    position: fixed;
+    border-radius: 100% 50%;
+    width: 55%;
+    height: 100%;
+    background-color: chartreuse;
+    transform: translate(85%, -35%);
+}
+
+.spacer {
+    aspect-ratio: 900/600;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.layer1 {
+    background-image: url(/waves.svg); 
+}
+
+
+
