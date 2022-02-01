@@ -148,5 +148,6 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/node,nextjs
 
-**/.env
+**/.prod.env
+**/.test.prod.env
 !/**/.example.env

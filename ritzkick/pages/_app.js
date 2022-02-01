@@ -13,7 +13,7 @@ import '../styles/Charts.css'
 import '../styles/SimpleCrypto.css'
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+	return <Component {...pageProps} />
 }
 
 export default MyApp
