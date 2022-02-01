@@ -27,9 +27,8 @@ const ssl = process.env.SSL || false
 const httpsOptions = {}
 if (ssl == 'true') {
 	log.info('SERVER', 'Reading certificates')
-	log.debug('SERVER', __filename)
 	httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`)
-	httpsOptions.cert = fs.readFileSync('./certificates/fullchain.pem')
+	httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`)
 }
 
 const app = next({ dev })
