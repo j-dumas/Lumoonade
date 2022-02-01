@@ -12,9 +12,7 @@ router.get('/api/assets', async (req, res) => {
 
 		res.send(assets)
 	} catch (e) {
-		res.status(500).send({
-			message: e.message,
-		})
+		res.status(500).send(e.message)
 	}
 })
 
