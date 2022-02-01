@@ -22,7 +22,7 @@ utests:
         - cd ritzkick && npm install
         - DB_URL=mongodb://127.0.0.1:27017/cryptool npm run test
     services:
-        - mongo:5.1
+        - mongo:3.2
 
 test-deploy:
     stage: deploy
