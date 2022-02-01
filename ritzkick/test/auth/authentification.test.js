@@ -32,6 +32,11 @@ beforeEach(async () => {
     await new User(testUser).save()
 })
 
+afterAll((done) => {
+    mongoose.connection.close()
+    done()
+})
+
 test('Should be able to create a new user', async () => {
     await request(server).post('/api/auth/register').send(dummyData).expect(201)
 
