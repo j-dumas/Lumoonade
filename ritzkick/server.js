@@ -1,13 +1,13 @@
 require('dotenv').config()
+require('./db/mongodb')
+
 const fs = require('fs')
+
+const http = require('http'),
+	https = require('https')
 
 const express = require('express'),
 	next = require('next')
-
-const expressJSDocSwagger = require('express-jsdoc-swagger')
-const swaggerOptions = require('./config/swagger')
-
-require('./db/mongodb')
 
 const userRouter = require('./api/router/user')
 const walletRouter = require('./api/router/wallet')
@@ -17,8 +17,8 @@ const assetRouter = require('./api/router/asset')
 const defaultRouter = require('./api/default')
 
 const log = require('./utils/logging')
-const { createServer } = require('https')
-const { fstat } = require('fs')
+const expressJSDocSwagger = require('express-jsdoc-swagger')
+const swaggerOptions = require('./config/swagger')
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
@@ -27,27 +27,18 @@ const ssl = process.env.SSL || false
 const httpsOptions = {}
 if (ssl == 'true') {
 	log.info('SERVER', 'Reading certificates')
-	httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`)
-	httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`)
+	httpsOptions.key = fs.readFileSync('./certificates/name.key')
+	httpsOptions.cert = fs.readFileSync('./certificates/name.crt')
 }
 
 const app = next({ dev })
 const handle = app.getRequestHandler()
-if (ssl == 'true')
-	app.prepare().then(() => {
-		log.info('SERVER', 'Starting in HTTPS')
-		createServer(httpsOptions, (req, res) => {
-			const parsedURL = parse(req.url, true)
-			handle(req, res, parsedURL)
-		})
-	})
-else
-	app.prepare().catch((ex) => {
-		log.error('SERVER', 'Launch error', ex.stack)
-		process.exit(1)
-	})
+app.prepare().catch((ex) => {
+	log.error('SERVER', 'Launch error', ex.stack)
+	process.exit(1)
+})
 
-const server = express()
+let server = express()
 
 expressJSDocSwagger(server)(swaggerOptions)
 
@@ -61,6 +52,14 @@ server.use(defaultRouter)
 server.get('*', (req, res) => {
 	return handle(req, res)
 })
+
+if (ssl == 'true') {
+	log.info('SERVER', 'Starting in HTTPS')
+	server = https.createServer(httpsOptions, server)
+} else {
+	log.info('SERVER', 'Starting in HTTP')
+	server = http.createServer(server)
+}
 
 server.listen(port, (err) => {
 	if (err) throw err
