@@ -8,7 +8,6 @@ const watchlistRouter = require('../api/router/watchlist')
 const favoriteRouter = require('../api/router/favorite')
 const assetRouter = require('../api/router/asset')
 const authRouter = require('../api/router/auth')
-const defaultRouter = require('../api/default')
 
 const server = express()
 
@@ -21,6 +20,5 @@ server.use(favoriteRouter)
 server.use(watchlistRouter)
 server.use(walletRouter)
 server.use(userRouter)
-server.use(defaultRouter)
 
 module.exports = server

@@ -6,7 +6,7 @@ const router = express.Router()
 /**
  * POST /api/auth/login
  * @summary The default endpoint for authentification
- * @tags authentification 
+ * @tags Authentification 
  * @return {object} 200 - success
  * @return {string} 400 - error
  */
@@ -27,7 +27,7 @@ router.post('/api/auth/login', async (req, res) => {
 /**
  * POST /api/auth/register
  * @summary The default endpoint for account creation
- * @tags authentification 
+ * @tags Authentification 
  * @return {object} 201 - created
  * @return {string} 400 - error
  */
@@ -50,7 +50,7 @@ router.post('/api/auth/register', async (req, res) => {
 /**
  * POST /api/auth/logout
  * @summary The default endpoint for logout purpuses
- * @tags authentification 
+ * @tags Authentification 
  * @return {object} 200 - success
  * @return {string} 400 - error
  */
@@ -69,7 +69,7 @@ router.post('/api/auth/logout', authentication, async (req, res) => {
 /**
  * POST /api/auth/forgot
  * @summary The default endpoint for "forget password" 
- * @tags authentification 
+ * @tags Authentification 
  * @return {object} 200 - success
  * @return {string} 500 - server error
  */
