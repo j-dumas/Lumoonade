@@ -7,9 +7,10 @@ export default function ForgotPassword() {
     return (
         <div>
           <DomHead/>
-          <main className='row'>
+          <main>
             <Bubbles />
             <ForgotPasswordForm />
+            <div  className="spacer layer1"></div>
           </main>
           <Footer/>
           <div className='cursor'></div>

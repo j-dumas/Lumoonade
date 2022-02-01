@@ -7,9 +7,10 @@ export default function Login() {
     return (
         <div>
           <DomHead/>
-          <main className='row'>
+          <main>
             <RegisterForm/>
             <Bubbles />
+            <div  className="spacer layer1"></div>
           </main>
           <Footer/>
           <div className='cursor'></div>

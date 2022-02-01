@@ -2,50 +2,37 @@ import React from "react"
 import Container from 'react-bootstrap/Container';
 import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
+import Script from "next/script";
 // const nodemailer = require("nodemailer")
 
 const TITLE = "Connexion"
+const SENDEMAIL = "https://formsubmit.co/"
 
 class ForgotPasswordForm extends React.Component{
 
     constructor(props){
         super(props)
         this.state = {email: ''}
+        this.emailQuery = SENDEMAIL + this.state.email
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleEmailChange = this.handleEmailChange.bind(this)
     } 
 
     async handleSubmit(event){
-        alert(this.state.email)
- 
-        // //SendEmail
-        // let testAccount = await nodemailer.createTestAccount()
+        // alert(this.state.email)
 
-        // let transporter = nodemailer.createTransport({
-        //     host: "smtp.ethereal.email",
-        //     port: 587,
-        //     secure: false, // true for 465, false for other ports
-        //     auth: {
-        //       user: testAccount.user, // generated ethereal user
-        //       pass: testAccount.pass, // generated ethereal password
-        //     },
-        //   });
-
-        //   let info = await transporter.sendMail({
-        //     from: '"Fred Foo 👻" <foo@example.com>', // sender address
-        //     to: "hubert.laliberte@gmail.com", // list of receivers
-        //     subject: "Hello ✔", // Subject line
-        //     text: "Hello world?", // plain text body
-        //     html: "<b>Hello world?</b>", // html body
-        //   });
-        
-        //   console.log("Message sent: %s", info.messageId);
-        //   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-        
-        //   // Preview only available when sending through an Ethereal account
-        //   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        //   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        Email.send({
+            Host : "smtp.gmail.com",
+            Username : "rubiscrash0@gmail.com",
+            Password : "WeKlypi3",
+            To : 'hubert.laliberte@gmail.com',
+            From : "rubiscrash0@gmail.com",
+            Subject : "test",
+            Body : "test"
+        }).then(
+          message => alert(message)
+        );
 
         event.preventDefault()
     }
@@ -65,10 +52,11 @@ class ForgotPasswordForm extends React.Component{
     render(){
         return (
             <Container className="p-3" className="form">
+                <Script src="https://smtpjs.com/v3/smtp.js" /> 
                 <h1 className="form-title">Problème de connexion?</h1>
                 <h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
-                <form>
-                    <input id="emailField" type="email" placeholder="Courriel" onChange={this.handleEmailChange} required></input>
+                <form  method="POST">
+                    <input name="email" id="emailField" type="email" placeholder="Courriel" onChange={this.handleEmailChange} required></input>
                     <input type="submit" value="Envoyez" onClick={this.handleSubmit}></input>
                 </form>
                 <AndSeparator/>

@@ -10,7 +10,6 @@ export default function Login() {
           <main>
             <LoginForm />
             <Bubbles />
-            {/* <div className='curves'></div> */}
             <div  className="spacer layer1"></div>
           </main>
           <Footer/>
