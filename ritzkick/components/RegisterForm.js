@@ -56,9 +56,9 @@ class RegisterForm extends React.Component{
 
     //https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
     showError(password, username, email){
-        if(!username.validity.valid){
-            username.setCustomValidity("Entrez un nom d'utilisateur")
-            username.reportValidity()
+        if(!password.validity.valid){
+            password.setCustomValidity("Entrez un mot de passe contenant 8 charactères minimum")
+            password.reportValidity()
         }
         if(!email.validity.valid){
             if(email.validity.typeMismatch || email.validity.valueMissing){
@@ -66,9 +66,13 @@ class RegisterForm extends React.Component{
                 email.reportValidity()
             }
         }
-        if(!password.validity.valid){
-            password.setCustomValidity("Entrez un mot de passe contenant 8 charactères")
-            password.reportValidity()
+        if(!username.validity.valid){
+            username.setCustomValidity("Entrez un nom d'utilisateur contenant 4 charactères minimum")
+            username.reportValidity()
+        }
+        if(this.state.username == ''){
+            username.setCustomValidity("Entrez un nom d'utilisateur")
+            username.reportValidity()
         }
     }
 

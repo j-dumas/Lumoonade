@@ -49,13 +49,13 @@ class LoginForm extends React.Component{
     }
 
     showError(password, username){
-        if(!username.validity.valid){
-            username.setCustomValidity("Entrez un nom d'utilisateur")
-            username.reportValidity()
-        }
         if(!password.validity.valid){
             password.setCustomValidity("Entrez un mot de passe")
             password.reportValidity()
+        }
+        if(!username.validity.valid){
+            username.setCustomValidity("Entrez un nom d'utilisateur")
+            username.reportValidity()
         }
     }
     
