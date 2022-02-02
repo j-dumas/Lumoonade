@@ -54,6 +54,10 @@ header {
     z-index: 9999999999;
 }
 
+.first {
+    margin-top: 75px;
+}
+
 .second {
     background-color: var(--background-color-2);
     color: white;
