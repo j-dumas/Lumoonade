@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
 import GoogleSignIn from "./GoogleSignIn";
+import axios from 'axios'
 
 const TITLE = "Connexion"
 
@@ -31,11 +32,19 @@ class LoginForm extends React.Component{
         this.setState({password: event.target.value});
     }
     
-    handleSubmit(event) {
+    async handleSubmit(event) {
 
         // Api call to log user
-        alert('A user was submitted: ' + this.state.username + ' with this password: ' + this.state.password);
-        event.preventDefault();
+        //alert('A user was submitted: ' + this.state.username + ' with this password: ' + this.state.password);
+        let users = []
+        try {
+            users = await axios.get('/api/users')
+        }
+        catch(e){
+            console.log(e)
+        }
+        console.log(users)
+        event.preventDefault()
     }
 
     render(){
