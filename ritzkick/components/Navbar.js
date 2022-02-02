@@ -15,7 +15,7 @@ function Navbar(props) {
     async function logout(event) {
         event.preventDefault()
         try {
-            let response = await fetch('/api/auth/logout', {
+            await fetch('/api/auth/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,8 +23,6 @@ function Navbar(props) {
                 },
             })
             
-            let json = await response.json()
-            console.log(json)
             sessionStorage.clear()
             window.location.href = '/'
         }

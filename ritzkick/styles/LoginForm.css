@@ -50,8 +50,9 @@ input[type=text]:invalid, input[type=password]:invalid, input[type=email]:invali
 input[type=submit] {
     background-color: var(--orange);
     color: var(--font-color);
-    border: none;
     border-radius: 10px;
+    border: 2px solid;
+    border-color: var(--orange);
     padding: 12px;
     width: 30%;
     height: auto;
@@ -59,8 +60,9 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-    background-color: var(--yellow);
-    transition-duration: 0.5s;
+    background-color: transparent;
+    color: var(--orange);
+    transition-duration: 0.25s;
 }
 
 .link{

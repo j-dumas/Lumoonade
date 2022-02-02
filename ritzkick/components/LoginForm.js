@@ -44,7 +44,6 @@ class LoginForm extends React.Component{
 
             let json = await response.json()
             sessionStorage.setItem('token', json.token)
-            sessionStorage.setItem('username', json.user.username)
             window.location.href = '/'
         }
         catch(e){
