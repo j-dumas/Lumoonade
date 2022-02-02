@@ -5,6 +5,7 @@ import Separator from "./Separator";
 import GoogleSignIn from "./GoogleSignIn";
 
 const TITLE = "Connexion"
+let display = "auto"
 
 class LoginForm extends React.Component{
 
@@ -25,29 +26,79 @@ class LoginForm extends React.Component{
     }
 
     handleUsernameChange(event) {
-        this.setState({username: event.target.value});
+        let username = document.getElementById("userField")
+        if(username.validity.typeMismatch){
+            username.setCustomValidity("Entrez un nom d'utilisateur")
+            username.reportValidity()
+        }
+        else{
+            username.setCustomValidity("")
+            this.setState({username: event.target.value});
+        }
     }
     handlePasswordChange(event) {
-        this.setState({password: event.target.value});
+        let password = document.getElementById("passwordField")
+        if(password.validity.typeMismatch){
+            password.setCustomValidity("Entrez un nom d'utilisateur")
+            password.reportValidity()
+        }
+        else{
+            password.setCustomValidity("")
+            this.setState({password: event.target.value});
+        }
+    }
+
+    showError(password, username){
+        if(!username.validity.valid){
+            username.setCustomValidity("Entrez un nom d'utilisateur")
+            username.reportValidity()
+        }
+        if(!password.validity.valid){
+            password.setCustomValidity("Entrez un mot de passe")
+            password.reportValidity()
+        }
     }
     
     async handleSubmit(event) {
-        event.preventDefault()
-        try {
-            let response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: this.state.username, password: this.state.password })
-            })
-
-            let json = await response.json()
-            sessionStorage.setItem('token', json.token)
-            window.location.href = '/'
+        let password = document.getElementById("passwordField")
+        let username = document.getElementById("userField")
+        
+        if(!password.validity.valid || !username.validity.valid){
+            this.showError(password, username)
+            event.preventDefault()
         }
-        catch(e){
-            console.log(e)
+        else{
+            if(this.state.username == '' || this.state.password == ''){
+                this.showError(password, username)
+                event.preventDefault()
+            }
+            else {
+                event.preventDefault()
+                try {
+                    let response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email: this.state.username, password: this.state.password })
+                    })
+        
+                    if(response.status == 200){
+                        let json = await response.json()
+                        sessionStorage.setItem('token', json.token)
+                        window.location.href = '/'
+                    }
+                    else if (response.status == 400){
+                        document.getElementById("wrong").style.display = "block"
+                    }
+                    else {
+                        alert("Something went wrong")
+                    }
+                }
+                catch(e){
+                    console.log(e.message)
+                }
+            }
         }
     }
 
@@ -55,6 +106,7 @@ class LoginForm extends React.Component{
         return (
             <Container className="p-3" className="form">
                 <h1 className="form-title">{TITLE}</h1>
+                <div id="wrong">Mauvais courriel ou mot de passe.</div>
                 <form onSubmit={this.handleSubmit}>
                     <input id="userField" type="text" placeholder="Courriel" onChange={this.handleUsernameChange} required autoComplete="off"/>
                     <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required autoComplete="off"/>

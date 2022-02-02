@@ -23,7 +23,7 @@
     text-align: center;
     animation: 1s ease-out 0s 1 slideInFromAbove, fadein 3s;
     flex-direction: column;
-    z-index: 2;
+    z-index: 100;
     width: 25vw;
     min-width: 300px;
 }
@@ -119,47 +119,30 @@ input:focus::placeholder{
     margin: 10px;
 }
 
-.curves {
-    background-color: chartreuse;
-    position: fixed;
-    height: 60%;
-    width: 100%;
-    bottom: 0;
-}
-
-.curves::before{
-    content: '';
-    display: block;
-    position: fixed;
-    border-radius: 50% 50%;
-    width: 55%;
-    height: 100%;
-    background-color: var(--background-color);
-    transform: translate(-5%, -65%);
-}
-
-.curves::after{
-    content: '';
-    display: block;
-    position: fixed;
-    border-radius: 100% 50%;
-    width: 55%;
-    height: 100%;
-    background-color: chartreuse;
-    transform: translate(85%, -35%);
-}
-
 .spacer {
     aspect-ratio: 900/600;
     width: 100%;
+    height: auto;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    z-index: 0;
 }
 
 .layer1 {
     background-image: url(/waves.svg); 
 }
 
-
+#wrong {
+    width: 100%;
+    height: 40px;
+    background-color: red;
+    text-align: left;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    color: var(--white);
+    padding: 10px;
+    animation: fadein 5s;
+    display: none;
+}
 

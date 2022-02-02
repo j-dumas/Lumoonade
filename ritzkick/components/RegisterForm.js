@@ -86,8 +86,6 @@ class RegisterForm extends React.Component{
                 this.showError(password, username, email)
                 event.preventDefault()
             }else{
-                // Api call to log user
-                //alert('A user was submitted: ' + this.state.username + ' with this password: ' + this.state.password + ' and email: ' + this.state.email);
                 event.preventDefault();
                 try{
                     let response = await fetch('/api/auth/register', {
@@ -121,9 +119,9 @@ class RegisterForm extends React.Component{
                 <Google />
                 <AndSeparator />
                 <form onSubmit={this.handleSubmit} id="registerForm">
-                    <input id="usernameField" type="text" placeholder="Nom d'utilisateur" onChange={this.handleUsernameChange} required/>
-                    <input id="emailField" type="email" placeholder="Courriel" onChange={this.handleEmailChange} required/>
-                    <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required minLength="8"/>
+                    <input id="usernameField" type="text" placeholder="Nom d'utilisateur" onChange={this.handleUsernameChange} required autoComplete="off" minLength="4"/>
+                    <input id="emailField" type="email" placeholder="Courriel" onChange={this.handleEmailChange} required autoComplete="off"/>
+                    <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required minLength="8" autoComplete="off"/>
                     <input id="submitButton" type="submit" onClick={this.handleSubmit} value="S'inscrire" />
                     <div>
                         <Separator />
