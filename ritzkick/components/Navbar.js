@@ -12,6 +12,28 @@ function Navbar(props) {
 
     const [isScrolled, setIsScrolled] = useState(false);
 
+    async function logout(event) {
+        event.preventDefault()
+        try {
+            let response = await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.token
+                },
+            })
+            
+            let json = await response.json()
+            console.log(json)
+            sessionStorage.clear()
+            window.location.href = '/'
+        }
+        catch(e){
+            console.log(e)
+        }
+
+    }
+
     useEffect(() => {
         const onScroll = () => setIsScrolled(window.scrollY > 10);
         // clean up code
@@ -67,7 +89,7 @@ function Navbar(props) {
                                 </li>
                                 <li className={router.pathname == '/logout' ? 'nav-item active-link' : 'nav-item'}>
                                     <Icons.DoorOpen/>
-                                    <a href="/logout" className='nav-links'  onClick={closeMobileMenu}>Log out</a>
+                                    { <a className='nav-links'  onClick={closeMobileMenu, logout}>Log out</a>}
                                 </li>
                             </>
                         ): (
