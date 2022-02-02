@@ -4,7 +4,6 @@ const http = require('http'),
 	https = require('https')
 
 const next = require('next')
-const yahoo = require('./utils/yahoo')
 const log = require('./utils/logging')
 const expressJSDocSwagger = require('express-jsdoc-swagger')
 const swaggerOptions = require('./config/swagger')

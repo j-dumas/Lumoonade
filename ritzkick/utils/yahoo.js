@@ -1,4 +1,5 @@
 const axios = require('axios').default
+const moment = require('moment')
 const api = process.env.YAHOO_API
 
 const parser = (data, options = { symbol: true, type: true, currency: true, timestamps: true, prices: true, change: true }) => {
@@ -12,24 +13,27 @@ const parser = (data, options = { symbol: true, type: true, currency: true, time
     }
 
     if (timestamp)
-        response.timestamps = timestamp
+        response.timestamps = timestamp.map(unix => moment.unix(unix).format('hh:mm:ss A'))
 
     if (indicators)
         response.prices = quotes
 
     if (options.change) {
         response.change = ((quotes[quotes.length - 1] / quotes[0]) - 1) * 100
-        response.time = {
+        
+        let fromDate = moment.unix(timestamp[0])
+        let toDate = moment.unix(timestamp[timestamp.length - 1])
+
+        response.data = {
             from: {
-                year: '2020-02-01',
+                date: fromDate.format('YYYY-MM-DD'),
+                time: fromDate.format('hh:mm:ss A')
             },
             to: {
-
+                date: toDate.format('YYYY-MM-DD'),
+                time: toDate.format('hh:mm:ss A')
             }
         }
-
-        response.from = new Date(timestamp[0] * 1000)
-        response.to = new Date(timestamp[timestamp.length - 1] * 1000)
     }
     
     // Removing what we dont care in the response
@@ -68,11 +72,8 @@ const fetchSymbols = async (symbols = [], options = { range: '1d', interval: '1h
     return fetchSymbol(query, options)
 }
 
-(async () => {
-
-    let res = await fetchSymbols(['BTC-CAD', 'ETH-CAD'], { range: '5d' })
-    res.forEach(x => {
-      console.log(parser(x))
-    })
-    //console.log(res)
-})()
+module.exports = {
+    fetchSymbol,
+    fetchSymbols,
+    parser
+}

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Asset = require('../../db/model/asset')
 const Crypto = require('../../db/model/crypto')
 const crypto = require('../../application/crypto/crypto')
+const { parser, fetchSymbols, fetchSymbol } = require('../../utils/yahoo')
 const router = express.Router()
 
 router.get('/api/crypto/all', async (req, res) => {
@@ -15,6 +16,18 @@ router.get('/api/crypto/all', async (req, res) => {
 			btc,
 			eth
 		})
+	} catch (e) {
+		res.status(400).send({
+			error: e.message
+		})
+	}
+})
+
+router.get('/api/crypto/:slug', async (req, res) => {
+	try {
+		const slug = req.params.slug
+		let data = await fetchSymbol(slug)
+		res.send(parser(data[0]))
 	} catch (e) {
 		res.status(400).send({
 			error: e.message
