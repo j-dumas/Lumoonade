@@ -33,18 +33,21 @@ class LoginForm extends React.Component{
     }
     
     async handleSubmit(event) {
-
-        // Api call to log user
-        //alert('A user was submitted: ' + this.state.username + ' with this password: ' + this.state.password);
-        let users = []
+        event.preventDefault()
         try {
-            users = await axios.get('/api/users')
+            let response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: this.state.username, password: this.state.password })
+            })
+
+            console.log(response)
         }
         catch(e){
             console.log(e)
         }
-        console.log(users)
-        event.preventDefault()
     }
 
     render(){
@@ -52,8 +55,8 @@ class LoginForm extends React.Component{
             <Container className="p-3" className="form">
                 <h1 className="form-title">{TITLE}</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <input id="userField" type="text" placeholder="Courriel" onChange={this.handleUsernameChange} required/>
-                    <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required/>
+                    <input id="userField" type="text" placeholder="Courriel" onChange={this.handleUsernameChange} required autoComplete="off"/>
+                    <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required autoComplete="off"/>
                     <input id="submitButton" type="submit" onClick={this.handleSubmit} value="Connexion" />
                 </form>
                 <AndSeparator />

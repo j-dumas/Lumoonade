@@ -72,7 +72,7 @@ class RegisterForm extends React.Component{
         }
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         let password = document.getElementById("passwordField")
         let username = document.getElementById("usernameField")
         let email = document.getElementById("emailField")
@@ -87,7 +87,24 @@ class RegisterForm extends React.Component{
                 event.preventDefault()
             }else{
                 // Api call to log user
-                alert('A user was submitted: ' + this.state.username + ' with this password: ' + this.state.password + ' and email: ' + this.state.email);
+                //alert('A user was submitted: ' + this.state.username + ' with this password: ' + this.state.password + ' and email: ' + this.state.email);
+                event.preventDefault();
+                try{
+                    let response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email: this.state.email, username: this.state.username, password: this.state.password })
+                    })
+
+                    console.log(response.body)
+                }
+                catch(e){
+                    console.log(e)
+                    alert(e.message)
+                }
+                
                 event.preventDefault();
             }
         }

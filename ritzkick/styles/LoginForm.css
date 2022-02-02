@@ -117,10 +117,6 @@ input:focus::placeholder{
     margin: 10px;
 }
 
-html, body, main{
-    overflow: hidden;
-}
-
 .curves {
     background-color: chartreuse;
     position: fixed;
