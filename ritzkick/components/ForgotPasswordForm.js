@@ -20,8 +20,6 @@ class ForgotPasswordForm extends React.Component{
     } 
 
     async handleSubmit(event){
-        // alert(this.state.email)
-
         Email.send({
             Host : "smtp.gmail.com",
             Username : "rubiscrash0@gmail.com",
@@ -33,7 +31,6 @@ class ForgotPasswordForm extends React.Component{
         }).then(
           message => alert(message)
         );
-
         event.preventDefault()
     }
 
