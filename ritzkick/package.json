@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"start": "env-cmd -f ./.prod.env node server.js",
-		"dev": "env-cmd -f ./.local.env nodemon server.js",
+		"dev": "env-cmd -f ./.env nodemon server.js",
 		"build": "next build",
 		"lint": "next lint",
 		"test": "env-cmd -f ./.test.env jest --runInBand",
@@ -17,6 +17,7 @@
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
 		"@fortawesome/react-fontawesome": "^0.1.17",
+		"axios": "^0.25.0",
 		"bcryptjs": "^2.4.3",
 		"chalk": "^4.1.2",
 		"chart.js": "^3.7.0",

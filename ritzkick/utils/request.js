@@ -21,10 +21,13 @@ const makePromiseForApi = (url, controller) => {
             signal: controller.signal
         }).then(e => {
             // This triggers to abort all active requests on the current controller.
+            if (e.status !== 200) {
+                return rej('Failed')
+            }
             controller.abort()
             res({
                 host: e.request.host,
-                data: e.data.data
+                data: e.data
             })
         }).catch(err => {
             rej(err)
