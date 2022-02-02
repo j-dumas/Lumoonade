@@ -3,7 +3,6 @@ import Container from 'react-bootstrap/Container';
 import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
 import GoogleSignIn from "./GoogleSignIn";
-import axios from 'axios'
 
 const TITLE = "Connexion"
 
@@ -43,7 +42,10 @@ class LoginForm extends React.Component{
                 body: JSON.stringify({ email: this.state.username, password: this.state.password })
             })
 
-            console.log(response)
+            let json = await response.json()
+            sessionStorage.setItem('token', json.token)
+            sessionStorage.setItem('username', json.user.username)
+            window.location.href = '/'
         }
         catch(e){
             console.log(e)

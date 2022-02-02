@@ -98,7 +98,10 @@ class RegisterForm extends React.Component{
                         body: JSON.stringify({ email: this.state.email, username: this.state.username, password: this.state.password })
                     })
 
-                    console.log(response.body)
+                    let json = await response.json()
+                    sessionStorage.setItem('token', json.token)
+                    sessionStorage.setItem('username', json.user.username)
+                    window.location.href = '/'
                 }
                 catch(e){
                     console.log(e)
