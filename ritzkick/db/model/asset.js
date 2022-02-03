@@ -22,16 +22,36 @@ const assetSchema = new mongoose.Schema(
 				}
 			},
 		},
+		changePercent: {
+			type: Number,
+			default: 0
+		},
+		change: {
+			type: Number,
+			default: 0
+		},
 		volume: {
 			type: Number,
 			default: 0,
 		},
-		creation_date: {
-			type: String,
-			default: new Date().toTimeString(),
-			validate(date) {},
+		supply: {
+			type: Number,
+			validate(supply) {
+				if (supply < 0) {
+					throw new Error('Cannot set the supply amount under 0.')
+				}
+			}
 		},
-		searched_count: {
+		creationDate: {
+			type: Number,
+			default: Date.now(),
+			validate(date) {
+				if (date > Date.now()) {
+					throw new Error('Cannot set a futur creation date.')
+				}
+			},
+		},
+		searchedCount: {
 			type: Number,
 			default: 0,
 		},
@@ -40,6 +60,10 @@ const assetSchema = new mongoose.Schema(
 		timestamps: true,
 	}
 )
+
+assetSchema.statics.exists = async (slug) => {
+	return (await Asset.findOne({ slug })) !== null
+}
 
 const Asset = mongoose.model('Asset', assetSchema)
 

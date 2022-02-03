@@ -1,4 +1,4 @@
-const crypto = require('../../utils/request')
+const request = require('../../utils/request')
 
 // All APIs for BTC
 const btc_contacts = [
@@ -16,7 +16,7 @@ const eth_contacts = [
 
 const getPrice = async (contacts) => {
     const controller = new AbortController()
-    const data = await crypto.getFastestApiResponse(contacts, controller)
+    const data = await request.getFastestApiResponse(contacts, controller)
     return data
 }
 

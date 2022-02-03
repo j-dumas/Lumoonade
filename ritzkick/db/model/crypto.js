@@ -7,11 +7,9 @@ const cryptoSchema = new mongoose.Schema({
         trim: true,
         unique: true
     },
-    apis: [{
-        api: {
-            type: String
-        }
-    }]
+    apis: []
+}, {
+    timestamps: true
 })
 
 const Crypto = mongoose.model('Crypto', cryptoSchema)
