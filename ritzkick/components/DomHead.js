@@ -9,7 +9,6 @@ function DomHead() {
     useEffect(() => {
 
         const bubbletext = document.getElementsByClassName('bubbles');
-        console.log(bubbletext)
      
         Array.prototype.forEach.call(bubbletext, function(element) {
            var bubblecount = element.offsetWidth/50*1.25

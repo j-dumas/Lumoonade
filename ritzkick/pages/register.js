@@ -1,6 +1,6 @@
 import DomHead from '../components/DomHead'
 import Footer from '../components/Footer'
-import LoginForm from '../components/LoginForm'
+import RegisterForm from '../components/RegisterForm'
 import Bubbles from '../components/Bubbles'
 
 export default function Login() {
@@ -8,7 +8,7 @@ export default function Login() {
         <div>
           <DomHead/>
           <main>
-            <LoginForm />
+            <RegisterForm/>
             <Bubbles />
             <div  className="spacer layer1"></div>
           </main>
