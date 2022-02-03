@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
 import GoogleSignIn from "./GoogleSignIn";
+import { setCookie } from "../services/CookieService";
 
 const TITLE = "Connexion"
 let display = "auto"
@@ -85,8 +86,7 @@ class LoginForm extends React.Component{
         
                     if(response.status == 200){
                         let json = await response.json()
-                        sessionStorage.setItem('token', json.token)
-                        document.cookie = "token=" + json.token + "; expires=Thu, 4 Feb 2022 12:00:00 UTC, Secure, Http-Only, SameSite=Strict"
+                        setCookie("token", json.token, 1)
                         window.location.href = '/'
                     }
                     else if (response.status == 400){

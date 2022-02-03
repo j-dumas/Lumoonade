@@ -1,6 +1,7 @@
 import { connection } from 'mongoose';
 import React, {useState, useEffect} from 'react';
 import Navbar from './Navbar';
+import {getCookie} from '../services/CookieService';
 
 function Header() {
     const [mobile, setMobile] = useState(true)
@@ -12,7 +13,8 @@ function Header() {
     };
 
     const connection = () => {
-        if(sessionStorage.token != undefined) setConnection(true)
+        //todo: validation on token
+        if(getCookie("token") != undefined) setConnection(true)
         else setConnection(false)
     }
 

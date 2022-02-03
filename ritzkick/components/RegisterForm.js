@@ -1,9 +1,9 @@
-import { cookie } from "express/lib/response";
 import React from "react"
 import Container from 'react-bootstrap/Container';
 import Google from './/GoogleSignIn'
 import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
+import { setCookie } from "../services/CookieService";
 
 const TITLE = "Inscription"
 
@@ -102,7 +102,7 @@ class RegisterForm extends React.Component{
                     })
 
                     let json = await response.json()
-                    sessionStorage.setItem('token', json.token)
+                    setCookie("token", json.token, 1)
                     window.location.href = '/'
                 }
                 catch(e){
