@@ -1,8 +1,12 @@
 const axios = require('axios').default
+const validator = require('validator').default
 const moment = require('moment')
 const api = process.env.YAHOO_API
 
-const parser = (data, options = { symbol: true, type: true, currency: true, timestamps: true, prices: true, change: true }) => {
+// --------------------------------------
+// Can be optimised to be less dependent from old data
+// --------------------------------------
+const refactorSymbolData = (data, options = { symbol: true, type: true, currency: true, timestamps: true, prices: true, change: true }) => {
     const response = { }    
     const { meta, timestamp, indicators } = data.response[0]
     const quotes = indicators.quote[0].close
@@ -13,7 +17,7 @@ const parser = (data, options = { symbol: true, type: true, currency: true, time
     }
 
     if (timestamp)
-        response.timestamps = timestamp.map(unix => moment.unix(unix).format('hh:mm:ss A'))
+        response.timestamps = timestamp.map(unix => moment.unix(unix).utcOffset('+0000').format('hh:mm:ss A'))
 
     if (indicators)
         response.prices = quotes
@@ -26,12 +30,12 @@ const parser = (data, options = { symbol: true, type: true, currency: true, time
 
         response.data = {
             from: {
-                date: fromDate.format('YYYY-MM-DD'),
-                time: fromDate.format('hh:mm:ss A')
+                date: fromDate.utcOffset('+0000').format('YYYY-MM-DD'),
+                time: fromDate.utcOffset('+0000').format('hh:mm:ss A')
             },
             to: {
-                date: toDate.format('YYYY-MM-DD'),
-                time: toDate.format('hh:mm:ss A')
+                date: toDate.utcOffset('+0000').format('YYYY-MM-DD'),
+                time: toDate.utcOffset('+0000').format('hh:mm:ss A')
             }
         }
     }
@@ -47,33 +51,53 @@ const parser = (data, options = { symbol: true, type: true, currency: true, time
 }
 
 // --------------------------------------
-//   The symbol must be something available on yahoo finance
+//  This parser feeds the object received with all the values from the data
 // --------------------------------------
-const fetchSymbol = async (symbol, { range = '1d', interval = '1h' } = {}) =>{
-    let response = await axios({
-        url: `${api}symbols=${symbol}&range=${range}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`,
-        method: 'GET',
+const parser = (data, feed) => {
+    Object.keys(feed).forEach(x => {
+        feed[x] = data[x]
     })
-    if (!response.data || response.data.length === 0) {
-        throw new Error('Unable to find data in the response.')
-    }
-    const { result, error } = response.data.spark
-    if (error !== null) {
-        return { error: error.code }
-    }
-    return result
 }
 
-const fetchSymbols = async (symbols = [], options = { range: '1d', interval: '1h' }) => {
-    if (symbols.length === 0) {
-        return []
-    }
-    let query = symbols.toString().split(' ').join(',')
-    return fetchSymbol(query, options)
+// --------------------------------------
+//   **The symbol must be something available on yahoo finance**
+//  This function is used to fetch all informations about a "symbol" (not related to the market like volumes, supply, etc...)
+// --------------------------------------
+const fetchSymbol = async (symbols, { range = '1d', interval = '1h' } = {}) =>{
+    let response = await axios({
+        url: `${api}spark?symbols=${symbols}&range=${range}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`,
+        method: 'GET',
+    })
+    return response.data.spark.result
+}
+
+// --------------------------------------
+//   **The symbols must be something available on yahoo finance**
+//  This function is used to get data related to the market like:
+//  - The current supply;
+//  - The volume;
+//  - The market change (% and $)
+//  - and much more...
+// --------------------------------------
+const fetchMarketData = async (symbols) => {
+    if (validator.isEmpty(symbols)) return { result: [] }
+    let query = await axios({
+        url: `${api}quote?&symbols=${symbols}`,
+        method: 'GET'
+    })
+    return query.data.quoteResponse
+}
+
+// ---------------------------------------
+// This method will tell if the market is closed (only usefull for stocks, not cryptos)
+// ---------------------------------------
+const isMarketClosed = () => {
+
 }
 
 module.exports = {
     fetchSymbol,
-    fetchSymbols,
+    fetchMarketData,
+    refactorSymbolData,
     parser
 }
