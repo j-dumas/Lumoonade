@@ -16,7 +16,6 @@ export function getCookie(cname) {
   }
 
 export function setCookie(name, value, exdays){
-    //"token=" + json.token + "; expires=Thu, 4 Feb 2022 12:00:00 UTC, Secure, Http-Only, SameSite=Strict"
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();

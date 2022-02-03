@@ -2,7 +2,7 @@ import { getURL } from "next/dist/shared/lib/utils"
 import React, { useEffect, useState } from "react"
 
 export async function getUsers(){
-    //todo: Get user with sessionStorage token
+    //todo: Get user with token
     //Get first user
     try{
         let response = await fetch('/api/users', {
@@ -20,33 +20,65 @@ export async function getUsers(){
     }
 }
 
-export default function ProfileHeader(){
-    const [users, setUsers] = useState(getUsers())
+// export default function ProfileHeader(){
+//     //const [users, setUsers] = useState(getUsers())
+//     var data = undefined
+    
+//     useEffect( async () => {
+//         data = await getUsers()
+//         console.log(data)
+//         return
+//     }, [])
 
-    async () => {
-        const data = await getUsers()
-        setUsers(data)
-        console.log
+//     return (
+//         <div className="profile-header">
+//             <img id="profile-picture" src="/ETH.svg"></img>
+//             <ul>
+//                 {console.log(data)}
+//             </ul>
+//             <hr id="profile-separator"></hr>
+//         </div>
+//     )
+// }
+
+class ProfileHeader extends React.Component{
+    constructor(props){
+        super(props)
+
+        this.state = { users: []}
+        this.show = this.show.bind(this)
     }
 
-    useEffect( async () => {
-        
-        //console.log(users)
-        //console.log(data)
-        return
-    }, [])
+    async componentDidMount() {
+        const data = await getUsers()
+        this.setState({ users: data})
+    }
 
-    return (
-        <div className="profile-header">
-            <img id="profile-picture" src="/ETH.svg"></img>
-            <ul>
-                { users[0].username/* {users.map((username) => (
-                    <li>
-                        {username}
-                    </li>
-                ))} */}
-            </ul>
-            <hr id="profile-separator"></hr>
-        </div>
-    )
+    show(){
+        console.log("in")
+        if(this.state.users.length != 0){
+            console.log(this.state.users)
+            return (
+                <div>{this.state.users[0].username}</div>
+            )
+        }
+        else{
+            console.log(this.state.users)
+            return (
+                <div>No name</div>
+            )
+        }
+    }
+
+    render(){
+        return (
+            <div className="profile-header">
+                <img id="profile-picture" src="/ETH.svg"></img>
+                {this.show}
+                <hr id="profile-separator"></hr>
+            </div>
+        )
+    }
 }
+
+export default ProfileHeader
