@@ -86,6 +86,7 @@ class LoginForm extends React.Component{
                     if(response.status == 200){
                         let json = await response.json()
                         sessionStorage.setItem('token', json.token)
+                        document.cookie = "token=" + json.token + "; expires=Thu, 4 Feb 2022 12:00:00 UTC, Secure, Http-Only, SameSite=Strict"
                         window.location.href = '/'
                     }
                     else if (response.status == 400){
