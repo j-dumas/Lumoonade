@@ -40,13 +40,15 @@ app.prepare().catch((ex) => {
 
 let server = express()
 
-expressJSDocSwagger(server)(swaggerOptions)
+if (ssl == 'true') {
+	httpsVerification()
+} else {
+	server.get('*', (req, res) => {
+		return handle(req, res)
+	})
+}
 
-server.get('*', (req, res) => {
-	const httpsUrl = `https://${req.headers['host']}${req.url}`
-	if (req.protocol == 'http') log.debug('SERVER', `Redirecting to ${httpsUrl}`)
-	res.redirect(httpsUrl)
-})
+expressJSDocSwagger(server)(swaggerOptions)
 
 server.use(assetRouter)
 server.use(favoriteRouter)
@@ -54,10 +56,6 @@ server.use(watchlistRouter)
 server.use(walletRouter)
 server.use(userRouter)
 server.use(defaultRouter)
-
-// server.get('*', (req, res) => {
-// 	return handle(req, res)
-// })
 
 log.info('SERVER', 'Starting HTTP')
 
@@ -79,5 +77,17 @@ if (ssl == 'true') {
 	serverHttp.listen(port, (err) => {
 		if (err) throw err
 		log.info('SERVER', `Ready on port ${port}`)
+	})
+}
+
+function httpsVerification(redirect) {
+	server.get('*', (req, res) => {
+		const httpsUrl = `https://${req.headers['host']}${req.url}`
+		if (req.protocol == 'http') {
+			log.debug('SERVER', `Redirecting to ${httpsUrl}`)
+			res.redirect(httpsUrl)
+		} else {
+			return handle(req, res)
+		}
 	})
 }
