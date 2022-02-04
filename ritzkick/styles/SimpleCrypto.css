@@ -1,5 +1,5 @@
 .simple-crypto-dashboard {
-   width: 90%; 
+   width: 80%; 
 }
 
 
@@ -25,11 +25,11 @@
 }
 
 .simple-crypto-view {
-    padding: 15px 0px 15px 0px;
+    padding: 15px 15px 15px 15px;
     border-bottom: solid 2px var(--background-color);
+    gap: 10px;
 
     transition: .5s;
-    
 }
 
 .simple-crypto-view:hover {

@@ -15,12 +15,15 @@
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
+		"@fortawesome/free-brands-svg-icons": "^5.15.4",
+		"@fortawesome/free-regular-svg-icons": "^5.15.4",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
 		"@fortawesome/react-fontawesome": "^0.1.17",
 		"axios": "^0.25.0",
 		"bcryptjs": "^2.4.3",
 		"chalk": "^4.1.2",
 		"chart.js": "^3.7.0",
+		"chartjs-plugin-zoom": "^1.2.0",
 		"dotenv": "^14.3.2",
 		"env-cmd": "^10.1.0",
 		"express": "^4.17.2",
@@ -43,5 +46,10 @@
 		"jest": "^27.4.7",
 		"nodemon": "^2.0.15",
 		"supertest": "^6.2.2"
+	},
+	"resolve": {
+		"alias": {
+			"chart.js": "${path.resolve(SRC_PATH, 'empty')}"
+		}
 	}
 }
