@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Icons from './Icons';
-
+import ProfilePopup from "./ProfilePopup";
 
 export async function getUser(){
     //todo: Get user with token
@@ -32,11 +31,6 @@ class ProfileHeader extends React.Component{
         this.state = { user: {}}
         this.parseTime = this.parseTime.bind(this)
         this.getMonth = this.getMonth.bind(this)
-        this.test = this.test.bind(this)
-    }
-
-    test(){
-        console.log("wow")
     }
 
     getMonth(monthNumber){
@@ -64,10 +58,8 @@ class ProfileHeader extends React.Component{
 
     render(){
         return (
-            <div className="profile-header">
-                <button id="icon-button" onClick={this.test}>
-                    <Icons.Edit  id="icon"/>
-                </button>
+            <div className="profile-header" id="header">
+                <ProfilePopup />
                 <img id="profile-picture" src="/ETH.svg"></img>
                 <div className="profile-card">
                     <h1 id={usernameTitleId}></h1>
