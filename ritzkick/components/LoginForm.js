@@ -86,7 +86,7 @@ class LoginForm extends React.Component{
         
                     if(response.status == 200){
                         let json = await response.json()
-                        setCookie("token", json.token, 1)
+                        setCookie(json.token)
                         window.location.href = '/'
                     }
                     else if (response.status == 400){

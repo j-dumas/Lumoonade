@@ -24,7 +24,8 @@ function Navbar(props) {
             })
             
             sessionStorage.clear()
-            document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict"
+            //Delete cookie
+            document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict" 
             window.location.href = '/'
         }
         catch(e){

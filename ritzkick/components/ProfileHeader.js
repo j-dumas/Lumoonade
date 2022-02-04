@@ -52,6 +52,7 @@ class ProfileHeader extends React.Component{
     async componentDidMount() {
         const data = await getUsers()
         this.setState({ users: data})
+        console.log(this.state.users)
     }
 
     show(){

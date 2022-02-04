@@ -15,10 +15,14 @@ export function getCookie(cname) {
     return undefined;
   }
 
-export function setCookie(name, value, exdays){
+export function setCookie(value){
+    const name = "token"
+    const exdays = 0.1 // Will make expiration approximatly 7 hours
+
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ", Secure, Http-Only, SameSite=Strict"
+    document.cookie = "test2=" + expires + ";"
 }
 

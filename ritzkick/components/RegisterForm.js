@@ -102,7 +102,7 @@ class RegisterForm extends React.Component{
                     })
 
                     let json = await response.json()
-                    setCookie("token", json.token, 1)
+                    setCookie(json.token)
                     window.location.href = '/'
                 }
                 catch(e){
