@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import SimpleChart from './SimpleChart'
+import Icons from './Icons'
 
 function SimpleCryptoView(props) {
     function format(x) {
@@ -12,7 +13,8 @@ function SimpleCryptoView(props) {
 
     return (
         <>
-            <a href={'assets/'+data.abbreviation} className='simple-crypto-view row h-center'>
+            <a href={'assets/'+data.abbreviation} className='simple-crypto-view row space-between h-center'>
+                
                 <div className='simple-crypto-view-item row left h-center'>
                     <img className='simple-crypto-view-logo' src={data.abbreviation + ".svg"} alt="" />
                     <div className='column simple-crypto-names'>
@@ -23,6 +25,7 @@ function SimpleCryptoView(props) {
                 <p className='simple-crypto-view-item simple-crypto-price'>{data.price}</p>
                 <p className={change>0?'simple-crypto-view-item simple-crypto-change c-green': change==0?'simple-crypto-view-item simple-crypto-change c-white':'simple-crypto-view-item simple-crypto-change c-red'}>{change} %</p>
                 <SimpleChart data={data}/>
+                <Icons.StarEmpty/>
             </a>
         </>
     )

@@ -46,3 +46,7 @@
 .right {
     justify-content: right;
 }
+
+.space-between {
+    justify-content: space-between;
+}

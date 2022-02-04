@@ -18,7 +18,7 @@ function Header() {
     return (
         <>  
         <header className='row center left'>
-            <Navbar mobile={mobile} connected={true}/>
+            <Navbar mobile={mobile} connected={false}/>
         </header>
         </>
     );

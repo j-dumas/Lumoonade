@@ -46,8 +46,8 @@ function Navbar(props) {
                             <a href="/assets" className='nav-links' onClick={closeMobileMenu}>Assets</a>
                         </li>
                         <li className={router.pathname == '/podium' ? 'nav-item active-link' : 'nav-item'}>
-                            <Icons.Medal/>
-                            <a href="/podium" className='nav-links' onClick={closeMobileMenu}>Podium</a>
+                            <Icons.ChartLine/>
+                            <a href="/compare" className='nav-links' onClick={closeMobileMenu}>Compare</a>
                         </li>
                         <li className={router.pathname == '/help' ? 'nav-item active-link' : 'nav-item'}>
                             <Icons.InfoCircle/>
