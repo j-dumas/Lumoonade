@@ -38,15 +38,6 @@ if (ssl == 'true') {
 
 expressJSDocSwagger(server)(swaggerOptions)
 
-server.use(assetRouter)
-server.use(favoriteRouter)
-server.use(watchlistRouter)
-server.use(walletRouter)
-server.use(userRouter)
-server.use(defaultRouter)
-
-log.info('SERVER', 'Starting HTTP')
-
 if (ssl == 'true') {
 	log.info('SERVER', 'Starting HTTPS')
 	serverHttps = https.createServer(httpsOptions, server)
@@ -55,12 +46,14 @@ if (ssl == 'true') {
 		if (err) throw err
 	})
 
+	log.info('SERVER', 'Starting HTTP')
 	serverHttp = http.createServer(server)
 	serverHttp.listen(80, (err) => {
 		if (err) throw err
 		log.info('SERVER', `Ready on port 80`)
 	})
 } else {
+	log.info('SERVER', 'Starting HTTP')
 	serverHttp = http.createServer(server)
 	serverHttp.listen(port, (err) => {
 		if (err) throw err
