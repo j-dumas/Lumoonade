@@ -9,10 +9,11 @@ stages:
 # SECURITY
 #================
 
-sast:
-    stage: sec
-include:
-    - template: Security/SAST.gitlab-ci.yml
+# Performance
+#sast:
+#    stage: sec
+#include:
+#    - template: Security/SAST.gitlab-ci.yml
 
 #================
 # TESTING
