@@ -66,10 +66,16 @@ if (ssl == 'true') {
 	server.get('*', (req, res) => {
 		res.redirect(308, { Location: `https://${req.headers['host']}${req.url}` })
 	})
-}
 
-serverHttp = http.createServer(server)
-serverHttp.listen(port, (err) => {
-	if (err) throw err
-	log.info('SERVER', `Ready on port ${port}`)
-})
+	serverHttp = http.createServer(server)
+	serverHttp.listen(80, (err) => {
+		if (err) throw err
+		log.info('SERVER', `Ready on port 80`)
+	})
+} else {
+	serverHttp = http.createServer(server)
+	serverHttp.listen(port, (err) => {
+		if (err) throw err
+		log.info('SERVER', `Ready on port ${port}`)
+	})
+}
