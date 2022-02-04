@@ -70,8 +70,9 @@ router.post('/api/auth/login', async (req, res) => {
 		const { email, password } = req.body
 		const user = await User.findByCredentials(email, password)
 		const token = await user.makeAuthToken()
+		const profile = await user.makeProfile()
 		res.send({
-			user,
+			user: profile,
 			token,
 		})
 	} catch (e) {
@@ -120,8 +121,9 @@ router.post('/api/auth/register', async (req, res) => {
 		const user = new User(req.body)
 		await user.save()
 		const token = await user.makeAuthToken()
+		const profile = await user.makeProfile()
 		res.status(201).send({
-			user,
+			user: profile,
 			token,
 		})
 	} catch (e) {
