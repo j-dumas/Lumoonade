@@ -42,22 +42,7 @@ function DomHead() {
                 cursor.classList.remove("cursor-hover");
             })
         });
-
-        document.addEventListener('mousemove', e => {
-            cursor.setAttribute("style", "top: "+(e.pageY - 10)+"px; left: "+(e.pageX - 10)+"px;")
-        })
-
-        document.addEventListener('click', () => {
-            cursor.classList.remove("cursor-hover");
-            cursor.classList.add("expand");
-            
-        var timeout = setTimeout(() => {
-                cursor.classList.remove("expand");
-            }, 500)
-        })
-
-        return () => clearTimeout(timeout);
-      }, []);
+      });
    
     return (
         <>  
