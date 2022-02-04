@@ -67,7 +67,6 @@ function DomHead() {
 				<title>{WEBSITE_TITLE}</title>
 				<meta name='description' content={WEBSITE_DESCRIPTION} />
 				<link rel='icon' href='/favicon.ico' />
-				<script type='text/javascript' src='http://www.webglearth.com/v2/api.js'></script>
 			</Head>
 		</>
 	)
