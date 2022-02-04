@@ -53,15 +53,30 @@ server.get('*', (req, res) => {
 	return handle(req, res)
 })
 
-if (ssl == 'true') {
-	log.info('SERVER', 'Starting in HTTPS')
-	server = https.createServer(httpsOptions, server)
-} else {
-	log.info('SERVER', 'Starting in HTTP')
-	server = http.createServer(server)
-}
+log.info('SERVER', 'Starting HTTP')
 
-server.listen(port, (err) => {
-	if (err) throw err
-	log.info('SERVER', `Ready on port ${port}`)
-})
+if (ssl == 'true') {
+	log.info('SERVER', 'Starting HTTPS')
+	serverHttps = https.createServer(httpsOptions, server)
+
+	serverHttps.listen(port, (err) => {
+		if (err) throw err
+		log.info('SERVER', `Ready on port ${port}`)
+	})
+
+	serverHttp = http
+		.createServer(function (req, res) {
+			res.writeHead(308, { Location: `https://${req.headers['host']}${req.url}` })
+			res.end()
+		})
+		.listen(80, (err) => {
+			if (err) throw err
+			log.info('SERVER', `Ready on port 80`)
+		})
+} else {
+	serverHttp = http.createServer(server)
+	serverHttp.listen(port, (err) => {
+		if (err) throw err
+		log.info('SERVER', `Ready on port ${port}`)
+	})
+}
