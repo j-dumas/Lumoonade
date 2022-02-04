@@ -5,8 +5,6 @@ const http = require('http'),
 
 const next = require('next')
 const log = require('./utils/logging')
-const expressJSDocSwagger = require('express-jsdoc-swagger')
-const swaggerOptions = require('./config/swagger')
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
@@ -35,8 +33,6 @@ if (ssl == 'true') {
 		return handle(req, res)
 	})
 }
-
-expressJSDocSwagger(server)(swaggerOptions)
 
 if (ssl == 'true') {
 	log.info('SERVER', 'Starting HTTPS')
