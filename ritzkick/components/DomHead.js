@@ -7,7 +7,6 @@ const WEBSITE_DESCRIPTION = 'CRYPTOOL'
 function DomHead() {
 	useEffect(() => {
 		const bubbletext = document.getElementsByClassName('bubbles')
-
 		Array.prototype.forEach.call(bubbletext, function (element) {
 			var bubblecount = (element.offsetWidth / 50) * 1.25
 			for (var i = 0; i <= bubblecount; i++) {
@@ -28,52 +27,50 @@ function DomHead() {
 			}
 		})
 
-        const bubbletext = document.getElementsByClassName('bubbles');
-     
-        Array.prototype.forEach.call(bubbletext, function(element) {
-           var bubblecount = element.offsetWidth/50*1.25
-           for(var i = 0; i <= bubblecount; i++) {
-                var size = (Math.floor(Math.random() * 80) + 40)/3;
+		/****************************************************************/
 
 		const hoverItem = document.getElementsByClassName('hover-item')
-		const cursor = document.querySelector('.cursor')
+		// const cursor = document.querySelector('.cursor')
 
-		Array.prototype.forEach.call(hoverItem, function (element) {
-			element.addEventListener('mouseenter', () => {
-				cursor.classList.add('cursor-hover')
-			})
-			element.addEventListener('mouseleave', () => {
-				cursor.classList.remove('cursor-hover')
-			})
-		})
+		// Array.prototype.forEach.call(hoverItem, function (element) {
+		// 	console.log(cursor)
+		// 	element.addEventListener('mouseenter', () => {
+		// 		cursor.classList.add('cursor-hover')
+		// 	})
+		// 	element.addEventListener('mouseleave', () => {
+		// 		cursor.classList.remove('cursor-hover')
+		// 	})
+		// })
 
-		document.addEventListener('mousemove', (e) => {
-			cursor.setAttribute(
-				'style',
-				'top: ' + (e.pageY - 10) + 'px; left: ' + (e.pageX - 10) + 'px;'
-			)
-		})
+		// document.addEventListener('mousemove', (e) => {
+		// 	cursor.setAttribute(
+		// 		'style',
+		// 		'top: ' + (e.pageY - 10) + 'px; left: ' + (e.pageX - 10) + 'px;'
+		// 	)
+		// })
 
-        Array.prototype.forEach.call(hoverItem, function(element) {
-            element.addEventListener('mouseenter', () => {
-                cursor.classList.add("cursor-hover");
-            })
-            element.addEventListener('mouseleave', () => {
-                cursor.classList.remove("cursor-hover");
-            })
-        });
-      });
-   
-    return (
-        <>  
-        <Head>
-            <title>{WEBSITE_TITLE}</title>
-            <meta name="description" content={WEBSITE_DESCRIPTION} />
-            <link rel="icon" href="/favicon.ico" />
-            <script type="text/javascript" src="http://www.webglearth.com/v2/api.js"></script>            
-        </Head>
-        </>
-    );
+		// document.addEventListener('click', () => {
+		// 	cursor.classList.remove('cursor-hover')
+		// 	cursor.classList.add('expand')
+
+		// 	var timeout = setTimeout(() => {
+		// 		cursor.classList.remove('expand')
+		// 	}, 500)
+		// })
+
+		return () => clearTimeout(timeout)
+	}, [])
+
+	return (
+		<>
+			<Head>
+				<title>{WEBSITE_TITLE}</title>
+				<meta name='description' content={WEBSITE_DESCRIPTION} />
+				<link rel='icon' href='/favicon.ico' />
+				<script type='text/javascript' src='http://www.webglearth.com/v2/api.js'></script>
+			</Head>
+		</>
+	)
 }
 
 export default DomHead
