@@ -1,81 +1,75 @@
 const express = require('express')
-const mongoose = require('mongoose')
-const User = require('../../db/model/user')
+const authentification = require('../middleware/auth')
+
 const router = express.Router()
 
-router.get('/api/users', async (req, res) => {
-	try {
-		const users = await User.find({})
-		if (!users || users.length === 0) {
-			throw new Error('Unable to find users.')
-		}
+router.get('/api/me', authentification, async (req, res) => {
+	await req.user.populate({
+		path: 'wallet'
+	})
+	await req.user.populate({
+		path: 'favorite'
+	})
+	await req.user.populate({
+		path: 'watchlist'
+	})
+	const profile = await req.user.makeProfile()
+	profile.sessions = req.user.sessions.length
+	profile.wallet_list = req.user.wallet
+	profile.favorite_list = req.user.favorite
+	profile.watchlist_list = req.user.watchlist
+	res.send(profile)
+})
 
-		res.send(users)
-	} catch (e) {
-		res.status(500).send({
-			message: e.message,
+router.get('/api/me/profile', authentification, async (req, res) => {
+	const profile = await req.user.makeProfile()
+	res.send(profile)
+})
+
+router.delete('/api/me/delete', authentification, async (req, res) => {
+	try {
+		await req.user.remove()
+		res.send({
+			message: 'Removing account',
+			account: req.user
 		})
+	} catch (e) {
+		res.status(500).send()
 	}
 })
 
-router.delete('/api/:id/delete', async (req, res) => {
-	res.send('Not yet implemented.')
+router.get('/api/me/wallets', authentification, async (req, res) => {
+	await req.user.populate({
+		path: 'wallet'
+	})
+	res.send(req.user.wallet)
 })
 
-router.get('/api/:id/wallets', async (req, res) => {
-	try {
-		if (!mongoose.isValidObjectId(req.params.id)) {
-			throw new Error('Please provide a valid Id.')
-		}
-
-		const user = await User.findById(req.params.id)
-		if (!user) {
-			throw new Error('Unable to find user.')
-		}
-		await user.populate({
-			path: 'wallet',
-		})
-		res.send(user.wallet)
-	} catch (e) {
-		res.status(400).send(e.message)
-	}
+router.get('/api/me/favorites', authentification, async (req, res) => {
+	await req.user.populate({
+		path: 'favorite'
+	})
+	res.send(req.user.favorite)
 })
 
-router.get('/api/:id/favorites', async (req, res) => {
-	try {
-		if (!mongoose.isValidObjectId(req.params.id)) {
-			throw new Error('Please provide a valid Id.')
-		}
-
-		const user = await User.findById(req.params.id)
-		if (!user) {
-			throw new Error('Unable to find user.')
-		}
-		await user.populate({
-			path: 'favorite',
-		})
-		res.send(user.favorite)
-	} catch (e) {
-		res.status(400).send(e.message)
-	}
+router.get('/api/me/watchlists', authentification, async (req, res) => {
+	await req.user.populate({
+		path: 'watchlist'
+	})
+	res.send(req.user.watchlist)
 })
 
-router.get('/api/:id/watchlists', async (req, res) => {
+router.patch('/api/me/sessions/purge', authentification, async (req, res) => {
 	try {
-		if (!mongoose.isValidObjectId(req.params.id)) {
-			throw new Error('Please provide a valid Id.')
-		}
-
-		const user = await User.findById(req.params.id)
-		if (!user) {
-			throw new Error('Unable to find user.')
-		}
-		await user.populate({
-			path: 'watchlist',
+		let activeSessions = req.user.sessions.length
+		req.user.sessions = req.user.sessions.find((session) => session.session === req.token)
+		await req.user.save()
+		res.send({
+			message: `Successfully purged all other sessions!`,
+			purged: (activeSessions - req.user.sessions.length)
 		})
-		res.send(user.watchlist)
 	} catch (e) {
-		res.status(400).send(e.message)
+		res.send(500).send()
 	}
 })
 
