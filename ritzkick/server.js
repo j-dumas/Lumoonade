@@ -15,8 +15,8 @@ const ssl = process.env.SSL || false
 const httpsOptions = {}
 if (ssl == 'true') {
 	log.info('SERVER', 'Reading certificates')
-	httpsOptions.key = fs.readFileSync('./certificates/name.key')
-	httpsOptions.cert = fs.readFileSync('./certificates/name.crt')
+	httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`)
+	httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`)
 }
 
 const app = next({ dev })
@@ -28,21 +28,54 @@ app.prepare().catch((ex) => {
 
 let server = require('./application/app')
 
-expressJSDocSwagger(server)(swaggerOptions)
-
-server.get('*', (req, res) => {
-	return handle(req, res)
-})
-
 if (ssl == 'true') {
-	log.info('SERVER', 'Starting in HTTPS')
-	server = https.createServer(httpsOptions, server)
+	httpsVerification()
 } else {
-	log.info('SERVER', 'Starting in HTTP')
-	server = http.createServer(server)
+	server.get('*', (req, res) => {
+		return handle(req, res)
+	})
 }
 
-server.listen(port, (err) => {
-	if (err) throw err
-	log.info('SERVER', `Ready on port ${port}`)
-})
+expressJSDocSwagger(server)(swaggerOptions)
+
+server.use(assetRouter)
+server.use(favoriteRouter)
+server.use(watchlistRouter)
+server.use(walletRouter)
+server.use(userRouter)
+server.use(defaultRouter)
+
+log.info('SERVER', 'Starting HTTP')
+
+if (ssl == 'true') {
+	log.info('SERVER', 'Starting HTTPS')
+	serverHttps = https.createServer(httpsOptions, server)
+
+	serverHttps.listen(port, (err) => {
+		if (err) throw err
+	})
+
+	serverHttp = http.createServer(server)
+	serverHttp.listen(80, (err) => {
+		if (err) throw err
+		log.info('SERVER', `Ready on port 80`)
+	})
+} else {
+	serverHttp = http.createServer(server)
+	serverHttp.listen(port, (err) => {
+		if (err) throw err
+		log.info('SERVER', `Ready on port ${port}`)
+	})
+}
+
+function httpsVerification(redirect) {
+	server.get('*', (req, res) => {
+		const httpsUrl = `https://${req.headers['host']}${req.url}`
+		if (req.protocol == 'http') {
+			log.debug('SERVER', `Redirecting to ${httpsUrl}`)
+			res.redirect(httpsUrl)
+		} else {
+			return handle(req, res)
+		}
+	})
+}
