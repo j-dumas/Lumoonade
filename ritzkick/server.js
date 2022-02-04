@@ -64,7 +64,9 @@ if (ssl == 'true') {
 	})
 
 	server.get('*', (req, res) => {
-		res.redirect(`https://${req.headers['host']}${req.url}`)
+		const httpsUrl = `https://${req.headers['host']}${req.url}`
+		if (req.protocol == 'http') log.debug('SERVER', `Redirecting to ${httpsUrl}`)
+		res.redirect(httpsUrl)
 	})
 
 	serverHttp = http.createServer(server)
