@@ -12,6 +12,26 @@ function Navbar(props) {
 
     const [isScrolled, setIsScrolled] = useState(false);
 
+    async function logout(event) {
+        event.preventDefault()
+        try {
+            await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.token
+                },
+            })
+            
+            sessionStorage.clear()
+            window.location.href = '/'
+        }
+        catch(e){
+            console.log(e)
+        }
+
+    }
+
     useEffect(() => {
         const onScroll = () => setIsScrolled(window.scrollY > 10);
         // clean up code
@@ -46,8 +66,8 @@ function Navbar(props) {
                             <a href="/assets" className='nav-links' onClick={closeMobileMenu}>Assets</a>
                         </li>
                         <li className={router.pathname == '/podium' ? 'nav-item active-link' : 'nav-item'}>
-                            <Icons.Medal/>
-                            <a href="/podium" className='nav-links' onClick={closeMobileMenu}>Podium</a>
+                            <Icons.ChartLine/>
+                            <a href="/compare" className='nav-links' onClick={closeMobileMenu}>Compare</a>
                         </li>
                         <li className={router.pathname == '/help' ? 'nav-item active-link' : 'nav-item'}>
                             <Icons.InfoCircle/>
@@ -67,7 +87,7 @@ function Navbar(props) {
                                 </li>
                                 <li className={router.pathname == '/logout' ? 'nav-item active-link' : 'nav-item'}>
                                     <Icons.DoorOpen/>
-                                    <a href="/logout" className='nav-links'  onClick={closeMobileMenu}>Log out</a>
+                                    { <a className='nav-links'  onClick={closeMobileMenu, logout}>Log out</a>}
                                 </li>
                             </>
                         ): (

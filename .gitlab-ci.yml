@@ -23,7 +23,9 @@ utests:
     stage: tests
     script:
         - cd ritzkick && npm install
-        - npm run test
+        - npm run test-ci
+    services:
+        - mongo:latest
     only:
         refs:
             - pushes
@@ -46,4 +48,3 @@ deploy:
     only:
         refs:
             - main
-            - pushes

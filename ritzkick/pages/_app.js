@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '../styles/Globals.css'
 import '../styles/Main.css'
 import '../styles/Navbar.css'
 import '../styles/Header.css'
@@ -9,6 +9,10 @@ import '../styles/BottomArrow.css'
 import '../styles/Cursor.css'
 import '../styles/Icons.css'
 import '../styles/Particules.scss'
+import '../styles/LoginForm.css'
+import '../styles/BubbleEffect.css'
+import '../styles/Charts.css'
+import '../styles/SimpleCrypto.css'
 
 // The following import prevents a Font Awesome icon server-side rendering bug,
 // where the icons flash from a very large icon down to a properly sized one:
