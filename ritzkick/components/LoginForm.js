@@ -3,10 +3,9 @@ import Container from 'react-bootstrap/Container';
 import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
 import GoogleSignIn from "./GoogleSignIn";
-import { setCookie } from "../services/CookieService";
+import {login} from '../services/AuthService'
 
 const TITLE = "Connexion"
-let display = "auto"
 
 class LoginForm extends React.Component{
 
@@ -75,30 +74,7 @@ class LoginForm extends React.Component{
             }
             else {
                 event.preventDefault()
-                try {
-                    let response = await fetch('/api/auth/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ email: this.state.username, password: this.state.password })
-                    })
-        
-                    if(response.status == 200){
-                        let json = await response.json()
-                        setCookie(json.token)
-                        window.location.href = '/'
-                    }
-                    else if (response.status == 400){
-                        document.getElementById("wrong").style.display = "block"
-                    }
-                    else {
-                        alert("Something went wrong")
-                    }
-                }
-                catch(e){
-                    console.log(e.message)
-                }
+                await login(this.state.username, this.state.password)
             }
         }
     }

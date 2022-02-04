@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Google from './/GoogleSignIn'
 import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
-import { setCookie } from "../services/CookieService";
+import {register} from '../services/AuthService'
 
 const TITLE = "Inscription"
 
@@ -92,25 +92,7 @@ class RegisterForm extends React.Component{
                 event.preventDefault()
             }else{
                 event.preventDefault();
-                try{
-                    let response = await fetch('/api/auth/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ email: this.state.email, username: this.state.username, password: this.state.password })
-                    })
-
-                    let json = await response.json()
-                    setCookie(json.token)
-                    window.location.href = '/'
-                }
-                catch(e){
-                    console.log(e)
-                    alert(e.message)
-                }
-                
-                event.preventDefault();
+                await register(this.state.email, this.state.username, this.state.password)
             }
         }
     }

@@ -23,6 +23,5 @@ export function setCookie(value){
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ", Secure, Http-Only, SameSite=Strict"
-    document.cookie = "test2=" + expires + ";"
 }
 

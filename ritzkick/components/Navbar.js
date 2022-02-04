@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
 import Icons from './Icons';
-//import { Link } from 'react-router-dom';
+import {logout} from '../services/AuthService'
 
 function Navbar(props) {
     const router = useRouter();
@@ -12,26 +12,9 @@ function Navbar(props) {
 
     const [isScrolled, setIsScrolled] = useState(false);
 
-    async function logout(event) {
+    async function logoutUser(event) {
         event.preventDefault()
-        try {
-            await fetch('/api/auth/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.token
-                },
-            })
-            
-            sessionStorage.clear()
-            //Delete cookie
-            document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict" 
-            window.location.href = '/'
-        }
-        catch(e){
-            console.log(e)
-        }
-
+        await logout()
     }
 
     useEffect(() => {
@@ -89,7 +72,7 @@ function Navbar(props) {
                                 </li>
                                 <li className={router.pathname == '/logout' ? 'nav-item active-link' : 'nav-item'}>
                                     <Icons.DoorOpen/>
-                                    { <a className='nav-links'  onClick={closeMobileMenu, logout}>Log out</a>}
+                                    { <a className='nav-links'  onClick={closeMobileMenu, logoutUser}>Log out</a>}
                                 </li>
                             </>
                         ): (
