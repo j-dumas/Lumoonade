@@ -1,10 +1,11 @@
 const chalk = require('chalk')
+const moment = require('moment')
 
 /**
  * @returns Current Date as ISOString
  */
 const getTimeStamp = () => {
-	return new Date().toISOString()
+	return moment.unix(moment.now() / 1000).format('YYYY-MM-DD hh:mm:ss A')
 }
 
 /**

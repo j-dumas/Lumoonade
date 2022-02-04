@@ -9,6 +9,8 @@ import '../styles/BottomArrow.css'
 import '../styles/Cursor.css'
 import '../styles/Icons.css'
 import '../styles/Particules.scss'
+import '../styles/LoginForm.css'
+import '../styles/BubbleEffect.css'
 import '../styles/Charts.css'
 import '../styles/SimpleCrypto.css'
 

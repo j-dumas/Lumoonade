@@ -8,9 +8,10 @@ module.exports = {
 		},
 	},
 	security: {
-		BasicAuth: {
+		BearerAuth: {
 			type: 'http',
-			scheme: 'basic',
+			scheme: 'bearer',
+			bearerFormat: 'JWT',
 		},
 	},
 	baseDir: __dirname,
