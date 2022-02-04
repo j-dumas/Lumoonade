@@ -48,4 +48,3 @@ deploy:
     only:
         refs:
             - main
-            - pushes
