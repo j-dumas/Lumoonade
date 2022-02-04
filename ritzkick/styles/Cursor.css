@@ -9,6 +9,7 @@
     transition-timing-function: ease-out;
     /*animation: cursorAnim .5s infinite alternate;*/
     pointer-events: none;
+    z-index: 999999;
 }
 
 .cursor::after {

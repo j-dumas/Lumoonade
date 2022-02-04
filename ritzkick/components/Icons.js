@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee, faCheckSquare, faShoppingCart, faChevronDown, faChartLine, faWallet, faGlobe, faCoins, faUserCircle, faMedal, faInfoCircle, faQuestionCircle, faTicketAlt, faHandsHelping, faBars, faTimes, faHome, faDoorClosed, faDoorOpen } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee, faCheckSquare, faShoppingCart, faChevronDown, faChartLine, faWallet, faGlobe, faCoins, faUserCircle, faMedal, faInfoCircle, faQuestionCircle, faTicketAlt, faHandsHelping, faBars, faTimes, faHome, faDoorClosed, faDoorOpen, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 const Icons = {
     Cart: () => { return(<FontAwesomeIcon className='icon' icon={faShoppingCart}/>) },
@@ -19,6 +19,7 @@ const Icons = {
     Home: () => { return(<FontAwesomeIcon className='icon' icon={faHome}/>) },
     DoorClosed: () => { return(<FontAwesomeIcon className='icon' icon={faDoorClosed}/>) },
     DoorOpen: () => { return(<FontAwesomeIcon className='icon' icon={faDoorOpen}/>) },
+    Edit: () => { return(<FontAwesomeIcon className='icon' icon={faEdit}/>) }
 }
 
 export default Icons;

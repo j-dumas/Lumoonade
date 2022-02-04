@@ -28,3 +28,36 @@
     border: 2px solid;
     border-color: white;
 }
+
+.profile-card{
+    background-color: var(--background-color);
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+    z-index: -1;
+    transform: translateY(-10%);
+    border: 2px solid;
+    border-color: var(--orange);
+    min-width: 300px;
+}
+
+#icon-button{
+    margin-left: auto;
+    margin-right: 5%;
+    border: 2px solid;
+    border-color: var(--orange);
+    min-width: 40px;
+    min-height: 40px;
+    padding: 10px;
+    padding-left: 12px;
+    border-radius: 50%;
+    background-color: var(--orange);
+    color: white;
+}
+
+#icon-button:hover{
+    color: var(--orange);
+    background-color: var(--background-color);
+    transition-duration: 0.25s;
+}

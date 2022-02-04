@@ -1,7 +1,8 @@
-import { getURL } from "next/dist/shared/lib/utils"
 import React, { useEffect, useState } from "react"
+import Icons from './Icons';
 
-export async function getUsers(){
+
+export async function getUser(){
     //todo: Get user with token
     //Get first user
     try{
@@ -13,69 +14,65 @@ export async function getUsers(){
         })
 
         let json = await response.json()
-        return json
+        return json[1]
     }
     catch(e){
         console.log(e)
     }
 }
 
-// export default function ProfileHeader(){
-//     //const [users, setUsers] = useState(getUsers())
-//     var data = undefined
-    
-//     useEffect( async () => {
-//         data = await getUsers()
-//         console.log(data)
-//         return
-//     }, [])
+const usernameTitleId = "username"
+const memberSinceId = "memberSince"
 
-//     return (
-//         <div className="profile-header">
-//             <img id="profile-picture" src="/ETH.svg"></img>
-//             <ul>
-//                 {console.log(data)}
-//             </ul>
-//             <hr id="profile-separator"></hr>
-//         </div>
-//     )
-// }
 
 class ProfileHeader extends React.Component{
     constructor(props){
         super(props)
 
-        this.state = { users: []}
-        this.show = this.show.bind(this)
+        this.state = { user: {}}
+        this.parseTime = this.parseTime.bind(this)
+        this.getMonth = this.getMonth.bind(this)
+        this.test = this.test.bind(this)
+    }
+
+    test(){
+        console.log("wow")
+    }
+
+    getMonth(monthNumber){
+        const month = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Decembre"];
+
+        return month[monthNumber - 1];
+    }
+
+    parseTime(createdAt) {
+        let dateSliced = createdAt.split('-')
+        let year = dateSliced[0]
+        let month = dateSliced[1]
+        let day = dateSliced[2].substring(0,2)
+
+        return "Membre depuis le " + parseInt(day) + " " + this.getMonth(parseInt(month)) + " " + year
     }
 
     async componentDidMount() {
-        const data = await getUsers()
-        this.setState({ users: data})
-        console.log(this.state.users)
-    }
-
-    show(){
-        console.log("in")
-        if(this.state.users.length != 0){
-            console.log(this.state.users)
-            return (
-                <div>{this.state.users[0].username}</div>
-            )
-        }
-        else{
-            console.log(this.state.users)
-            return (
-                <div>No name</div>
-            )
-        }
+        const data = await getUser()
+        this.setState({ user: data})
+        console.log(this.state.user)
+        document.getElementById(usernameTitleId).innerText = this.state.user.username
+        document.getElementById(memberSinceId).innerText = this.parseTime(this.state.user.createdAt)
     }
 
     render(){
         return (
             <div className="profile-header">
+                <button id="icon-button" onClick={this.test}>
+                    <Icons.Edit  id="icon"/>
+                </button>
                 <img id="profile-picture" src="/ETH.svg"></img>
-                {this.show}
+                <div className="profile-card">
+                    <h1 id={usernameTitleId}></h1>
+                    <h3 id={memberSinceId}></h3>
+                </div>
                 <hr id="profile-separator"></hr>
             </div>
         )
