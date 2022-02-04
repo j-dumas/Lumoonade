@@ -13,7 +13,12 @@ router.get('/api/me', authentification, async (req, res) => {
 	await req.user.populate({
 		path: 'watchlist'
 	})
-	res.send(req.user)
+	const profile = await req.user.makeProfile()
+	profile.sessions = req.user.sessions.length
+	profile.wallet_list = req.user.wallet
+	profile.favorite_list = req.user.favorite
+	profile.watchlist_list = req.user.watchlist
+	res.send(profile)
 })
 
 router.get('/api/me/profile', authentification, async (req, res) => {
