@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react"
 import ProfilePopup from "./ProfilePopup";
+import { getCookie } from "../services/CookieService"
 
 export async function getUser(){
     //todo: Get user with token
     //Get first user
     try{
-        let response = await fetch('/api/users', {
+        let response = await fetch('/api/me/profile', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie("token")
             },
         })
 
         let json = await response.json()
-        return json[1]
+        return json
     }
     catch(e){
         console.log(e)
