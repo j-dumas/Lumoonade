@@ -44,12 +44,7 @@ const assetSchema = new mongoose.Schema(
 		},
 		creationDate: {
 			type: Number,
-			default: Date.now(),
-			validate(date) {
-				if (date > Date.now()) {
-					throw new Error('Cannot set a futur creation date.')
-				}
-			},
+			default: Date.now()
 		},
 		searchedCount: {
 			type: Number,
