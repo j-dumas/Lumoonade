@@ -1,15 +1,15 @@
 import DomHead from '../components/DomHead'
 import Footer from '../components/Footer'
-import LoginForm from '../components/LoginForm'
+import ForgotPasswordForm from '../components/ForgotPasswordForm'
 import Bubbles from '../components/Bubbles'
 
-export default function Login() {
+export default function ForgotPassword() {
     return (
         <div>
           <DomHead/>
           <main>
-            <LoginForm />
             <Bubbles />
+            <ForgotPasswordForm />
             <div  className="spacer layer1"></div>
           </main>
           <Footer/>
