@@ -64,7 +64,7 @@ if (ssl == 'true') {
 	})
 
 	server.get('*', (req, res) => {
-		res.redirect(308, { Location: `https://${req.headers['host']}${req.url}` })
+		res.redirect(`https://${req.headers['host']}${req.url}`)
 	})
 
 	serverHttp = http.createServer(server)
