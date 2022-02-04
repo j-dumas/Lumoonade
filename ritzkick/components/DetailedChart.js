@@ -1,6 +1,5 @@
 
 import React, {useState, useEffect} from 'react';
-import GetCryptoChartData from '../services/CryptoService'
 import {Line, Chart as Charts} from 'react-chartjs-2';
 import Chart from 'chart.js/auto'
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -8,30 +7,36 @@ Chart.register(zoomPlugin)
 
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
-function DetailedChart() {
-
-    var firstDatasets = GetCryptoChartData();
-    var props = {data: firstDatasets}
-
-    const chartReference = React.createRef();
-
-    var getData = () => {
-        return {
-            labels: firstDatasets[0].x,
-            datasets: getDatasets()
-        }
+function DetailedChart(props) {
+    const chartReference = React.createRef()
+    const getChartData = () => {
+        return props.getChartDatas()
     }
 
     useEffect(()=> {
        setInterval(async () => {
             const chart = chartReference.current;
-            chart.data = getData()
-            console.log(chart.data)
+            chart.data = getRelativeChartData()
             chart.update()
-        }, 2000)
+        }, 1000)
     })
+    
+    function getRelativeChartData() {
+        return {
+            labels: getChartData()[0].x,
+            datasets: getRelativeChartDataDatasets()
+        }
+    }
 
-    function getDataset(name, data, color) {
+    function getRelativeChartDataDatasets() {
+        const datasets = []
+        getChartData().forEach(element => {
+            datasets.push(getRelativeChartDataDataset(element.name, element.value, element.color))
+        })
+        return datasets
+    }
+
+    function getRelativeChartDataDataset(name, data, color) {
         return {
             type: 'line',
             label: name,
@@ -50,19 +55,6 @@ function DetailedChart() {
         }
     }
 
-    function getDatasets() {
-        const datasets = []
-        GetCryptoChartData().forEach(element => {
-            datasets.push(getDataset(element.name, element.value, element.color))
-        })
-        return datasets
-    }
-    
-    const datas = {
-        labels: firstDatasets[0].x,
-        datasets: getDatasets()
-    }
-    
     function getChartOptionsPlugins() {
         return {
             title: { // Chart title
@@ -94,7 +86,7 @@ function DetailedChart() {
                     threshold: 0, // default:10
                 },
                 limits: {
-                    y: {min: -1000, max: props.data[0].maxValue+1000},
+                    //y: {min: -1000, max: props.data[0].maxValue+1000},
                     //x: {min: 5} //DATE_RANGE * INTERVAL * 24
                 },
             },
@@ -104,7 +96,7 @@ function DetailedChart() {
     function getChartOptionsScales() {
         return {
             x: {
-                min: props.data[0].value.length - NB_DATA_DISPLAYED_1ST_VIEW,
+                min: getChartData()[0].value.length - NB_DATA_DISPLAYED_1ST_VIEW,
                 grid: {
                     display: true,
                     drawBorder: true,
@@ -161,7 +153,7 @@ function DetailedChart() {
         <div className='detailed-chart'>
             <Charts
                 ref={chartReference}
-                data={datas}
+                data={getRelativeChartData()}
                 options={getChartOptions()}
             />
         </div>

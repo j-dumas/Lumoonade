@@ -38,7 +38,7 @@ export default function Home() {
             <Header/>
             
             <section className='section row principal center first'>
-                <DetailedCharts data={data}/>
+                <DetailedCharts getChartDatas={() => GetCryptoChartData()} dateRange={'1D'} interval={'1min'} />
             </section>
 
             <Footer />
