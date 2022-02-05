@@ -23,22 +23,20 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false /* eslint-disable import/first */
 
-const prod = process.env.PROD || false
-const gToken = process.env.GOOGLE_ANALYTICS_TOKEN || null
-
 function MyApp({ Component, pageProps }) {
 	let app
-	if (prod == 'true') {
+	console.log(`Prod: ${process.env.NEXT_PUBLIC_PROD}`)
+	if (process.env.NEXT_PUBLIC_PROD == 'true') {
 		app = (
 			<>
-				<Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=${gToken}`} />
+				<Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_TOKEN}`} />
 				<Script strategy='lazyOnload'>
 					{
 						`window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
 						gtag('js', new Date());
 
-						gtag('config', '${gToken}');`
+						gtag('config', '${process.env.GOOGLE_ANALYTICS_TOKEN}');`
 					}
 				</Script>
 				<Component {...pageProps} />
