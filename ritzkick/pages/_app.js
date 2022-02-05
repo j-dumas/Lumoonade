@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }) {
 	let app
 	if (process.env.NEXT_PUBLIC_PROD == 'true') {
 		app = (
-			<>
+			<div>
 				<Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN}`} />
 				<Script strategy='lazyOnload'>
 					{
@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }) {
 					}
 				</Script>
 				<Component {...pageProps} />
-			</>
+			</div>
 		)
 	} else {
 		app = (
