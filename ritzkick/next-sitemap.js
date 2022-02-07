@@ -1,8 +1,5 @@
-const port = process.env.PORT || 3000
-const url = process.env.SITE_URL || 'http://localhost'
-
 module.exports = {
-	siteUrl: `${url}:${port}`,
+	siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost',
 	generateRobotsTxt: true,
 	robotsTxtOptions: {
 		policies: [
