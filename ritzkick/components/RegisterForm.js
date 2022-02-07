@@ -157,8 +157,8 @@ class RegisterForm extends React.Component {
 						<Separator />
 						<div id='Signup'>
 							<h4>Vous avez un compte?</h4>
-							<Link className='link' href='/login'>
-								Connectez-vous
+							<Link href='/login'>
+								<a className='link'>Connectez-vous</a>
 							</Link>
 						</div>
 					</div>

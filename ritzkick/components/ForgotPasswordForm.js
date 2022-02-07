@@ -65,12 +65,12 @@ class ForgotPasswordForm extends React.Component {
 					<input type='submit' value='Envoyez' onClick={this.handleSubmit}></input>
 				</form>
 				<AndSeparator />
-				<Link className='link' href='/register'>
-					Créer un compte
+				<Link href='/register'>
+					<a className='link'>Créer un compte</a>
 				</Link>
 				<Separator />
-				<Link className='link' href='/login'>
-					Revenir à l&apos;écran de connexion
+				<Link href='/login'>
+					<a className='link'>Revenir à l&apos;écran de connexion</a>
 				</Link>
 			</Container>
 		)
