@@ -34,6 +34,20 @@ router.patch('/api/me/update', authentification, async (req, res) => {
 			message: 'Please provide data to be modified'
 		})
 	}
+
+	const { oldPassword, newPassword } = req.body
+	if (oldPassword && newPassword) {
+		const validation = await req.user.isOldPassword(oldPassword)
+		if (validation) {
+			console.log('new password!', oldPassword, newPassword)
+			delete req.body.newPassword
+			delete req.body.oldPassword
+			req.body.password = newPassword
+			updates = Object.keys(req.body)
+		} else {
+			console.log('Not the same password',oldPassword, newPassword)
+		}
+	}
     const allowed = ['username', 'password']
     const isValidPatch = updates.every((update) => allowed.includes(update))
 
