@@ -28,23 +28,23 @@ function MyApp({ Component, pageProps }) {
 	if (process.env.NEXT_PUBLIC_PROD == 'true') {
 		app = (
 			<div>
-				<Script strategy='lazyOnload' src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN}`} />
+				<Script
+					id=''
+					strategy='lazyOnload'
+					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN}`}
+				/>
 				<Script strategy='lazyOnload'>
-					{
-						`window.dataLayer = window.dataLayer || [];
+					{`window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
 						gtag('js', new Date());
 
-						gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN}');`
-					}
+						gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN}');`}
 				</Script>
 				<Component {...pageProps} />
 			</div>
 		)
 	} else {
-		app = (
-			<Component {...pageProps} />
-		)
+		app = <Component {...pageProps} />
 	}
 
 	return app
