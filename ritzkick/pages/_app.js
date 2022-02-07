@@ -29,11 +29,11 @@ function MyApp({ Component, pageProps }) {
 		app = (
 			<div>
 				<Script
-					id=''
+					id='gtag'
 					strategy='lazyOnload'
 					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN}`}
 				/>
-				<Script strategy='lazyOnload'>
+				<Script id='gtag-script' strategy='lazyOnload'>
 					{`window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
 						gtag('js', new Date());
