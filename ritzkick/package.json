@@ -13,7 +13,8 @@
 		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand"
 	},
 	"jest": {
-		"testEnvironment": "node"
+		"testEnvironment": "node",
+		"testTimeout": 30000
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
