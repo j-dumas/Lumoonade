@@ -26,6 +26,38 @@ router.get('/api/me/profile', authentification, async (req, res) => {
 	res.send(profile)
 })
 
+router.patch('/api/me/update', authentification, async (req, res) => {
+
+	const updates = Object.keys(req.body)
+	if (updates.length === 0) {
+		return res.status(400).send({
+			message: 'Please provide data to be modified'
+		})
+	}
+    const allowed = ['username', 'password']
+    const isValidPatch = updates.every((update) => allowed.includes(update))
+
+    if (!isValidPatch) {
+        return res.status(400).send({
+            message: 'One or more properties are not supported.'
+        })
+    }
+
+	try {
+		const user = req.user
+        updates.forEach((update) => user[update] = req.body[update])
+		await user.save()
+		const profile = await user.makeProfile()
+		res.send({
+			profile,
+			message: 'Account updated!'
+		})
+	} catch (e) {
+		console.log(e)
+		res.status(400).send(e)
+	}
+})
+
 router.delete('/api/me/delete', authentification, async (req, res) => {
 	try {
 		await req.user.remove()
