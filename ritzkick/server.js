@@ -28,15 +28,13 @@ app.prepare().catch((ex) => {
 
 let server = require('./application/app')
 
-// if (ssl == 'true') {
-// 	protocolVerification()
-// } else {
-// 	server.get('*', (req, res) => {
-// 		return handle(req, res)
-// 	})
-// }
-
-protocolVerification()
+if (ssl == 'true') {
+	protocolVerification()
+} else {
+	server.get('*', (req, res) => {
+		return handle(req, res)
+	})
+}
 
 expressJSDocSwagger(server)(swaggerOptions)
 
