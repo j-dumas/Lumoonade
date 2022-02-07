@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema(
 			{
 				session: {
 					type: String,
-					required: true
+					required: true,
 				},
 			},
 		],
@@ -104,7 +104,7 @@ userSchema.virtual('favorite', {
 })
 
 // ---------------------------------
-//	
+//
 // ---------------------------------
 userSchema.virtual('watchlist', {
 	ref: 'Watchlist',
@@ -112,7 +112,7 @@ userSchema.virtual('watchlist', {
 	foreignField: '_id',
 })
 
-userSchema.methods.makeAuthToken = async function() {
+userSchema.methods.makeAuthToken = async function () {
 	const user = this
 	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET)
 
@@ -123,9 +123,18 @@ userSchema.methods.makeAuthToken = async function() {
 	return token
 }
 
-userSchema.methods.makeProfile = async function() {
+userSchema.methods.makeProfile = async function () {
 	const user = this
-	const { email, username, favorite_list, sessions, wallet_list, watchlist_list, createdAt, updatedAt } = user
+	const {
+		email,
+		username,
+		favorite_list,
+		sessions,
+		wallet_list,
+		watchlist_list,
+		createdAt,
+		updatedAt,
+	} = user
 	const profile = {
 		email,
 		username,
@@ -134,7 +143,7 @@ userSchema.methods.makeProfile = async function() {
 		wallet_list: wallet_list.length,
 		watchlist_list: watchlist_list.length,
 		createdAt,
-		updatedAt
+		updatedAt,
 	}
 	return profile
 }
@@ -144,7 +153,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 	if (!user) {
 		throw new Error('Could not login properly.')
 	}
-	
+
 	const match = await bcrypt.compare(password, user.password)
 	if (!match) {
 		throw new Error('Could not login properly.')
@@ -153,7 +162,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 	return user
 }
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
 	const user = this
 
 	if (user.isModified('password')) {
@@ -164,7 +173,7 @@ userSchema.pre('save', async function(next) {
 	next()
 })
 
-userSchema.pre('remove', async function(next) {
+userSchema.pre('remove', async function (next) {
 	const user = this
 	await Favorite.deleteMany({ owner: user._id })
 	await Wallet.deleteMany({ owner: user._id })

@@ -2,15 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
 import Icons from './Icons';
 import {logout} from '../services/AuthService'
+import Link from 'next/link'
 
 function Navbar(props) {
-    const router = useRouter();
-    
-    const [click, setClick] = useState(false);
-    const handleClick = () => setClick(!click);
-    const closeMobileMenu = () => setClick(false);
+	const router = useRouter()
 
-    const [isScrolled, setIsScrolled] = useState(false);
+	const [click, setClick] = useState(false)
+	const handleClick = () => setClick(!click)
+	const closeMobileMenu = () => setClick(false)
 
     async function logoutUser(event) {
         event.preventDefault()

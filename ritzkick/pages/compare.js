@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react'
 import DomHead from '../components/DomHead'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -8,15 +8,15 @@ import GetCryptoChartData from '../services/CryptoService'
 import dynamic from 'next/dynamic'
 
 const DetailedCharts = dynamic(
-    () => {
-        return import('../components/DetailedChart')
-    },
-    {ssr:false}
+	() => {
+		return import('../components/DetailedChart')
+	},
+	{ ssr: false }
 )
 
 export default function Home() {
-    const [data, setData] = useState();
-/*
+	const [data, setData] = useState()
+	/*
     useEffect(() => {
         async function getChartData() {
           let response = await GetCryptoChartData()
@@ -32,16 +32,20 @@ export default function Home() {
         return () => clearInterval(interval);
       }, [])
 */
-    return (
-        <>
-            <DomHead/>
-            <Header/>
-            
-            <section className='section row principal center first'>
-                <DetailedCharts getChartDatas={() => GetCryptoChartData()} dateRange={'1D'} interval={'1min'} />
-            </section>
+	return (
+		<>
+			<DomHead />
+			<Header />
 
-            <Footer />
+			<section className='section row principal center first'>
+				<DetailedCharts
+					getChartDatas={() => GetCryptoChartData()}
+					dateRange={'1D'}
+					interval={'1min'}
+				/>
+			</section>
+
+			<Footer />
 		</>
 	)
 }

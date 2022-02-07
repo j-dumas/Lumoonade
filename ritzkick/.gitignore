@@ -33,7 +33,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# ssl
 .key
 .perm
 .crt
 **/certificates
+
+# sitemaps
+**/robots.txt
+**/sitemap*

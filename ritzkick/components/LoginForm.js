@@ -4,49 +4,46 @@ import AndSeparator from "./AndSeparator";
 import Separator from "./Separator";
 import GoogleSignIn from "./GoogleSignIn";
 import {login} from '../services/AuthService'
+import Link from 'next/link'
 
 const TITLE = "Connexion"
 
-class LoginForm extends React.Component{
+class LoginForm extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = { username: '', password: '' }
 
+		this.handleUsernameChange = this.handleUsernameChange.bind(this)
+		this.handlePasswordChange = this.handlePasswordChange.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleGoogle = this.handleGoogle.bind(this)
+	}
 
-    constructor(props){
-        super(props)
-        this.state = {username: '', password: ''}
+	handleGoogle(event) {
+		alert('Forgot Password')
+		event.preventDefault()
+	}
 
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleGoogle = this.handleGoogle.bind(this)
-    }
-
-    handleGoogle(event){
-        alert('Forgot Password');
-        event.preventDefault();
-    }
-
-    handleUsernameChange(event) {
-        let username = document.getElementById("userField")
-        if(username.validity.typeMismatch){
-            username.setCustomValidity("Entrez un nom d'utilisateur")
-            username.reportValidity()
-        }
-        else{
-            username.setCustomValidity("")
-            this.setState({username: event.target.value});
-        }
-    }
-    handlePasswordChange(event) {
-        let password = document.getElementById("passwordField")
-        if(password.validity.typeMismatch){
-            password.setCustomValidity("Entrez un nom d'utilisateur")
-            password.reportValidity()
-        }
-        else{
-            password.setCustomValidity("")
-            this.setState({password: event.target.value});
-        }
-    }
+	handleUsernameChange(event) {
+		let username = document.getElementById('userField')
+		if (username.validity.typeMismatch) {
+			username.setCustomValidity("Entrez un nom d'utilisateur")
+			username.reportValidity()
+		} else {
+			username.setCustomValidity('')
+			this.setState({ username: event.target.value })
+		}
+	}
+	handlePasswordChange(event) {
+		let password = document.getElementById('passwordField')
+		if (password.validity.typeMismatch) {
+			password.setCustomValidity("Entrez un nom d'utilisateur")
+			password.reportValidity()
+		} else {
+			password.setCustomValidity('')
+			this.setState({ password: event.target.value })
+		}
+	}
 
     showError(password, username){
         if(!password.validity.valid){
@@ -79,29 +76,52 @@ class LoginForm extends React.Component{
         }
     }
 
-    render(){
-        return (
-            <Container className="p-3" className="form">
-                <h1 className="form-title">{TITLE}</h1>
-                <div id="wrong">Mauvais courriel ou mot de passe.</div>
-                <form onSubmit={this.handleSubmit}>
-                    <input id="userField" type="text" placeholder="Courriel" onChange={this.handleUsernameChange} required autoComplete="off"/>
-                    <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required autoComplete="off"/>
-                    <input id="submitButton" type="submit" onClick={this.handleSubmit} value="Connexion" />
-                </form>
-                <AndSeparator />
-                <GoogleSignIn />
-                <a className="link" href="/forgotPassword">J'ai oublié mon mot de passe</a>
-                <div>
-                    <Separator />
-                    <div id="Signup">
-                        <h4>Vous n'avez pas de compte?</h4> 
-                        <a className="link" href="/register"> Inscrivez-vous</a>
-                    </div>
-                </div>
-            </Container>
-        )
-    }
+	render() {
+		return (
+			<Container className='p-3 form'>
+				<h1 className='form-title'>{TITLE}</h1>
+				<div id='wrong'>Mauvais courriel ou mot de passe.</div>
+				<form onSubmit={this.handleSubmit}>
+					<input
+						id='userField'
+						type='text'
+						placeholder='Courriel'
+						onChange={this.handleUsernameChange}
+						required
+						autoComplete='off'
+					/>
+					<input
+						id='passwordField'
+						type='password'
+						placeholder='Mot de passe'
+						onChange={this.handlePasswordChange}
+						required
+						autoComplete='off'
+					/>
+					<input
+						id='submitButton'
+						type='submit'
+						onClick={this.handleSubmit}
+						value='Connexion'
+					/>
+				</form>
+				<AndSeparator />
+				<GoogleSignIn />
+				<Link href='/forgotPassword'>
+					<a className='link'>J&apos;ai oublié mon mot de passe</a>
+				</Link>
+				<div>
+					<Separator />
+					<div id='Signup'>
+						<h4>Vous n&apos;avez pas de compte?</h4>
+						<Link href='/register'>
+							<a className='link'>Inscrivez-vous</a>
+						</Link>
+					</div>
+				</div>
+			</Container>
+		)
+	}
 }
 
 export default LoginForm
