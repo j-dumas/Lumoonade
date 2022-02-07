@@ -5,13 +5,13 @@ const router = express.Router()
 
 router.get('/api/me', authentification, async (req, res) => {
 	await req.user.populate({
-		path: 'wallet'
+		path: 'wallet',
 	})
 	await req.user.populate({
-		path: 'favorite'
+		path: 'favorite',
 	})
 	await req.user.populate({
-		path: 'watchlist'
+		path: 'watchlist',
 	})
 	const profile = await req.user.makeProfile()
 	profile.sessions = req.user.sessions.length
@@ -31,7 +31,7 @@ router.delete('/api/me/delete', authentification, async (req, res) => {
 		await req.user.remove()
 		res.send({
 			message: 'Removing account',
-			account: req.user
+			account: req.user,
 		})
 	} catch (e) {
 		res.status(500).send()
@@ -40,21 +40,21 @@ router.delete('/api/me/delete', authentification, async (req, res) => {
 
 router.get('/api/me/wallets', authentification, async (req, res) => {
 	await req.user.populate({
-		path: 'wallet'
+		path: 'wallet',
 	})
 	res.send(req.user.wallet)
 })
 
 router.get('/api/me/favorites', authentification, async (req, res) => {
 	await req.user.populate({
-		path: 'favorite'
+		path: 'favorite',
 	})
 	res.send(req.user.favorite)
 })
 
 router.get('/api/me/watchlists', authentification, async (req, res) => {
 	await req.user.populate({
-		path: 'watchlist'
+		path: 'watchlist',
 	})
 	res.send(req.user.watchlist)
 })
@@ -66,7 +66,7 @@ router.patch('/api/me/sessions/purge', authentification, async (req, res) => {
 		await req.user.save()
 		res.send({
 			message: `Successfully purged all other sessions!`,
-			purged: (activeSessions - req.user.sessions.length)
+			purged: activeSessions - req.user.sessions.length,
 		})
 	} catch (e) {
 		res.send(500).send()

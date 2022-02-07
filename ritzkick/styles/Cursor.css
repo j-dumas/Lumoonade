@@ -1,18 +1,18 @@
 .cursor {
-    width: 25px;
-    height: 25px;
-    border: 3px solid var(--orange);
+	width: 25px;
+	height: 25px;
+	border: 3px solid var(--orange);
 
-    border-radius: 50%;
-    position: absolute;
-    transition-duration: 0ms;
-    transition-timing-function: ease-out;
-    /*animation: cursorAnim .5s infinite alternate;*/
-    pointer-events: none;
+	border-radius: 50%;
+	position: absolute;
+	transition-duration: 0ms;
+	transition-timing-function: ease-out;
+	/*animation: cursorAnim .5s infinite alternate;*/
+	pointer-events: none;
 }
 
 .cursor::after {
-    /*
+	/*
     content: "";
     width: 20px;
     height: 20px;
@@ -26,52 +26,52 @@
 }
 
 @keyframes cursorAnim {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(.7);
-    }
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(0.7);
+	}
 }
 
 @keyframes cursorAnim2 {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(.4);
-    }
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(0.4);
+	}
 }
 
 @keyframes cursorAnim3 {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(3);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 0;
-    }
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(3);
+	}
+	100% {
+		transform: scale(1);
+		opacity: 0;
+	}
 }
 
 .expand {
-    animation: cursorAnim3 .25s forwards;
-    background-color: var(--yellow);
+	animation: cursorAnim3 0.25s forwards;
+	background-color: var(--yellow);
 }
 
 .cursor-hover {
-    width: 60px;
-    height: 60px;
-    border: none;
-    background-color: var(--lightGray);
-    opacity: .5;
+	width: 60px;
+	height: 60px;
+	border: none;
+	background-color: var(--lightGray);
+	opacity: 0.5;
 
-    border-radius: 50%;
-    position: absolute;
-    transition-duration: 0ms;
-    transition-timing-function: ease-out;
-    animation: cursorAnim .5s infinite alternate;
-    pointer-events: none;
+	border-radius: 50%;
+	position: absolute;
+	transition-duration: 0ms;
+	transition-timing-function: ease-out;
+	animation: cursorAnim 0.5s infinite alternate;
+	pointer-events: none;
 }

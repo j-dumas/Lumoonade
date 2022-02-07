@@ -1,19 +1,19 @@
 .bottom-arrow {
-    width: 100%;
-    position: relative;
-    bottom: 30px;
+	width: 100%;
+	position: relative;
+	bottom: 30px;
 }
 
 .chevron-down {
-    animation: chevronDownAnimaton 1.2s infinite alternate;
+	animation: chevronDownAnimaton 1.2s infinite alternate;
 }
 
 @keyframes chevronDownAnimaton {
-    from {
-        transform: translateY(0px);
-        opacity: 0.1;
-    }
-    to {
-        transform:  translateY(30px);
-    }
+	from {
+		transform: translateY(0px);
+		opacity: 0.1;
+	}
+	to {
+		transform: translateY(30px);
+	}
 }
