@@ -64,9 +64,15 @@ class ProfileHeader extends React.Component{
                 <div className="profile-header" id="header">
                     <ProfilePopup  username={this.state.user.username} email={this.state.user.email}/>
                     <img id="profile-picture" src="/ETH.svg"></img>
-                    <div className="profile-card">
-                        <h1 id={usernameTitleId}></h1>
-                        <h3 id={memberSinceId}></h3>
+                    <div className="row">
+                        <div className="profile-card">
+                            <h1 id={usernameTitleId}></h1>
+                            <h3 id={memberSinceId}></h3>
+                        </div>
+                        <div className="profile-card">
+                            <h1>You currectly have {this.state.user.sessions}</h1>    
+                            <button>Clear sessions</button>                        
+                        </div>
                     </div>
                     <hr id="profile-separator"></hr>
                 </div>

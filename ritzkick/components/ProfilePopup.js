@@ -15,7 +15,7 @@ function handleChange(event){
 }
 
 export default function ProfilePopup(props){
-    const [Modal, open, close, isOpen] = useModal('header', {
+    const [Modal, open, close] = useModal('header', {
         preventScroll: true,
         closeOnOverlayClick: true
     })
@@ -31,8 +31,10 @@ export default function ProfilePopup(props){
                         <h1>Informations</h1>
                         <label>Nom d'utilisateur</label>
                         <input type="text" defaultValue={props.username} onChange={handleChange} />
+                        <hr className="form-separator"></hr>
                         <label>Courriel</label>
                         <input type="email" defaultValue={props.email} disabled/>
+                        <hr className="form-separator"></hr>
                         <label>Entrez votre ancien mot de passe ainsi que le nouveau</label>
                         <input type="password" placeholder='Ancien mot de passe'></input>
                         <input type="password" placeholder='Nouveau mot de passe'></input>
