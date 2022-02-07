@@ -55,10 +55,10 @@ function protocolVerification() {
 	server.get('*', (req, res) => {
 		const httpsUrl = `https://cryptool.atgrosdino.ca${req.url}`
 		const httpUrl = `http://test.cryptool.atgrosdino.ca${req.url}:3000`
-		if (req.protocol == 'http') {
+		if (req.protocol == 'http' && req.headers['host'] != 'test.cryptool.atgrosdino.ca') {
 			log.debug('SERVER', `Redirecting to ${httpUrl}`)
 			res.redirect(httpUrl)
-		} else if (req.protocol == 'https') {
+		} else if (req.protocol == 'https' && req.headers['host'] != 'cryptool.atgrosdino.ca') {
 			log.debug('SERVER', `Redirecting to ${httpsUrl}`)
 			res.redirect(httpsUrl)
 		} else {
