@@ -1,15 +1,15 @@
-#earth_div{
-    width: 100%;
-    height: 100%;
+#earth_div {
+	width: 100%;
+	height: 100%;
 
-    display: block;
+	display: block;
 }
 
 .marker {
-    height: 100px;
-    width: 15px;
-    background-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    border: 3px solid indianred;
+	height: 100px;
+	width: 15px;
+	background-color: transparent;
+	border-radius: 50%;
+	display: inline-block;
+	border: 3px solid indianred;
 }

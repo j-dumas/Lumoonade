@@ -24,11 +24,11 @@ const assetSchema = new mongoose.Schema(
 		},
 		changePercent: {
 			type: Number,
-			default: 0
+			default: 0,
 		},
 		change: {
 			type: Number,
-			default: 0
+			default: 0,
 		},
 		volume: {
 			type: Number,
@@ -40,11 +40,11 @@ const assetSchema = new mongoose.Schema(
 				if (supply < 0) {
 					throw new Error('Cannot set the supply amount under 0.')
 				}
-			}
+			},
 		},
 		creationDate: {
 			type: Number,
-			default: Date.now()
+			default: Date.now(),
 		},
 		searchedCount: {
 			type: Number,

@@ -1,5 +1,5 @@
 module.exports = {
-	siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost',
+	siteUrl: 'https://cryptool.atgrosdino.ca',
 	generateRobotsTxt: true,
 	robotsTxtOptions: {
 		policies: [

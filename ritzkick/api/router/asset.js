@@ -12,7 +12,7 @@ router.get('/api/crypto/search/:slug', async (req, res) => {
 		let data = await fetchMarketData(slug)
 
 		// All the informations we want to fetch from the data received.
-		// This will be populate alot depending on how many cryptos we want to fetch 
+		// This will be populate alot depending on how many cryptos we want to fetch
 		let want = {
 			currency: '',
 			regularMarketDayHigh: '',
@@ -27,22 +27,22 @@ router.get('/api/crypto/search/:slug', async (req, res) => {
 			fromCurrency: '',
 			marketCap: '',
 			volume24Hr: '',
-			symbol: ''
+			symbol: '',
 		}
-		
+
 		let response = []
-		
-		data.result.forEach(d => {
+
+		data.result.forEach((d) => {
 			parser(d, want)
 			response.push({
-				...want
+				...want,
 			})
 		})
 
 		res.send(response)
 	} catch (e) {
 		res.status(400).send({
-			error: e.message
+			error: e.message,
 		})
 	}
 })
@@ -57,7 +57,7 @@ router.get('/api/crypto/ranking', async (req, res) => {
 
 		// By default, we want all values DESCENDING (most to less gains)
 		const sort = {
-			changePercent: 'desc'
+			changePercent: 'desc',
 		}
 
 		if (req.query.gain) {
@@ -72,7 +72,7 @@ router.get('/api/crypto/ranking', async (req, res) => {
 			assets.length = Math.min(limit, assets.length)
 		}
 		res.send(assets)
-	} catch(e) {
+	} catch (e) {
 		res.status(500).send()
 	}
 })
@@ -97,12 +97,12 @@ router.get('/api/crypto/ranking/:slug', async (req, res) => {
 		})
 		res.send({
 			slug,
-			ranking: (ranking + 1),
-			rivals: assets.length
+			ranking: ranking + 1,
+			rivals: assets.length,
 		})
-	} catch(e) {
+	} catch (e) {
 		res.status(404).send({
-			message: e.message
+			message: e.message,
 		})
 	}
 })
@@ -122,9 +122,9 @@ router.get('/api/crypto/all', async (req, res) => {
 			assets.length = Math.min(limit, assets.length)
 		}
 		res.send(assets)
-	} catch(e) {
+	} catch (e) {
 		res.status(404).send({
-			error: e.message
+			error: e.message,
 		})
 	}
 })
@@ -140,9 +140,9 @@ router.get('/api/crypto/popular', async (req, res) => {
 			assets.length = Math.min(limit, assets.length)
 		}
 		res.send(assets)
-	} catch(e) {
+	} catch (e) {
 		res.status(404).send({
-			error: e.message
+			error: e.message,
 		})
 	}
 })
@@ -152,12 +152,12 @@ router.get('/api/crypto/new', async (req, res) => {
 		const limit = req.query.limit
 		let assets = await Asset.find({}).sort({ creationDate: 'desc' })
 		if (req.query.time) {
-			assets = assets.filter(asset => {
+			assets = assets.filter((asset) => {
 				const creationDate = new Date(asset.creationDate)
 				const currentTime = new Date(Date.now())
 				const diff = currentTime.getTime() - creationDate.getTime()
 				const days = diff / (1000 * 3600 * 24)
-				switch(req.query.time.toLocaleLowerCase()) {
+				switch (req.query.time.toLocaleLowerCase()) {
 					case 'd':
 						return days <= 1
 					case 'w':
@@ -178,9 +178,9 @@ router.get('/api/crypto/new', async (req, res) => {
 			assets.length = Math.min(limit, assets.length)
 		}
 		res.send(assets)
-	} catch(e) {
+	} catch (e) {
 		res.status(404).send({
-			error: e.message
+			error: e.message,
 		})
 	}
 })
@@ -189,7 +189,7 @@ router.get('/api/crypto/upcoming', async (req, res) => {
 	try {
 		const limit = req.query.limit
 		let assets = await Asset.find({}).sort({ creationDate: 'asc' })
-		assets = assets.filter(asset => {
+		assets = assets.filter((asset) => {
 			const creationDate = new Date(asset.creationDate)
 			const currentTime = new Date(Date.now())
 			const diff = currentTime.getTime() - creationDate.getTime()
@@ -212,10 +212,9 @@ router.get('/api/crypto/:slug', async (req, res) => {
 			throw new Error('Unable to find an asset with a name of ' + (req.params.slug || 'None'))
 		}
 		res.send(asset)
-
 	} catch (e) {
 		res.status(404).send({
-			error: e.message
+			error: e.message,
 		})
 	}
 })
