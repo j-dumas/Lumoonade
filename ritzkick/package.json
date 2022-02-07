@@ -5,6 +5,7 @@
 		"start": "env-cmd -f ./.prod.env node server.js",
 		"dev": "env-cmd -f ./.local.env nodemon server.js",
 		"build": "next build",
+		"postbuild": "next-sitemap",
 		"lint": "next lint",
 		"test": "env-cmd -f ./.test.env jest --runInBand",
 		"test-ci": "env-cmd -f ./.test.ci.env jest --runInBand",
