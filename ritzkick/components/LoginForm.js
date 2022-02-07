@@ -129,14 +129,13 @@ class LoginForm extends React.Component {
 				<AndSeparator />
 				<GoogleSignIn />
 				<Link className='link' href='/forgotPassword'>
-					J&aposai oublié mon mot de passe
+					J&apos;ai oublié mon mot de passe
 				</Link>
 				<div>
 					<Separator />
 					<div id='Signup'>
-						<h4>Vous n&aposavez pas de compte?</h4>
+						<h4>Vous n&apos;avez pas de compte?</h4>
 						<Link className='link' href='/register'>
-							{' '}
 							Inscrivez-vous
 						</Link>
 					</div>

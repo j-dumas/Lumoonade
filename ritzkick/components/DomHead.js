@@ -58,7 +58,7 @@ function DomHead() {
 		// 	}, 500)
 		// })
 
-		return () => clearTimeout(timeout)
+		//return () => clearTimeout(timeout)
 	}, [])
 
 	return (

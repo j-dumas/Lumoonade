@@ -70,11 +70,11 @@ class ForgotPasswordForm extends React.Component {
 				</Link>
 				<Separator />
 				<Link className='link' href='/login'>
-					Revenir à l&aposécran de connexion
+					Revenir à l&apos;écran de connexion
 				</Link>
 			</Container>
 		)
-		// &apos = '
+		// &apos; = '
 	}
 }
 
