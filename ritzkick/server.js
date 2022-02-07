@@ -9,7 +9,6 @@ const expressJSDocSwagger = require('express-jsdoc-swagger')
 const swaggerOptions = require('./config/swagger')
 
 const dev = process.env.NODE_ENV !== 'production'
-const test = process.env.TESTING || false
 const port = process.env.PORT || 3000
 const ssl = process.env.SSL || false
 
@@ -29,13 +28,15 @@ app.prepare().catch((ex) => {
 
 let server = require('./application/app')
 
-if (ssl == 'true') {
-	httpsVerification()
-} else {
-	server.get('*', (req, res) => {
-		return handle(req, res)
-	})
-}
+// if (ssl == 'true') {
+// 	protocolVerification()
+// } else {
+// 	server.get('*', (req, res) => {
+// 		return handle(req, res)
+// 	})
+// }
+
+protocolVerification()
 
 expressJSDocSwagger(server)(swaggerOptions)
 
@@ -54,8 +55,8 @@ server.listen(port, (err) => {
 
 function protocolVerification() {
 	server.get('*', (req, res) => {
-		const httpsUrl = `https://cryptool.atgrosdino.ca`
-		const httpUrl = `https://test.cryptool.atgrosdino.ca`
+		const httpsUrl = `https://cryptool.atgrosdino.ca${req.url}`
+		const httpUrl = `http://test.cryptool.atgrosdino.ca${req.url}:3000`
 		if (req.protocol == 'http') {
 			log.debug('SERVER', `Redirecting to ${httpUrl}`)
 			res.redirect(httpUrl)
