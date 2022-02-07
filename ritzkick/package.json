@@ -2,14 +2,15 @@
 	"name": "ritzkick",
 	"private": true,
 	"scripts": {
-		"start": "env-cmd -f ./.prod.env node server.js",
-		"dev": "env-cmd -f ./.local.env nodemon server.js",
+		"start": "env-cmd -f ./env/.prod.env node server.js",
+		"start-test": "env-cmd -f ./env/.prod.test.env node server.js",
+		"dev": "env-cmd -f ./env/.local.env nodemon server.js",
 		"build": "next build",
 		"postbuild": "next-sitemap",
 		"lint": "next lint",
-		"test": "env-cmd -f ./.test.env jest --runInBand",
-		"test-ci": "env-cmd -f ./.test.ci.env jest --runInBand",
-		"test-dev": "env-cmd -f ./.test.env jest --watch --runInBand"
+		"test": "env-cmd -f ./env/.test.env jest --runInBand",
+		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand",
+		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand"
 	},
 	"jest": {
 		"testEnvironment": "node"

@@ -28,7 +28,7 @@ utests:
         - mongo:latest
     only:
         refs:
-            - pushes
+            - main
 
 #================
 # DEPLOYMENT

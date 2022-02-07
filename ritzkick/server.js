@@ -28,47 +28,21 @@ app.prepare().catch((ex) => {
 
 let server = require('./application/app')
 
-if (ssl == 'true') {
-	httpsVerification()
-} else {
-	server.get('*', (req, res) => {
-		return handle(req, res)
-	})
-}
+server.get('*', (req, res) => {
+	return handle(req, res)
+})
 
 expressJSDocSwagger(server)(swaggerOptions)
 
 if (ssl == 'true') {
-	log.info('SERVER', 'Starting HTTPS')
-	serverHttps = https.createServer(httpsOptions, server)
-
-	serverHttps.listen(port, (err) => {
-		if (err) throw err
-	})
-
-	log.info('SERVER', 'Starting HTTP')
-	serverHttp = http.createServer(server)
-	serverHttp.listen(80, (err) => {
-		if (err) throw err
-		log.info('SERVER', `Ready on port 80`)
-	})
+	log.info('SERVER', 'Starting in HTTPS')
+	server = https.createServer(httpsOptions, server)
 } else {
-	log.info('SERVER', 'Starting HTTP')
-	serverHttp = http.createServer(server)
-	serverHttp.listen(port, (err) => {
-		if (err) throw err
-		log.info('SERVER', `Ready on port ${port}`)
-	})
+	log.info('SERVER', 'Starting in HTTP')
+	server = http.createServer(server)
 }
 
-function httpsVerification(redirect) {
-	server.get('*', (req, res) => {
-		const httpsUrl = `https://${req.headers['host']}${req.url}`
-		if (req.protocol == 'http') {
-			log.debug('SERVER', `Redirecting to ${httpsUrl}`)
-			res.redirect(httpsUrl)
-		} else {
-			return handle(req, res)
-		}
-	})
-}
+server.listen(port, (err) => {
+	if (err) throw err
+	log.info('SERVER', `Ready on port ${port}`)
+})
