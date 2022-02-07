@@ -7,14 +7,18 @@ Les variables nécessaires (exemples de valeurs):
 | Variable                           	| Valeur                                       	| Description                                             	|
 |------------------------------------	|----------------------------------------------	|---------------------------------------------------------	|
 | PORT                               	| 443                                          	| Le port sur lequel l'application se lance               	|
+| TEST_PORT                             | 3000                                        	| Le port sur lequel l'application de tests se lance        |
 | DB_URL                             	| mongodb://127.0.0.1:27017/cryptool           	| L'URL vers la base de données MongoDB                    	|
+| HTTPS                             	| cryptool.atgrosdino.ca                       	| L'URL vers le site en https et en prod                    |
+| HTTP                              	| test.cryptool.atgrosdino.ca                  	| L'URL vers le site en http et en test                   	|
 | SSL                                	| true                                         	| Si le site utilise HTTPS ou non                         	|
+| LOCAL                               	| true                                         	| Si le site est local                         	            |
 | JWTSECRET                          	| SECRET123                                    	| Le secret pour signer les JWTs                          	|
 | YAHOO_API                          	| https://query1.finance.yahoo.com/v7/finance/ 	| L'URL de l'API Yahoo                                    	|
 | NEXT_PUBLIC_PROD                   	| true                                         	| Si l'application se lance en PROD pour Google Analytics 	|
 | NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN 	| G-TOKEN                                      	| Le jeton de Google Analytics                            	|
 
-Pour la production, il est nécessaire de se créer un fichier `.prod.env`, fichier qui n'est pas suivi par git.
+Pour la production, il est nécessaire de se créer un fichier `.prod.env`, fichier qui n'est pas suivi par git. Il faudra aussi ajouter `NODE_ENV=production`.
 
 ## Scripts
 
