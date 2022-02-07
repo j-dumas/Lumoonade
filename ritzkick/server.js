@@ -31,8 +31,12 @@ app.prepare().catch((ex) => {
 })
 
 let server = require('./application/app')
-if (local != 'false') protocolVerification()
+if (local == 'false') protocolVerification()
 expressJSDocSwagger(server)(swaggerOptions)
+
+server.get('*', (req, res) => {
+	return handle(req, res)
+})
 
 if (ssl == 'true') {
 	log.info('SERVER', 'Starting in HTTPS')
@@ -55,8 +59,6 @@ function protocolVerification() {
 		} else if (req.protocol == 'https' && req.headers['host'] != httpsUrl) {
 			log.debug('SERVER', `Redirecting to https://${httpsUrl}${req.url}`)
 			res.redirect(httpsUrl)
-		} else {
-			return handle(req, res)
 		}
 	})
 }
