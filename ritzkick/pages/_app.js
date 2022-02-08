@@ -24,6 +24,8 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false /* eslint-disable import/first */
 
+// TODO: Change for SVGR/Webpack: https://github.com/gregberge/svgr/tree/main/packages/webpack
+
 function MyApp({ Component, pageProps }) {
 	const getLayout = Component.getLayout || ((page) => page)
 
