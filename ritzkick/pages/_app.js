@@ -25,6 +25,8 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false /* eslint-disable import/first */
 
 function MyApp({ Component, pageProps }) {
+	const getLayout = Component.getLayout || ((page) => page)
+
 	let app
 	if (process.env.NEXT_PUBLIC_PROD == 'true') {
 		app = (
@@ -48,7 +50,7 @@ function MyApp({ Component, pageProps }) {
 		app = <Component {...pageProps} />
 	}
 
-	return app
+	return getLayout(app)
 }
 
 export default MyApp

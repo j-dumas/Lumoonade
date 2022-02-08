@@ -5,6 +5,9 @@ import BottomArrow from '../components/BottomArrow'
 import SimpleCryptoDashboard from '../components/SimpleCryptoDashboard'
 import React, { useState, useEffect } from 'react'
 import GetCryptoData from '../services/CryptoService'
+import dynamic from 'next/dynamic'
+
+const Layout = dynamic(() => import('../components/Layout'))
 
 const TITLE = 'CRYPTOOL'
 const SUB_TTTLE = "Restez à l'affut de vos cryptos favorites"
@@ -13,15 +16,7 @@ export default function Home() {
 	const [data, setData] = useState(GetCryptoData())
 
 	return (
-		<div>
-			<DomHead
-				pageMeta={{
-					title: 'CRYPTOOL | HOME',
-					description: 'Cryptool home page',
-				}}
-			/>
-			<Header />
-
+		<>
 			<main className='column'>
 				<section className='section row principal center'>
 					<div className='column center'>
@@ -48,8 +43,19 @@ export default function Home() {
 			<section className='section row second'>
 				<SimpleCryptoDashboard data={data} />
 			</section>
+		</>
+	)
+}
 
-			<Footer />
-		</div>
+Home.getLayout = function getLayout(page) {
+	return (
+		<Layout
+			pageMeta={{
+				title: 'CRYPTOOL | HOME',
+				description: 'Cryptool home page',
+			}}
+		>
+			{page}
+		</Layout>
 	)
 }
