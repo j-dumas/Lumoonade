@@ -1,42 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import Icons from './Icons';
 import { useModal } from 'react-hooks-use-modal';
+import {getCookie} from '../services/CookieService'
+
 
 let newUsername = ''
 let oldPass = ''
 let newPass = ''
 let newPassConfirmation = ''
 
-function handleSubmit(oldUsername){
-    //api call
-
-    /*
-    !   Paremetre du body dans l'api
-        new username
-        old password
-        new password
-
-
-        todo: Reset les champs après chaque annulation
-    */
-    if(oldUsername !== undefined){
-        if(newUsername !== oldUsername && newUsername !== ''){
-            if(newPass === newPassConfirmation && oldPass !== ''){
-                console.log('name and password wants to be changed')
-            }
-            else{
-                console.log('Name wants to be changed')
-            }
-        }
-        else if(newPass == newPassConfirmation && oldPass != ''){
-            console.log('Password wants to be changed')
-        }
-        else{
-            console.log('Nothing wants to be changed')
-        }
-    }
-    
-}
 
 function eraseFieldValue(){
     newUsername = ''
@@ -44,6 +16,79 @@ function eraseFieldValue(){
     newPass = ''
     newPassConfirmation = ''
 }
+
+async function handleSubmit(event, oldUsername, isPopupOpen){
+    if(!isPopupOpen){
+        eraseFieldValue()
+    }
+    else{
+        if(oldUsername !== undefined){
+            if(newUsername !== oldUsername && newUsername !== ''){
+                if(newPass === newPassConfirmation && oldPass !== ''){
+                    event.preventDefault()
+                    try {
+                        const token = getCookie("token")
+                        const response = await fetch('/api/me/update', {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({ username: newUsername, oldPassword: oldPass, newPassword: newPass })
+                        })
+                
+                        console.log(response.status)                    
+                    }
+                    catch(e){
+                        console.log(e.message)
+                    }
+                }
+                else{
+                    event.preventDefault()
+                    try {
+                        const token = getCookie("token")
+                        const response = await fetch('/api/me/update', {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({ username: newUsername })
+                        })
+                
+                        console.log(response.status)
+                        //Si 400 nom est indisponible
+                        //Sinon something went wrong
+                        
+                    }
+                    catch(e){
+                        console.log(e.message)
+                    }
+                }
+            }
+            else if(newPass == newPassConfirmation && oldPass != ''){
+                event.preventDefault()
+                try {
+                    const token = getCookie("token")
+                    const response = await fetch('/api/me/update', {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
+                    })
+            
+                    console.log(response.status)                    
+                }
+                catch(e){
+                    console.log(e.message)
+                }
+            }
+        }
+    }
+}
+
 
 function handleUsernameChange(event){
     newUsername = event.target.value
@@ -61,7 +106,7 @@ function handleNewConfirmationPasswordChange(event) {
 
 
 export default function ProfilePopup(props){
-    const [Modal, open, close] = useModal('header', {
+    const [Modal, open, close, isOpen] = useModal('header', {
         preventScroll: true,
         closeOnOverlayClick: true
     })
@@ -73,7 +118,7 @@ export default function ProfilePopup(props){
             </button>
             <Modal>
                 <div className='edit-popup'>
-                    <form id='update-form' onClick={handleSubmit(props.username)}>
+                    <form id='update-form' onClick={() => {handleSubmit(event, props.username, isOpen)}}>
                         <h1>Informations</h1>
                         <label>Nom d'utilisateur</label>
                         <input type="text" defaultValue={props.username} onChange={handleUsernameChange} />
@@ -85,7 +130,7 @@ export default function ProfilePopup(props){
                         <input type="password" placeholder='Ancien mot de passe' onChange={handlePasswordChange}></input>
                         <input type="password" placeholder='Nouveau mot de passe' onChange={handleNewPasswordChange}></input>
                         <input type="password" placeholder='Confirmation nouveau mot de passe' onChange={handleNewConfirmationPasswordChange}></input>
-                        <input type="submit" value="Modifier" /> 
+                        <input type="submit" value="Modifier"/> 
                         <button type='button' onClick={close} id="cancel-edit">Annuler</button>
                     </form>
                 </div>

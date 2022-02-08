@@ -88,8 +88,8 @@ class ProfileHeader extends React.Component{
                             <h3 id={memberSinceId}></h3>
                         </div>
                         <div className="profile-card">
-                            <h1>You currectly have {this.state.user.sessions}</h1>    
-                            <button onClick={removeSession}>Clear sessions</button>                        
+                            <h1>Vous avez présentement {this.state.user.sessions} sessions actives</h1>    
+                            <button onClick={removeSession}>Effacer les sessions inutiles</button>                        
                         </div>
                     </div>
                     <hr id="profile-separator"></hr>
