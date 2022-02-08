@@ -3,6 +3,10 @@ const validator = require('validator').default
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const Favorite = require('./favorite')
+const Wallet = require('./wallet')
+const Watchlist = require('./watchlist')
+
 const userSchema = new mongoose.Schema(
 	{
 		email: {
@@ -51,7 +55,7 @@ const userSchema = new mongoose.Schema(
 			{
 				session: {
 					type: String,
-					required: true
+					required: true,
 				},
 			},
 		],
@@ -76,10 +80,6 @@ const userSchema = new mongoose.Schema(
 			transform: function (doc, ret) {
 				delete ret.password
 				delete ret.__v
-				ret.wallet_list = ret.wallet_list.length
-				ret.favorite_list = ret.favorite_list.length
-				ret.sessions = ret.sessions.length
-				ret.watchlist_list = ret.watchlist_list.length
 			},
 		},
 	}
@@ -104,7 +104,7 @@ userSchema.virtual('favorite', {
 })
 
 // ---------------------------------
-//	
+//
 // ---------------------------------
 userSchema.virtual('watchlist', {
 	ref: 'Watchlist',
@@ -112,7 +112,7 @@ userSchema.virtual('watchlist', {
 	foreignField: '_id',
 })
 
-userSchema.methods.makeAuthToken = async function() {
+userSchema.methods.makeAuthToken = async function () {
 	const user = this
 	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET)
 
@@ -123,12 +123,43 @@ userSchema.methods.makeAuthToken = async function() {
 	return token
 }
 
+userSchema.methods.makeProfile = async function () {
+	const user = this
+	const {
+		email,
+		username,
+		favorite_list,
+		sessions,
+		wallet_list,
+		watchlist_list,
+		createdAt,
+		updatedAt,
+	} = user
+	const profile = {
+		email,
+		username,
+		favorite_list: favorite_list.length,
+		sessions: sessions.length,
+		wallet_list: wallet_list.length,
+		watchlist_list: watchlist_list.length,
+		createdAt,
+		updatedAt,
+	}
+	return profile
+}
+
+userSchema.methods.isOldPassword = async function (oldPassword) {
+	const user = this
+	const match = await bcrypt.compare(oldPassword, user.password)
+	return match
+}
+
 userSchema.statics.findByCredentials = async (email, password) => {
 	const user = await User.findOne({ email })
 	if (!user) {
 		throw new Error('Could not login properly.')
 	}
-	
+
 	const match = await bcrypt.compare(password, user.password)
 	if (!match) {
 		throw new Error('Could not login properly.')
@@ -137,7 +168,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 	return user
 }
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
 	const user = this
 
 	if (user.isModified('password')) {
@@ -145,6 +176,14 @@ userSchema.pre('save', async function(next) {
 		user.password = await bcrypt.hash(user.password, 8)
 	}
 
+	next()
+})
+
+userSchema.pre('remove', async function (next) {
+	const user = this
+	await Favorite.deleteMany({ owner: user._id })
+	await Wallet.deleteMany({ owner: user._id })
+	await Watchlist.deleteMany({ owner: user._id })
 	next()
 })
 

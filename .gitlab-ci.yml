@@ -1,9 +1,3 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 image: node:16
 
 stages:
@@ -11,10 +5,19 @@ stages:
     - tests
     - deploy
 
+#================
+# SECURITY
+#================
+
+# Performance
 #sast:
 #    stage: sec
 #include:
 #    - template: Security/SAST.gitlab-ci.yml
+
+#================
+# TESTING
+#================
 
 utests:
     stage: tests
@@ -23,8 +26,15 @@ utests:
         - npm run test-ci
     services:
         - mongo:latest
+    only:
+        refs:
+            - pushes
 
-test-deploy:
+#================
+# DEPLOYMENT
+#================
+
+deploy:
     stage: deploy
     script:
         - eval $(ssh-agent -s)
@@ -33,7 +43,7 @@ test-deploy:
         - mkdir -p ~/.ssh/
         - echo -e "Host $GCLOUD_IP \n\tForwardAgent yes" > ~/.ssh/config
         - more ~/.ssh/config
-        - ssh -o StrictHostKeyChecking=no $GCLOUD_USER@$GCLOUD_IP "cd ~/p-synthese-csfoy-ritzkick/ &&
+        - ssh -o StrictHostKeyChecking=no $GCLOUD_USER@$GCLOUD_IP "cd /home/p-synthese-csfoy-ritzkick/ &&
           git fetch origin main && git reset --hard origin/main && cd ritzkick && sudo ./run.sh && exit"
     only:
         refs:

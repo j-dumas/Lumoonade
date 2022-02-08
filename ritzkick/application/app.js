@@ -1,5 +1,8 @@
 const express = require('express')
 
+const expressJSDocSwagger = require('express-jsdoc-swagger')
+const swaggerOptions = require('../config/swagger')
+
 require('../db/mongodb')
 
 const userRouter = require('../api/router/user')
@@ -10,6 +13,8 @@ const assetRouter = require('../api/router/asset')
 const authRouter = require('../api/router/auth')
 
 const server = express()
+
+expressJSDocSwagger(server)(swaggerOptions)
 
 server.use(express.json())
 

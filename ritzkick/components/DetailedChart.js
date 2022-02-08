@@ -1,17 +1,24 @@
-
-import React, {useState, useEffect} from 'react';
-import {Line, Chart as Charts} from 'react-chartjs-2';
+import React, { useState, useEffect } from 'react'
+import { Line, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
-import zoomPlugin from 'chartjs-plugin-zoom';
+import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChart(props) {
-    const chartReference = React.createRef()
-    const getChartData = () => {
-        return props.getChartDatas()
-    }
+	const chartReference = React.createRef()
+	const getChartData = () => {
+		return props.getChartDatas()
+	}
+
+	useEffect(() => {
+		setInterval(async () => {
+			const chart = chartReference.current
+			chart.data = getRelativeChartData()
+			chart.update()
+		}, 1000)
+	})
 
     useEffect(()=> {
        setInterval(async () => {
@@ -30,70 +37,72 @@ function DetailedChart(props) {
         }
     }
 
-    function getRelativeChartDataDatasets() {
-        const datasets = []
-        getChartData().forEach(element => {
-            datasets.push(getRelativeChartDataDataset(element.name, element.value, element.color))
-        })
-        return datasets
-    }
+	function getRelativeChartDataDatasets() {
+		const datasets = []
+		getChartData().forEach((element) => {
+			datasets.push(getRelativeChartDataDataset(element.name, element.value, element.color))
+		})
+		return datasets
+	}
 
-    function getRelativeChartDataDataset(name, data, color) {
-        return {
-            type: 'line',
-            label: name,
-            data: data,
+	function getRelativeChartDataDataset(name, data, color) {
+		return {
+			type: 'line',
+			label: name,
+			data: data,
 
-            fill: false,
-            lineTension: .1,
-            backgroundColor: color,
-            borderColor: color,
-            borderWidth: 3,
-            borderCapStyle: 'butt',
-            //borderDash: [5, 5],
-            hoverBorderColor: 'white',
-            pointStyle: 'circle',
-            pointRadius: 2,
-        }
-    }
+			fill: false,
+			lineTension: 0.1,
+			backgroundColor: color,
+			borderColor: color,
+			borderWidth: 3,
+			borderCapStyle: 'butt',
+			//borderDash: [5, 5],
+			hoverBorderColor: 'white',
+			pointStyle: 'circle',
+			pointRadius: 2,
+		}
+	}
 
-    function getChartOptionsPlugins() {
-        return {
-            title: { // Chart title
-                display: false,
-                text: '', 
-            },
-            legend: { // Chart legend
-                display: false,
-                position: 'top',
-            },
-            zoom: {
-                zoom: {
-                    wheel: {
-                        enabled: true,
-                        speed: 0.01,
-                    },
-                    pinch: {
-                        enabled: false
-                    },
-                    drag: {
-                        enabled:false,
-                    },
-                    mode: "x",
-                },
-                pan: {
-                    enabled:true,
-                    mode:'x',
-                    //overScaleMode:'y',
-                    threshold: 0, // default:10
-                },
-                limits: {
-                    //y: {min: -1000, max: props.data[0].maxValue+1000},
-                    //x: {min: 5} //DATE_RANGE * INTERVAL * 24
-                },
-            },
-        }
-    }
+	function getChartOptionsPlugins() {
+		return {
+			title: {
+				// Chart title
+				display: false,
+				text: '',
+			},
+			legend: {
+				// Chart legend
+				display: false,
+				position: 'top',
+			},
+			zoom: {
+				zoom: {
+					wheel: {
+						enabled: true,
+						speed: 0.01,
+					},
+					pinch: {
+						enabled: false,
+					},
+					drag: {
+						enabled: false,
+					},
+					mode: 'x',
+				},
+				pan: {
+					enabled: true,
+					mode: 'x',
+					//overScaleMode:'y',
+					threshold: 0, // default:10
+				},
+				limits: {
+					//y: {min: -1000, max: props.data[0].maxValue+1000},
+					//x: {min: 5} //DATE_RANGE * INTERVAL * 24
+				},
+			},
+		}
+	}
 
     function getChartOptionsScales() {
         return {
@@ -136,32 +145,32 @@ function DetailedChart(props) {
         }
     }
 
-    function getChartOptions() {
-        return {
-            maintainAspectRatio:false,
-            responsive: true,
-            interaction: {
-                mode: 'nearest',
-                intersect: false,
-                axis: 'x'
-            },
-            animation: {
-                duration: 0
-            },
-            plugins: getChartOptionsPlugins(),
-            scales: getChartOptionsScales()
-        }
-    }
+	function getChartOptions() {
+		return {
+			maintainAspectRatio: false,
+			responsive: true,
+			interaction: {
+				mode: 'nearest',
+				intersect: false,
+				axis: 'x',
+			},
+			animation: {
+				duration: 0,
+			},
+			plugins: getChartOptionsPlugins(),
+			scales: getChartOptionsScales(),
+		}
+	}
 
-    return (
-        <div className='detailed-chart'>
-            <Charts
-                ref={chartReference}
-                data={getRelativeChartData()}
-                options={getChartOptions()}
-            />
-        </div>
-        );
-    };
+	return (
+		<div className='detailed-chart'>
+			<Charts
+				ref={chartReference}
+				data={getRelativeChartData()}
+				options={getChartOptions()}
+			/>
+		</div>
+	)
+}
 
-export default DetailedChart;
+export default DetailedChart

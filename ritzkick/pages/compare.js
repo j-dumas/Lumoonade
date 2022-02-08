@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react'
 import DomHead from '../components/DomHead'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -28,7 +28,15 @@ export default function Home() {
                 <DetailedCryptoView data={GetCryptoChartData()} />
             </section>
 
-            <Footer />
+			<section className='section row principal center first'>
+				<DetailedCharts
+					getChartDatas={() => GetCryptoChartData()}
+					dateRange={'1D'}
+					interval={'1min'}
+				/>
+			</section>
+
+			<Footer />
 		</>
 	)
 }
