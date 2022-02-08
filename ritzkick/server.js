@@ -31,7 +31,6 @@ app.prepare().catch((ex) => {
  *********************************/
 let server = require('./application/app')
 if (!dev) protocolVerification()
-expressJSDocSwagger(server)(swaggerOptions)
 
 server.get('*', (req, res) => {
 	return handle(req, res)
