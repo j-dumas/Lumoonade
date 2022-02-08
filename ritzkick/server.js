@@ -10,7 +10,6 @@ const swaggerOptions = require('./config/swagger')
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
-const testPort = process.env.TEST_PORT || 3000
 const local = process.env.LOCAL || false
 const ssl = process.env.SSL || false
 const httpsUrl = process.env.HTTPS || 'localhost'
@@ -62,9 +61,9 @@ function protocolVerification() {
 		}
 		log.debug('SERVER', `${JSON.stringify(data)}`)
 
-		if (req.protocol == 'http' && req.headers['host'] != `${httpUrl}:${testPort}`) {
-			log.debug('SERVER', `Redirecting to http://${httpUrl}:${testPort}${req.url}`)
-			res.redirect(`http://${httpUrl}:${testPort}${req.url}`)
+		if (req.protocol == 'http' && req.headers['host'] != `${httpUrl}`) {
+			log.debug('SERVER', `Redirecting to http://${httpUrl}${req.url}`)
+			res.redirect(`http://${httpUrl}${req.url}`)
 		} else if (req.protocol == 'https' && req.headers['host'] != httpsUrl) {
 			log.debug('SERVER', `Redirecting to https://${httpsUrl}${req.url}`)
 			res.redirect(httpsUrl)
