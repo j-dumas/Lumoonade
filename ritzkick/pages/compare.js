@@ -7,35 +7,26 @@ import GetCryptoChartData from '../services/CryptoService'
 
 import dynamic from 'next/dynamic'
 
-const DetailedCharts = dynamic(
-	() => {
-		return import('../components/DetailedChart')
-	},
-	{ ssr: false }
+const DetailedCryptoView = dynamic(
+    () => {
+        //return import('../components/DetailedChart')
+        return import('../components/DetailedCryptoView')
+    },
+    {ssr:false}
 )
 
+// <DetailedCharts getChartDatas={() => GetCryptoChartData()} dateRange={'1D'} interval={'1min'} />
 export default function Home() {
-	const [data, setData] = useState()
-	/*
-    useEffect(() => {
-        async function getChartData() {
-          let response = await GetCryptoChartData()
-          setData(response)
-        }
+    const [data, setData] = useState();
 
-        getChartData()
-
-        const interval = setInterval(() => {
-            getChartData()
-            console.log('This will run every second!');
-        }, 1000);
-        return () => clearInterval(interval);
-      }, [])
-*/
-	return (
-		<>
-			<DomHead />
-			<Header />
+    return (
+        <>
+            <DomHead/>
+            <Header/>
+            
+            <section className='section row principal center first'>
+                <DetailedCryptoView data={GetCryptoChartData()} />
+            </section>
 
 			<section className='section row principal center first'>
 				<DetailedCharts

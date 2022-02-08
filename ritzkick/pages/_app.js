@@ -13,6 +13,7 @@ import '../styles/LoginForm.css'
 import '../styles/BubbleEffect.css'
 import '../styles/Charts.css'
 import '../styles/SimpleCrypto.css'
+import '../styles/DetailedCrypto.css'
 
 import Script from 'next/script'
 

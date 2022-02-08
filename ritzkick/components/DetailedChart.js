@@ -20,12 +20,22 @@ function DetailedChart(props) {
 		}, 1000)
 	})
 
-	function getRelativeChartData() {
-		return {
-			labels: getChartData()[0].x,
-			datasets: getRelativeChartDataDatasets(),
-		}
-	}
+    useEffect(()=> {
+       setInterval(async () => {
+            const chart = chartReference.current;
+            if (chart != null) {
+            chart.data = getRelativeChartData()
+            chart.update()
+            }
+        }, 1000)
+    })
+    
+    function getRelativeChartData() {
+        return {
+            labels: getChartData()[0].x,
+            datasets: getRelativeChartDataDatasets()
+        }
+    }
 
 	function getRelativeChartDataDatasets() {
 		const datasets = []
@@ -94,44 +104,46 @@ function DetailedChart(props) {
 		}
 	}
 
-	function getChartOptionsScales() {
-		return {
-			x: {
-				min: getChartData()[0].value.length - NB_DATA_DISPLAYED_1ST_VIEW,
-				grid: {
-					display: true,
-					drawBorder: true,
-					borderColor: 'gray',
-					color: 'red',
-					borderWidth: 2,
-					drawOnChartArea: false,
-					drawTicks: false,
-				},
-				ticks: {
-					display: true,
-					color: 'white',
-				},
-				title: {
-					display: false,
-					text: 'Time',
-				},
-			},
-			y: {
-				beginAtZero: false,
-				grid: {
-					display: true,
-					drawBorder: true,
-					drawOnChartArea: true,
-					drawTicks: true,
-					color: 'gray',
-				},
-				ticks: {
-					display: true,
-					color: 'white',
-				},
-			},
-		}
-	}
+    function getChartOptionsScales() {
+        return {
+            x: {
+                min: getChartData()[0].value.length - NB_DATA_DISPLAYED_1ST_VIEW,
+                grid: {
+                    display: true,
+                    drawBorder: true,
+                    borderColor: 'dimgray',
+                    color: 'red',
+                    borderWidth: 1,
+                    drawOnChartArea: false,
+                    drawTicks: false,
+                },
+                ticks: {
+                    display:true,
+                    color: 'white'
+                },
+                title: {
+                    display:false,
+                    text: 'Time'
+                }
+            },
+            y: {
+                beginAtZero: false,
+                grid: {
+                    display: true,
+                    drawBorder: false,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    color: 'dimgray',
+                    borderDash: [10, 10],
+                    borderWidth: 1
+                },
+                ticks: {
+                    display:true,
+                    color: 'white'
+                }
+            },
+        }
+    }
 
 	function getChartOptions() {
 		return {

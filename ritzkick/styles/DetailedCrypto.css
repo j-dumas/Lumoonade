@@ -1,0 +1,60 @@
+.detailed-crypto-div {
+    background-color: red;
+    min-width: 360px;
+    max-width: 360px;
+    border-radius: 10px;
+    background-color: var(--background-color-2);
+    margin-bottom: 10px;
+}
+
+.detailed-crypto-div-title
+{
+    font-size: 16px;
+    margin: 10px;
+    color: dimgray;
+}
+
+.detailed-crypto-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+
+    border-bottom: solid var(--background-color) 1px;
+    margin: 5px 0px 5px 0px;
+}
+
+.detailed-crypto-item-title {
+    text-align: left;
+    width: 40%;
+}
+
+.detailed-crypto-item-value {
+    text-align: center;
+    width: 40%;
+}
+
+.legend-button {
+    background-color: dimgray;
+    border-radius: 10px;
+    padding: 5px;
+    width: fit-content;
+
+    cursor: pointer;
+}
+
+.legend-button-selected {
+    
+}
+
+select {
+    background-color: dimgray;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 3px;
+    border-radius: 10px;
+    height: fit-content;
+}
+
