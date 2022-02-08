@@ -74,9 +74,10 @@ function DetailedCryptoView(props) {
 					<div className='column detailed-crypto-div'>
 						<div className='row h-center'>
 							<Image
-								className='simple-crypto-view-logo'
-								src={data[0].abbreviation + '.svg'}
+								src={`/${data[0].abbreviation}.svg`}
 								alt=''
+								width={50}
+								height={50}
 							/>
 							<div className='column v-center'>
 								<p className='simple-crypto-name'>{data[0].name}</p>
