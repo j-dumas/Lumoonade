@@ -1,8 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Icons from './Icons';
 import { useModal } from 'react-hooks-use-modal';
-import {getCookie} from '../services/CookieService'
-
+import { deleteUser, updateUser } from '../services/UserService'
 
 let newUsername = ''
 let oldPass = ''
@@ -22,70 +21,7 @@ async function handleSubmit(event, oldUsername, isPopupOpen){
         eraseFieldValue()
     }
     else{
-        if(oldUsername !== undefined){
-            if(newUsername !== oldUsername && newUsername !== ''){
-                if(newPass === newPassConfirmation && oldPass !== ''){
-                    event.preventDefault()
-                    try {
-                        const token = getCookie("token")
-                        const response = await fetch('/api/me/update', {
-                            method: 'PATCH',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + token
-                            },
-                            body: JSON.stringify({ username: newUsername, oldPassword: oldPass, newPassword: newPass })
-                        })
-                
-                        console.log(response.status)                    
-                    }
-                    catch(e){
-                        console.log(e.message)
-                    }
-                }
-                else{
-                    event.preventDefault()
-                    try {
-                        const token = getCookie("token")
-                        const response = await fetch('/api/me/update', {
-                            method: 'PATCH',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + token
-                            },
-                            body: JSON.stringify({ username: newUsername })
-                        })
-                
-                        console.log(response.status)
-                        //Si 400 nom est indisponible
-                        //Sinon something went wrong
-                        
-                    }
-                    catch(e){
-                        console.log(e.message)
-                    }
-                }
-            }
-            else if(newPass == newPassConfirmation && oldPass != ''){
-                event.preventDefault()
-                try {
-                    const token = getCookie("token")
-                    const response = await fetch('/api/me/update', {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
-                    })
-            
-                    console.log(response.status)                    
-                }
-                catch(e){
-                    console.log(e.message)
-                }
-            }
-        }
+        updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation)
     }
 }
 
@@ -133,6 +69,7 @@ export default function ProfilePopup(props){
                         <input type="submit" value="Modifier"/> 
                         <button type='button' onClick={close} id="cancel-edit">Annuler</button>
                     </form>
+                    <a className='link' onClick={deleteUser}>Supprimer mon compte</a>
                 </div>
             </Modal>
         </div>

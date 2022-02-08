@@ -1,44 +1,6 @@
 import React, { useEffect, useState } from "react"
 import ProfilePopup from "./ProfilePopup";
-import { getCookie } from "../services/CookieService"
-
-export async function removeSession() {
-    try{
-        let response = await fetch('/api/me/sessions/purge', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie("token")
-            },
-        })
-        
-        let json = await response.json()
-        console.log(json)
-    }
-    catch(e){
-        console.log(e)
-    }
-}
-
-export async function getUser(){
-    //todo: Get user with token
-    //Get first user
-    try{
-        let response = await fetch('/api/me/profile', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie("token")
-            },
-        })
-
-        let json = await response.json()
-        return json
-    }
-    catch(e){
-        console.log(e)
-    }
-}
+import { removeSession, getUser } from "../services/UserService";
 
 const usernameTitleId = "username"
 const memberSinceId = "memberSince"
