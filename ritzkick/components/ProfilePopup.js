@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import Icons from './Icons';
 import { useModal } from 'react-hooks-use-modal';
-import Link from 'next/link';
 
 let newUsername = ''
 let oldPass = ''
@@ -18,27 +17,46 @@ function handleSubmit(oldUsername){
         new password
 
 
-        todo: Si newPass et newPassConfirmation sont identique, validation sur newPass et confirmation, 
+        todo: Reset les champs après chaque annulation
     */
-    console.log(newUsername + ' ' + oldPass + ' ' + newPass + ' ' + newPassConfirmation)
+    if(oldUsername !== undefined){
+        if(newUsername !== oldUsername && newUsername !== ''){
+            if(newPass === newPassConfirmation && oldPass !== ''){
+                console.log('name and password wants to be changed')
+            }
+            else{
+                console.log('Name wants to be changed')
+            }
+        }
+        else if(newPass == newPassConfirmation && oldPass != ''){
+            console.log('Password wants to be changed')
+        }
+        else{
+            console.log('Nothing wants to be changed')
+        }
+    }
+    
+}
+
+function eraseFieldValue(){
+    newUsername = ''
+    oldPass = ''
+    newPass = ''
+    newPassConfirmation = ''
 }
 
 function handleUsernameChange(event){
     newUsername = event.target.value
-    console.log(newUsername)
 }
 
 function handlePasswordChange(event){
     oldPass = event.target.value
-    console.log(oldPass)
 }
 function handleNewPasswordChange(event){
     newPass = event.target.value
-    console.log(newPass)
 }
 function handleNewConfirmationPasswordChange(event) {
     newPassConfirmation = event.target.value
-    console.log(newPassConfirmation)
 }
 
 
@@ -55,7 +73,7 @@ export default function ProfilePopup(props){
             </button>
             <Modal>
                 <div className='edit-popup'>
-                    <form id='update-form' onSubmit={handleSubmit(props.username)}>
+                    <form id='update-form' onClick={handleSubmit(props.username)}>
                         <h1>Informations</h1>
                         <label>Nom d'utilisateur</label>
                         <input type="text" defaultValue={props.username} onChange={handleUsernameChange} />
@@ -68,7 +86,7 @@ export default function ProfilePopup(props){
                         <input type="password" placeholder='Nouveau mot de passe' onChange={handleNewPasswordChange}></input>
                         <input type="password" placeholder='Confirmation nouveau mot de passe' onChange={handleNewConfirmationPasswordChange}></input>
                         <input type="submit" value="Modifier" /> 
-                        <button onClick={close} id="cancel-edit">Annuler</button>
+                        <button type='button' onClick={close} id="cancel-edit">Annuler</button>
                     </form>
                 </div>
             </Modal>
