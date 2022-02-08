@@ -275,10 +275,28 @@ test(`I want to purge all the active session except mine, should get 1 purged be
 test(`I want to modify my password when I'm authenticated`, async () => {
     const CURRENT_PASSWORD = testUserTwo.password
     await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json'  })
-    .send(JSON.stringify({ password: 'jon324c9-2308n4c9023904' })).expect(200)
-    const user = await User.find({ _id: testUserTwo._id })
+    .send(JSON.stringify({ oldPassword: CURRENT_PASSWORD, newPassword: 'jon324c9-2308n4c9023904' })).expect(200)
+    const user = await User.findOne({ _id: testUserTwo._id })
     
     expect(user.password).not.toBe(CURRENT_PASSWORD)
+})
+
+test(`I cannot set an empty password as the new one`, async () => {
+    const CURRENT_PASSWORD = testUserTwo.password
+    await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json'  })
+    .send(JSON.stringify({ oldPassword: CURRENT_PASSWORD, newPassword: '' })).expect(400)
+})
+
+test(`I cannot set an empty password (with alot of spaces) as the new one`, async () => {
+    const CURRENT_PASSWORD = testUserTwo.password
+    await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json'  })
+    .send(JSON.stringify({ oldPassword: CURRENT_PASSWORD, newPassword: '      ' })).expect(400)
+})
+
+test(`I cannot implicitly set a new password without providing the oldPassword and the newPassword`, async () => {
+    const CURRENT_PASSWORD = testUserTwo.password
+    await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json'  })
+    .send(JSON.stringify({ password: CURRENT_PASSWORD })).expect(400)
 })
 
 test(`I want to modify my username when I'm authenticated`, async () => {
@@ -288,6 +306,17 @@ test(`I want to modify my username when I'm authenticated`, async () => {
     const user = await User.findOne({ _id: testUserTwo._id })
     
     expect(user.username).not.toBe(CURRENT_USERNAME)
+})
+
+test(`I can modify my whole profile in one request (username, oldPass, newPass)`, async () => {
+    const CURRENT_USERNAME = testUserTwo.username
+    const CURRENT_PASSWORD = testUserTwo.password
+    await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json'  })
+    .send(JSON.stringify({ username: 'jonny', oldPassword: CURRENT_PASSWORD, newPassword: 'test123213' })).expect(200)
+    const user = await User.findOne({ _id: testUserTwo._id })
+    
+    expect(user.username).not.toBe(CURRENT_USERNAME)
+    expect(user.password).not.toBe(CURRENT_PASSWORD)
 })
 
 test(`I want to modify my username when I'm authenticated`, async () => {
