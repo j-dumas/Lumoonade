@@ -7,26 +7,25 @@ Les variables nécessaires (exemples de valeurs):
 | Variable                           	| Valeur                                       	| Description                                             	|
 |------------------------------------	|----------------------------------------------	|---------------------------------------------------------	|
 | PORT                               	| 443                                          	| Le port sur lequel l'application se lance               	|
-| TEST_PORT                             | 3000                                        	| Le port sur lequel l'application de tests se lance        |
 | DB_URL                             	| mongodb://127.0.0.1:27017/cryptool           	| L'URL vers la base de données MongoDB                    	|
 | HTTPS                             	| cryptool.atgrosdino.ca                       	| L'URL vers le site en https et en prod                    |
 | HTTP                              	| test.cryptool.atgrosdino.ca                  	| L'URL vers le site en http et en test                   	|
 | SSL                                	| true                                         	| Si le site utilise HTTPS ou non                         	|
-| LOCAL                               	| true                                         	| Si le site est local                         	            |
+| NODE_ENV                              | production                                    | Si le site est en prod ou en dev                          |
 | JWTSECRET                          	| SECRET123                                    	| Le secret pour signer les JWTs                          	|
 | YAHOO_API                          	| https://query1.finance.yahoo.com/v7/finance/ 	| L'URL de l'API Yahoo                                    	|
 | NEXT_PUBLIC_PROD                   	| true                                         	| Si l'application se lance en PROD pour Google Analytics 	|
 | NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN 	| G-TOKEN                                      	| Le jeton de Google Analytics                            	|
 
-Pour la production, il est nécessaire de se créer un fichier `.prod.env`, fichier qui n'est pas suivi par git. Il faudra aussi ajouter `NODE_ENV=production`.
+Pour la production, il est nécessaire de se créer un fichier `.prod.env`, fichier qui n'est pas suivi par Git. Il faudra aussi ajouter `NODE_ENV=production`.
 
 ## Scripts
 
 | Script     	| Description                                                                	|
 |------------	|----------------------------------------------------------------------------	|
-| start      	| Pour lancer l'application en PROD avec le fichier `.prod.env`              	|
+| start      	| Pour lancer l'application en prod avec le fichier `.prod.env`              	|
 | start-test 	| Pour lancer l'application de tests avec le fichier `.prod.test.env`        	|
-| dev        	| Pour lancer l'application en DEV avec le fichier `.local.env`              	|
+| dev        	| Pour lancer l'application en dev avec le fichier `.local.env`              	|
 | build      	| Pour « build » l'application next                                          	|
 | postbuild  	| Pour générer les fichiers `sitemaps.xml` et `robots.txt`                   	|
 | lint       	| Pour « lint » le code                                                      	|
@@ -36,13 +35,21 @@ Pour la production, il est nécessaire de se créer un fichier `.prod.env`, fich
 
 ## Hébergement
 
-L'application est hébergée sur Google Cloud avec Compute Engine. Nous avons pris une machine `e2-small` pour avoir 10go d'espace disque et 2go de RAM. Nous avons ensuite réservé une adresse IP statique et avons ouvert les ports 3000 et 443. Sur l'instance, nous avons ensuite installé Docker et avons connecté le compte gitlab jdDeploy (compte qui a un accès Reporter) pour pouvoir aller fetch le code sur le repo distant.
+L'application est hébergée sur Google Cloud avec Compute Engine. Nous avons pris une machine `e2-small` pour avoir 10go d'espace disque et 2go de RAM avec Ubuntu 20.04LTS. Nous avons ensuite réservé une adresse IP statique et avons ouvert les ports 80 et 443. Sur l'instance, nous avons ensuite installé Docker et avons connecté le compte gitlab jdDeploy (compte qui a un accès Reporter) pour pouvoir aller fetch le code sur le repo distant.
 
-La base de données est hébergée sur [MongoDB Cloud](https://www.mongodb.com/fr-fr/cloud). Nous avons créé un cluster en suivant les étapes pour créer un serveur gratuit (shared). Après, nous avons créer un utilisateur pour la connection et avons ajouter l'URL de la base de données dans le fichier `.prod.env`.
+La base de données est hébergée sur [MongoDB Cloud](https://www.mongodb.com/fr-fr/cloud). Nous avons créé un cluster en suivant les étapes pour créer un serveur gratuit (shared). Après, nous avons créé un utilisateur pour la connection et avons ajouté l'URL de la base de données dans le fichier `.prod.env`.
+
+Étapes à reproduire une fois connecté à la machine:
+- Installation de [Docker](https://docs.docker.com/engine/install/ubuntu/)
+- Ajout des credentials Git avec:
+    - git config --global user.name "Your Name"
+    - git config --global user.email "youremail@yourdomain.com"
+- Download du code source en SSH (il faudra ajouter sa clé SSH au compte qui va « fetch »:  [Gitlab SSH](https://docs.gitlab.com/ee/ssh/))
+- Démarrage de l'application avec `/riztkick/run.sh`
 
 ## Intégration
 
-Le serveur d'intégration est GitLab CI avec le runner du cégep ainsi qu'un runner personnel installé sur la même instance de Compute Engine que l'application. Quand du code est poussé sur `main`, le serveur va lancer les tests avec le script `test-ci` et va ensuite lancer le déploiements en envoyant les variables nécessaire. Une fois connecté, il va « fetch » le code sur le repo et relancer les containers Docker avec le script `/riztkick/run.sh`.
+Le serveur d'intégration est GitLab CI avec le runner du Cégep ainsi qu'un runner personnel installé sur la même instance de Compute Engine que l'application. Quand du code est poussé sur `main`, le serveur va lancer les tests avec le script `test-ci` et va ensuite lancer le déploiement en envoyant les variables nécessaires. Une fois connecté, il va « fetch » le code sur le repo distant et relancer les containers Docker avec le script `/riztkick/run.sh`.
 
 | Variable                   	| Description                                   	|
 |----------------------------	|-----------------------------------------------	|
@@ -53,7 +60,7 @@ Le serveur d'intégration est GitLab CI avec le runner du cégep ainsi qu'un run
 
 ## Travail en local
 
-Il faut avoir la version Node 16+ pour pouvoir utiliser NextJS. Ensuite, il faudra rouler `npm install` dans le dossier `ritzkick` (la racine de l'application).
+Il faut avoir la version [Node 16+](https://nodejs.org/en/download/) pour pouvoir utiliser NextJS. L'installation sur Linux peut se faire en suivant ce [lien](https://techviewleo.com/install-node-js-and-npm-on-ubuntu/). Si Node est déjà installé, mais en version inférieure, suivre ce [lien](https://stackoverflow.com/a/10076029). Ensuite, il faudra rouler `npm install` dans le dossier `ritzkick` (la racine de l'application). Pour lancer en développement, il faut utiliser `npm run dev`. Pour lancer les tests, il faut utiliser `npm run test`.
 
 ### Windows
 Pour la base de données, il faudra installer [MongoDB Community](https://www.mongodb.com/try/download/community) et [Robo3T](https://robomongo.org/). MongoDB Community devra être télécharger en ZIP et extrait sur le bureau. Dans le dossier extrait, il faut créer un dossier appelé `data`. Ensuite il faudra lancer ce script à la racine du dossier pour partir la base de données:
@@ -65,10 +72,11 @@ start bin\mongod.exe --dbpath="./data"
 Dans Robo3T, lors de l'exécution, le programme demande la connection à utiliser. Il faudra s'en créer une avec le nom qu'on veut pour pouvoir voir la base de données dans un GUI.
 
 ### Linux
-La base de données MongoDB Community peut être télécharger en package `.deb`. Ensuite, il ne reste plus qu'a lancer le package pour l'installer et un daemon sera créé pour gérer la base de donnée.
+La base de données MongoDB Community peut être téléchargée en package `.deb`. Ensuite, il ne reste plus qu'à lancer le package pour l'installer et un daemon sera créé pour gérer la base de données.
 
 ## Liens
 
 - [Repository](https://gitlab.com/j-dumas/p-synthese-csfoy-ritzkick)
 - [Backlog](https://trello.com/b/KGp5conn)
 - [Site](https://cryptool.atgrosdino.ca)
+- [Site (testing)](http://test.cryptool.atgrosdino.ca)
