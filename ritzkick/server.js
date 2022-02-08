@@ -66,7 +66,7 @@ function protocolVerification() {
 			res.redirect(`http://${httpUrl}${req.url}`)
 		} else if (req.protocol == 'https' && req.headers['host'] != httpsUrl) {
 			log.debug('SERVER', `Redirecting to https://${httpsUrl}${req.url}`)
-			res.redirect(httpsUrl)
+			res.redirect(`https://${httpsUrl}${req.url}`)
 		} else return handle(req, res)
 	})
 }
