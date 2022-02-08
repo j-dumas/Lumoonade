@@ -102,9 +102,9 @@ function DetailedChart(props) {
                 grid: {
                     display: true,
                     drawBorder: true,
-                    borderColor: 'gray',
+                    borderColor: 'dimgray',
                     color: 'red',
-                    borderWidth: 2,
+                    borderWidth: 1,
                     drawOnChartArea: false,
                     drawTicks: false,
                 },
@@ -121,10 +121,12 @@ function DetailedChart(props) {
                 beginAtZero: false,
                 grid: {
                     display: true,
-                    drawBorder: true,
+                    drawBorder: false,
                     drawOnChartArea: true,
-                    drawTicks: true,
-                    color: 'gray'
+                    drawTicks: false,
+                    color: 'dimgray',
+                    borderDash: [10, 10],
+                    borderWidth: 1
                 },
                 ticks: {
                     display:true,
