@@ -1,5 +1,6 @@
 const express = require('express')
 const authentification = require('../middleware/auth')
+const validator = require('validator').default
 
 const router = express.Router()
 
@@ -26,39 +27,75 @@ router.get('/api/me/profile', authentification, async (req, res) => {
 	res.send(profile)
 })
 
-router.patch('/api/me/update', authentification, async (req, res) => {
+/**
+ * This is only used by '/api/me/update' to properly make all validations and checks
+ * @param {json} body 
+ * @param {list} allowed
+ * @returns list of fields to be modified
+ */
+const updateHelper = async (body, user) => {
 
-	const updates = Object.keys(req.body)
-	if (updates.length === 0) {
-		return res.status(400).send({
-			message: 'Please provide data to be modified'
-		})
+	if (body.length === 0) {
+		throw new Error({ message: 'Please provide informations to be modified' })
 	}
 
-	const { oldPassword, newPassword } = req.body
+	// what we want to keep for password modification
+	const { oldPassword, newPassword, password } = body
+	let response = {}
+
+	if (password) {
+		throw new Error('Cannot implicitly set a new password without proper validations')
+	}
+
 	if (oldPassword && newPassword) {
-		const validation = await req.user.isOldPassword(oldPassword)
-		if (validation) {
-			console.log('new password!', oldPassword, newPassword)
-			delete req.body.newPassword
-			delete req.body.oldPassword
-			req.body.password = newPassword
-			updates = Object.keys(req.body)
+		const isOldPassword = await user.isOldPassword(oldPassword)
+		if (isOldPassword) {
+			response.password = newPassword
 		} else {
-			console.log('Not the same password',oldPassword, newPassword)
+			throw new Error('Invalid password. Cannot modify current password.')
 		}
 	}
-    const allowed = ['username', 'password']
-    const isValidPatch = updates.every((update) => allowed.includes(update))
 
-    if (!isValidPatch) {
-        return res.status(400).send({
-            message: 'One or more properties are not supported.'
-        })
-    }
+	response.username = body.username
+	return response
+}
 
+router.patch('/api/me/update', authentification, async (req, res) => {
 	try {
+
+		let updates = Object.keys(req.body)
+		if (updates.length === 0) 
+			throw new Error('Please provide informations to be modified')
+	
 		const user = req.user
+		const { oldPassword, newPassword, password } = req.body
+
+		if (password) {
+			throw new Error('Cannot implicitly set a new password without proper validations')
+		}
+	
+		// validation if the old and new password are provided in the request body
+		if (oldPassword && newPassword) {
+			const isOldPassword = await user.isOldPassword(oldPassword)
+			if (!isOldPassword) {
+				throw new Error('Invalid password. Cannot modify current password.')
+			}
+
+			if (validator.isEmpty(newPassword.trim())) {
+				throw new Error('Cannot assign an empty password')
+			}
+			delete req.body.oldPassword
+			delete req.body.newPassword
+			req.body.password = newPassword
+			updates = Object.keys(req.body)
+		}
+		
+		const allowed = ['username', 'password']
+		const isValidPatch = updates.every((update) => allowed.includes(update))
+	
+		if (!isValidPatch)
+			throw new Error('One or more properties are not supported.')
+	
         updates.forEach((update) => user[update] = req.body[update])
 		await user.save()
 		const profile = await user.makeProfile()
@@ -67,8 +104,9 @@ router.patch('/api/me/update', authentification, async (req, res) => {
 			message: 'Account updated!'
 		})
 	} catch (e) {
-		console.log(e)
-		res.status(400).send(e)
+		res.status(400).send({
+			message: e.message
+		})
 	}
 })
 
