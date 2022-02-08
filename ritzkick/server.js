@@ -53,12 +53,21 @@ server.listen(port, (err) => {
 
 function protocolVerification() {
 	server.get('*', (req, res) => {
+		const data = {
+			protocol: req.protocol,
+			host: req.headers['host'],
+			url: req.url,
+			http: httpUrl,
+			https: httpsUrl,
+		}
+		log.debug('SERVER', `${JSON.stringify(data)}`)
+
 		if (req.protocol == 'http' && req.headers['host'] != `${httpUrl}:${testPort}`) {
 			log.debug('SERVER', `Redirecting to http://${httpUrl}:${testPort}${req.url}`)
 			res.redirect(`http://${httpUrl}:${testPort}${req.url}`)
 		} else if (req.protocol == 'https' && req.headers['host'] != httpsUrl) {
 			log.debug('SERVER', `Redirecting to https://${httpsUrl}${req.url}`)
 			res.redirect(httpsUrl)
-		}
+		} else return handle(req, res)
 	})
 }
