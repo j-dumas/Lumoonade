@@ -11,6 +11,7 @@ import '../styles/Icons.css'
 import '../styles/Particules.scss'
 import '../styles/Charts.css'
 import '../styles/SimpleCrypto.css'
+import '../styles/DetailedCrypto.css'
 
 function MyApp({ Component, pageProps }) {
 	return <Component {...pageProps} />

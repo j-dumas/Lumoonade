@@ -16,8 +16,10 @@ function DetailedChart(props) {
     useEffect(()=> {
        setInterval(async () => {
             const chart = chartReference.current;
+            if (chart != null) {
             chart.data = getRelativeChartData()
             chart.update()
+            }
         }, 1000)
     })
     
