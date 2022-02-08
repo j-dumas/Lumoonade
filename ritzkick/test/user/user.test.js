@@ -170,6 +170,10 @@ test('I should not be able to purge all my active sessions without being authent
     await request(server).patch('/api/me/sessions/purge').send().expect(401)
 })
 
+test('I should not be able to modify my account without being authenticate', async () => {
+    await request(server).patch('/api/me/update').send().expect(401)
+})
+
 test(`I should not be able to access someone else account's details and only get my details`, async () => {
     const res = await request(server).get('/api/me').set({ 'Authorization' : `Bearer ${tokenForUserOne}` })
     .send().expect(200)
@@ -266,4 +270,30 @@ test(`I want to purge all the active session except mine, should get 1 purged be
     
     expect(body.purged).toBe(1)
     expect(testUserTwo.sessions[0].session).toBe(tokenForUserTwoTwo)
+})
+
+test(`I want to modify my password when I'm authenticated`, async () => {
+    const CURRENT_PASSWORD = testUserTwo.password
+    await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json'  })
+    .send(JSON.stringify({ password: 'jon324c9-2308n4c9023904' })).expect(200)
+    const user = await User.find({ _id: testUserTwo._id })
+    
+    expect(user.password).not.toBe(CURRENT_PASSWORD)
+})
+
+test(`I want to modify my username when I'm authenticated`, async () => {
+    const CURRENT_USERNAME = testUserTwo.username
+    await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json'  })
+    .send(JSON.stringify({ username: 'jonny' })).expect(200)
+    const user = await User.findOne({ _id: testUserTwo._id })
+    
+    expect(user.username).not.toBe(CURRENT_USERNAME)
+})
+
+test(`I want to modify my username when I'm authenticated`, async () => {
+    const CURRENT_EMAIL = testUserTwo.email
+    await request(server).patch('/api/me/update').set({ 'Authorization' : `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
+    .send(JSON.stringify({ email: 'someemail@mail.com' })).expect(400)
+    const user = await User.findOne({ _id: testUserTwo._id })
+    expect(user.email).toBe(CURRENT_EMAIL)
 })

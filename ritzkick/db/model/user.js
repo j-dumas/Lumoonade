@@ -148,6 +148,12 @@ userSchema.methods.makeProfile = async function () {
 	return profile
 }
 
+userSchema.methods.isOldPassword = async function (oldPassword) {
+	const user = this
+	const match = await bcrypt.compare(oldPassword, user.password)
+	return match
+}
+
 userSchema.statics.findByCredentials = async (email, password) => {
 	const user = await User.findOne({ email })
 	if (!user) {
