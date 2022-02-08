@@ -47,7 +47,6 @@
     margin-left: auto;
     margin-right: auto;
     border-radius: 30px;
-    z-index: -1;
     transform: translateY(-10%);
     border: 2px solid;
     border-color: var(--orange);

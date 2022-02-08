@@ -2,6 +2,24 @@ import React, { useEffect, useState } from "react"
 import ProfilePopup from "./ProfilePopup";
 import { getCookie } from "../services/CookieService"
 
+export async function removeSession() {
+    try{
+        let response = await fetch('/api/me/sessions/purge', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie("token")
+            },
+        })
+        
+        let json = await response.json()
+        console.log(json)
+    }
+    catch(e){
+        console.log(e)
+    }
+}
+
 export async function getUser(){
     //todo: Get user with token
     //Get first user
@@ -71,7 +89,7 @@ class ProfileHeader extends React.Component{
                         </div>
                         <div className="profile-card">
                             <h1>You currectly have {this.state.user.sessions}</h1>    
-                            <button>Clear sessions</button>                        
+                            <button onClick={removeSession}>Clear sessions</button>                        
                         </div>
                     </div>
                     <hr id="profile-separator"></hr>
