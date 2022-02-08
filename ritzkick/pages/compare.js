@@ -21,7 +21,12 @@ export default function Home() {
 
 	return (
 		<>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | COMPARE',
+					description: 'Cryptool comparing page',
+				}}
+			/>
 			<Header />
 
 			<section className='section row principal center first'>

@@ -14,7 +14,12 @@ export default function Home() {
 
 	return (
 		<div>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | HOME',
+					description: 'Cryptool home page',
+				}}
+			/>
 			<Header />
 
 			<main className='column'>
