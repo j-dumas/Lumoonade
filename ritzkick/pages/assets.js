@@ -21,9 +21,9 @@ export default function Assets() {
 			<section className='section row center principal first'>
 				{data.map((element, i) => {
 					return (
-						<>
+						<div key={element}>
 							<SimpleCryptoCard data={element} />
-						</>
+						</div>
 					)
 				})}
 			</section>
