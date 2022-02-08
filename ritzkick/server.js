@@ -8,6 +8,9 @@ const log = require('./utils/logging')
 const expressJSDocSwagger = require('express-jsdoc-swagger')
 const swaggerOptions = require('./config/swagger')
 
+/*******************************
+ * Reading Environment Variables
+ ******************************/
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
 const local = process.env.LOCAL || false
@@ -15,13 +18,9 @@ const ssl = process.env.SSL || false
 const httpsUrl = process.env.HTTPS || 'localhost'
 const httpUrl = process.env.HTTP || 'localhost'
 
-const httpsOptions = {}
-if (ssl == 'true') {
-	log.info('SERVER', 'Reading certificates')
-	httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`)
-	httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`)
-}
-
+/*****************************
+ * Prepare Frontend NextJS App
+ ****************************/
 const app = next({ dev })
 const handle = app.getRequestHandler()
 app.prepare().catch((ex) => {
@@ -29,8 +28,11 @@ app.prepare().catch((ex) => {
 	process.exit(1)
 })
 
+/**********************************
+ * Prepare Backend ExpressJS Server
+ *********************************/
 let server = require('./application/app')
-if (local == 'false') protocolVerification()
+if (!dev) protocolVerification()
 expressJSDocSwagger(server)(swaggerOptions)
 
 server.get('*', (req, res) => {
@@ -38,29 +40,29 @@ server.get('*', (req, res) => {
 })
 
 if (ssl == 'true') {
-	log.info('SERVER', 'Starting in HTTPS')
+	const httpsOptions = readCertificates()
 	server = https.createServer(httpsOptions, server)
+	log.info('SERVER', 'Starting in HTTPS')
 } else {
-	log.info('SERVER', 'Starting in HTTP')
 	server = http.createServer(server)
+	log.info('SERVER', 'Starting in HTTP')
 }
 
+/**************
+ * Start Server
+ *************/
 server.listen(port, (err) => {
 	if (err) throw err
 	log.info('SERVER', `Ready on port ${port}`)
 })
 
+/**
+ * Verifies the protocol and redirects to correct URL
+ * Example: HTTP to test.cryptool.atgrosdino.ca
+ * 			HTTPS to cryptool.atgrosdino.ca
+ */
 function protocolVerification() {
 	server.get('*', (req, res) => {
-		const data = {
-			protocol: req.protocol,
-			host: req.headers['host'],
-			url: req.url,
-			http: httpUrl,
-			https: httpsUrl,
-		}
-		log.debug('SERVER', `${JSON.stringify(data)}`)
-
 		if (req.protocol == 'http' && req.headers['host'] != `${httpUrl}`) {
 			log.debug('SERVER', `Redirecting to http://${httpUrl}${req.url}`)
 			res.redirect(`http://${httpUrl}${req.url}`)
@@ -69,4 +71,19 @@ function protocolVerification() {
 			res.redirect(`https://${httpsUrl}${req.url}`)
 		} else return handle(req, res)
 	})
+}
+
+/**
+ * Prepare the necessary SSL/TLS files (private key and certificate)
+ *
+ * @returns https options with key and certificate
+ */
+function readCertificates() {
+	const httpsOptions = {}
+	if (ssl == 'true') {
+		log.info('SERVER', 'Reading certificates')
+		httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`)
+		httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`)
+	}
+	return httpsOptions
 }
