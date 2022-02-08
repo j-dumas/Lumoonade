@@ -29,12 +29,11 @@ router.get('/api/me/profile', authentification, async (req, res) => {
 
 /**
  * This is only used by '/api/me/update' to properly make all validations and checks
- * @param {json} body 
+ * @param {json} body
  * @param {list} allowed
  * @returns list of fields to be modified
  */
 const updateHelper = async (body, user) => {
-
 	if (body.length === 0) {
 		throw new Error({ message: 'Please provide informations to be modified' })
 	}
@@ -62,18 +61,16 @@ const updateHelper = async (body, user) => {
 
 router.patch('/api/me/update', authentification, async (req, res) => {
 	try {
-
 		let updates = Object.keys(req.body)
-		if (updates.length === 0) 
-			throw new Error('Please provide informations to be modified')
-	
+		if (updates.length === 0) throw new Error('Please provide informations to be modified')
+
 		const user = req.user
 		const { oldPassword, newPassword, password } = req.body
 
 		if (password) {
 			throw new Error('Cannot implicitly set a new password without proper validations')
 		}
-	
+
 		// validation if the old and new password are provided in the request body
 		if (oldPassword && newPassword) {
 			const isOldPassword = await user.isOldPassword(oldPassword)
@@ -89,23 +86,22 @@ router.patch('/api/me/update', authentification, async (req, res) => {
 			req.body.password = newPassword
 			updates = Object.keys(req.body)
 		}
-		
+
 		const allowed = ['username', 'password']
 		const isValidPatch = updates.every((update) => allowed.includes(update))
-	
-		if (!isValidPatch)
-			throw new Error('One or more properties are not supported.')
-	
-        updates.forEach((update) => user[update] = req.body[update])
+
+		if (!isValidPatch) throw new Error('One or more properties are not supported.')
+
+		updates.forEach((update) => (user[update] = req.body[update]))
 		await user.save()
 		const profile = await user.makeProfile()
 		res.send({
 			profile,
-			message: 'Account updated!'
+			message: 'Account updated!',
 		})
 	} catch (e) {
 		res.status(400).send({
-			message: e.message
+			message: e.message,
 		})
 	}
 })
