@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Icons from './Icons'
-import GetCryptoChartData from '../services/CryptoService'
+import GetCryptoData from '../services/CryptoService'
 import dynamic from 'next/dynamic'
 import ButtonFavorite from '../components/ButtonFavorite'
 import ButtonLegend from '../components/ButtonLegend'
+import DetailedInformations from '../components/DetailedInformations'
 
 const DetailedChart = dynamic(
     () => {
@@ -17,8 +18,16 @@ function DetailedCryptoView(props) {
         return Number.parseFloat(x).toFixed(2);
     }
 
-    const [data, setData] = useState(props.data)
-    const change = format(((data[0].price - data[0].value)/data[0].value)*100)
+    const [data, setData] = useState([{}]) //props.data
+    //const change = format(((data[0].price - data[0].value)/data[0].value)*100)
+
+    useEffect(async ()=> {
+        setTimeout(async () => {
+            setData(await GetCryptoData(props.slug, '', ''))
+            console.log('test')
+            console.log(data)
+        }, 1000)
+    })
 
     const [showPrice, setShowPrice] = useState(true)
     const [showChange, setShowChange] = useState(false)
@@ -26,11 +35,6 @@ function DetailedCryptoView(props) {
     const [dateRange, setDateRange] = useState("5D")
     const [interval, setInterval] = useState("15mins")
     const [currency, setCurrency] = useState("USD")
-
-    const [chartData, setChartData] = useState(() =>GetCryptoChartData())
-    function getDa() {
-        return chartData
-    }
 
     function getShowPrice(value) {
         setShowPrice(value)
@@ -70,48 +74,7 @@ function DetailedCryptoView(props) {
         <>
             <div className='detailed-crypto-view row'>
                 <div className='column'>
-                    <div className='column detailed-crypto-div'>
-                        <div className='row h-center'>       
-                            <img className='simple-crypto-view-logo' src={data[0].abbreviation + ".svg"} alt="" />
-                            <div className='column v-center'>
-                                <p className='simple-crypto-name'>{data[0].name}</p>
-                                <p className='simple-crypto-abbreviation'>{data[0].abbreviation}</p>
-                            </div>
-                            <ButtonFavorite/>
-                            <a href="" className='button'>Compare</a>
-                        </div>
-                        </div>  
-                        <div className='column detailed-crypto-div'>
-                            <p className='detailed-crypto-div-title'>Detailed informations:</p>
-                            <div className='row detailed-crypto-item'>
-                                <p className='detailed-crypto-item-title'>Price</p>
-                                <p className='detailed-crypto-item-value'>{data[0].price}</p>
-                            </div>
-                            <div className='row detailed-crypto-item'>
-                                <p className='detailed-crypto-item-title'>24h Change</p>
-                                <p className='detailed-crypto-item-value'>{8000}</p>
-                            </div>
-                            <div className='row detailed-crypto-item'>
-                                <p className='detailed-crypto-item-title'>24h Volume</p>
-                                <p className='detailed-crypto-item-value'>{data[0].price}</p>
-                            </div>
-                            <div className='row detailed-crypto-item'>
-                                <p className='detailed-crypto-item-title'>Market cap</p>
-                                <p className='detailed-crypto-item-value'>{data[0].price}</p>
-                            </div>
-                            <div className='row detailed-crypto-item'>
-                                <p className='detailed-crypto-item-title'>Price</p>
-                                <p className='detailed-crypto-item-value'>{data[0].price}</p>
-                            </div>
-                            <div className='row detailed-crypto-item'>
-                                <p className='detailed-crypto-item-title'>Price</p>
-                                <p className='detailed-crypto-item-value'>{data[0].price}</p>
-                            </div>
-                            <div className='row detailed-crypto-item'>
-                                <p className='detailed-crypto-item-title'>Price</p>
-                                <p className='detailed-crypto-item-value'>{data[0].price}</p>
-                            </div>                        
-                    </div>
+                    <DetailedInformations slug="ETH" />
                     <div className='column detailed-crypto-div'>
                         <p className='detailed-crypto-div-title'>Chart's legend:</p>
                         <div className='row detailed-crypto-div'>
@@ -161,10 +124,11 @@ function DetailedCryptoView(props) {
                             </select>
                     </div>
                 </div>
-                <DetailedChart getChartDatas={() => GetCryptoChartData()} dateRange={dateRange}/>
+                
+                
             </div>
         </>
     )
 }
-
+// 
 export default DetailedCryptoView;

@@ -3,7 +3,7 @@ import DomHead from '../components/DomHead'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 //import DetailedChart from '../components/DetailedChart';
-import GetCryptoChartData from '../services/CryptoService'
+import GetCryptoData from '../services/CryptoService'
 
 import dynamic from 'next/dynamic'
 
@@ -25,16 +25,8 @@ export default function Home() {
             <Header/>
             
             <section className='section row principal center first'>
-                <DetailedCryptoView data={GetCryptoChartData()} />
+                <DetailedCryptoView data={GetCryptoData()} slug="ETH" />
             </section>
-
-			<section className='section row principal center first'>
-				<DetailedCharts
-					getChartDatas={() => GetCryptoChartData()}
-					dateRange={'1D'}
-					interval={'1min'}
-				/>
-			</section>
 
 			<Footer />
 		</>
