@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Icons from './Icons'
 import GetCryptoChartData from '../services/CryptoService'
 import dynamic from 'next/dynamic'
@@ -72,7 +73,7 @@ function DetailedCryptoView(props) {
 				<div className='column'>
 					<div className='column detailed-crypto-div'>
 						<div className='row h-center'>
-							<img
+							<Image
 								className='simple-crypto-view-logo'
 								src={data[0].abbreviation + '.svg'}
 								alt=''
