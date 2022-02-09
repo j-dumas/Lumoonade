@@ -22,6 +22,8 @@ import {
 	faStar,
 	faFarStar,
 	faEdit,
+	faArrowDown,
+	faArrowUp,
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
@@ -83,6 +85,18 @@ const Icons = {
 	Edit: () => {
 		return <FontAwesomeIcon className='icon' icon={faEdit} />
 	},
+	Edit: () => {
+		return <FontAwesomeIcon className='icon' icon={faEdit} />
+	},
+	Edit: () => {
+		return <FontAwesomeIcon className='icon' icon={faEdit} />
+	},
+	ArrowDown: () => {
+		return <FontAwesomeIcon className='icon' icon={faArrowDown} />
+	},
+	ArrowUp: () => {
+		return <FontAwesomeIcon className='icon' icon={faArrowUp} />
+	}
 }
 
 export default Icons

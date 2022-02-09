@@ -6,7 +6,6 @@ import Footer from '../components/Footer'
 import GetCryptoData from '../services/CryptoService'
 
 import dynamic from 'next/dynamic'
-
 const DetailedCryptoView = dynamic(
     () => {
         //return import('../components/DetailedChart')
@@ -24,8 +23,9 @@ export default function Home() {
             <DomHead/>
             <Header/>
             
-            <section className='section row principal center first'>
-                <DetailedCryptoView data={GetCryptoData()} slug="ETH" />
+            <section className='section column principal first center'>
+                <DetailedCryptoView slug="ETH" currency="CAD"/>
+                <p>2</p>
             </section>
 
 			<Footer />

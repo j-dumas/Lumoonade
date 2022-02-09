@@ -4,13 +4,12 @@ import Footer from '../components/Footer'
 import BottomArrow from '../components/BottomArrow'
 import SimpleCryptoDashboard from '../components/SimpleCryptoDashboard'
 import React, { useState, useEffect } from 'react'
-import GetCryptoData from '../services/CryptoService'
 
 const TITLE = 'CRYPTOOL'
 const SUB_TTTLE = "Restez à l'affut de vos cryptos favorites"
 
 export default function Home() {
-	const [data, setData] = useState(GetCryptoData())
+	const [data, setData] = useState([{}])
 
 	return (
 		<div>
@@ -41,7 +40,7 @@ export default function Home() {
 				></path>
 			</svg>
 			<section className='section row second'>
-				<SimpleCryptoDashboard data={data} />
+				<SimpleCryptoDashboard/>
 			</section>
 
 			<Footer />

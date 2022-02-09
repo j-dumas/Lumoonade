@@ -1,17 +1,53 @@
-.detailed-crypto-div {
+.detailed-crypto-view {
+    min-height: 75vh;
+    width: 95%;
     background-color: red;
+}
+
+.detailed-menu {
+    margin-bottom: 15px;
+}
+
+.detailed-menu-actions {
+    font-size: 24px;
+}
+.detailed-menu-actions-icon {
+    background-color: var(--main-color);
+    padding: 8px 11px 8px 11px;
+    border-radius: 50px;
+    transition: .25s;
+}
+.detailed-menu-actions-icon:hover {
+    color: whitesmoke;
+}
+
+.detailed-menu-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+.detailed-menu-subtitle {
+    font-size: 24px;
+    color: var(--font-color-2);
+}
+
+
+
+.detailed-div {
+    position: relative;
+
     min-width: 360px;
-    max-width: 360px;
+
+    padding: 20px;
+
     border-radius: 10px;
-    background-color: var(--background-color-2);
-    margin-bottom: 10px;
+    background:var(--background-color-2);
 }
 
 .detailed-crypto-div-title
 {
-    font-size: 16px;
-    margin: 10px;
-    color: dimgray;
+    font-size: 15px;
+    /*margin: 10px;*/
+    color: var(--font-color-2);
 }
 
 .detailed-crypto-item {
@@ -32,29 +68,5 @@
 .detailed-crypto-item-value {
     text-align: center;
     width: 40%;
-}
-
-.legend-button {
-    background-color: dimgray;
-    border-radius: 10px;
-    padding: 5px;
-    width: fit-content;
-
-    cursor: pointer;
-}
-
-.legend-button-selected {
-    
-}
-
-select {
-    background-color: dimgray;
-    color: white;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    padding: 3px;
-    border-radius: 10px;
-    height: fit-content;
 }
 

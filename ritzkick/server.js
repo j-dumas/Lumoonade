@@ -25,6 +25,8 @@ app.prepare().catch((ex) => {
 })
 
 let server = require('./application/app')
+const sm = require('./application/socket/socket-manager') //
+
 
 if (ssl == 'true') {
 	httpsVerification()
@@ -38,12 +40,17 @@ if (ssl == 'true') {
 	log.info('SERVER', 'Starting HTTPS')
 	serverHttps = https.createServer(httpsOptions, server)
 
+	sm.initialize(serverHttps) //
+
 	serverHttps.listen(port, (err) => {
 		if (err) throw err
 	})
 
 	log.info('SERVER', 'Starting HTTP')
 	serverHttp = http.createServer(server)
+
+	sm.initialize(serverHttp) //
+
 	serverHttp.listen(80, (err) => {
 		if (err) throw err
 		log.info('SERVER', `Ready on port 80`)
@@ -51,6 +58,9 @@ if (ssl == 'true') {
 } else {
 	log.info('SERVER', 'Starting HTTP')
 	serverHttp = http.createServer(server)
+
+	sm.initialize(serverHttp) //
+
 	serverHttp.listen(port, (err) => {
 		if (err) throw err
 		log.info('SERVER', `Ready on port ${port}`)

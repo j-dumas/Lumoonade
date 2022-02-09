@@ -11,9 +11,9 @@ function ButtonLegend(props) {
     return (
         <>
         <div className=''>
-            <div onClick={handleSelected} className="legend-button" style={selected?{'backgroundColor': props.backgroundColor}:{'backgroundColor':'dimgray'}}>
+            <button onClick={handleSelected} className="detailed-chart-legend-button" style={selected?{'backgroundColor': props.backgroundColor, 'color':'var(--font-color)'}:{'backgroundColor':'var(--background-color-3)'}}>
                 {props.name}
-            </div>
+            </button>
         </div>
         </>
     )
