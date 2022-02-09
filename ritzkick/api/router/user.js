@@ -3,7 +3,55 @@ const authentification = require('../middleware/auth')
 const validator = require('validator').default
 
 const router = express.Router()
-
+/**
+ * GET /api/me
+ * @summary Complete profile default endpoint
+ * @tags Me
+ * @return {UserResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ * 	"username": "Hubert Laliberté",
+ * 	"email": "hubert_est_cool@gmail.com",
+ *	"wallet_list": [
+ *		{
+ *			"owner": "6203eecd2dc7a9b0f269224f",
+ *			"asset": "62040654d34adb47567360c4",
+ *			"amount": 2
+ *		},
+ *		{
+ *			"owner": "6203eecd2dc7a9b0f269224f",
+ *			"asset": "62040707509a665cd5aa7c13",
+ *			"amount": 4.5
+ *		}
+ *	],
+ *	"favorite_list": [
+ *		{
+ *			"owner": "6203eecd2dc7a9b0f269224f",
+ *			"asset": "62040654d34adb47567360c4"
+ *		},
+ *		{
+ *			"owner": "6203eecd2dc7a9b0f269224f",
+ *			"asset": "620407962e107274706bcb4e"
+ *		},
+ *		{
+ *			"owner": "6203eecd2dc7a9b0f269224f",
+ *			"asset": "6204079b698992cb681bf2d8"
+ *		},
+ *		{
+ *			"owner": "6203eecd2dc7a9b0f269224f",
+ *			"asset": "6204079e82494464d9f76cac"
+ *		}
+ *	],
+ * 	"sessions": 1,
+ * 	"watchlist_list": []
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @security BearerAuth
+ */
 router.get('/api/me', authentification, async (req, res) => {
 	await req.user.populate({
 		path: 'wallet',
@@ -22,6 +70,27 @@ router.get('/api/me', authentification, async (req, res) => {
 	res.send(profile)
 })
 
+/**
+ * GET /api/me/profile
+ * @summary Profile summary default endpoint
+ * @tags Me
+ * @return {UserSummaryResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *	"username": "Hubert Laliberté",
+ *	"email": "hubert_est_cool@gmail.com",
+ *	"wallet_list": 2,
+ *	"favorite_list": 4,
+ *	"sessions": 1,
+ *	"watchlist_list": 0
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @security BearerAuth
+ */
 router.get('/api/me/profile', authentification, async (req, res) => {
 	const profile = await req.user.makeProfile()
 	res.send(profile)
@@ -29,12 +98,11 @@ router.get('/api/me/profile', authentification, async (req, res) => {
 
 /**
  * This is only used by '/api/me/update' to properly make all validations and checks
- * @param {json} body 
+ * @param {json} body
  * @param {list} allowed
  * @returns list of fields to be modified
  */
 const updateHelper = async (body, user) => {
-
 	if (body.length === 0) {
 		throw new Error({ message: 'Please provide informations to be modified' })
 	}
@@ -62,18 +130,16 @@ const updateHelper = async (body, user) => {
 
 router.patch('/api/me/update', authentification, async (req, res) => {
 	try {
-
 		let updates = Object.keys(req.body)
-		if (updates.length === 0) 
-			throw new Error('Please provide informations to be modified')
-	
+		if (updates.length === 0) throw new Error('Please provide informations to be modified')
+
 		const user = req.user
 		const { oldPassword, newPassword, password } = req.body
 
 		if (password) {
 			throw new Error('Cannot implicitly set a new password without proper validations')
 		}
-	
+
 		// validation if the old and new password are provided in the request body
 		if (oldPassword && newPassword) {
 			const isOldPassword = await user.isOldPassword(oldPassword)
@@ -89,23 +155,22 @@ router.patch('/api/me/update', authentification, async (req, res) => {
 			req.body.password = newPassword
 			updates = Object.keys(req.body)
 		}
-		
+
 		const allowed = ['username', 'password']
 		const isValidPatch = updates.every((update) => allowed.includes(update))
-	
-		if (!isValidPatch)
-			throw new Error('One or more properties are not supported.')
-	
-        updates.forEach((update) => user[update] = req.body[update])
+
+		if (!isValidPatch) throw new Error('One or more properties are not supported.')
+
+		updates.forEach((update) => (user[update] = req.body[update]))
 		await user.save()
 		const profile = await user.makeProfile()
 		res.send({
 			profile,
-			message: 'Account updated!'
+			message: 'Account updated!',
 		})
 	} catch (e) {
 		res.status(400).send({
-			message: e.message
+			message: e.message,
 		})
 	}
 })

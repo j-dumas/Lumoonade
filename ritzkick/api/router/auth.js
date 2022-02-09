@@ -22,7 +22,7 @@ require('./swagger_models')
 /**
  * Login/Register Response Object
  * @typedef {object} LoginRegisterResponse
- * @property {UserResponse} user - User
+ * @property {UserSummaryResponse} user - User
  * @property {string} token - JWT
  */
 
