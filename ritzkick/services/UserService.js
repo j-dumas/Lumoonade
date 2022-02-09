@@ -94,6 +94,9 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
             })
 
             console.log(response.status)
+            if(response.status === 200){
+                alert("Profil modifié avec succès")
+            }
             window.location.href = '/profile'
         }
         catch (e) {
@@ -114,6 +117,9 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
             })
 
             console.log(response.status)
+            if(response.status === 200){
+                alert("Profil modifié avec succès")
+            }
             //Si 400 nom est indisponible
             //Sinon something went wrong
             window.location.href = '/profile'
@@ -137,6 +143,9 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
             })
 
             console.log(response.status)
+            if(response.status === 200){
+                alert("Profil modifié avec succès")
+            }
             window.location.href = '/profile'
         }
         catch (e) {

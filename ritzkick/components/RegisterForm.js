@@ -44,7 +44,7 @@ class RegisterForm extends React.Component {
 		let password = document.getElementById('passwordField')
 
 		if (password.validity.typeMismatch) {
-			password.setCustomValidity('Entrez un mot de passe contenant 8 carachtères')
+			password.setCustomValidity('Entrez un mot de passe contenant 8 charactères')
 			password.reportValidity()
 		} else {
 			password.setCustomValidity('')
