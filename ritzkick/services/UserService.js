@@ -72,7 +72,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
             }
             else{
                 event.preventDefault()
-                await updateUsername()
+                await updateUsername(newUsername)
             }
         }
         else if(newPass == newPassConfirmation && oldPass != ''){

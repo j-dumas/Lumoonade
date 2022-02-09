@@ -61,7 +61,7 @@ input[type='email']:invalid {
 	border: var(--red);
 }
 
-input[type='submit'] {
+input[type='submit'], #purge-session {
 	background-color: var(--orange);
 	color: var(--font-color);
 	border-radius: 10px;
@@ -73,16 +73,21 @@ input[type='submit'] {
 	margin: 8px;
 }
 
-input[type='submit']:hover {
+input[type='submit']:hover, #purge-session:hover {
 	background-color: transparent;
 	color: var(--orange);
 	transition-duration: 0.25s;
+	cursor: pointer;
 }
 
 .link {
 	color: var(--orange);
 	text-decoration: underline;
 	margin: 10px;
+}
+
+.link:hover{
+	cursor: pointer;
 }
 
 #Signup {

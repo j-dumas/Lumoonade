@@ -13,6 +13,13 @@ class ProfileHeader extends React.Component{
         this.state = { user: {}}
         this.parseTime = this.parseTime.bind(this)
         this.getMonth = this.getMonth.bind(this)
+        this.removeUserSession = this.removeUserSession.bind(this)
+    }
+
+    async removeUserSession(event){
+        await removeSession()
+        const data = await getUser()
+        this.setState({ user: data})
     }
 
     getMonth(monthNumber){
@@ -51,7 +58,7 @@ class ProfileHeader extends React.Component{
                         </div>
                         <div className="profile-card">
                             <h1>Vous avez présentement {this.state.user.sessions} sessions actives</h1>    
-                            <button onClick={removeSession}>Effacer les sessions inutiles</button>                        
+                            <button id="purge-session" onClick={(event) => {this.removeUserSession(event)}}>Effacer les sessions inutiles</button>                        
                         </div>
                     </div>
                     <hr id="profile-separator"></hr>

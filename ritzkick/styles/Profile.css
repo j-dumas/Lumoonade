@@ -71,6 +71,7 @@
     color: var(--orange);
     background-color: var(--background-color);
     transition-duration: 0.25s;
+    cursor: pointer;
 }
 
 .edit-popup{
@@ -79,15 +80,6 @@
     border-radius: 10px;
     margin-left: 5%;
     margin-right: 5%;
-}
-
-#close-button{
-    background-color: transparent;
-    outline: transparent;
-    border-color: transparent;
-    color: white;
-    width: 100%;
-    height: 100%;
 }
 
 #cancel-edit{
@@ -105,6 +97,7 @@
 #cancel-edit:hover{
     background-color: red;
     transition-duration: 0.25s;
+    cursor: pointer;
 }
 
 #update-form{
