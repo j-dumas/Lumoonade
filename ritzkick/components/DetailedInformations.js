@@ -9,11 +9,12 @@ function DetailedInformations(props) {
 	}
 
     const [data, setData] = useState()
-    useEffect(() => {
-        props.socket.on('priceChange', (data) => setData([data]))
+    useEffect(async () => {
+        setData(await Functions.GetCryptocurrencyInformationsBySlug(props.slug))
+        props.socket.on('priceChange', (data) => {
+            setData([data])
+        })
         if (props.socket) return () => socket.disconnect();
-        
-        //  setTimeout(async () => {setData(await Functions.GetCryptocurrencyInformationsBySlug(props.slug, '', ''))}, 1000)
     }, [])
 
     return (
@@ -31,10 +32,10 @@ function DetailedInformations(props) {
                 <div className='row space-between detailed-div-item'>
                     <p className='detailed-div-item-label'>24h change</p>
                     <p className={data[0].regularMarketChangePercent>=0?'detailed-change increase':'detailed-change decrease'}>
-                        {data[0].regularMarketChangePercent>=0?'+':'-'}
+                        {data[0].regularMarketChangePercent>=0?'+':''}
                         {format(data[0].regularMarketChangePercent)} % 
                         &nbsp;&nbsp;
-                        {data[0].regularMarketChangePercent>=0?'+':'-'}
+                        {data[0].regularMarketChangePercent>=0?'+':''}
                         {format(data[0].regularMarketChange)} $
                     </p>
                 </div>

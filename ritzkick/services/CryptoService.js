@@ -1,8 +1,10 @@
+import axios from 'axios'
+import yahoo from '../utils/yahoo'
+
 const Functions = {
-	async GetCryptocurrencyInformationsBySlug(slug, dateRange, interval) {
+	async GetCryptocurrencyInformationsBySlug(slug) {
 		const URL = 'localhost:3000'
 		const URI = '/api/crypto/search/'
-		slug = 'ETH-CAD'
 
 		var reponse = await fetch((URI+slug))
 		var json = reponse.json()
@@ -63,178 +65,15 @@ const Functions = {
 
 		return json
 	},
-	
-	GetCryptoChartData() {
-		const data = [
-			{
-				name: 'Bitcoin',
-				abbreviation: 'BTC',
-				price: 50000,
-				x: [
-					'10h',
-					'11h',
-					'12h',
-					'13h',
-					'14h',
-					'15h',
-					'16h',
-					'17h',
-					'18h',
-					'19h',
-					'20h',
-					'21h',
-					'22h',
-					'23h',
-					'00h',
-					'01h',
-					'02h',
-					'03h',
-					'04h',
-					'05h',
-					'06h',
-					'07h',
-					'08h',
-					'09h',
-					'10h',
-					,
-					'11h',
-					'12h',
-					'13h',
-					'14h',
-					'15h',
-					'16h',
-					'17h',
-					'18h',
-					'19h',
-					'20h',
-					'21h',
-					'22h',
-					'23h',
-					'00h',
-					'01h',
-					'02h',
-					'03h',
-					'04h',
-					'05h',
-					'06h',
-					'07h',
-					'08h',
-					'09h',
-					'10h',
-					'11h',
-					'17h',
-					'18h',
-					'19h',
-					'20h',
-					'21h',
-					'22h',
-					'23h',
-					'00h',
-					'01h',
-					'02h',
-					'03h',
-					'04h',
-					'05h',
-					'06h',
-					'07h',
-					'08h',
-					'09h',
-					'10h',
-					,
-					'11h',
-					'12h',
-					'13h',
-					'14h',
-					'15h',
-					'16h',
-					'17h',
-					'18h',
-					'19h',
-					'20h',
-					'21h',
-					'22h',
-					'23h',
-					'00h',
-					'01h',
-					'02h',
-					'03h',
-					'04h',
-					'05h',
-				],
-				value: [
-					49000,
-					48000,
-					49000,
-					49500,
-					49550,
-					49000,
-					50000,
-					50000,
-					50050,
-					50000,
-					51000,
-					49000,
-					49500,
-					49550,
-					50000,
-					50000,
-					55000,
-					50500,
-					50500,
-					49000,
-					49000,
-					49000,
-					48000,
-					50000,
-					49000,
-					48000,
-					49000,
-					49500,
-					49550,
-					49000,
-					50000,
-					50000,
-					50050,
-					50000,
-					51000,
-					49000,
-					49500,
-					49550,
-					50000,
-					50000,
-					55000,
-					50500,
-					50500,
-					49000,
-					49000,
-					49000,
-					48000,
-					50000,
-					55555,
-					Math.floor(Math.random() * 20000) + 50000,
-				],
-				color: 'orange',
-				maxValue: 56000,
-			} /*,
-			{
-				name: "Ethereum",
-				abbreviation: 'ETH',
-				price: 3400,
-				x: ['10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h', '21h', '22h','23h', '00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h'], 
-				value: [3400, 3300,3400,3450,3500,3500,3550,3350,3400,3500,3400,3400,3300, 3300,3400,3450,3500,3500,3550,3350,3400,3500,3400,3400],
-				color:"white"
-			},
-			{
-				name: "Cardano",
-				abbreviation: 'ADA',
-				price: 1.25,
-				x: ['10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h', '21h', '22h','23h', '00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h'], 
-				value: [1.25, 1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.5,1.5,1.5, 1.5,1.5,1.25,1.25,1.45,1.45,1.6,1.4,1.4,1.3,1.2],
-				color: "blue"
-			},*/
-		]
-	
-		return data
+
+	async GetCryptocurrencyChartDataBySlug(slug, dateRange, interval) {
+		const URL = 'localhost:3000'
+		const URI = '/api/crypto/chart/'
+
+		var reponse = await fetch((URI+slug))
+		var json = await reponse.json()
+
+		return json
 	}
 }
 

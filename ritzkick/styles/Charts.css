@@ -34,6 +34,11 @@
     background-color: transparent;
     border: solid 1px var(--background-color-3);
 }
+.detailed-chart-legend-button-special:hover {
+    color: var(--font-color-1);
+    background-color: var(--background-color-2);
+    border: solid 1px whitesmoke;
+}
 
 .detailed-chart-legend-button:hover, .detailed-chart-legend-button-special:hover {
     color: white;
