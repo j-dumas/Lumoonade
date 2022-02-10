@@ -28,6 +28,7 @@ router.get('/api/crypto/search/:slug', async (req, res) => {
 			marketCap: '',
 			volume24Hr: '',
 			symbol: '',
+			shortName: ''
 		}
 
 		let response = []
@@ -212,6 +213,18 @@ router.get('/api/crypto/:slug', async (req, res) => {
 			throw new Error('Unable to find an asset with a name of ' + (req.params.slug || 'None'))
 		}
 		res.send(asset)
+	} catch (e) {
+		res.status(404).send({
+			error: e.message,
+		})
+	}
+})
+
+// ROUTE TEST
+router.get('/api/crypto/chart/:slug', async (req, res) => {
+	try {
+		const response = await fetchSymbol(req.params.slug)
+		res.send(response)
 	} catch (e) {
 		res.status(404).send({
 			error: e.message,

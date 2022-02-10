@@ -20,7 +20,7 @@
 
 .simple-crypto-card:hover {
 	background-color: var(--background-color);
-	border: 2px solid var(--orange);
+	border: 2px solid var(--main-color);
 }
 
 .simple-crypto-view {

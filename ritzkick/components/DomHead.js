@@ -25,7 +25,7 @@ function DomHead({ pageMeta }) {
 				span.style.top = '0px'
 				span.style.left = '0px'
 				if (Math.round(Math.random() * 1) == 1) span.style.backgroundColor = 'var(--yellow)'
-				else span.style.backgroundColor = 'var(--orange)'
+				else span.style.backgroundColor = 'var(--main-color)'
 				span.style.width = size.toString() + 'px'
 				span.style.height = size.toString() + 'px'
 				span.style.animationDelay =
