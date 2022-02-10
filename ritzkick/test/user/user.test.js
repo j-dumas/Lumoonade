@@ -123,14 +123,14 @@ const favoriteTestTwo = {
 const watchlistTestOne = {
 	_id: watchlistIdOne,
 	owner: testIdOne,
-	asset: new mongoose.Types.ObjectId(),
+	slug: 'eth',
 	target: 0
 };
 
 const watchlistTestTwo = {
 	_id: watchlistIdTwo,
 	owner: testIdTwo,
-	asset: new mongoose.Types.ObjectId(),
+	slug: 'btc',
 	target: 0
 };
 
@@ -154,39 +154,39 @@ afterAll((done) => {
 	done();
 });
 
-test('I should not be able to access my account "details" without being authenticate', async () => {
+test('I should not be able to access my account "details" without being authenticated', async () => {
 	await request(server).get('/api/me').send().expect(401);
 });
 
-test('I should not be able to access my profile without being authenticate', async () => {
+test('I should not be able to access my profile without being authenticated', async () => {
 	await request(server).get('/api/me/profile').send().expect(401);
 });
 
-test('I should not be able to delete my account without being authenticate', async () => {
+test('I should not be able to delete my account without being authenticated', async () => {
 	await request(server).delete('/api/me/delete').send().expect(401);
 });
 
-test('I should not be able to access my profile without being authenticate', async () => {
+test('I should not be able to access my profile without being authenticated', async () => {
 	await request(server).get('/api/me/profile').send().expect(401);
 });
 
-test('I should not be able to access my wallets without being authenticate', async () => {
+test('I should not be able to access my wallets without being authenticated', async () => {
 	await request(server).get('/api/me/wallets').send().expect(401);
 });
 
-test('I should not be able to access my favorites without being authenticate', async () => {
+test('I should not be able to access my favorites without being authenticated', async () => {
 	await request(server).get('/api/me/favorites').send().expect(401);
 });
 
-test('I should not be able to access my watchlists without being authenticate', async () => {
+test('I should not be able to access my watchlists without being authenticated', async () => {
 	await request(server).get('/api/me/watchlists').send().expect(401);
 });
 
-test('I should not be able to purge all my active sessions without being authenticate', async () => {
+test('I should not be able to purge all my active sessions without being authenticated', async () => {
 	await request(server).patch('/api/me/sessions/purge').send().expect(401);
 });
 
-test('I should not be able to modify my account without being authenticate', async () => {
+test('I should not be able to modify my account without being authenticated', async () => {
 	await request(server).patch('/api/me/update').send().expect(401);
 });
 
