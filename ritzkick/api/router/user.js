@@ -1,8 +1,10 @@
 const express = require('express')
 const authentification = require('../middleware/auth')
 const validator = require('validator').default
+require('../swagger_models')
 
 const router = express.Router()
+
 /**
  * GET /api/me
  * @summary Complete profile default endpoint
@@ -15,31 +17,31 @@ const router = express.Router()
  *	"wallet_list": [
  *		{
  *			"owner": "6203eecd2dc7a9b0f269224f",
- *			"asset": "62040654d34adb47567360c4",
+ *			"slug": "eth",
  *			"amount": 2
  *		},
  *		{
  *			"owner": "6203eecd2dc7a9b0f269224f",
- *			"asset": "62040707509a665cd5aa7c13",
+ *			"slug": "btc",
  *			"amount": 4.5
  *		}
  *	],
  *	"favorite_list": [
  *		{
  *			"owner": "6203eecd2dc7a9b0f269224f",
- *			"asset": "62040654d34adb47567360c4"
+ *			"slug": "62040654d34adb47567360c4"
  *		},
  *		{
  *			"owner": "6203eecd2dc7a9b0f269224f",
- *			"asset": "620407962e107274706bcb4e"
+ *			"slug": "620407962e107274706bcb4e"
  *		},
  *		{
  *			"owner": "6203eecd2dc7a9b0f269224f",
- *			"asset": "6204079b698992cb681bf2d8"
+ *			"slug": "6204079b698992cb681bf2d8"
  *		},
  *		{
  *			"owner": "6203eecd2dc7a9b0f269224f",
- *			"asset": "6204079e82494464d9f76cac"
+ *			"slug": "6204079e82494464d9f76cac"
  *		}
  *	],
  * 	"sessions": 1,
