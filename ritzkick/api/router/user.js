@@ -1,8 +1,10 @@
 const express = require('express')
 const authentification = require('../middleware/auth')
 const validator = require('validator').default
+require('../swagger_models')
 
 const router = express.Router()
+
 /**
  * GET /api/me
  * @summary Complete profile default endpoint
