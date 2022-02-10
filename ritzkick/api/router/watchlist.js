@@ -48,7 +48,11 @@ router.post('/api/watchlist', authentification, async (req, res) => {
 			owner: req.user._id,
 			...req.body,
 		}
-		const obj = Watchlist.findOne({ owner: data.owner, slug: data.slug, target: data.target })
+		const obj = Watchlist.findOne({
+			owner: data.owner,
+			slug: data.slug,
+			target: data.target,
+		}).exec()
 		if (obj) {
 			throw new HttpError('Already created', 409)
 		}
