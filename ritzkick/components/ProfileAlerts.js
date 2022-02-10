@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { getWatchList } from "../services/UserService"
+import ProfileAddAlerts from "./ProfileAddAlerts"
+
 
 
 export default function ProfileAlerts(){
@@ -19,7 +21,10 @@ export default function ProfileAlerts(){
 
     return (
         <div id="alerts">
-            <h1>Alerts</h1>
+            <div id="alerts-header" className="row">
+                <h1>Alerts</h1>
+                <ProfileAddAlerts />
+            </div>
             <ul>
                 {data.map(alert => (
                     <li key={alert._id}>{alert.asset}</li>

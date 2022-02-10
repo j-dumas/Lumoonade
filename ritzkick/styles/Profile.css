@@ -56,20 +56,21 @@
     border-color: var(--orange);
 }
 
-#icon-button{
+.icon-button{
     border: 2px solid;
     border-color: var(--orange);
     min-width: 40px;
     min-height: 40px;
-    padding: 10px;
-    padding-left: 12px;
     border-radius: 50%;
     background-color: var(--orange);
     color: white;
-    margin-left: 90%;
+    margin-left: 85%;
+    margin-right: auto;
+    font-size: 120%;
+    text-align: center;
 }
 
-#icon-button:hover{
+.icon-button:hover{
     color: var(--orange);
     background-color: var(--background-color);
     transition-duration: 0.25s;
@@ -106,4 +107,23 @@
 #update-form{
     min-width: 345px;
     max-width: 600px;
+}
+
+#alerts-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#rotate-button {
+    transform: rotate(45deg);
+}
+
+#rotate-button:active{
+    transform: rotate(0deg);
+}
+
+input[type='number'] {
+    width: 25%;
+    border-radius: 10px;
 }

@@ -104,7 +104,7 @@ export default function ProfilePopup(props){
 
     return (
         <div>
-            <button id="icon-button" onClick={open}>
+            <button className="icon-button" onClick={open}>
                 <Icons.Edit  id="icon"/>
             </button>
             <Modal>
