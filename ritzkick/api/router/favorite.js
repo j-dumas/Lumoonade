@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Favorite = require('../../db/model/favorite')
 const authentification = require('../middleware/auth')
 const router = express.Router()
-const HttpError = require('../http_error')
+const { NotFoundHttpError, ConflictHttpError, sendError } = require('../../utils/http_errors')
 require('../swagger_models')
 
 /**
@@ -46,16 +46,12 @@ router.post('/api/favorite', authentification, async (req, res) => {
 			...req.body,
 		}
 		const obj = await Favorite.findOne({ owner: data.owner, slug: data.slug }).exec()
-		if (obj) {
-			throw new HttpError('Already created', 409)
-		}
+		if (obj) throw new ConflictHttpError()
 		const favorite = new Favorite(data)
 		await favorite.save()
 		res.status(201).send(favorite)
 	} catch (e) {
-		res.status(e.status).send({
-			error: e.message,
-		})
+		sendError(res, e)
 	}
 })
 
@@ -84,15 +80,11 @@ router.delete('/api/favorite/:slug', authentification, async (req, res) => {
 			slug: req.params.slug,
 		}
 		const obj = await Favorite.findOne(filter).exec()
-		if (!obj) {
-			throw new HttpError('Not Found', 404)
-		}
+		if (!obj) throw new NotFoundHttpError()
 		await Favorite.deleteOne(filter)
 		res.status(204).send()
 	} catch (e) {
-		res.status(e.status).send({
-			error: e.message,
-		})
+		sendError(res, e)
 	}
 })
 
