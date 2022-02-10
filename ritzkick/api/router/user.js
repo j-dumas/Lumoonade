@@ -1,5 +1,6 @@
 const express = require('express')
 const authentification = require('../middleware/auth')
+const pagination = require('../middleware/pagination')
 const validator = require('validator').default
 
 const router = express.Router()
@@ -187,25 +188,37 @@ router.delete('/api/me/delete', authentification, async (req, res) => {
 	}
 })
 
-router.get('/api/me/wallets', authentification, async (req, res) => {
+router.get('/api/me/wallets', [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'wallet',
+		options: {
+			limit: res.limit,
+			skip: res.skip,
+		},
 	})
-	res.send(req.user.wallet)
+	res.send({ wallets: req.user.wallet, page: res.page, count: req.user.wallet.length })
 })
 
-router.get('/api/me/favorites', authentification, async (req, res) => {
+router.get('/api/me/favorites', [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'favorite',
+		options: {
+			limit: res.limit,
+			skip: res.skip,
+		},
 	})
-	res.send(req.user.favorite)
+	res.send({ favorites: req.user.favorite, page: res.page, count: req.user.favorite.length })
 })
 
-router.get('/api/me/watchlists', authentification, async (req, res) => {
+router.get('/api/me/watchlists', [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'watchlist',
+		options: {
+			limit: res.limit,
+			skip: res.skip,
+		},
 	})
-	res.send(req.user.watchlist)
+	res.send({ watchlists: req.user.watchlist, page: res.page, count: req.user.watchlist.length })
 })
 
 router.patch('/api/me/sessions/purge', authentification, async (req, res) => {
