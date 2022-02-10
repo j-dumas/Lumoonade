@@ -16,7 +16,7 @@ a {
 }
 
 .c-red {
-	color: lightcoral;
+	color: var(--red);
 }
 
 .c-green {

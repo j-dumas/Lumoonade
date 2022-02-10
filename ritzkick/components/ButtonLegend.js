@@ -8,23 +8,15 @@ function ButtonLegend(props) {
 		props.sendData(selected)
 	}
 
-	return (
-		<>
-			<div className=''>
-				<div
-					onClick={handleSelected}
-					className='legend-button'
-					style={
-						selected
-							? { backgroundColor: props.backgroundColor }
-							: { backgroundColor: 'dimgray' }
-					}
-				>
-					{props.name}
-				</div>
-			</div>
-		</>
-	)
+    return (
+        <>
+        <div className=''>
+            <button onClick={handleSelected} className="detailed-chart-legend-button" style={selected?{'backgroundColor': props.backgroundColor, 'color':'var(--font-color)'}:{'backgroundColor':'var(--background-color-3)'}}>
+                {props.name}
+            </button>
+        </div>
+        </>
+    )
 }
 
 export default ButtonLegend

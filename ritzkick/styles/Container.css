@@ -18,12 +18,12 @@
 }
 
 .row {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
-	width: 100%;
-	gap: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /*width: 100%;*/
+    gap: 10px;
 }
 
 .center {
@@ -45,6 +45,14 @@
 
 .right {
 	justify-content: right;
+}
+
+.align-start {
+	align-self: flex-start;
+}
+
+.align-end {
+	align-self: flex-end;
 }
 
 .space-between {

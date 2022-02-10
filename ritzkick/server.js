@@ -16,6 +16,9 @@ const ssl = process.env.SSL || false
 const httpsUrl = process.env.HTTPS || 'localhost'
 const httpUrl = process.env.HTTP || 'localhost'
 
+// SOCKET
+const sm = require('./application/socket/socket-manager')
+
 /*****************************
  * Prepare Frontend NextJS App
  ****************************/
@@ -44,6 +47,7 @@ if (ssl == 'true') {
 	server = http.createServer(server)
 	log.info('SERVER', 'Starting in HTTP')
 }
+sm.initialize(server)
 
 /**************
  * Start Server
