@@ -83,31 +83,35 @@ function DetailedCryptoView(props) {
         <>
             <div className='detailed-crypto-view column'>
                 <div className='detailed-menu space-between row h-center'>
-                    <div className='row h-center'>  
+                    <div className='row h-center'>
                         <img className='simple-crypto-view-logo' src="ETH.svg" alt="" />
                         <h1 className='detailed-menu-title'>Ethereum</h1>
                         <p className='detailed-menu-subtitle'>ETH</p>
-                        <ButtonFavorite/>
+                        <a className='detailed-chart-legend-button-special' href='test'>Compare</a>
+                        
                     </div>
                     <div className='detailed-menu-actions row h-center'>
+                        <ButtonFavorite/>
+                        <a href="" className=''><Icons.Bell/></a>
                         <a href="" className='detailed-menu-actions-icon'><Icons.ArrowUp/></a>
                         <a href="" className='detailed-menu-actions-icon'><Icons.ArrowDown/></a>
+                        <a href="" className='detailed-menu-actions-icon'><Icons.Exange/></a>
+                        
                     </div>
-                    <a href="" className='button'>Compare</a>
+                   
                 </div>
                 <div className='row space-between'>
                     <DetailedInformations socket={socket}/>
                     <div className='detailed-chart detailed-div'>
-                        <div className='detailed-chart-utils row h-center space-between'>
+                        <div className='detailed-div-menu row h-center space-between'>
                             <div className='row detailed-chart-legend left h-center'>
                                 <ButtonLegend sendData={getShowPrice} value={showPrice} name="Price" backgroundColor="var(--main-color)"/>
                                 <ButtonLegend sendData={getShowChange} value={showChange} name="24h change" backgroundColor="orange"/>
                                 <ButtonLegend sendData={getShowVolume} value={showVolume} name="24h volume" backgroundColor="red"/>
-                                <a className='detailed-chart-legend-button-special' href='test'>Compare</a>
                             </div>
                             <div className='row detailed-chart-options left'>
                                 <div className='row h-center'>
-                                    <label htmlFor="interval" className='detailed-crypto-div-title'>Date range</label>
+                                    <label htmlFor="interval" className='detailed-div-title'>Date range</label>
                                     <select onChange={handleChangeDateRange} value={dateRange} className='detailed-chart-options-select' name="daterange">
                                         <optgroup label="Date Range">
                                             <option value="1D">1 D</option>
@@ -121,7 +125,7 @@ function DetailedCryptoView(props) {
                                     </select>
                                 </div>
                                 <div className='row h-center'>
-                                    <label htmlFor="interval" className='detailed-crypto-div-title'>Interval</label>
+                                    <label htmlFor="interval" className='detailed-div-title'>Interval</label>
                                     <select onChange={handleChangeInterval} value={interval} className='detailed-chart-options-select' name="interval">
                                         <optgroup label="Interval">
                                             <option value="1min">1 min</option>
@@ -140,8 +144,8 @@ function DetailedCryptoView(props) {
                                 </div>
                             </div>
                         </div>
-                    <DetailedChart/>
-                </div>
+                        <DetailedChart/>
+                    </div>
                 </div>
             </div>
         </>

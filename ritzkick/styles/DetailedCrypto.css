@@ -1,15 +1,19 @@
 .detailed-crypto-view {
     min-height: 75vh;
-    width: 95%;
-    background-color: red;
+    width: 97%;
 }
 
 .detailed-menu {
     margin-bottom: 15px;
 }
 
+
+.detailed-div-menu {
+    margin-bottom: 0px;
+}
+
 .detailed-menu-actions {
-    font-size: 24px;
+    font-size: 20px;
 }
 .detailed-menu-actions-icon {
     background-color: var(--main-color);
@@ -30,7 +34,9 @@
     color: var(--font-color-2);
 }
 
-
+.detailed-informations {
+    height: fit-content;
+}
 
 .detailed-div {
     position: relative;
@@ -39,34 +45,36 @@
 
     padding: 20px;
 
-    border-radius: 10px;
+    border-radius: 5px;
     background:var(--background-color-2);
 }
 
-.detailed-crypto-div-title
+.detailed-div-title
 {
     font-size: 15px;
-    /*margin: 10px;*/
     color: var(--font-color-2);
 }
 
-.detailed-crypto-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.detailed-div-item {
     width: 100%;
+    margin-top: 15px;
 
-    border-bottom: solid var(--background-color) 1px;
-    margin: 5px 0px 5px 0px;
+    color: white;
 }
 
-.detailed-crypto-item-title {
-    text-align: left;
-    width: 40%;
+.detailed-div-item-label {
+    color: var(--font-color-2);
+    font-size: 14px;
 }
 
-.detailed-crypto-item-value {
-    text-align: center;
-    width: 40%;
+.detailed-div-item-value {
+    font-size: 16px;
 }
 
+.detailed-change {
+    font-size: 22px;
+}
+
+.detailed-price {
+    font-size: 32px;
+}

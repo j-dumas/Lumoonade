@@ -23,7 +23,7 @@
 
 	--font: Amaranth, Arial, Helvetica, sans-serif;
 
-	--main-color: #e82357;
+	--main-color: #e38215;/*#e82357;*/
 
 	--navbar-color: rgb(15, 16, 19);
 	--background-color: rgb(19, 20, 21);
@@ -63,7 +63,7 @@ header {
 }
 
 .first {
-	margin-top: 75px;
+	margin-top: 55px;
 }
 
 .second {
@@ -172,6 +172,13 @@ p {
 	margin: 1px;
 }
 
+.increase {
+	color: var(--good-color);
+}
+.decrease {
+	color: var(--bad-color);
+}
+
 /* width */
 ::-webkit-scrollbar {
 	width: 5px;
@@ -184,10 +191,10 @@ p {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: var(--main-color);
+	background: var(--background-color-2);
 	border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb:active {
-	background: var(--yellow);
+	background: var(--background-color-3);
 }

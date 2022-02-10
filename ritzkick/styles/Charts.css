@@ -5,15 +5,11 @@
 }
 
 .detailed-chart {
-    width: 73%;
+    width: 74%;
 }
 
 .detailed-chart-chart {
-    height: 73vh;
-}
-
-.detailed-chart-utils {
-    margin-bottom: 20px;
+    height: 70vh;
 }
 
 .detailed-chart-legend {
