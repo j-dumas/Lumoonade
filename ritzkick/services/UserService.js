@@ -66,9 +66,14 @@ export async function removeSession(){
 export async function updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation){
     if(oldUsername !== undefined){
         if(newUsername !== oldUsername && newUsername !== ''){
-            if(newPass === newPassConfirmation && oldPass !== ''){
-                event.preventDefault()
-                await updateUsernameAndPassword(newUsername, oldPass, newPass)
+            if( newPass !== '' && newPassConfirmation !== '' && oldPass !== ''){
+                if(newPass === newPassConfirmation){
+                    event.preventDefault()
+                    await updateUsernameAndPassword(newUsername, oldPass, newPass)
+                }
+                else{
+                    document.getElementById("wrong").style.display = "block"
+                }
             }
             else{
                 event.preventDefault()
@@ -119,10 +124,14 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
             console.log(response.status)
             if(response.status === 200){
                 alert("Profil modifié avec succès")
+                window.location.href = '/profile'
             }
-            //Si 400 nom est indisponible
-            //Sinon something went wrong
-            window.location.href = '/profile'
+            else if(response.status === 400){
+                document.getElementById("wrong").style.display = "block"
+            }
+            else{
+                alert("Something went wrong")
+            }
 
         }
         catch (e) {
@@ -142,11 +151,14 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
                 body: JSON.stringify({ username: newUsername, oldPassword: oldPass, newPassword: newPass })
             })
 
-            console.log(response.status)
             if(response.status === 200){
                 alert("Profil modifié avec succès")
+                window.location.href = '/profile'
             }
-            window.location.href = '/profile'
+            else{
+                const json = await response.json()
+                console.log(json)
+            }
         }
         catch (e) {
             console.log(e.message)

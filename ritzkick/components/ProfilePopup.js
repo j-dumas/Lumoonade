@@ -111,6 +111,8 @@ export default function ProfilePopup(props){
                 <div className='edit-popup'>
                     <form id='update-form' onSubmit={(event) => {handleSubmit(event, props.username, isOpen)}}>
                         <h1>Informations</h1>
+                        <div id='wrong'>Le nom que vous désirez entrer est déjà utilisé</div>
+                        <div id='wrong-2'>Le nom que vous désirez entrer est déjà utilisé</div>
                         <label>Nom d'utilisateur</label>
                         <input id='usernameField' type="text" defaultValue={props.username} onChange={handleUsernameChange} minLength="4" autoComplete="off"/>
                         <hr className="form-separator"></hr>
