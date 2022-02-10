@@ -7,16 +7,16 @@ import GetCryptoData from '../services/CryptoService'
 
 import dynamic from 'next/dynamic'
 const DetailedCryptoView = dynamic(
-    () => {
-        //return import('../components/DetailedChart')
-        return import('../components/DetailedCryptoView')
-    },
-    {ssr:false}
+	() => {
+		//return import('../components/DetailedChart')
+		return import('../components/DetailedCryptoView')
+	},
+	{ ssr: false }
 )
 
 // <DetailedCharts getChartDatas={() => GetCryptoChartData()} dateRange={'1D'} interval={'1min'} />
 export default function Home() {
-    const [data, setData] = useState();
+	const [data, setData] = useState()
 
     return (
         <>

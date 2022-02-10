@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import Icons from './Icons';
+import React, { useState, useEffect } from 'react'
+import Icons from './Icons'
 
 function ButtonLegend(props) {
-    const [selected, setSelected] = useState(props.value)
-    const handleSelected = () => {
-        setSelected(!selected)
-        props.sendData(selected);
-    }
+	const [selected, setSelected] = useState(props.value)
+	const handleSelected = () => {
+		setSelected(!selected)
+		props.sendData(selected)
+	}
 
     return (
         <>

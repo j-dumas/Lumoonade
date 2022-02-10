@@ -6,7 +6,12 @@ import Bubbles from '../components/Bubbles'
 export default function ForgotPassword() {
 	return (
 		<div>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | FORGOT PASSWORD',
+					description: 'Cryptool forgot password page',
+				}}
+			/>
 			<main>
 				<Bubbles />
 				<ForgotPasswordForm />

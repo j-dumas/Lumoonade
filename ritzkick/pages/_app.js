@@ -23,7 +23,11 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false /* eslint-disable import/first */
 
+// TODO: Change for SVGR/Webpack: https://github.com/gregberge/svgr/tree/main/packages/webpack
+
 function MyApp({ Component, pageProps }) {
+	const getLayout = Component.getLayout || ((page) => page)
+
 	let app
 	if (process.env.NEXT_PUBLIC_PROD == 'true') {
 		app = (
@@ -47,7 +51,7 @@ function MyApp({ Component, pageProps }) {
 		app = <Component {...pageProps} />
 	}
 
-	return app
+	return getLayout(app)
 }
 
 export default MyApp

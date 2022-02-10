@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import SimpleChart from './SimpleChart'
 import Icons from './Icons'
 

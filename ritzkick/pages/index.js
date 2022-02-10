@@ -12,10 +12,7 @@ export default function Home() {
 	const [data, setData] = useState([{}])
 
 	return (
-		<div>
-			<DomHead />
-			<Header />
-
+		<>
 			<main className='column'>
 				<section className='section row principal center'>
 					<div className='column center'>
@@ -42,8 +39,19 @@ export default function Home() {
 			<section className='section row second'>
 				<SimpleCryptoDashboard/>
 			</section>
+		</>
+	)
+}
 
-			<Footer />
-		</div>
+Home.getLayout = function getLayout(page) {
+	return (
+		<Layout
+			pageMeta={{
+				title: 'CRYPTOOL | HOME',
+				description: 'Cryptool home page',
+			}}
+		>
+			{page}
+		</Layout>
 	)
 }
