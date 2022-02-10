@@ -1,15 +1,15 @@
-import axios from 'axios'
-import yahoo from '../utils/yahoo'
+import axios from 'axios';
+import yahoo from '../utils/yahoo';
 
 const Functions = {
 	async GetCryptocurrencyInformationsBySlug(slug) {
-		const URL = 'localhost:3000'
-		const URI = '/api/crypto/search/'
+		const URL = 'localhost:3000';
+		const URI = '/api/crypto/search/';
 
-		var reponse = await fetch((URI+slug))
-		var json = reponse.json()
+		var reponse = await fetch(URI + slug);
+		var json = reponse.json();
 
-		return json
+		return json;
 	},
 
 	async GetTopPopularCryptocurrencies(top = 10) {
@@ -23,7 +23,7 @@ const Functions = {
 				fromCurrency: 'BTC',
 				marketCap: 1035674779648,
 				volume24Hr: 39693062144,
-				shortName: 'Bitcoin - CAD',
+				shortName: 'Bitcoin - CAD'
 			},
 			{
 				currency: 'CAD',
@@ -34,7 +34,7 @@ const Functions = {
 				fromCurrency: 'ETH',
 				marketCap: 463130066944,
 				volume24Hr: 21376692224,
-				shortName: 'Ethereum - CAD',
+				shortName: 'Ethereum - CAD'
 			},
 			{
 				currency: 'CAD',
@@ -45,36 +45,36 @@ const Functions = {
 				fromCurrency: 'ADA',
 				marketCap: '48880242688',
 				volume24Hr: '2826549760',
-				shortName: 'Cardano - CAD',
-			},
-		]
+				shortName: 'Cardano - CAD'
+			}
+		];
 
-		const URI = '/api/crypto/popular/'
+		const URI = '/api/crypto/popular/';
 
-		var reponse = await fetch((URI+slug))
-		var json = reponse.json()
+		var reponse = await fetch(URI + slug);
+		var json = reponse.json();
 
-		return json
+		return json;
 	},
 
 	async GetTopEfficientCryptocurrencies(top = 3) {
-		const URI = '/api/crypto/ranking/'
+		const URI = '/api/crypto/ranking/';
 
-		var reponse = await fetch((URI+slug))
-		var json = reponse.json()
+		var reponse = await fetch(URI + slug);
+		var json = reponse.json();
 
-		return json
+		return json;
 	},
 
 	async GetCryptocurrencyChartDataBySlug(slug, dateRange, interval) {
-		const URL = 'localhost:3000'
-		const URI = '/api/crypto/chart/'
+		const URL = 'localhost:3000';
+		const URI = '/api/crypto/chart/';
 
-		var reponse = await fetch((URI+slug))
-		var json = await reponse.json()
+		var reponse = await fetch(URI + slug);
+		var json = await reponse.json();
 
-		return json
+		return json;
 	}
-}
+};
 
-export default Functions
+export default Functions;

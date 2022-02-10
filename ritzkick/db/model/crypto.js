@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const cryptoSchema = new mongoose.Schema(
 	{
@@ -6,15 +6,15 @@ const cryptoSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			unique: true
 		},
-		apis: [],
+		apis: []
 	},
 	{
-		timestamps: true,
+		timestamps: true
 	}
-)
+);
 
-const Crypto = mongoose.model('Crypto', cryptoSchema)
+const Crypto = mongoose.model('Crypto', cryptoSchema);
 
-module.exports = Crypto
+module.exports = Crypto;

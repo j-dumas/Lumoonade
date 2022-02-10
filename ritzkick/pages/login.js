@@ -1,7 +1,7 @@
-import DomHead from '../components/DomHead'
-import Footer from '../components/Footer'
-import LoginForm from '../components/LoginForm'
-import Bubbles from '../components/Bubbles'
+import DomHead from '../components/DomHead';
+import Footer from '../components/Footer';
+import LoginForm from '../components/LoginForm';
+import Bubbles from '../components/Bubbles';
 
 export default function Login() {
 	return (
@@ -9,16 +9,16 @@ export default function Login() {
 			<DomHead
 				pageMeta={{
 					title: 'CRYPTOOL | LOGIN',
-					description: 'Cryptool login page',
+					description: 'Cryptool login page'
 				}}
 			/>
 			<main>
 				<LoginForm />
 				<Bubbles />
-				<div className='spacer layer1'></div>
+				<div className="spacer layer1"></div>
 			</main>
 			<Footer />
-			<div className='cursor'></div>
+			<div className="cursor"></div>
 		</div>
-	)
+	);
 }

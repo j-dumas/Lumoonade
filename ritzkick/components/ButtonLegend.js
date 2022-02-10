@@ -1,22 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import Icons from './Icons'
+import React, { useState, useEffect } from 'react';
+import Icons from './Icons';
 
 function ButtonLegend(props) {
-	const [selected, setSelected] = useState(props.value)
+	const [selected, setSelected] = useState(props.value);
 	const handleSelected = () => {
-		setSelected(!selected)
-		props.sendData(selected)
-	}
+		setSelected(!selected);
+		props.sendData(selected);
+	};
 
-    return (
-        <>
-        <div className=''>
-            <button onClick={handleSelected} className="detailed-chart-legend-button" style={selected?{'backgroundColor': props.backgroundColor, 'color':'var(--font-color)'}:{'backgroundColor':'var(--background-color-3)'}}>
-                {props.name}
-            </button>
-        </div>
-        </>
-    )
+	return (
+		<>
+			<div className="">
+				<button
+					onClick={handleSelected}
+					className="detailed-chart-legend-button"
+					style={
+						selected
+							? { backgroundColor: props.backgroundColor, color: 'var(--font-color)' }
+							: { backgroundColor: 'var(--background-color-3)' }
+					}
+				>
+					{props.name}
+				</button>
+			</div>
+		</>
+	);
 }
 
-export default ButtonLegend
+export default ButtonLegend;

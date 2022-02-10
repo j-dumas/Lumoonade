@@ -1,89 +1,86 @@
 .detailed-crypto-view {
-    min-height: 75vh;
-    width: 97%;
+	min-height: 75vh;
+	width: 97%;
 }
 
 .detailed-menu {
-    margin-bottom: 15px;
-    
+	margin-bottom: 15px;
 }
 
 .detailed-menu-info {
-    gap: 20px;
+	gap: 20px;
 }
 
 .detailed-menu-logo {
-    width: 30px;
+	width: 30px;
 }
 
-
 .detailed-div-menu {
-    margin-bottom: 0px;
+	margin-bottom: 0px;
 }
 
 .detailed-menu-actions {
-    font-size: 20px;
+	font-size: 20px;
 }
 .detailed-menu-actions-icon {
-    background-color: var(--main-color);
-    padding: 8px 11px 8px 11px;
-    border-radius: 50px;
-    transition: .25s;
+	background-color: var(--main-color);
+	padding: 8px 11px 8px 11px;
+	border-radius: 50px;
+	transition: 0.25s;
 }
 .detailed-menu-actions-icon:hover {
-    color: whitesmoke;
+	color: whitesmoke;
 }
 
 .detailed-menu-title {
-    font-size: 24px;
-    font-weight: bold;
+	font-size: 24px;
+	font-weight: bold;
 }
 .detailed-menu-subtitle {
-    font-size: 24px;
-    color: var(--font-color-2);
+	font-size: 24px;
+	color: var(--font-color-2);
 }
 
 .detailed-informations {
-    height: fit-content;
+	height: fit-content;
 }
 
 .detailed-div {
-    position: relative;
+	position: relative;
 
-    min-width: 360px;
+	min-width: 360px;
 
-    padding: 20px;
+	padding: 20px;
 
-    border-radius: 5px;
-    background:var(--background-color-2);
+	border-radius: 5px;
+	background: var(--background-color-2);
 }
 
-.detailed-div-title
-{
-    font-size: 15px;
-    color: var(--font-color-2);
+.detailed-div-title {
+	font-size: 15px;
+	color: var(--font-color-2);
 }
 
 .detailed-div-item {
-    width: 100%;
-    margin-top: 15px;
+	width: 100%;
+	margin-top: 15px;
 
-    color: white;
+	color: white;
 }
 
 .detailed-div-item-label {
-    color: var(--font-color-2);
-    font-size: 14px;
+	color: var(--font-color-2);
+	font-size: 14px;
 }
 
 .detailed-div-item-value {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 .detailed-change {
-    font-size: 22px;
+	font-size: 22px;
 }
 
 .detailed-price {
-    font-size: 32px;
+	font-size: 32px;
 }
