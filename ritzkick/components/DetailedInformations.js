@@ -8,9 +8,9 @@ function DetailedInformations(props) {
 		return Number.parseFloat(x).toFixed(2)
 	}
 
-    const [data, setData] = useState()
+    const [data, setData] = useState(props.firstData)
     useEffect(async () => {
-        setData(await Functions.GetCryptocurrencyInformationsBySlug(props.slug))
+        //setData(await Functions.GetCryptocurrencyInformationsBySlug(props.slug))
         props.socket.on('priceChange', (data) => {
             setData([data])
         })

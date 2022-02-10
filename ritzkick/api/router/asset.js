@@ -28,6 +28,7 @@ router.get('/api/crypto/search/:slug', async (req, res) => {
 			marketCap: '',
 			volume24Hr: '',
 			symbol: '',
+			shortName: ''
 		}
 
 		let response = []

@@ -8,6 +8,7 @@ import Functions, {
 import ButtonFavorite from '../components/ButtonFavorite'
 import DetailedInformations from '../components/DetailedInformations'
 import DetailedChart from './DetailedChart'
+import DetailedMenu from './DetailedMenu'
 
 const io = require('socket.io-client')
 
@@ -15,42 +16,24 @@ function DetailedCryptoView(props) {
     // Validation:
     if (!props.slug || !props.currency) return <div>Impossible action.</div>
 
-    
-    const [socket, setSocket] = useState(io('http://localhost:3000/', {
-        auth: {
-            token: [props.slug+'-'+props.currency] // ex: 'BTC-CAD'
-        }
-    }))
-    useEffect(()=> {
-        socket.on('welcome', () => {
-            console.log('welcome')
-        })
+    const [slug, setSlug] = useState(props.slug + '-' + props.currency)
+    const [firstData, setFirstData] = useState()
+    const [socket, setSocket] = useState(
+        io('http://localhost:3000/', {auth: { token: [slug]}})
+    )
 
-        if (socket) return () => socket.disconnect();
+    useEffect(async () => {
+        setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
     }, [])
 
     return (
+        !firstData? <p>Loading...</p>:
         <>
             <div className='detailed-crypto-view column'>
-                <div className='detailed-menu space-between row h-center'>
-                    <div className='row h-center'>
-                        <img className='simple-crypto-view-logo' src="ETH.svg" alt="" />
-                        <h1 className='detailed-menu-title'>Ethereum</h1>
-                        <p className='detailed-menu-subtitle'>ETH</p>
-                        <a className='detailed-chart-legend-button-special' href='test'>Compare</a>
-                        
-                    </div>
-                    <div className='detailed-menu-actions row h-center'>
-                        <ButtonFavorite/>
-                        <a href="" className=''><Icons.Bell/></a>
-                        <a href="" className='detailed-menu-actions-icon'><Icons.ArrowUp/></a>
-                        <a href="" className='detailed-menu-actions-icon'><Icons.ArrowDown/></a>
-                        <a href="" className='detailed-menu-actions-icon'><Icons.Exange/></a>   
-                    </div>
-                </div>
+                <DetailedMenu slug={slug} firstData={firstData}/>
                 <div className='row space-between'>
-                    <DetailedInformations socket={socket} slug={"ETH-CAD"}/>
-                    <DetailedChart slug="ETH-CAD"/>
+                    <DetailedInformations socket={socket} slug={slug} firstData={firstData}/>
+                    <DetailedChart slug={slug}/>
                 </div>
             </div>
         </>
@@ -60,14 +43,14 @@ function DetailedCryptoView(props) {
 export default DetailedCryptoView;
 
 /* 
-                    <div className='row detailed-crypto-div left h-center'>
-                        <p className='detailed-crypto-div-title'>Current currency:</p>
-                        <select onChange={handleChangeCurrency} value={currency} name="currency">
-                            <optgroup label="Currency">
-                                <option value="USD">USD</option>
-                                <option value="CAD">CAD</option>
-                                <option value="EURO">EURO</option>
-                            </optgroup>
-                        </select>
-                    </div>
+<div className='row detailed-crypto-div left h-center'>
+    <p className='detailed-crypto-div-title'>Current currency:</p>
+    <select onChange={handleChangeCurrency} value={currency} name="currency">
+        <optgroup label="Currency">
+            <option value="USD">USD</option>
+            <option value="CAD">CAD</option>
+            <option value="EURO">EURO</option>
+        </optgroup>
+    </select>
+</div>
 */
