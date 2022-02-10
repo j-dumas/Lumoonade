@@ -59,4 +59,41 @@ router.post('/api/favorite', authentification, async (req, res) => {
 	}
 })
 
+/**
+ * DELETE /api/favorite/:slug
+ * @summary Deleting a favorite default endpoint
+ * @tags Favorite
+ * @param {string} slug.path - Favorite slug
+ * @return {object} 204 - deleted
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @return {string} 404 - not found
+ * @example response - 404 - example not found favorite error response
+ *  {
+ *	 "error": "Not Found"
+ *	}
+ * @security BearerAuth
+ */
+router.delete('/api/favorite/:slug', authentification, async (req, res) => {
+	try {
+		let filter = {
+			owner: req.user._id,
+			slug: req.params.slug,
+		}
+		const obj = await Favorite.findOne(filter).exec()
+		if (!obj) {
+			throw new HttpError('Not Found', 404)
+		}
+		await Favorite.deleteOne(filter)
+		res.status(204).send()
+	} catch (e) {
+		res.status(e.status).send({
+			error: e.message,
+		})
+	}
+})
+
 module.exports = router
