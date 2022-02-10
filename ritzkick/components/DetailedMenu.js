@@ -6,8 +6,8 @@ function DetailedMenu(props) {
     console.log(props.firstData)
     return (
         <div className='detailed-menu space-between row h-center'>
-            <div className='row h-center'>
-                <img className='simple-crypto-view-logo' src={props.firstData[0].fromCurrency + '.svg'} alt="" />
+            <div className='row h-center detailed-menu-info'>
+                <img className='detailed-menu-logo' src={props.firstData[0].fromCurrency + '.svg'} alt="" />
                 <h1 className='detailed-menu-title'>{props.firstData[0].shortName}</h1>
                 <p className='detailed-menu-subtitle'>{props.firstData[0].fromCurrency}</p>
                 <a className='detailed-chart-legend-button-special' href='test'>Compare</a>

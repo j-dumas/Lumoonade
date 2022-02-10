@@ -5,6 +5,15 @@
 
 .detailed-menu {
     margin-bottom: 15px;
+    
+}
+
+.detailed-menu-info {
+    gap: 20px;
+}
+
+.detailed-menu-logo {
+    width: 30px;
 }
 
 
