@@ -1,6 +1,24 @@
 import {getCookie} from '../services/CookieService'
 import { logout } from './AuthService'
 
+export async function getWatchList(){
+    try{
+        let response = await fetch('/api/me/watchlists', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie("token")
+            },
+        })
+        
+        let json = await response.json()
+        return json
+    }
+    catch(e){
+        console.log(e)
+    }
+}
+
 export async function deleteUser(){
     try{
         let response = await fetch('/api/me/delete', {
@@ -24,7 +42,7 @@ export async function deleteUser(){
 
 export async function getUser(){
     try{
-        let response = await fetch('/api/me/profile', {
+        let response = await fetch('/api/me', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
