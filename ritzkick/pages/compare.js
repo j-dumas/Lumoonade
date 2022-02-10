@@ -8,32 +8,37 @@ import GetCryptoChartData from '../services/CryptoService'
 import dynamic from 'next/dynamic'
 
 const DetailedCryptoView = dynamic(
-    () => {
-        //return import('../components/DetailedChart')
-        return import('../components/DetailedCryptoView')
-    },
-    {ssr:false}
+	() => {
+		//return import('../components/DetailedChart')
+		return import('../components/DetailedCryptoView')
+	},
+	{ ssr: false }
 )
 
 // <DetailedCharts getChartDatas={() => GetCryptoChartData()} dateRange={'1D'} interval={'1min'} />
 export default function Home() {
-    const [data, setData] = useState();
+	const [data, setData] = useState()
 
-    return (
-        <>
-            <DomHead/>
-            <Header/>
-            
-            <section className='section row principal center first'>
-                <DetailedCryptoView data={GetCryptoChartData()} />
-            </section>
+	return (
+		<>
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | COMPARE',
+					description: 'Cryptool comparing page',
+				}}
+			/>
+			<Header />
 
 			<section className='section row principal center first'>
-				<DetailedCharts
+				<DetailedCryptoView data={GetCryptoChartData()} />
+			</section>
+
+			<section className='section row principal center first'>
+				{/* <DetailedCharts
 					getChartDatas={() => GetCryptoChartData()}
 					dateRange={'1D'}
 					interval={'1min'}
-				/>
+				/> */}
 			</section>
 
 			<Footer />

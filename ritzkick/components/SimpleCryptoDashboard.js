@@ -24,9 +24,9 @@ function SimpleCryptoDashboard(props) {
 				</div>
 				{data.map((element, i) => {
 					return (
-						<>
+						<div key={element}>
 							<SimpleCryptoView data={element} />
-						</>
+						</div>
 					)
 				})}
 			</div>

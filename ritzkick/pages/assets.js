@@ -10,15 +10,20 @@ export default function Assets() {
 
 	return (
 		<div>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | ASSETS',
+					description: 'Cryptool assets page',
+				}}
+			/>
 			<Header />
 
 			<section className='section row center principal first'>
 				{data.map((element, i) => {
 					return (
-						<>
+						<div key={element}>
 							<SimpleCryptoCard data={element} />
-						</>
+						</div>
 					)
 				})}
 			</section>

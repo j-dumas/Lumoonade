@@ -1,4 +1,5 @@
 import { connection } from 'mongoose'
+import { useCallback } from 'react'
 import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
 
@@ -6,10 +7,10 @@ function Header() {
 	const [mobile, setMobile] = useState(true)
 	const [isConnected, setConnection] = useState(false)
 
-	const handleResize = () => {
+	const handleResize = useCallback(() => {
 		if (window.innerWidth >= 1100) setMobile(false)
 		else setMobile(true)
-	}
+	}, [])
 
 	const connection = () => {
 		if (sessionStorage.token != undefined) setConnection(true)

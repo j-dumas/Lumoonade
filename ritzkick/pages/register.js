@@ -6,7 +6,12 @@ import Bubbles from '../components/Bubbles'
 export default function Register() {
 	return (
 		<div>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | REGISTER',
+					description: 'Cryptool register page',
+				}}
+			/>
 			<main>
 				<RegisterForm />
 				<Bubbles />

@@ -6,7 +6,12 @@ import Bubbles from '../components/Bubbles'
 export default function Login() {
 	return (
 		<div>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | LOGIN',
+					description: 'Cryptool login page',
+				}}
+			/>
 			<main>
 				<LoginForm />
 				<Bubbles />

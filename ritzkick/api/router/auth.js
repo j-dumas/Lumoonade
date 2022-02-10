@@ -2,7 +2,7 @@ const express = require('express')
 const User = require('../../db/model/user')
 const authentication = require('../middleware/auth')
 const router = express.Router()
-require('./swagger_models')
+require('../swagger_models')
 
 /**
  * Login Request User Model

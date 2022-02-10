@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import SimpleChart from './SimpleChart'
 import Icons from './Icons'
 
@@ -18,11 +19,7 @@ function SimpleCryptoView(props) {
 				className='simple-crypto-view row space-between h-center'
 			>
 				<div className='simple-crypto-view-item row left h-center'>
-					<img
-						className='simple-crypto-view-logo'
-						src={data.abbreviation + '.svg'}
-						alt=''
-					/>
+					<Image src={`/${data.abbreviation}.svg`} alt='' width={50} height={50} />
 					<div className='column simple-crypto-names'>
 						<p className='simple-crypto-name'>{data.name}</p>
 						<p className='simple-crypto-abbreviation'>{data.abbreviation}</p>
