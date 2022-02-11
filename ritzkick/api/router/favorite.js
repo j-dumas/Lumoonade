@@ -51,7 +51,7 @@ router.post('/api/favorite', authentification, async (req, res) => {
 		await favorite.save()
 		res.status(201).send(favorite)
 	} catch (e) {
-		sendError(res, e)
+		await sendError(res, e)
 	}
 })
 
@@ -84,7 +84,7 @@ router.delete('/api/favorite/:slug', authentification, async (req, res) => {
 		await Favorite.deleteOne(filter)
 		res.status(204).send()
 	} catch (e) {
-		sendError(res, e)
+		await sendError(res, e)
 	}
 })
 

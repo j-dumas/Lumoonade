@@ -44,9 +44,9 @@ class ConflictHttpError extends HttpError {
 	}
 }
 
-function sendError(res, e) {
+async function sendError(res, e) {
 	res.status(e.status).send({
-		error: e.message,
+		error: e.message
 	})
 }
 
@@ -55,5 +55,5 @@ module.exports = {
 	BadRequestHttpError,
 	UnauthorizedHttpError,
 	NotFoundHttpError,
-	ConflictHttpError,
+	ConflictHttpError
 }

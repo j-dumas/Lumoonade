@@ -10,13 +10,13 @@
 		"postbuild": "next-sitemap",
 		"lint": "next lint",
 		"test": "env-cmd -f ./env/.test.env jest --runInBand",
-		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand",
+		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand ",
 		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand",
 		"format": "prettier --config .prettierrc './**/*.js' './**/*.css' --write"
 	},
 	"jest": {
 		"testEnvironment": "node",
-		"testTimeout": 30000
+		"testTimeout": 2000
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",

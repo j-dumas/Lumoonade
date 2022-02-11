@@ -60,7 +60,7 @@ router.post('/api/watchlist', authentification, async (req, res) => {
 		await watchlist.save()
 		res.status(201).send(watchlist)
 	} catch (e) {
-		sendError(res, e)
+		await sendError(res, e)
 	}
 })
 

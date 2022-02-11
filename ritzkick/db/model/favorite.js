@@ -20,7 +20,6 @@ const favoriteSchema = new mongoose.Schema(
 				delete ret.__v
 				delete ret.createdAt
 				delete ret.updatedAt
-				delete ret._id
 			}
 		}
 	}
