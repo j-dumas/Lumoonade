@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import SimpleChart from './SimpleChart';
+import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import SimpleChart from './SimpleChart'
 
 function SimpleCryptoCard(props) {
 	function format(x) {
-		return Number.parseFloat(x).toFixed(2);
+		return Number.parseFloat(x).toFixed(2)
 	}
 
-	const [data, setData] = useState(props.data);
-	const change = format(((data.price - data.value[0]) / data.value[0]) * 100);
+	const [data, setData] = useState(props.data)
+	const change = format(((data.price - data.value[0]) / data.value[0]) * 100)
 
 	return (
 		<>
@@ -35,7 +35,7 @@ function SimpleCryptoCard(props) {
 				<SimpleChart data={data} />
 			</a>
 		</>
-	);
+	)
 }
 
-export default SimpleCryptoCard;
+export default SimpleCryptoCard

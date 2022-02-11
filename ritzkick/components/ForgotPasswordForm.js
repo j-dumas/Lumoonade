@@ -1,23 +1,23 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import AndSeparator from './AndSeparator';
-import Separator from './Separator';
-import Script from 'next/script';
-import Link from 'next/link';
-import classNames from 'classnames';
+import React from 'react'
+import Container from 'react-bootstrap/Container'
+import AndSeparator from './AndSeparator'
+import Separator from './Separator'
+import Script from 'next/script'
+import Link from 'next/link'
+import classNames from 'classnames'
 // const nodemailer = require("nodemailer")
 
-const TITLE = 'Connexion';
-const SENDEMAIL = 'https://formsubmit.co/';
+const TITLE = 'Connexion'
+const SENDEMAIL = 'https://formsubmit.co/'
 
 class ForgotPasswordForm extends React.Component {
 	constructor(props) {
-		super(props);
-		this.state = { email: '' };
-		this.emailQuery = SENDEMAIL + this.state.email;
+		super(props)
+		this.state = { email: '' }
+		this.emailQuery = SENDEMAIL + this.state.email
 
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleEmailChange = this.handleEmailChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleEmailChange = this.handleEmailChange.bind(this)
 	}
 
 	async handleSubmit(event) {
@@ -29,18 +29,18 @@ class ForgotPasswordForm extends React.Component {
 			From: 'rubiscrash0@gmail.com',
 			Subject: 'test',
 			Body: 'test'
-		}).then((message) => alert(message));
-		event.preventDefault();
+		}).then((message) => alert(message))
+		event.preventDefault()
 	}
 
 	handleEmailChange(event) {
-		let email = document.getElementById('emailField');
+		let email = document.getElementById('emailField')
 		if (email.validity.typeMismatch) {
-			email.setCustomValidity('Entrez une adresse courriel valide.');
-			email.reportValidity();
+			email.setCustomValidity('Entrez une adresse courriel valide.')
+			email.reportValidity()
 		} else {
-			email.setCustomValidity('');
-			this.setState({ email: event.target.value });
+			email.setCustomValidity('')
+			this.setState({ email: event.target.value })
 		}
 	}
 
@@ -70,9 +70,9 @@ class ForgotPasswordForm extends React.Component {
 					<a className="link">Revenir à l&apos;écran de connexion</a>
 				</Link>
 			</Container>
-		);
+		)
 		// &apos; = '
 	}
 }
 
-export default ForgotPasswordForm;
+export default ForgotPasswordForm

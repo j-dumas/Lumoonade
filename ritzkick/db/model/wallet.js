@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const walletSchema = new mongoose.Schema(
 	{
@@ -17,7 +17,7 @@ const walletSchema = new mongoose.Schema(
 			default: 0,
 			validate(amount) {
 				if (amount < 0) {
-					throw new Error('Unable to set an amount under 0.');
+					throw new Error('Unable to set an amount under 0.')
 				}
 			}
 		}
@@ -25,8 +25,8 @@ const walletSchema = new mongoose.Schema(
 	{
 		timestamps: true
 	}
-);
+)
 
-const Wallet = mongoose.model('Wallet', walletSchema);
+const Wallet = mongoose.model('Wallet', walletSchema)
 
-module.exports = Wallet;
+module.exports = Wallet

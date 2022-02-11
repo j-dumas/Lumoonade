@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Functions from '../services/CryptoService';
-import ButtonFavorite from '../components/ButtonFavorite';
+import React, { useState, useEffect } from 'react'
+import Functions from '../services/CryptoService'
+import ButtonFavorite from '../components/ButtonFavorite'
 
 function DetailedInformations(props) {
 	function format(x) {
-		return Number.parseFloat(x).toFixed(2);
+		return Number.parseFloat(x).toFixed(2)
 	}
 
-	const [data, setData] = useState(props.firstData);
+	const [data, setData] = useState(props.firstData)
 	useEffect(async () => {
 		//setData(await Functions.GetCryptocurrencyInformationsBySlug(props.slug))
 		props.socket.on('priceChange', (data) => {
-			setData([data]);
-		});
-		if (props.socket) return () => socket.disconnect();
-	}, []);
+			setData([data])
+		})
+		if (props.socket) return () => socket.disconnect()
+	}, [])
 
 	return !data ? (
 		<>Loading...</>
@@ -58,7 +58,7 @@ function DetailedInformations(props) {
 				</div>
 			</div>
 		</>
-	);
+	)
 }
 //
-export default DetailedInformations;
+export default DetailedInformations

@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import ButtonLegend from './ButtonLegend';
+import React, { useState, useEffect } from 'react'
+import ButtonLegend from './ButtonLegend'
 
 function DetailedChartMenu(props) {
-	const [showPrice, setShowPrice] = useState(true);
-	const [showChange, setShowChange] = useState(false);
-	const [showVolume, setShowVolume] = useState(false);
+	const [showPrice, setShowPrice] = useState(true)
+	const [showChange, setShowChange] = useState(false)
+	const [showVolume, setShowVolume] = useState(false)
 
 	function getShowPrice(value) {
-		setShowPrice(value);
+		setShowPrice(value)
 	}
 	function getShowChange(value) {
-		setShowChange(value);
+		setShowChange(value)
 	}
 	function getShowVolume(value) {
-		setShowVolume(value);
+		setShowVolume(value)
 	}
 
 	return (
@@ -35,7 +35,7 @@ function DetailedChartMenu(props) {
 					</label>
 					<select
 						onChange={(e) => {
-							props.sendDateRange(e.target.value);
+							props.sendDateRange(e.target.value)
 						}}
 						defaultValue="5D"
 						className="detailed-chart-options-select"
@@ -59,7 +59,7 @@ function DetailedChartMenu(props) {
 					</label>
 					<select
 						onChange={(e) => {
-							props.sendInterval(e.target.value);
+							props.sendInterval(e.target.value)
 						}}
 						defaultValue="15m"
 						className="detailed-chart-options-select"
@@ -81,7 +81,7 @@ function DetailedChartMenu(props) {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
 
-export default DetailedChartMenu;
+export default DetailedChartMenu

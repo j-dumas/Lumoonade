@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React from 'react'
 
 //https://cryptologos.cc/
 
@@ -17,7 +17,7 @@ function Bubbles() {
 			<img className="bubble x9" src="https://cryptologos.cc/logos/dogecoin-doge-logo.svg?v=018" alt="" />
 			<img className="bubble x10" src="https://cryptologos.cc/logos/shiba-inu-shib-logo.svg?v=018" alt="" />
 		</div>
-	);
+	)
 }
 
-export default Bubbles;
+export default Bubbles

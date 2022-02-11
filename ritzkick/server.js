@@ -1,61 +1,61 @@
-const fs = require('fs');
+const fs = require('fs')
 
 const http = require('http'),
-	https = require('https');
+	https = require('https')
 
-const next = require('next');
-const log = require('./utils/logging');
+const next = require('next')
+const log = require('./utils/logging')
 
 /*******************************
  * Reading Environment Variables
  ******************************/
-const dev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 3000;
-const local = process.env.LOCAL || false;
-const ssl = process.env.SSL || false;
-const httpsUrl = process.env.HTTPS || 'localhost';
-const httpUrl = process.env.HTTP || 'localhost';
+const dev = process.env.NODE_ENV !== 'production'
+const port = process.env.PORT || 3000
+const local = process.env.LOCAL || false
+const ssl = process.env.SSL || false
+const httpsUrl = process.env.HTTPS || 'localhost'
+const httpUrl = process.env.HTTP || 'localhost'
 
 // SOCKET
-const sm = require('./application/socket/socket-manager');
+const sm = require('./application/socket/socket-manager')
 
 /*****************************
  * Prepare Frontend NextJS App
  ****************************/
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const app = next({ dev })
+const handle = app.getRequestHandler()
 app.prepare().catch((ex) => {
-	log.error('SERVER', 'Launch error', ex.stack);
-	process.exit(1);
-});
+	log.error('SERVER', 'Launch error', ex.stack)
+	process.exit(1)
+})
 
 /**********************************
  * Prepare Backend ExpressJS Server
  *********************************/
-let server = require('./application/app');
-if (!dev) protocolVerification();
+let server = require('./application/app')
+if (!dev) protocolVerification()
 
 server.get('*', (req, res) => {
-	return handle(req, res);
-});
+	return handle(req, res)
+})
 
 if (ssl == 'true') {
-	const httpsOptions = readCertificates();
-	server = https.createServer(httpsOptions, server);
-	log.info('SERVER', 'Starting in HTTPS');
+	const httpsOptions = readCertificates()
+	server = https.createServer(httpsOptions, server)
+	log.info('SERVER', 'Starting in HTTPS')
 } else {
-	server = http.createServer(server);
-	log.info('SERVER', 'Starting in HTTP');
+	server = http.createServer(server)
+	log.info('SERVER', 'Starting in HTTP')
 }
-sm.initialize(server);
+sm.initialize(server)
 
 /**************
  * Start Server
  *************/
 server.listen(port, (err) => {
-	if (err) throw err;
-	log.info('SERVER', `Ready on port ${port}`);
-});
+	if (err) throw err
+	log.info('SERVER', `Ready on port ${port}`)
+})
 
 /**
  * Verifies the protocol and redirects to correct URL
@@ -65,13 +65,13 @@ server.listen(port, (err) => {
 function protocolVerification() {
 	server.get('*', (req, res) => {
 		if (req.protocol == 'http' && req.headers['host'] != `${httpUrl}`) {
-			log.debug('SERVER', `Redirecting to http://${httpUrl}${req.url}`);
-			res.redirect(`http://${httpUrl}${req.url}`);
+			log.debug('SERVER', `Redirecting to http://${httpUrl}${req.url}`)
+			res.redirect(`http://${httpUrl}${req.url}`)
 		} else if (req.protocol == 'https' && req.headers['host'] != httpsUrl) {
-			log.debug('SERVER', `Redirecting to https://${httpsUrl}${req.url}`);
-			res.redirect(`https://${httpsUrl}${req.url}`);
-		} else return handle(req, res);
-	});
+			log.debug('SERVER', `Redirecting to https://${httpsUrl}${req.url}`)
+			res.redirect(`https://${httpsUrl}${req.url}`)
+		} else return handle(req, res)
+	})
 }
 
 /**
@@ -80,11 +80,11 @@ function protocolVerification() {
  * @returns https options with key and certificate
  */
 function readCertificates() {
-	const httpsOptions = {};
+	const httpsOptions = {}
 	if (ssl == 'true') {
-		log.info('SERVER', 'Reading certificates');
-		httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`);
-		httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`);
+		log.info('SERVER', 'Reading certificates')
+		httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`)
+		httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`)
 	}
-	return httpsOptions;
+	return httpsOptions
 }

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const assetSchema = new mongoose.Schema(
 	{
@@ -18,7 +18,7 @@ const assetSchema = new mongoose.Schema(
 			default: 0,
 			validate(price) {
 				if (price < 0) {
-					throw new Error('Unable to set a price under 0.');
+					throw new Error('Unable to set a price under 0.')
 				}
 			}
 		},
@@ -38,7 +38,7 @@ const assetSchema = new mongoose.Schema(
 			type: Number,
 			validate(supply) {
 				if (supply < 0) {
-					throw new Error('Cannot set the supply amount under 0.');
+					throw new Error('Cannot set the supply amount under 0.')
 				}
 			}
 		},
@@ -54,12 +54,12 @@ const assetSchema = new mongoose.Schema(
 	{
 		timestamps: true
 	}
-);
+)
 
 assetSchema.statics.exists = async (slug) => {
-	return (await Asset.findOne({ slug })) !== null;
-};
+	return (await Asset.findOne({ slug })) !== null
+}
 
-const Asset = mongoose.model('Asset', assetSchema);
+const Asset = mongoose.model('Asset', assetSchema)
 
-module.exports = Asset;
+module.exports = Asset

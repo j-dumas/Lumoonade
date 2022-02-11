@@ -1,16 +1,16 @@
-import DomHead from '../components/DomHead';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import BottomArrow from '../components/BottomArrow';
-import SimpleCryptoDashboard from '../components/SimpleCryptoDashboard';
-import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout';
+import DomHead from '../components/DomHead'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import BottomArrow from '../components/BottomArrow'
+import SimpleCryptoDashboard from '../components/SimpleCryptoDashboard'
+import React, { useState, useEffect } from 'react'
+import Layout from '../components/Layout'
 
-const TITLE = 'CRYPTOOL';
-const SUB_TTTLE = "Restez à l'affut de vos cryptos favorites";
+const TITLE = 'CRYPTOOL'
+const SUB_TTTLE = "Restez à l'affut de vos cryptos favorites"
 
 export default function Home() {
-	const [data, setData] = useState([{}]);
+	const [data, setData] = useState([{}])
 
 	return (
 		<>
@@ -37,7 +37,7 @@ export default function Home() {
 				<SimpleCryptoDashboard />
 			</section>
 		</>
-	);
+	)
 }
 
 Home.getLayout = function getLayout(page) {
@@ -50,5 +50,5 @@ Home.getLayout = function getLayout(page) {
 		>
 			{page}
 		</Layout>
-	);
-};
+	)
+}

@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Line, Chart as Charts } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
-import zoomPlugin from 'chartjs-plugin-zoom';
-import Functions from '../services/CryptoService';
-Chart.register(zoomPlugin);
+import React, { useState, useEffect } from 'react'
+import { Line, Chart as Charts } from 'react-chartjs-2'
+import Chart from 'chart.js/auto'
+import zoomPlugin from 'chartjs-plugin-zoom'
+import Functions from '../services/CryptoService'
+Chart.register(zoomPlugin)
 
-const NB_DATA_DISPLAYED_1ST_VIEW = 24;
+const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
-	const chartReference = React.createRef();
+	const chartReference = React.createRef()
 
-	const [data, setData] = useState();
+	const [data, setData] = useState()
 	useEffect(async () => {
-		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval));
+		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
 		/*
        	setInterval(async () => {
@@ -23,23 +23,23 @@ function DetailedChartChart(props) {
             }
         }, 1000)
 		*/
-	}, []);
+	}, [])
 
 	function getRelativeChartData() {
-		if (!data) return;
+		if (!data) return
 		return {
 			labels: data[0].response[0].timestamp,
 			datasets: getRelativeChartDataDatasets()
-		};
+		}
 	}
 
 	function getRelativeChartDataDatasets() {
-		const datasets = [];
-		console.log(data);
+		const datasets = []
+		console.log(data)
 		data.forEach((element) => {
-			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close));
-		});
-		return datasets;
+			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close))
+		})
+		return datasets
 	}
 
 	function getRelativeChartDataDataset(name, data) {
@@ -58,7 +58,7 @@ function DetailedChartChart(props) {
 			hoverBorderColor: 'white',
 			pointStyle: 'circle',
 			pointRadius: 0
-		};
+		}
 	}
 
 	function getChartOptionsPlugins() {
@@ -98,7 +98,7 @@ function DetailedChartChart(props) {
 					//x: {min: 5} //DATE_RANGE * INTERVAL * 24
 				}
 			}
-		};
+		}
 	}
 
 	function getChartOptionsScales() {
@@ -147,7 +147,7 @@ function DetailedChartChart(props) {
 					}
 				}
 			}
-		};
+		}
 	}
 
 	function getChartOptions() {
@@ -164,7 +164,7 @@ function DetailedChartChart(props) {
 			},
 			plugins: getChartOptionsPlugins(),
 			scales: getChartOptionsScales()
-		};
+		}
 	}
 
 	return !data ? (
@@ -173,7 +173,7 @@ function DetailedChartChart(props) {
 		<div className="detailed-chart-chart">
 			<Charts ref={chartReference} data={getRelativeChartData()} options={getChartOptions()} />
 		</div>
-	);
+	)
 }
 
-export default DetailedChartChart;
+export default DetailedChartChart

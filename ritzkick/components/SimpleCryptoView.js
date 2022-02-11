@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import SimpleChart from './SimpleChart';
-import Icons from './Icons';
+import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import SimpleChart from './SimpleChart'
+import Icons from './Icons'
 
 function SimpleCryptoView(props) {
 	function format(x) {
-		return Number.parseFloat(x).toFixed(2);
+		return Number.parseFloat(x).toFixed(2)
 	}
 
-	const [data, setData] = useState(props.data);
+	const [data, setData] = useState(props.data)
 
-	const change = data.regularMarketChangePercent; //format(((data.price - data.value[0]) / data.value[0]) * 100)
+	const change = data.regularMarketChangePercent //format(((data.price - data.value[0]) / data.value[0]) * 100)
 
 	return (
 		<>
@@ -38,7 +38,7 @@ function SimpleCryptoView(props) {
 				<Icons.StarEmpty />
 			</a>
 		</>
-	);
+	)
 }
 // <SimpleChart data={data} />
-export default SimpleCryptoView;
+export default SimpleCryptoView

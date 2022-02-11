@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import Icons from './Icons';
+import React, { useState, useEffect } from 'react'
+import Icons from './Icons'
 
 function ButtonFavorite() {
-	const [favorite, setFavorite] = useState(false);
+	const [favorite, setFavorite] = useState(false)
 	const handleFavorite = () => {
-		setFavorite(!favorite);
+		setFavorite(!favorite)
 		// HandleUserFavorite(favorite)
-	};
+	}
 
 	return (
 		<>
@@ -14,7 +14,7 @@ function ButtonFavorite() {
 				<div onClick={handleFavorite}>{favorite ? <Icons.StarEmpty /> : <Icons.StarFulled />}</div>
 			</div>
 		</>
-	);
+	)
 }
 
-export default ButtonFavorite;
+export default ButtonFavorite

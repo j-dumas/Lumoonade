@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Icons from './Icons';
-import ButtonFavorite from '../components/ButtonFavorite';
+import React, { useState, useEffect } from 'react'
+import Icons from './Icons'
+import ButtonFavorite from '../components/ButtonFavorite'
 
 function DetailedMenu(props) {
-	console.log(props.firstData);
+	console.log(props.firstData)
 	return (
 		<div className="detailed-menu space-between row h-center">
 			<div className="row h-center detailed-menu-info">
@@ -30,7 +30,7 @@ function DetailedMenu(props) {
 				</a>
 			</div>
 		</div>
-	);
+	)
 }
 
-export default DetailedMenu;
+export default DetailedMenu

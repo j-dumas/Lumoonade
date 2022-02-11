@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import SimpleCryptoView from './SimpleCryptoView';
+import React, { useState, useEffect } from 'react'
+import SimpleCryptoView from './SimpleCryptoView'
 
-import Functions from '../services/CryptoService';
+import Functions from '../services/CryptoService'
 
 function SimpleCryptoDashboard(props) {
-	const [data, setData] = useState(null);
+	const [data, setData] = useState(null)
 
 	useEffect(async () => {
-		setData(await Functions.GetTopPopularCryptocurrencies());
+		setData(await Functions.GetTopPopularCryptocurrencies())
 		/*
 		setTimeout(async () => {
 			setData(await Functions.GetTopPopularCryptocurrencies())
 		}, 10000)*/
-	});
+	})
 
 	return !data ? (
 		<>Loading...</>
@@ -37,11 +37,11 @@ function SimpleCryptoDashboard(props) {
 						<div key={element}>
 							<SimpleCryptoView data={element} />
 						</div>
-					);
+					)
 				})}
 			</div>
 		</>
-	);
+	)
 }
 
-export default SimpleCryptoDashboard;
+export default SimpleCryptoDashboard
