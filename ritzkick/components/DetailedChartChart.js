@@ -10,18 +10,10 @@ const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
-
-	function isDataNull(datas) {
-		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
-			return true
-		} else return false
-	}
-
 	const [data, setData] = useState()
-	/*
-	useEffect(async () => {
-		
-	})*/
+	var color = getComputedStyle(document.documentElement).getPropertyValue('--main-color')
+	var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color-t')
+
     useEffect(async ()=> {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
@@ -34,7 +26,13 @@ function DetailedChartChart(props) {
 		})
 		if (props.socket) return () => socket.disconnect();
     }, [])
-    
+
+	function isDataNull(datas) {
+		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
+			return true
+		} else return false
+	}
+
     function getRelativeChartData(datas) {
 		if (isDataNull(datas)) return
         return {
@@ -57,10 +55,10 @@ function DetailedChartChart(props) {
 			label: name,
 			data: data,
 
-			fill: false,
+			fill: true,
 			lineTension: 0.05,
-			backgroundColor: 'orange',
-			borderColor: 'orange',
+			backgroundColor: bgColor,
+			borderColor: color,
 			borderWidth: 2.5,
 			borderCapStyle: 'butt',
 			//borderDash: [5, 5],
