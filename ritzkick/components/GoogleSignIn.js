@@ -1,23 +1,45 @@
-import React from 'react'
+import Script from 'next/script'
+import React, {useEffect} from 'react'
+import Head from 'next/head'
+import GoogleLogin, { GoogleLogout } from 'react-google-login';
 
-class GoogleSignIn extends React.Component {
-	handleGoogle(event) {
-		alert('Google')
-		event.preventDefault()
+export default function GoogleSignIn(){
+
+	function onSignIn(googleUser) {
+		var profile = googleUser.getBasicProfile();
+		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		console.log('Name: ' + profile.getName());
+		console.log('Image URL: ' + profile.getImageUrl());
+		console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+		var id_token = googleUser.getAuthResponse().id_token;
+		console.log('Id_token: ' + id_token)
+
+		// var xhr = new XMLHttpRequest();
+		// xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
+		// xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		// xhr.onload = function() {
+		//   console.log('Signed in as: ' + xhr.responseText);
+		// };
+		// xhr.send('idtoken=' + id_token);
+
 	}
 
-	render() {
-		return (
-			<div id='googleSignin'>
-				<input
-					type='image'
-					src='https://img.icons8.com/color/48/000000/google-logo.png'
-					onClick={this.handleGoogle}
-				></input>
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+		  console.log('User signed out.');
+		});
+	  }
+
+	return (
+		<div id='googleSignin'>
+				<GoogleLogin
+					clientId='878368249999-m504lbn87tdvn4cd9lrmg2vkh54iu8bi.apps.googleusercontent.com'
+					buttonText='Login'
+					onSuccess={onSignIn}
+				/>
+				{/* <a href="#" onClick={signOut}>Sign out</a> */}
 				<h4>Se connecter avec Google</h4>
 			</div>
-		)
-	}
+	)
 }
-
-export default GoogleSignIn
