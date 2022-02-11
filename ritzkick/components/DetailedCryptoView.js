@@ -14,16 +14,16 @@ import DetailedMenu from './DetailedMenu';
 const io = require('socket.io-client');
 
 function DetailedCryptoView(props) {
-	// Validation:
-	if (!props.slug || !props.currency) return <div>Impossible action.</div>;
-
 	const [slug, setSlug] = useState(props.slug + '-' + props.currency);
 	const [firstData, setFirstData] = useState();
 	const [socket, setSocket] = useState(io('http://localhost:3000/', { auth: { token: [slug] } }));
 
 	useEffect(async () => {
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug));
+		if (props.slug && props.currency) setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug));
 	}, []);
+
+	// Validation:
+	if (!props.slug || !props.currency) return <div>Impossible action.</div>;
 
 	return !firstData ? (
 		<p>Loading...</p>

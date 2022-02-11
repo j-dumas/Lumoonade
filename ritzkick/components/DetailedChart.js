@@ -15,14 +15,14 @@ const DetailedChartChart = dynamic(
 );
 
 function DetailedChart(props) {
-	// Validation:
-	if (!props.slug) return <div>Impossible action.</div>;
-
 	const [showPrice, setShowPrice] = useState(true);
 	const [showChange, setShowChange] = useState(false);
 	const [showVolume, setShowVolume] = useState(false);
 	const [dateRange, setDateRange] = useState('5D');
 	const [interval, setInterval] = useState('15m');
+
+	// Validation:
+	if (!props.slug) return <div>Impossible action.</div>;
 
 	return (
 		<div className="detailed-chart detailed-div">
