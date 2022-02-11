@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Watchlist = require('../../db/model/watchlist')
 const authentification = require('../middleware/auth')
 const router = express.Router()
-const HttpError = require('../http_error')
+const { ConflictHttpError } = require('../../utils/http_errors')
 require('../swagger_models')
 
 /**
@@ -60,9 +60,7 @@ router.post('/api/watchlist', authentification, async (req, res) => {
 		await watchlist.save()
 		res.status(201).send(watchlist)
 	} catch (e) {
-		res.status(e.status).send({
-			error: e.message
-		})
+		await sendError(res, e)
 	}
 })
 

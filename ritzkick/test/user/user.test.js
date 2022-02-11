@@ -111,13 +111,13 @@ const walletTestTwo = {
 const favoriteTestOne = {
 	_id: favoriteIdOne,
 	owner: testIdOne,
-	asset: new mongoose.Types.ObjectId()
+	slug: 'btc'
 }
 
 const favoriteTestTwo = {
 	_id: favoriteIdTwo,
 	owner: testIdTwo,
-	asset: new mongoose.Types.ObjectId()
+	slug: 'eth'
 }
 
 const watchlistTestOne = {
@@ -242,12 +242,11 @@ test(`I should not be able to access someone else account's wallet details and o
 		.send()
 		.expect(200)
 	const body = res.body
+	const wallets = body.wallets
 
-	expect(body.length).toBe(1)
-	expect(body[0].owner == testIdOne).toBeTruthy()
-	expect(body[0]._id == walletIdOne).toBeTruthy()
-	expect(body[0].owner == testIdTwo).toBeFalsy()
-	expect(body[0]._id == walletIdTwo).toBeFalsy()
+	expect(body.count).toBe(1)
+	expect(wallets[0].owner == testIdOne).toBeTruthy()
+	expect(wallets[0]._id == walletIdOne).toBeTruthy()
 })
 
 test(`I should not be able to access someone else account's favorite details and only get my favorite details`, async () => {
@@ -257,12 +256,11 @@ test(`I should not be able to access someone else account's favorite details and
 		.send()
 		.expect(200)
 	const body = res.body
+	const favorites = body.favorites
 
-	expect(body.length).toBe(1)
-	expect(body[0].owner == testIdOne).toBeTruthy()
-	expect(body[0]._id == favoriteIdOne).toBeTruthy()
-	expect(body[0].owner == testIdTwo).toBeFalsy()
-	expect(body[0]._id == favoriteIdTwo).toBeFalsy()
+	expect(body.count).toBe(1)
+	expect(favorites[0].owner == testIdOne).toBeTruthy()
+	expect(favorites[0]._id == favoriteIdOne).toBeTruthy()
 })
 
 test(`I should not be able to access someone else account's watchlist details and only get my watchlist details`, async () => {
@@ -272,12 +270,11 @@ test(`I should not be able to access someone else account's watchlist details an
 		.send()
 		.expect(200)
 	const body = res.body
+	const watchlists = body.watchlists
 
-	expect(body.length).toBe(1)
-	expect(body[0].owner == testIdOne).toBeTruthy()
-	expect(body[0]._id == watchlistIdOne).toBeTruthy()
-	expect(body[0].owner == testIdTwo).toBeFalsy()
-	expect(body[0]._id == watchlistIdTwo).toBeFalsy()
+	expect(body.count).toBe(1)
+	expect(watchlists[0].owner == testIdOne).toBeTruthy()
+	expect(watchlists[0]._id == watchlistIdOne).toBeTruthy()
 })
 
 test(`I want to purge all the active session except mine, should get 0 purged because I only logged once.`, async () => {
