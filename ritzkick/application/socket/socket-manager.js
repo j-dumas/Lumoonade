@@ -22,7 +22,7 @@ const initialize = (server) => {
     // General Channel for general data
     rm.add('general')
     let general = rm.getRoom('general')
-    general.setService(new Service(general, process.env.YAHOO_API+'quote?&symbols=', {
+    general.setService(new Service(general, process.env.YAHOO_API +'quote?&symbols=', {
         method: 'GET'
     }))
 
@@ -65,11 +65,13 @@ const initialize = (server) => {
         // This is used to update the query list of a socket
         // ---------------------------------------
         socket.on('update', (id, query) => {
+            log('Update', `Updating values for ${id}`)
             let rooms = rm.getRoomsOfSocket(id)
             rooms.forEach(room => {
                 room.getService().query = parser.appendToList(room.getService().query, query)
                 room.getService().query = room.getService().query.flat()
                 room.modifyClient(id, { query })
+                socket.handshake.auth.query = query
             })
         })
 
@@ -77,15 +79,20 @@ const initialize = (server) => {
         // This is used to switch rooms
         // ---------------------------------------
         socket.on('switch', (id, newRoom, graph) => {
+            if (!id) return
             log('Switch', `${id} is switching room`)
-            const { query, append } = socket.handshake.auth
+            let client = rm.getClient(id)
+            if (!client) {
+                return log('Switch', `${id} failed to switch`) 
+            }
+            const { query } = client
+            const { append } = socket.handshake.auth
             let socketRooms = rm.getRoomsOfSocket(id)
             socketRooms = socketRooms.filter(r => !newRoom.find(e => e === r.name))
             socketRooms.forEach(room => {
                 socket.leave(room.name)
                 rm.disconnectFromRoom(socket, room.name)
             })
-
             connectionProcess(socket, newRoom, query, append, graph)
         })
 
@@ -104,6 +111,7 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
         if (r) {
             if (r.append(socket)) {
                 log('Server', `${socket.id} is new to the room ${r.name}`)
+                console.log(socket.handshake.auth)
                 socket.join(room)
                 if (append) {
                     r.getService().setAppendData(append)

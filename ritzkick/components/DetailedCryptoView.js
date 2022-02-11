@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Icons from './Icons'
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Icons from './Icons';
 import Functions, {
-    GetCryptocurrencyInformationsBySlug,
-    GetTopPopularCryptocurrencies,
-    GetTopEfficientCryptocurrencies
-} from '../services/CryptoService'
-import ButtonFavorite from '../components/ButtonFavorite'
-import DetailedInformations from '../components/DetailedInformations'
-import DetailedChart from './DetailedChart'
-import DetailedMenu from './DetailedMenu'
+	GetCryptocurrencyInformationsBySlug,
+	GetTopPopularCryptocurrencies,
+	GetTopEfficientCryptocurrencies
+} from '../services/CryptoService';
+import ButtonFavorite from '../components/ButtonFavorite';
+import DetailedInformations from '../components/DetailedInformations';
+import DetailedChart from './DetailedChart';
+import DetailedMenu from './DetailedMenu';
 
-const io = require('socket.io-client')
+const io = require('socket.io-client');
 
 function DetailedCryptoView(props) {
-    // Validation:
-    if (!props.slug || !props.currency) return <div>Impossible action.</div>
+	// Validation:
+	if (!props.slug || !props.currency) return <div>Impossible action.</div>;
 
     const [slug, setSlug] = useState(props.slug + '-' + props.currency)
     const [firstData, setFirstData] = useState()
@@ -26,7 +26,7 @@ function DetailedCryptoView(props) {
 
     useEffect(async () => {
         setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-
+       
         setSocket(io('http://localhost:3000/', {
             auth: {
                 rooms: ['general', `graph-${dateRange}-${interval}`],

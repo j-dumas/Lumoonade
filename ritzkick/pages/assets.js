@@ -33,14 +33,3 @@ export default function Assets() {
 	)
 }
 
-export async function getStaticPaths() {
-	const paths = getAllPostIds()
-  return {
-    paths,
-    fallback: false
-  }
-  }
-  
-export async function getStaticProps({ params }) {
-	// Fetch necessary data for the blog post using params.id
-}

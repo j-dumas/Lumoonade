@@ -1,12 +1,12 @@
-const chalk = require('chalk')
-const moment = require('moment')
+const chalk = require('chalk');
+const moment = require('moment');
 
 /**
  * @returns Current Date as ISOString
  */
 const getTimeStamp = () => {
-	return moment.unix(moment.now() / 1000).format('YYYY-MM-DD hh:mm:ss A')
-}
+	return moment.unix(moment.now() / 1000).format('YYYY-MM-DD hh:mm:ss A');
+};
 
 /**
  * Logs information in green in the console
@@ -17,8 +17,8 @@ const getTimeStamp = () => {
  * @param {any} object Object to log if needed, defaults to ''
  */
 const info = (namespace, message, object = '') => {
-	console.log(chalk.green(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object))
-}
+	console.log(chalk.green(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object));
+};
 
 /**
  * Logs warnings in yellow in the console
@@ -29,8 +29,8 @@ const info = (namespace, message, object = '') => {
  * @param {any} object Object to log if needed, defaults to ''
  */
 const warn = (namespace, message, object = '') => {
-	console.log(chalk.yellow(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object))
-}
+	console.log(chalk.yellow(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object));
+};
 
 /**
  * Logs errors in red in the console
@@ -41,8 +41,8 @@ const warn = (namespace, message, object = '') => {
  * @param {any} object Object to log if needed, defaults to ''
  */
 const error = (namespace, message, object = '') => {
-	console.log(chalk.red(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object))
-}
+	console.log(chalk.red(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object));
+};
 
 /**
  * Logs debug information in blue in the console
@@ -53,7 +53,7 @@ const error = (namespace, message, object = '') => {
  * @param {any} object Object to log if needed, defaults to ''
  */
 const debug = (namespace, message, object = '') => {
-	console.log(chalk.blue(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object))
-}
+	console.log(chalk.blue(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object));
+};
 
-module.exports = { info, warn, error, debug }
+module.exports = { info, warn, error, debug };

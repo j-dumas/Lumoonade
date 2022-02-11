@@ -3,7 +3,7 @@ function Podium() {
 		<>
 			<div></div>
 		</>
-	)
+	);
 }
 
-export default podium
+export default podium;

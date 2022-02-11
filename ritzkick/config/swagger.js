@@ -4,19 +4,19 @@ module.exports = {
 		title: 'Cryptool',
 		description: 'Cryptool API',
 		license: {
-			name: 'MIT',
-		},
+			name: 'MIT'
+		}
 	},
 	security: {
 		BearerAuth: {
 			type: 'http',
 			scheme: 'bearer',
-			bearerFormat: 'JWT',
-		},
+			bearerFormat: 'JWT'
+		}
 	},
 	baseDir: __dirname,
 	filesPattern: '../api/**/*.js',
-	swaggerUIPath: '/api-docs',
-}
+	swaggerUIPath: '/api-docs'
+};
 
 // https://brikev.github.io/express-jsdoc-swagger-docs/#/

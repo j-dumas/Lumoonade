@@ -48,7 +48,7 @@ const disconnectFromRoom = (socket, roomName) => {
  * @param {string} room 
  * @returns list of all clients
  */
-const getClientFromRoom = (room) => {
+const getClientsFromRoom = (room) => {
     let _ = getRoom(room)
     return _.clients 
 }
@@ -60,6 +60,13 @@ const getClientFromRoom = (room) => {
  */
 const getRoomsOfSocket = (id) => {
     return rooms.filter(room => room.hasClient(id))
+}
+
+const getClient = (id) => {
+    let rooms = getRoomsOfSocket(id)
+    if (!rooms) return undefined
+    let client = getRoom(rooms[0].name).getClient(id)
+    return client
 }
 
 const getRoom = (name) => {
@@ -76,8 +83,9 @@ module.exports = {
     add,
     remove,
     disconnectFromRoom,
-    getClientFromRoom,
+    getClientsFromRoom,
     getRoom,
     disconnect,
-    getRoomsOfSocket
+    getRoomsOfSocket,
+    getClient
 }

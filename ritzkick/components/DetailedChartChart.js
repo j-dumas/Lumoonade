@@ -6,7 +6,7 @@ import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
-const NB_DATA_DISPLAYED_1ST_VIEW = 24
+const NB_DATA_DISPLAYED_1ST_VIEW = 24;
 
 function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
@@ -64,8 +64,8 @@ function DetailedChartChart(props) {
 			//borderDash: [5, 5],
 			hoverBorderColor: 'white',
 			pointStyle: 'circle',
-			pointRadius: 0,
-		}
+			pointRadius: 0
+		};
 	}
 
 	function getChartOptionsPlugins() {
@@ -73,12 +73,12 @@ function DetailedChartChart(props) {
 			title: {
 				// Chart title
 				display: false,
-				text: 'Chart',
+				text: 'Chart'
 			},
 			legend: {
 				// Chart legend
 				display: false,
-				position: 'top',
+				position: 'top'
 			},
 			zoom: {
 				zoom: {
@@ -87,18 +87,18 @@ function DetailedChartChart(props) {
 						speed: 0.05,
 					},
 					pinch: {
-						enabled: false,
+						enabled: false
 					},
 					drag: {
-						enabled: false,
+						enabled: false
 					},
-					mode: 'x',
+					mode: 'x'
 				},
 				pan: {
 					enabled: true,
 					mode: 'x',
 					//overScaleMode:'y',
-					threshold: 0, // default:10
+					threshold: 0 // default:10
 				},
 				limits: {
 					//y: {min: -1000, max: props.data[0].maxValue+1000},
@@ -126,36 +126,36 @@ function DetailedChartChart(props) {
                     text: 'Time'
                 },
 				ticks: {
-                    display:true,
-                    color: 'rgb(158,159,160)',
+					display: true,
+					color: 'rgb(158,159,160)',
 					padding: 10,
 					font: {
 						size: 13
 					}
-                },
-            },
-            y: {
-                beginAtZero: false,
-                grid: {
-                    display: true,
-                    drawBorder: false,
-                    drawOnChartArea: true,
-                    drawTicks: false,
-                    color: 'rgb(51, 52, 54)',
-                    borderDash: [8, 8],
-                    borderWidth: 1
-                },
-                ticks: {
-                    display:true,
-                    color: 'rgb(158,159,160)',
+				}
+			},
+			y: {
+				beginAtZero: false,
+				grid: {
+					display: true,
+					drawBorder: false,
+					drawOnChartArea: true,
+					drawTicks: false,
+					color: 'rgb(51, 52, 54)',
+					borderDash: [8, 8],
+					borderWidth: 1
+				},
+				ticks: {
+					display: true,
+					color: 'rgb(158,159,160)',
 					padding: 12,
 					font: {
 						size: 12.5
 					}
-                }
-            },
-        }
-    }
+				}
+			}
+		};
+	}
 
 	function getChartOptions(datas) {
 		return {
@@ -164,10 +164,10 @@ function DetailedChartChart(props) {
 			interaction: {
 				mode: 'nearest',
 				intersect: false,
-				axis: 'x',
+				axis: 'x'
 			},
 			animation: {
-				duration: 0,
+				duration: 0
 			},
 			plugins: getChartOptionsPlugins(),
 			scales: getChartOptionsScales(datas),
@@ -183,7 +183,7 @@ function DetailedChartChart(props) {
 				options={getChartOptions(data)}
 			/>
 		</div>
-	)
+	);
 }
 
-export default DetailedChartChart
+export default DetailedChartChart;

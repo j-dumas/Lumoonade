@@ -95,14 +95,14 @@
 }
 
 .button {
-    background-color: var(--main-color);
-    padding: 2px 9px 4px 8px;
-    border-radius: 10px;
-    border: 2px solid;
-    border-color: var(--main-color);
-    transition: .25s;
-    /*max-height: 35px;*/
-    height:fit-content;
+	background-color: var(--main-color);
+	padding: 2px 9px 4px 8px;
+	border-radius: 10px;
+	border: 2px solid;
+	border-color: var(--main-color);
+	transition: 0.25s;
+	/*max-height: 35px;*/
+	height: fit-content;
 }
 .button:hover {
 	background-color: transparent;

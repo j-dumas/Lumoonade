@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react'
-import Functions from '../services/CryptoService'
-import ButtonFavorite from '../components/ButtonFavorite'
-
+import React, { useState, useEffect } from 'react';
+import Functions from '../services/CryptoService';
+import ButtonFavorite from '../components/ButtonFavorite';
 
 function DetailedInformations(props) {
-    function format(x) {
-		return Number.parseFloat(x).toFixed(2)
+	function format(x) {
+		return Number.parseFloat(x).toFixed(2);
 	}
 
     const [data, setData] = useState(props.firstData)
@@ -54,5 +53,5 @@ function DetailedInformations(props) {
         </>
     )
 }
-// 
+//
 export default DetailedInformations;

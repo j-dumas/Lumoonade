@@ -36,6 +36,10 @@ class Room {
         return true
     }
 
+    getClient(id) {
+        return this.clients.find(client => client.id === id)
+    }
+
     hasClients() {
         return this.clients.length > 0
     }
@@ -45,7 +49,7 @@ class Room {
     }
 
     modifyClient(id, data) {
-        let client = this.clients.find(client => client.id === id)
+        let client = this.getClient(id)
         Object.keys(data).forEach(key => {
             client[key] = data[key]
         })

@@ -7,9 +7,9 @@ module.exports = {
 				userAgent: '*',
 				disallow: '/api/',
 				disallow: '/api-docs',
-				disallow: '/forgotPassword',
-			},
-		],
+				disallow: '/forgotPassword'
+			}
+		]
 	},
-	exclude: ['/api/*', '/api-docs'],
-}
+	exclude: ['/api/*', '/api-docs']
+};
