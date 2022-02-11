@@ -127,3 +127,7 @@ input[type='number'] {
     width: 25%;
     border-radius: 10px;
 }
+
+#favorites{
+    width: 200%;
+}

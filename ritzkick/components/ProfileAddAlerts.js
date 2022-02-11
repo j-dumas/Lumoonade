@@ -13,8 +13,10 @@ export default function ProfileAddAlerts() {
 
     useEffect(() => {
         if(!isOpen){
+            //Reset chaque fois que le popup est fermé
             setState({asset: 'BTC', target: 0, symbol: false})
         }
+        console.log(isOpen)
     }, [isOpen])
 
     function handleAssetChange(event){
@@ -41,7 +43,7 @@ export default function ProfileAddAlerts() {
 
     function handleSubmit(){
         //Api call to add
-        console.log(state)
+        alert(state)
     }
 
   return (
