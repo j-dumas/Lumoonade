@@ -12,7 +12,7 @@ export async function getWatchList(){
         })
         
         let json = await response.json()
-        return json
+        return json.watchlists
     }
     catch(e){
         console.log(e)
