@@ -3,7 +3,6 @@ import Icons from './Icons'
 import ButtonFavorite from '../components/ButtonFavorite'
 
 function DetailedMenu(props) {
-    console.log(props.firstData)
     return (
         <div className='detailed-menu space-between row h-center'>
             <div className='row h-center detailed-menu-info'>

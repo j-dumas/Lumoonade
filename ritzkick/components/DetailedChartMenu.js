@@ -26,16 +26,16 @@ function DetailedChartMenu(props) {
             <div className='row detailed-chart-options left'>
                 <div className='row h-center'>
                     <label htmlFor="interval" className='detailed-div-title'>Date range</label>
-                    <select onChange={(e) => {props.sendDateRange(e.target.value)}} defaultValue="5D" className='detailed-chart-options-select' name="daterange">
+                    <select onChange={(e) => {props.sendDateRange(e.target.value)}} defaultValue="5d" className='detailed-chart-options-select' name="daterange">
                         <optgroup label="Date Range">
-                            <option value="1D">1 day</option>
-                            <option value="5D">5 days</option>
-                            <option value="1M">1 month</option>
-                            <option value="3M">3 months</option>
-                            <option value="6M">6 months</option>
-                            <option value="1Y">1 year</option>
-                            <option value="2Y">2 years</option>
-                            <option value="5Y">5 years</option>
+                            <option value="1d">1 day</option>
+                            <option value="5d">5 days</option>
+                            <option value="1mo">1 month</option>
+                            <option value="3mo">3 months</option>
+                            <option value="6mo">6 months</option>
+                            <option value="1y">1 year</option>
+                            <option value="2y">2 years</option>
+                            <option value="5y">5 years</option>
                         </optgroup>
                     </select>
                 </div>
