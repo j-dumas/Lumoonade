@@ -68,7 +68,7 @@ input[type='submit'], #purge-session {
 	color: var(--font-color);
 	border-radius: 10px;
 	border: 2px solid;
-	border-color: var(--orange);
+	border-color: var(--main-color);
 	padding: 12px;
 	width: 30%;
 	height: auto;

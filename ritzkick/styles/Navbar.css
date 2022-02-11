@@ -83,7 +83,7 @@
 }
 
 .active-link {
-	color: var(--orange);
+	color: var(--main-color);
 }
 
 .active {
@@ -95,14 +95,16 @@
 }
 
 .button {
-	background-color: var(--orange);
-	padding: 5.25px 9px 5px 8px;
+	background-color: var(--main-color);
+	padding: 2px 9px 4px 8px;
 	border-radius: 10px;
 	border: 2px solid;
-	border-color: var(--orange);
+	border-color: var(--main-color);
 	transition: 0.25s;
+	/*max-height: 35px;*/
+	height: fit-content;
 }
 .button:hover {
 	background-color: transparent;
-	color: var(--orange);
+	color: var(--main-color);
 }

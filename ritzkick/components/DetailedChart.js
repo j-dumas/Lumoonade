@@ -1,162 +1,33 @@
 import React, { useState, useEffect } from 'react'
-import { Line, Chart as Charts } from 'react-chartjs-2'
-import Chart from 'chart.js/auto'
-import zoomPlugin from 'chartjs-plugin-zoom'
-Chart.register(zoomPlugin)
+import Functions, {
+	GetCryptocurrencyInformationsBySlug,
+	GetTopPopularCryptocurrencies,
+	GetTopEfficientCryptocurrencies
+} from '../services/CryptoService'
+import dynamic from 'next/dynamic'
+import DetailedChartMenu from './DetailedChartMenu'
 
-const NB_DATA_DISPLAYED_1ST_VIEW = 24
+const DetailedChartChart = dynamic(
+	() => {
+		return import('./DetailedChartChart')
+	},
+	{ ssr: false }
+)
 
 function DetailedChart(props) {
-	const chartReference = React.createRef()
-	const getChartData = () => {
-		return props.getChartDatas()
-	}
+	const [showPrice, setShowPrice] = useState(true)
+	const [showChange, setShowChange] = useState(false)
+	const [showVolume, setShowVolume] = useState(false)
+	const [dateRange, setDateRange] = useState('5D')
+	const [interval, setInterval] = useState('15m')
 
-	useEffect(() => {
-		setInterval(async () => {
-			const chart = chartReference.current
-			chart.data = getRelativeChartData()
-			chart.update()
-		}, 1000)
-	})
-
-	function getRelativeChartData() {
-		return {
-			labels: getChartData()[0].x,
-			datasets: getRelativeChartDataDatasets(),
-		}
-	}
-
-	function getRelativeChartDataDatasets() {
-		const datasets = []
-		getChartData().forEach((element) => {
-			datasets.push(getRelativeChartDataDataset(element.name, element.value, element.color))
-		})
-		return datasets
-	}
-
-	function getRelativeChartDataDataset(name, data, color) {
-		return {
-			type: 'line',
-			label: name,
-			data: data,
-
-			fill: false,
-			lineTension: 0.1,
-			backgroundColor: color,
-			borderColor: color,
-			borderWidth: 3,
-			borderCapStyle: 'butt',
-			//borderDash: [5, 5],
-			hoverBorderColor: 'white',
-			pointStyle: 'circle',
-			pointRadius: 2,
-		}
-	}
-
-	function getChartOptionsPlugins() {
-		return {
-			title: {
-				// Chart title
-				display: false,
-				text: '',
-			},
-			legend: {
-				// Chart legend
-				display: false,
-				position: 'top',
-			},
-			zoom: {
-				zoom: {
-					wheel: {
-						enabled: true,
-						speed: 0.01,
-					},
-					pinch: {
-						enabled: false,
-					},
-					drag: {
-						enabled: false,
-					},
-					mode: 'x',
-				},
-				pan: {
-					enabled: true,
-					mode: 'x',
-					//overScaleMode:'y',
-					threshold: 0, // default:10
-				},
-				limits: {
-					//y: {min: -1000, max: props.data[0].maxValue+1000},
-					//x: {min: 5} //DATE_RANGE * INTERVAL * 24
-				},
-			},
-		}
-	}
-
-	function getChartOptionsScales() {
-		return {
-			x: {
-				min: getChartData()[0].value.length - NB_DATA_DISPLAYED_1ST_VIEW,
-				grid: {
-					display: true,
-					drawBorder: true,
-					borderColor: 'gray',
-					color: 'red',
-					borderWidth: 2,
-					drawOnChartArea: false,
-					drawTicks: false,
-				},
-				ticks: {
-					display: true,
-					color: 'white',
-				},
-				title: {
-					display: false,
-					text: 'Time',
-				},
-			},
-			y: {
-				beginAtZero: false,
-				grid: {
-					display: true,
-					drawBorder: true,
-					drawOnChartArea: true,
-					drawTicks: true,
-					color: 'gray',
-				},
-				ticks: {
-					display: true,
-					color: 'white',
-				},
-			},
-		}
-	}
-
-	function getChartOptions() {
-		return {
-			maintainAspectRatio: false,
-			responsive: true,
-			interaction: {
-				mode: 'nearest',
-				intersect: false,
-				axis: 'x',
-			},
-			animation: {
-				duration: 0,
-			},
-			plugins: getChartOptionsPlugins(),
-			scales: getChartOptionsScales(),
-		}
-	}
+	// Validation:
+	if (!props.slug) return <div>Impossible action.</div>
 
 	return (
-		<div className='detailed-chart'>
-			<Charts
-				ref={chartReference}
-				data={getRelativeChartData()}
-				options={getChartOptions()}
-			/>
+		<div className="detailed-chart detailed-div">
+			<DetailedChartMenu sendDateRange={setDateRange} sendInterval={setInterval} />
+			<DetailedChartChart slug="ETH-CAD" dateRange={dateRange} interval={interval} />
 		</div>
 	)
 }

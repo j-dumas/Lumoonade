@@ -4,12 +4,13 @@ const watchlistSchema = new mongoose.Schema(
 	{
 		owner: {
 			type: mongoose.Types.ObjectId,
-			required: true,
+			required: true
 		},
-		asset: {
-			type: mongoose.Types.ObjectId,
+		slug: {
+			type: String,
 			required: true,
 			trim: true,
+			lowercase: true
 		},
 		target: {
 			type: Number,
@@ -18,11 +19,11 @@ const watchlistSchema = new mongoose.Schema(
 				if (target < 0) {
 					throw new Error('Target cannot be set under 0.')
 				}
-			},
-		},
+			}
+		}
 	},
 	{
-		timestamps: true,
+		timestamps: true
 	}
 )
 

@@ -16,14 +16,19 @@ export default function Login() {
 
 	return (
 		<div>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | LOGIN',
+					description: 'Cryptool login page'
+				}}
+			/>
 			<main>
 				<LoginForm />
 				<Bubbles />
-				<div className='spacer layer1'></div>
+				<div className="spacer layer1"></div>
 			</main>
 			<Footer />
-			<div className='cursor'></div>
+			<div className="cursor"></div>
 		</div>
 	)
 }

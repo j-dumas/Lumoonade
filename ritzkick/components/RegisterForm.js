@@ -65,9 +65,7 @@ class RegisterForm extends React.Component {
 			}
 		}
 		if (!username.validity.valid) {
-			username.setCustomValidity(
-				"Entrez un nom d'utilisateur contenant 4 charactères minimum"
-			)
+			username.setCustomValidity("Entrez un nom d'utilisateur contenant 4 charactères minimum")
 			username.reportValidity()
 		}
 		if (this.state.username == '') {

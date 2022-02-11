@@ -28,7 +28,9 @@ utests:
         - mongo:latest
     only:
         refs:
-            - pushes
+            - main
+        changes:
+            - ritzkick/*
 
 #================
 # DEPLOYMENT
@@ -48,3 +50,5 @@ deploy:
     only:
         refs:
             - main
+        changes:
+            - ritzkick/*

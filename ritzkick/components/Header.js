@@ -7,10 +7,10 @@ function Header() {
 	const [mobile, setMobile] = useState(true)
 	const [isConnected, setConnection] = useState(false)
 
-	const handleResize = () => {
+	const handleResize = useCallback(() => {
 		if (window.innerWidth >= 1100) setMobile(false)
 		else setMobile(true)
-	}
+	}, [])
 
     const connection = () => {
         //todo: validation on token
@@ -27,7 +27,7 @@ function Header() {
 
 	return (
 		<>
-			<header className='row center left'>
+			<header className="row center left">
 				<Navbar mobile={mobile} connected={isConnected} />
 			</header>
 		</>

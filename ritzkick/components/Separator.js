@@ -4,7 +4,7 @@ class Separator extends React.Component {
 	render() {
 		return (
 			<div>
-				<hr className='longLine'></hr>
+				<hr className="longLine"></hr>
 			</div>
 		)
 	}

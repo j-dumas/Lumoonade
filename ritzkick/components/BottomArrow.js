@@ -14,8 +14,8 @@ function BottomArrow() {
 
 	return (
 		<>
-			<div className='bottom-arrow row center'>
-				<div onClick={scrollDown()} className='chevron-down'>
+			<div className="bottom-arrow row center">
+				<div onClick={scrollDown()} className="chevron-down">
 					<Icons.ChevronDown />
 				</div>
 			</div>

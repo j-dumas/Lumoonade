@@ -21,13 +21,13 @@ function SimpleChart(props) {
 				borderWidth: 2,
 				data: props.data.value,
 				pointStyle: 'circle',
-				pointRadius: 0,
-			},
-		],
+				pointRadius: 0
+			}
+		]
 	})
 
 	return (
-		<div className='simple-chart'>
+		<div className="simple-chart">
 			<Line
 				data={datas}
 				options={{
@@ -36,15 +36,15 @@ function SimpleChart(props) {
 					plugins: {
 						legend: {
 							display: false,
-							position: 'left',
+							position: 'left'
 						},
 						title: {
 							display: false,
-							text: 'Chart.js Line Chart',
+							text: 'Chart.js Line Chart'
 						},
 						labels: {
-							x: { display: false },
-						},
+							x: { display: false }
+						}
 					},
 					scales: {
 						x: {
@@ -52,30 +52,30 @@ function SimpleChart(props) {
 								display: false,
 								drawBorder: false,
 								drawOnChartArea: false,
-								drawTicks: false,
+								drawTicks: false
 							},
 							ticks: {
-								display: false,
-							},
+								display: false
+							}
 						},
 						y: {
 							grid: {
 								display: false,
 								drawBorder: false,
 								drawOnChartArea: false,
-								drawTicks: false,
+								drawTicks: false
 							},
 							ticks: {
-								display: false,
-							},
-						},
+								display: false
+							}
+						}
 					},
 					legend: {
-						display: false,
+						display: false
 					},
 					tooltips: {
-						usePointStyle: false,
-					},
+						usePointStyle: false
+					}
 				}}
 			/>
 		</div>

@@ -2,17 +2,21 @@
 	"name": "ritzkick",
 	"private": true,
 	"scripts": {
-		"start": "env-cmd -f ./.prod.env node server.js",
-		"dev": "env-cmd -f ./.local.env nodemon server.js",
+		"start": "env-cmd -f ./env/.prod.env node server.js",
+		"start-test": "env-cmd -f ./env/.prod.test.env node server.js",
+		"dev": "env-cmd -f ./env/.local.env nodemon server.js",
 		"build": "next build",
+		"analyze": "cross-env ANALYZE=true next build",
 		"postbuild": "next-sitemap",
 		"lint": "next lint",
-		"test": "env-cmd -f ./.test.env jest --runInBand",
-		"test-ci": "env-cmd -f ./.test.ci.env jest --runInBand",
-		"test-dev": "env-cmd -f ./.test.env jest --watch --runInBand"
+		"test": "env-cmd -f ./env/.test.env jest --runInBand",
+		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand ",
+		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand",
+		"format": "prettier --config .prettierrc './**/*.js' './**/*.css' --write"
 	},
 	"jest": {
-		"testEnvironment": "node"
+		"testEnvironment": "node",
+		"testTimeout": 2000
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -20,11 +24,13 @@
 		"@fortawesome/free-regular-svg-icons": "^5.15.4",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
 		"@fortawesome/react-fontawesome": "^0.1.17",
+		"@next/bundle-analyzer": "^12.0.10",
 		"axios": "^0.25.0",
 		"bcryptjs": "^2.4.3",
 		"chalk": "^4.1.2",
 		"chart.js": "^3.7.0",
 		"chartjs-plugin-zoom": "^1.2.0",
+		"cross-env": "^7.0.3",
 		"dotenv": "^14.3.2",
 		"env-cmd": "^10.1.0",
 		"express": "^4.17.2",
@@ -42,11 +48,15 @@
 		"react-google-login": "^5.2.2",
 		"react-hooks-use-modal": "^2.1.0",
 		"sass": "^1.49.0",
+		"socket.io": "^4.4.1",
+		"socket.io-client": "^4.4.1",
 		"validator": "^13.7.0"
 	},
 	"devDependencies": {
 		"eslint": "8.7.0",
 		"eslint-config-next": "12.0.9",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-prettier": "^4.0.0",
 		"jest": "^27.4.7",
 		"nodemon": "^2.0.15",
 		"supertest": "^6.2.2"
