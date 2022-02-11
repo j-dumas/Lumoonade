@@ -28,7 +28,7 @@ class ForgotPasswordForm extends React.Component {
 			To: 'hubert.laliberte@gmail.com',
 			From: 'rubiscrash0@gmail.com',
 			Subject: 'test',
-			Body: 'test',
+			Body: 'test'
 		}).then((message) => alert(message))
 		event.preventDefault()
 	}
@@ -46,31 +46,28 @@ class ForgotPasswordForm extends React.Component {
 
 	render() {
 		return (
-			<Container className='p-3 form'>
-				<Script src='https://smtpjs.com/v3/smtp.js' />
-				<h1 className='form-title'>Problème de connexion?</h1>
-				<h4>
-					Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer
-					votre compte.
-				</h4>
-				<form method='POST'>
+			<Container className="p-3 form">
+				<Script src="https://smtpjs.com/v3/smtp.js" />
+				<h1 className="form-title">Problème de connexion?</h1>
+				<h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
+				<form method="POST">
 					<input
-						name='email'
-						id='emailField'
-						type='email'
-						placeholder='Courriel'
+						name="email"
+						id="emailField"
+						type="email"
+						placeholder="Courriel"
 						onChange={this.handleEmailChange}
 						required
 					></input>
-					<input type='submit' value='Envoyez' onClick={this.handleSubmit}></input>
+					<input type="submit" value="Envoyez" onClick={this.handleSubmit}></input>
 				</form>
 				<AndSeparator />
-				<Link href='/register'>
-					<a className='link'>Créer un compte</a>
+				<Link href="/register">
+					<a className="link">Créer un compte</a>
 				</Link>
 				<Separator />
-				<Link href='/login'>
-					<a className='link'>Revenir à l&apos;écran de connexion</a>
+				<Link href="/login">
+					<a className="link">Revenir à l&apos;écran de connexion</a>
 				</Link>
 			</Container>
 		)

@@ -8,7 +8,7 @@ function DomHead({ pageMeta }) {
 		title: 'CRYPTOOL',
 		description: 'Cryptool for CryptoCurrencies',
 		type: 'website',
-		...pageMeta,
+		...pageMeta
 	}
 
 	const [url, setUrl] = useState('http://localhost')
@@ -28,8 +28,7 @@ function DomHead({ pageMeta }) {
 				else span.style.backgroundColor = 'var(--main-color)'
 				span.style.width = size.toString() + 'px'
 				span.style.height = size.toString() + 'px'
-				span.style.animationDelay =
-					((Math.floor(Math.random() * 30) + 0) / 10).toString() + 's'
+				span.style.animationDelay = ((Math.floor(Math.random() * 30) + 0) / 10).toString() + 's'
 
 				element.append(span)
 			}
@@ -75,14 +74,14 @@ function DomHead({ pageMeta }) {
 		<>
 			<Head>
 				<title>{meta.title}</title>
-				<meta name='description' content={meta.description} />
-				<link rel='icon' href='/favicon.ico' />
+				<meta name="description" content={meta.description} />
+				<link rel="icon" href="/favicon.ico" />
 				{/* Open Graph */}
-				<meta property='og:url' content={url} />
-				<meta property='og:type' content={meta.type} />
-				<meta property='og:site_name' content={WEBSITE_NAME} />
-				<meta property='og:description' content={meta.description} />
-				<meta property='og:title' content={meta.title} />
+				<meta property="og:url" content={url} />
+				<meta property="og:type" content={meta.type} />
+				<meta property="og:site_name" content={WEBSITE_NAME} />
+				<meta property="og:description" content={meta.description} />
+				<meta property="og:title" content={meta.title} />
 			</Head>
 		</>
 	)

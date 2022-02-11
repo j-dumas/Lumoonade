@@ -14,7 +14,7 @@ const refactorSymbolData = (
 		currency: true,
 		timestamps: true,
 		prices: true,
-		change: true,
+		change: true
 	}
 ) => {
 	const response = {}
@@ -27,9 +27,7 @@ const refactorSymbolData = (
 	}
 
 	if (timestamp)
-		response.timestamps = timestamp.map((unix) =>
-			moment.unix(unix).utcOffset('+0000').format('hh:mm:ss A')
-		)
+		response.timestamps = timestamp.map((unix) => moment.unix(unix).utcOffset('+0000').format('hh:mm:ss A'))
 
 	if (indicators) response.prices = quotes
 
@@ -42,12 +40,12 @@ const refactorSymbolData = (
 		response.data = {
 			from: {
 				date: fromDate.utcOffset('+0000').format('YYYY-MM-DD'),
-				time: fromDate.utcOffset('+0000').format('hh:mm:ss A'),
+				time: fromDate.utcOffset('+0000').format('hh:mm:ss A')
 			},
 			to: {
 				date: toDate.utcOffset('+0000').format('YYYY-MM-DD'),
-				time: toDate.utcOffset('+0000').format('hh:mm:ss A'),
-			},
+				time: toDate.utcOffset('+0000').format('hh:mm:ss A')
+			}
 		}
 	}
 
@@ -77,7 +75,7 @@ const parser = (data, feed) => {
 const fetchSymbol = async (symbols, { range = '1d', interval = '1h' } = {}) => {
 	let response = await axios({
 		url: `${api}spark?symbols=${symbols}&range=${range}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`,
-		method: 'GET',
+		method: 'GET'
 	})
 	return response.data.spark.result
 }
@@ -94,7 +92,7 @@ const fetchMarketData = async (symbols) => {
 	if (validator.isEmpty(symbols)) return { result: [] }
 	let query = await axios({
 		url: `${api}quote?&symbols=${symbols}`,
-		method: 'GET',
+		method: 'GET'
 	})
 	return query.data.quoteResponse
 }
@@ -108,5 +106,5 @@ module.exports = {
 	fetchSymbol,
 	fetchMarketData,
 	refactorSymbolData,
-	parser,
+	parser
 }

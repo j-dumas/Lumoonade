@@ -8,10 +8,10 @@ class GoogleSignIn extends React.Component {
 
 	render() {
 		return (
-			<div id='googleSignin'>
+			<div id="googleSignin">
 				<input
-					type='image'
-					src='https://img.icons8.com/color/48/000000/google-logo.png'
+					type="image"
+					src="https://img.icons8.com/color/48/000000/google-logo.png"
 					onClick={this.handleGoogle}
 				></input>
 				<h4>Se connecter avec Google</h4>

@@ -9,16 +9,16 @@ export default function Register() {
 			<DomHead
 				pageMeta={{
 					title: 'CRYPTOOL | REGISTER',
-					description: 'Cryptool register page',
+					description: 'Cryptool register page'
 				}}
 			/>
 			<main>
 				<RegisterForm />
 				<Bubbles />
-				<div className='spacer layer1'></div>
+				<div className="spacer layer1"></div>
 			</main>
 			<Footer />
-			<div className='cursor'></div>
+			<div className="cursor"></div>
 		</div>
 	)
 }

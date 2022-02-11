@@ -63,11 +63,11 @@ router.post('/api/auth/login', async (req, res) => {
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
-			token,
+			token
 		})
 	} catch (e) {
 		res.status(400).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
@@ -114,11 +114,11 @@ router.post('/api/auth/register', async (req, res) => {
 		const profile = await user.makeProfile()
 		res.status(201).send({
 			user: profile,
-			token,
+			token
 		})
 	} catch (e) {
 		res.status(400).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
@@ -144,7 +144,7 @@ router.post('/api/auth/logout', authentication, async (req, res) => {
 		req.user.sessions = req.user.sessions.filter((session) => session.session !== req.token)
 		await req.user.save()
 		res.send({
-			message: 'Succesfully logout!',
+			message: 'Succesfully logout!'
 		})
 	} catch (e) {
 		res.status(401).send()
@@ -164,7 +164,7 @@ router.post('/api/auth/forgot', async (req, res) => {
 		const { email } = req.body
 		// Todo need to find a user related to the email
 		res.send({
-			message: `Notification sent to ${email}`,
+			message: `Notification sent to ${email}`
 		})
 	} catch (e) {
 		res.status(500).send()

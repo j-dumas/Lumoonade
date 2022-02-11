@@ -13,22 +13,22 @@ const testUser = {
 	password: 'HardP@ssw0rd213',
 	sessions: [
 		{
-			session: jwt.sign({ _id: testId }, process.env.JWTSECRET),
-		},
-	],
+			session: jwt.sign({ _id: testId }, process.env.JWTSECRET)
+		}
+	]
 }
 
 let dummyData = {
 	email: 'dummy@mail.com',
 	username: 'dummyName',
-	password: 'HardP@ssw0rd213',
+	password: 'HardP@ssw0rd213'
 }
 
 beforeEach(async () => {
 	dummyData = {
 		email: 'dummy@mail.com',
 		username: 'dummyName',
-		password: 'HardP@ssw0rd213',
+		password: 'HardP@ssw0rd213'
 	}
 	await User.deleteMany()
 	await new User(testUser).save()
@@ -65,7 +65,7 @@ test('Should not be able to create a new account if the account already exists (
 test('Should not be able to log in if the user does not exist', async () => {
 	const credentials = {
 		email: dummyData.email,
-		password: dummyData.password,
+		password: dummyData.password
 	}
 	await request(server).post('/api/auth/login').send(credentials).expect(400)
 })
@@ -73,7 +73,7 @@ test('Should not be able to log in if the user does not exist', async () => {
 test('Should be able to log in if the user exists', async () => {
 	const credentials = {
 		email: testUser.email,
-		password: testUser.password,
+		password: testUser.password
 	}
 	await request(server).post('/api/auth/login').send(credentials).expect(200)
 })
@@ -85,7 +85,7 @@ test('Should not be able to logout if the user is not logged in.', async () => {
 test('Should be able to logout if the user is logged in.', async () => {
 	const credentials = {
 		email: testUser.email,
-		password: testUser.password,
+		password: testUser.password
 	}
 	const res = await request(server).post('/api/auth/login').send(credentials).expect(200)
 	const token = res.body.token

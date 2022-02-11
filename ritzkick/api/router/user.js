@@ -57,13 +57,13 @@ const router = express.Router()
  */
 router.get('/api/me', authentification, async (req, res) => {
 	await req.user.populate({
-		path: 'wallet',
+		path: 'wallet'
 	})
 	await req.user.populate({
-		path: 'favorite',
+		path: 'favorite'
 	})
 	await req.user.populate({
-		path: 'watchlist',
+		path: 'watchlist'
 	})
 	const profile = await req.user.makeProfile()
 	profile.sessions = req.user.sessions.length
@@ -169,11 +169,11 @@ router.patch('/api/me/update', authentification, async (req, res) => {
 		const profile = await user.makeProfile()
 		res.send({
 			profile,
-			message: 'Account updated!',
+			message: 'Account updated!'
 		})
 	} catch (e) {
 		res.status(400).send({
-			message: e.message,
+			message: e.message
 		})
 	}
 })
@@ -183,7 +183,7 @@ router.delete('/api/me/delete', authentification, async (req, res) => {
 		await req.user.remove()
 		res.send({
 			message: 'Removing account',
-			account: req.user,
+			account: req.user
 		})
 	} catch (e) {
 		res.status(500).send()
@@ -195,8 +195,8 @@ router.get('/api/me/wallets', [authentification, pagination], async (req, res) =
 		path: 'wallet',
 		options: {
 			limit: res.limit,
-			skip: res.skipIndex,
-		},
+			skip: res.skipIndex
+		}
 	})
 	res.send({ wallets: req.user.wallet, page: res.page, count: req.user.wallet.length })
 })
@@ -206,8 +206,8 @@ router.get('/api/me/favorites', [authentification, pagination], async (req, res)
 		path: 'favorite',
 		options: {
 			limit: res.limit,
-			skip: res.skipIndex,
-		},
+			skip: res.skipIndex
+		}
 	})
 	res.send({ favorites: req.user.favorite, page: res.page, count: req.user.favorite.length })
 })
@@ -217,8 +217,8 @@ router.get('/api/me/watchlists', [authentification, pagination], async (req, res
 		path: 'watchlist',
 		options: {
 			limit: res.limit,
-			skip: res.skipIndex,
-		},
+			skip: res.skipIndex
+		}
 	})
 	res.send({ watchlists: req.user.watchlist, page: res.page, count: req.user.watchlist.length })
 })
@@ -230,7 +230,7 @@ router.patch('/api/me/sessions/purge', authentification, async (req, res) => {
 		await req.user.save()
 		res.send({
 			message: `Successfully purged all other sessions!`,
-			purged: activeSessions - req.user.sessions.length,
+			purged: activeSessions - req.user.sessions.length
 		})
 	} catch (e) {
 		res.send(500).send()

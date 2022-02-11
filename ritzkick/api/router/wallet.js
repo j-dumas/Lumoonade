@@ -12,7 +12,7 @@ router.get('/api/wallets', async (req, res) => {
 		res.send(wallets)
 	} catch (e) {
 		res.status(500).send({
-			message: e.message,
+			message: e.message
 		})
 	}
 })

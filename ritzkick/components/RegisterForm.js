@@ -63,9 +63,7 @@ class RegisterForm extends React.Component {
 			}
 		}
 		if (!username.validity.valid) {
-			username.setCustomValidity(
-				"Entrez un nom d'utilisateur contenant 4 charactères minimum"
-			)
+			username.setCustomValidity("Entrez un nom d'utilisateur contenant 4 charactères minimum")
 			username.reportValidity()
 		}
 		if (this.state.username == '') {
@@ -92,13 +90,13 @@ class RegisterForm extends React.Component {
 					let response = await fetch('/api/auth/register', {
 						method: 'POST',
 						headers: {
-							'Content-Type': 'application/json',
+							'Content-Type': 'application/json'
 						},
 						body: JSON.stringify({
 							email: this.state.email,
 							username: this.state.username,
-							password: this.state.password,
-						}),
+							password: this.state.password
+						})
 					})
 
 					let json = await response.json()
@@ -116,49 +114,44 @@ class RegisterForm extends React.Component {
 
 	render() {
 		return (
-			<Container className='p-3 form'>
-				<h1 className='form-title'>{TITLE}</h1>
+			<Container className="p-3 form">
+				<h1 className="form-title">{TITLE}</h1>
 				<Google />
 				<AndSeparator />
-				<form onSubmit={this.handleSubmit} id='registerForm'>
+				<form onSubmit={this.handleSubmit} id="registerForm">
 					<input
-						id='usernameField'
-						type='text'
+						id="usernameField"
+						type="text"
 						placeholder="Nom d'utilisateur"
 						onChange={this.handleUsernameChange}
 						required
-						autoComplete='off'
-						minLength='4'
+						autoComplete="off"
+						minLength="4"
 					/>
 					<input
-						id='emailField'
-						type='email'
-						placeholder='Courriel'
+						id="emailField"
+						type="email"
+						placeholder="Courriel"
 						onChange={this.handleEmailChange}
 						required
-						autoComplete='off'
+						autoComplete="off"
 					/>
 					<input
-						id='passwordField'
-						type='password'
-						placeholder='Mot de passe'
+						id="passwordField"
+						type="password"
+						placeholder="Mot de passe"
 						onChange={this.handlePasswordChange}
 						required
-						minLength='8'
-						autoComplete='off'
+						minLength="8"
+						autoComplete="off"
 					/>
-					<input
-						id='submitButton'
-						type='submit'
-						onClick={this.handleSubmit}
-						value="S'inscrire"
-					/>
+					<input id="submitButton" type="submit" onClick={this.handleSubmit} value="S'inscrire" />
 					<div>
 						<Separator />
-						<div id='Signup'>
+						<div id="Signup">
 							<h4>Vous avez un compte?</h4>
-							<Link href='/login'>
-								<a className='link'>Connectez-vous</a>
+							<Link href="/login">
+								<a className="link">Connectez-vous</a>
 							</Link>
 						</div>
 					</div>

@@ -62,7 +62,6 @@ input[type='email']:invalid {
 }
 
 input[type='submit'] {
-	
 	background-color: var(--orange);
 	color: var(--font-color);
 	border-radius: 10px;

@@ -18,15 +18,15 @@ const DetailedCryptoView = dynamic(
 export default function Home() {
 	const [data, setData] = useState()
 
-    return (
-        <>
-            <DomHead/>
-            <Header/>
-            
-            <section className='section column principal first center'>
-                <DetailedCryptoView slug="ETH" currency="CAD"/>
-                <p>2</p>
-            </section>
+	return (
+		<>
+			<DomHead />
+			<Header />
+
+			<section className="section column principal first center">
+				<DetailedCryptoView slug="ETH" currency="CAD" />
+				<p>2</p>
+			</section>
 
 			<Footer />
 		</>

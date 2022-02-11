@@ -43,7 +43,7 @@ router.post('/api/favorite', authentification, async (req, res) => {
 	try {
 		let data = {
 			owner: req.user._id,
-			...req.body,
+			...req.body
 		}
 		const obj = await Favorite.findOne({ owner: data.owner, slug: data.slug }).exec()
 		if (obj) throw new ConflictHttpError()
@@ -77,7 +77,7 @@ router.delete('/api/favorite/:slug', authentification, async (req, res) => {
 	try {
 		let filter = {
 			owner: req.user._id,
-			slug: req.params.slug,
+			slug: req.params.slug
 		}
 		const obj = await Favorite.findOne(filter).exec()
 		if (!obj) throw new NotFoundHttpError()

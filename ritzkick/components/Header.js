@@ -26,7 +26,7 @@ function Header() {
 
 	return (
 		<>
-			<header className='row center left'>
+			<header className="row center left">
 				<Navbar mobile={mobile} connected={isConnected} />
 			</header>
 		</>

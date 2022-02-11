@@ -13,14 +13,14 @@ let running = false
  * @param {Number} ms time in millis.
  */
 const setFetchInterval = (ms) => {
-    interval = ms
+	interval = ms
 }
 
 /**
  * Refresh the query with the active channels.
  */
 const updateFetch = () => {
-    params = cm.getAllListeningChannels()
+	params = cm.getAllListeningChannels()
 }
 
 /**
@@ -29,14 +29,17 @@ const updateFetch = () => {
  * @param {callback} cb callback with the response when the request is fetched.
  */
 const run = (reason = 'Running Thread', cb) => {
-    if (running) return
-    running = true
-    console.log(chalk.greenBright('[Server]: ').concat(chalk.whiteBright(reason)))
-    routine = setInterval(async () => {
-        let res = (await axios.get(`https://query1.finance.yahoo.com/v7/finance/quote?&symbols=${params}`)).data.quoteResponse.result
-        console.log(chalk.greenBright('[Server]: ').concat(chalk.whiteBright('Fetch data for ' + cm.getAllListeningChannels())))
-        cb(res)
-    }, interval)
+	if (running) return
+	running = true
+	console.log(chalk.greenBright('[Server]: ').concat(chalk.whiteBright(reason)))
+	routine = setInterval(async () => {
+		let res = (await axios.get(`https://query1.finance.yahoo.com/v7/finance/quote?&symbols=${params}`)).data
+			.quoteResponse.result
+		console.log(
+			chalk.greenBright('[Server]: ').concat(chalk.whiteBright('Fetch data for ' + cm.getAllListeningChannels()))
+		)
+		cb(res)
+	}, interval)
 }
 
 /**
@@ -44,15 +47,15 @@ const run = (reason = 'Running Thread', cb) => {
  * @param {String} reason log a reason in the console (if you have access to it).
  */
 const stop = (reason = 'Stopping Thread') => {
-    if (!running) return
-    running = false
-    console.log(chalk.greenBright('[Server]: ').concat(chalk.whiteBright(reason)))
-    clearInterval(routine)
+	if (!running) return
+	running = false
+	console.log(chalk.greenBright('[Server]: ').concat(chalk.whiteBright(reason)))
+	clearInterval(routine)
 }
 
 module.exports = {
-    setFetchInterval,
-    updateFetch,
-    run,
-    stop
+	setFetchInterval,
+	updateFetch,
+	run,
+	stop
 }

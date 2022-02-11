@@ -10,10 +10,8 @@ function ButtonFavorite() {
 
 	return (
 		<>
-			<div className=''>
-				<div onClick={handleFavorite}>
-					{favorite ? <Icons.StarEmpty /> : <Icons.StarFulled />}
-				</div>
+			<div className="">
+				<div onClick={handleFavorite}>{favorite ? <Icons.StarEmpty /> : <Icons.StarFulled />}</div>
 			</div>
 		</>
 	)

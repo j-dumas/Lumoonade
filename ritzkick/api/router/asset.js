@@ -36,14 +36,14 @@ router.get('/api/crypto/search/:slug', async (req, res) => {
 		data.result.forEach((d) => {
 			parser(d, want)
 			response.push({
-				...want,
+				...want
 			})
 		})
 
 		res.send(response)
 	} catch (e) {
 		res.status(400).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
@@ -58,7 +58,7 @@ router.get('/api/crypto/ranking', async (req, res) => {
 
 		// By default, we want all values DESCENDING (most to less gains)
 		const sort = {
-			changePercent: 'desc',
+			changePercent: 'desc'
 		}
 
 		if (req.query.gain) {
@@ -99,11 +99,11 @@ router.get('/api/crypto/ranking/:slug', async (req, res) => {
 		res.send({
 			slug,
 			ranking: ranking + 1,
-			rivals: assets.length,
+			rivals: assets.length
 		})
 	} catch (e) {
 		res.status(404).send({
-			message: e.message,
+			message: e.message
 		})
 	}
 })
@@ -125,7 +125,7 @@ router.get('/api/crypto/all', async (req, res) => {
 		res.send(assets)
 	} catch (e) {
 		res.status(404).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
@@ -143,7 +143,7 @@ router.get('/api/crypto/popular', async (req, res) => {
 		res.send(assets)
 	} catch (e) {
 		res.status(404).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
@@ -181,7 +181,7 @@ router.get('/api/crypto/new', async (req, res) => {
 		res.send(assets)
 	} catch (e) {
 		res.status(404).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
@@ -215,7 +215,7 @@ router.get('/api/crypto/:slug', async (req, res) => {
 		res.send(asset)
 	} catch (e) {
 		res.status(404).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
@@ -227,7 +227,7 @@ router.get('/api/crypto/chart/:slug', async (req, res) => {
 		res.send(response)
 	} catch (e) {
 		res.status(404).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })

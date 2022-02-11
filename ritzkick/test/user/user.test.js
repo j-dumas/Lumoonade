@@ -43,25 +43,25 @@ const testUserOne = {
 	password: 'HardP@ssw0rd213',
 	favorite_list: [
 		{
-			favorite: favoriteIdOne,
-		},
+			favorite: favoriteIdOne
+		}
 	],
 	wallet_list: [
 		{
-			wallet: walletIdOne,
-		},
+			wallet: walletIdOne
+		}
 	],
 	watchlist_list: [
 		{
-			watch: watchlistIdOne,
-		},
+			watch: watchlistIdOne
+		}
 	],
 	sessions: [
 		{
 			_id: testIdOneSession,
-			session: tokenForUserOne,
-		},
-	],
+			session: tokenForUserOne
+		}
+	]
 }
 
 const testUserTwo = {
@@ -71,67 +71,67 @@ const testUserTwo = {
 	password: 'HardP@ssw0rd213',
 	favorite_list: [
 		{
-			favorite: favoriteIdTwo,
-		},
+			favorite: favoriteIdTwo
+		}
 	],
 	wallet_list: [
 		{
-			wallet: walletIdTwo,
-		},
+			wallet: walletIdTwo
+		}
 	],
 	watchlist_list: [
 		{
-			watch: watchlistIdTwo,
-		},
+			watch: watchlistIdTwo
+		}
 	],
 	sessions: [
 		{
 			_id: testIdTwoSession,
-			session: tokenForUserTwo,
+			session: tokenForUserTwo
 		},
 		{
 			_id: new mongoose.Types.ObjectId(),
-			session: tokenForUserTwoTwo,
-		},
-	],
+			session: tokenForUserTwoTwo
+		}
+	]
 }
 
 const walletTestOne = {
 	_id: walletIdOne,
 	owner: testIdOne,
-	asset: new mongoose.Types.ObjectId(),
+	asset: new mongoose.Types.ObjectId()
 }
 
 const walletTestTwo = {
 	_id: walletIdTwo,
 	owner: testIdTwo,
-	asset: new mongoose.Types.ObjectId(),
+	asset: new mongoose.Types.ObjectId()
 }
 
 const favoriteTestOne = {
 	_id: favoriteIdOne,
 	owner: testIdOne,
-	asset: new mongoose.Types.ObjectId(),
+	asset: new mongoose.Types.ObjectId()
 }
 
 const favoriteTestTwo = {
 	_id: favoriteIdTwo,
 	owner: testIdTwo,
-	asset: new mongoose.Types.ObjectId(),
+	asset: new mongoose.Types.ObjectId()
 }
 
 const watchlistTestOne = {
 	_id: watchlistIdOne,
 	owner: testIdOne,
-	asset: new mongoose.Types.ObjectId(),
-	target: 0,
+	slug: 'eth',
+	target: 0
 }
 
 const watchlistTestTwo = {
 	_id: watchlistIdTwo,
 	owner: testIdTwo,
-	asset: new mongoose.Types.ObjectId(),
-	target: 0,
+	slug: 'btc',
+	target: 0
 }
 
 beforeEach(async () => {
@@ -154,39 +154,39 @@ afterAll((done) => {
 	done()
 })
 
-test('I should not be able to access my account "details" without being authenticate', async () => {
+test('I should not be able to access my account "details" without being authenticated', async () => {
 	await request(server).get('/api/me').send().expect(401)
 })
 
-test('I should not be able to access my profile without being authenticate', async () => {
+test('I should not be able to access my profile without being authenticated', async () => {
 	await request(server).get('/api/me/profile').send().expect(401)
 })
 
-test('I should not be able to delete my account without being authenticate', async () => {
+test('I should not be able to delete my account without being authenticated', async () => {
 	await request(server).delete('/api/me/delete').send().expect(401)
 })
 
-test('I should not be able to access my profile without being authenticate', async () => {
+test('I should not be able to access my profile without being authenticated', async () => {
 	await request(server).get('/api/me/profile').send().expect(401)
 })
 
-test('I should not be able to access my wallets without being authenticate', async () => {
+test('I should not be able to access my wallets without being authenticated', async () => {
 	await request(server).get('/api/me/wallets').send().expect(401)
 })
 
-test('I should not be able to access my favorites without being authenticate', async () => {
+test('I should not be able to access my favorites without being authenticated', async () => {
 	await request(server).get('/api/me/favorites').send().expect(401)
 })
 
-test('I should not be able to access my watchlists without being authenticate', async () => {
+test('I should not be able to access my watchlists without being authenticated', async () => {
 	await request(server).get('/api/me/watchlists').send().expect(401)
 })
 
-test('I should not be able to purge all my active sessions without being authenticate', async () => {
+test('I should not be able to purge all my active sessions without being authenticated', async () => {
 	await request(server).patch('/api/me/sessions/purge').send().expect(401)
 })
 
-test('I should not be able to modify my account without being authenticate', async () => {
+test('I should not be able to modify my account without being authenticated', async () => {
 	await request(server).patch('/api/me/update').send().expect(401)
 })
 
@@ -323,7 +323,7 @@ test(`I want to modify my password when I'm authenticated`, async () => {
 		.send(
 			JSON.stringify({
 				oldPassword: CURRENT_PASSWORD,
-				newPassword: 'jon324c9-2308n4c9023904',
+				newPassword: 'jon324c9-2308n4c9023904'
 			})
 		)
 		.expect(200)
@@ -381,7 +381,7 @@ test(`I can modify my whole profile in one request (username, oldPass, newPass)`
 			JSON.stringify({
 				username: 'jonny',
 				oldPassword: CURRENT_PASSWORD,
-				newPassword: 'test123213',
+				newPassword: 'test123213'
 			})
 		)
 		.expect(200)

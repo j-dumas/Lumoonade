@@ -19,7 +19,7 @@ const makePromiseForApi = (url, controller) => {
 		// Setup a signal to cancel itself when someone answered
 		axios
 			.get(url, {
-				signal: controller.signal,
+				signal: controller.signal
 			})
 			.then((e) => {
 				// This triggers to abort all active requests on the current controller.
@@ -29,7 +29,7 @@ const makePromiseForApi = (url, controller) => {
 				controller.abort()
 				res({
 					host: e.request.host,
-					data: e.data,
+					data: e.data
 				})
 			})
 			.catch((err) => {
@@ -39,5 +39,5 @@ const makePromiseForApi = (url, controller) => {
 }
 
 module.exports = {
-	getFastestApiResponse,
+	getFastestApiResponse
 }

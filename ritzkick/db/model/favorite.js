@@ -4,14 +4,14 @@ const favoriteSchema = new mongoose.Schema(
 	{
 		owner: {
 			type: mongoose.Types.ObjectId,
-			required: true,
+			required: true
 		},
 		slug: {
 			type: String,
 			required: true,
 			trim: true,
-			lowercase: true,
-		},
+			lowercase: true
+		}
 	},
 	{
 		timestamps: true,
@@ -21,8 +21,8 @@ const favoriteSchema = new mongoose.Schema(
 				delete ret.createdAt
 				delete ret.updatedAt
 				delete ret._id
-			},
-		},
+			}
+		}
 	}
 )
 

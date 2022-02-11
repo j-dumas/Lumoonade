@@ -9,16 +9,16 @@ export default function ForgotPassword() {
 			<DomHead
 				pageMeta={{
 					title: 'CRYPTOOL | FORGOT PASSWORD',
-					description: 'Cryptool forgot password page',
+					description: 'Cryptool forgot password page'
 				}}
 			/>
 			<main>
 				<Bubbles />
 				<ForgotPasswordForm />
-				<div className='spacer layer1'></div>
+				<div className="spacer layer1"></div>
 			</main>
 			<Footer />
-			<div className='cursor'></div>
+			<div className="cursor"></div>
 		</div>
 	)
 }
