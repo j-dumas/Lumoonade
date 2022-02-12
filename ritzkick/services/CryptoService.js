@@ -15,7 +15,7 @@ const Functions = {
 	async GetTopPopularCryptocurrencies(top = 10) {
 		const URI = '/api/crypto/popular/';
 
-		var reponse = await fetch(URI + slug);
+		var reponse = await fetch(URI);
 		var json = reponse.json();
 
 		return json;
@@ -24,7 +24,7 @@ const Functions = {
 	async GetTopEfficientCryptocurrencies(top = 3) {
 		const URI = '/api/crypto/ranking/';
 
-		var reponse = await fetch(URI + slug);
+		var reponse = await fetch(URI);
 		var json = reponse.json();
 
 		return json;
