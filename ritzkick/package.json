@@ -16,7 +16,7 @@
 	},
 	"jest": {
 		"testEnvironment": "node",
-		"testTimeout": 2000
+		"testTimeout": 10000
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
