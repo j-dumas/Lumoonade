@@ -6,7 +6,7 @@ import SimpleCryptoCard from '../components/SimpleCryptoCard'
 import GetCryptoData from '../services/CryptoService'
 
 export default function Assets() {
-	const [data, setData] = useState(GetCryptoData())
+	const [data, setData] = useState([]) // GetTopPopularCryptocurrencies()
 
 	return (
 		<div>
