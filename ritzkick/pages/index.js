@@ -9,6 +9,11 @@ import Layout from '../components/Layout'
 const TITLE = 'CRYPTOOL'
 const SUB_TTTLE = "Restez à l'affut de vos cryptos favorites"
 
+const isProduction = process.env.NODE_ENV === 'production'
+const https = process.env.NEXT_PUBLIC_HTTPS
+const port = process.env.NEXT_PUBLIC_PORT
+const url = `${isProduction ? 'https' : 'http'}://${https}:${port}/`
+
 export default function Home() {
 	const [data, setData] = useState([{}])
 
@@ -20,6 +25,7 @@ export default function Home() {
 						<div className="column center">
 							<h1 className="website-title item">{TITLE}</h1>
 							<h2 className="subtitle item">{SUB_TTTLE}</h2>
+							<h2> {url} </h2>
 						</div>
 					</div>
 				</section>

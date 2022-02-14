@@ -13,8 +13,8 @@ import DetailedMenu from './DetailedMenu'
 
 const io = require('socket.io-client')
 const isProduction = process.env.NODE_ENV === 'production'
-const https = process.env.NEXT_PUBLIC_HTTPS || 'localhost'
-const port = process.env.NEXT_PUBLIC_PORT || 3000
+const https = process.env.NEXT_PUBLIC_HTTPS
+const port = process.env.NEXT_PUBLIC_PORT
 const url = `${isProduction ? 'https' : 'http'}://${https}:${port}/`
 
 function DetailedCryptoView(props) {
