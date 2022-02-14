@@ -12,6 +12,7 @@ import DetailedChart from './DetailedChart'
 import DetailedMenu from './DetailedMenu'
 
 const io = require('socket.io-client')
+const isProduction = process.env.NODE_ENV === 'production'
 
 function DetailedCryptoView(props) {
 	const [slug, setSlug] = useState(props.slug + '-' + props.currency)
@@ -25,7 +26,7 @@ function DetailedCryptoView(props) {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 
 		setSocket(
-			io(`ws://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`, {
+			io(`${isProduction ? 'https' : 'http'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`, {
 				auth: {
 					rooms: ['general', `graph-${dateRange}-${interval}`],
 					query: [slug],
