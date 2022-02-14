@@ -13,12 +13,12 @@ export default function Assets() {
 			<DomHead
 				pageMeta={{
 					title: 'CRYPTOOL | ASSETS',
-					description: 'Cryptool assets page',
+					description: 'Cryptool assets page'
 				}}
 			/>
 			<Header />
 
-			<section className='section row center principal first'>
+			<section className="section row center principal first">
 				{data.map((element, i) => {
 					return (
 						<div key={element}>
@@ -32,4 +32,3 @@ export default function Assets() {
 		</div>
 	)
 }
-
