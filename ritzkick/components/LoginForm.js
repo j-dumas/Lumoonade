@@ -1,12 +1,12 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container'
-import AndSeparator from './AndSeparator'
-import Separator from './Separator'
-import GoogleSignIn from './GoogleSignIn'
+import React from "react"
+import Container from 'react-bootstrap/Container';
+import AndSeparator from "./AndSeparator";
+import Separator from "./Separator";
+import GoogleSignIn from "./GoogleSignIn";
+import {login} from '../services/AuthService'
 import Link from 'next/link'
 
-const TITLE = 'Connexion'
-let display = 'auto'
+const TITLE = "Connexion"
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -45,57 +45,36 @@ class LoginForm extends React.Component {
 		}
 	}
 
-	showError(password, username) {
-		if (!password.validity.valid) {
-			password.setCustomValidity('Entrez un mot de passe')
-			password.reportValidity()
-		}
-		if (!username.validity.valid) {
-			username.setCustomValidity("Entrez un nom d'utilisateur")
-			username.reportValidity()
-		}
-	}
-
-	async handleSubmit(event) {
-		let password = document.getElementById('passwordField')
-		let username = document.getElementById('userField')
-
-		if (!password.validity.valid || !username.validity.valid) {
-			this.showError(password, username)
-			event.preventDefault()
-		} else {
-			if (this.state.username == '' || this.state.password == '') {
-				this.showError(password, username)
-				event.preventDefault()
-			} else {
-				event.preventDefault()
-				try {
-					let response = await fetch('/api/auth/login', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							email: this.state.username,
-							password: this.state.password
-						})
-					})
-
-					if (response.status == 200) {
-						let json = await response.json()
-						sessionStorage.setItem('token', json.token)
-						window.location.href = '/'
-					} else if (response.status == 400) {
-						document.getElementById('wrong').style.display = 'block'
-					} else {
-						alert('Something went wrong')
-					}
-				} catch (e) {
-					console.log(e.message)
-				}
-			}
-		}
-	}
+    showError(password, username){
+        if(!password.validity.valid){
+            password.setCustomValidity("Entrez un mot de passe")
+            password.reportValidity()
+        }
+        if(!username.validity.valid){
+            username.setCustomValidity("Entrez un nom d'utilisateur")
+            username.reportValidity()
+        }
+    }
+    
+    async handleSubmit(event) {
+        let password = document.getElementById("passwordField")
+        let username = document.getElementById("userField")
+        
+        if(!password.validity.valid || !username.validity.valid){
+            this.showError(password, username)
+            event.preventDefault()
+        }
+        else{
+            if(this.state.username == '' || this.state.password == ''){
+                this.showError(password, username)
+                event.preventDefault()
+            }
+            else {
+                event.preventDefault()
+                await login(this.state.username, this.state.password)
+            }
+        }
+    }
 
 	render() {
 		return (

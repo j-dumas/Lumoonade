@@ -1,9 +1,11 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Google from './/GoogleSignIn'
-import AndSeparator from './AndSeparator'
-import Separator from './Separator'
+import AndSeparator from "./AndSeparator";
+import Separator from "./Separator";
+import {register} from '../services/AuthService'
 import Link from 'next/link'
+
 
 const TITLE = 'Inscription'
 
@@ -42,7 +44,7 @@ class RegisterForm extends React.Component {
 		let password = document.getElementById('passwordField')
 
 		if (password.validity.typeMismatch) {
-			password.setCustomValidity('Entrez un mot de passe contenant 8 carachtères')
+			password.setCustomValidity('Entrez un mot de passe contenant 8 charactères')
 			password.reportValidity()
 		} else {
 			password.setCustomValidity('')
@@ -77,88 +79,45 @@ class RegisterForm extends React.Component {
 		let username = document.getElementById('usernameField')
 		let email = document.getElementById('emailField')
 
-		if (!password.validity.valid || !username.validity.valid || !email.validity.valid) {
-			this.showError(password, username, email)
-			event.preventDefault()
-		} else {
-			if (this.state.username == '' || this.state.password == '' || this.state.email == '') {
-				this.showError(password, username, email)
-				event.preventDefault()
-			} else {
-				event.preventDefault()
-				try {
-					let response = await fetch('/api/auth/register', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							email: this.state.email,
-							username: this.state.username,
-							password: this.state.password
-						})
-					})
+        if(!password.validity.valid || !username.validity.valid || !email.validity.valid){
+            this.showError(password, username, email)
+            event.preventDefault()
+        }
+        else{
+            if(this.state.username == '' || this.state.password == '' || this.state.email == ''){
+                this.showError(password, username, email)
+                event.preventDefault()
+            }else{
+                event.preventDefault();
+                await register(this.state.email, this.state.username, this.state.password)
+            }
+        }
+    }
 
-					let json = await response.json()
-					sessionStorage.setItem('token', json.token)
-					window.location.href = '/'
-				} catch (e) {
-					console.log(e)
-					alert(e.message)
-				}
 
-				event.preventDefault()
-			}
-		}
-	}
 
-	render() {
-		return (
-			<Container className="p-3 form">
-				<h1 className="form-title">{TITLE}</h1>
-				<Google />
-				<AndSeparator />
-				<form onSubmit={this.handleSubmit} id="registerForm">
-					<input
-						id="usernameField"
-						type="text"
-						placeholder="Nom d'utilisateur"
-						onChange={this.handleUsernameChange}
-						required
-						autoComplete="off"
-						minLength="4"
-					/>
-					<input
-						id="emailField"
-						type="email"
-						placeholder="Courriel"
-						onChange={this.handleEmailChange}
-						required
-						autoComplete="off"
-					/>
-					<input
-						id="passwordField"
-						type="password"
-						placeholder="Mot de passe"
-						onChange={this.handlePasswordChange}
-						required
-						minLength="8"
-						autoComplete="off"
-					/>
-					<input id="submitButton" type="submit" onClick={this.handleSubmit} value="S'inscrire" />
-					<div>
-						<Separator />
-						<div id="Signup">
-							<h4>Vous avez un compte?</h4>
-							<Link href="/login">
-								<a className="link">Connectez-vous</a>
-							</Link>
-						</div>
-					</div>
-				</form>
-			</Container>
-		)
-	}
+    render(){
+        return (
+            <Container className="p-3" className="form">
+                <h1 className="form-title">{TITLE}</h1>
+                <Google />
+                <AndSeparator />
+                <form onSubmit={this.handleSubmit} id="registerForm">
+                    <input id="usernameField" type="text" placeholder="Nom d'utilisateur" onChange={this.handleUsernameChange} required autoComplete="off" minLength="4"/>
+                    <input id="emailField" type="email" placeholder="Courriel" onChange={this.handleEmailChange} required autoComplete="off"/>
+                    <input id="passwordField" type="password" placeholder="Mot de passe" onChange={this.handlePasswordChange} required minLength="8" autoComplete="off"/>
+                    <input id="submitButton" type="submit" onClick={this.handleSubmit} value="S'inscrire" />
+                    <div>
+                        <Separator />
+                        <div id="Signup">
+                            <h4>Vous avez un compte?</h4> 
+                            <a className="link" href="/login">Connectez-vous</a>
+                        </div>
+                    </div>
+                </form>
+            </Container>
+        )
+    }
 }
 
 export default RegisterForm
