@@ -4,7 +4,7 @@ const Asset = require('../db/model/asset')
 async function addSlugsToDB() {
 	const isEmpty = await Asset.isEmpty()
 
-	if (!isEmpty) {
+	if (isEmpty) {
 		const slugs = readSlugs()
 		slugs.forEach((element) => {
 			const asset = new Asset({ slug: element })
