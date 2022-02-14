@@ -25,6 +25,10 @@ function DetailedCryptoView(props) {
 	useEffect(async () => {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 
+		console.log(`${process.env.NEXT_PUBLIC_HTTPS}:${
+					process.env.NEXT_PUBLIC_PORT
+				}`)
+
 		setSocket(
 			io(
 				`${isProduction ? 'https' : 'http'}://${process.env.NEXT_PUBLIC_HTTPS}:${
