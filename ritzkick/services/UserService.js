@@ -33,7 +33,7 @@ export async function deleteUser(){
         console.log(json)
 
         document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict" 
-        window.location.href = '/'
+        window.location.assign('/')
     }
     catch(e){
         console.log(e)
@@ -51,7 +51,7 @@ export async function getUser(){
         })
 
         if(response.status === 401){
-            window.location.href = '/login'
+            window.location.assign('/login')
         }
         else{
             let json = await response.json()
@@ -83,14 +83,15 @@ export async function removeSession(){
 
 export async function updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation){
     if(oldUsername !== undefined){
-        if(newUsername !== oldUsername && newUsername !== ''){
-            if( newPass !== '' && newPassConfirmation !== '' && oldPass !== ''){
+        if(newUsername !== oldUsername && newUsername !== undefined){
+            if(newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined){
                 if(newPass === newPassConfirmation){
                     event.preventDefault()
                     await updateUsernameAndPassword(newUsername, oldPass, newPass)
                 }
                 else{
-                    document.getElementById("wrong").style.display = "block"
+                    document.getElementById("wrong-name").style.display = "block"
+                    event.preventDefault()
                 }
             }
             else{
@@ -98,9 +99,19 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
                 await updateUsername(newUsername)
             }
         }
-        else if(newPass == newPassConfirmation && oldPass != ''){
+        else if(newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined){
+            if(newPass === newPassConfirmation){
+                event.preventDefault()
+                await updatePassword(oldPass, newPass)
+            }
+            else{
+                document.getElementById("wrong-password").style.display = "block"
+                event.preventDefault()
+            }
+        }
+        else if (newPass === undefined || newPassConfirmation === undefined || oldPass === undefined){
+            document.getElementById("wrong-password").style.display = "block"
             event.preventDefault()
-            await updatePassword(oldPass, newPass)
         }
     }
 
@@ -116,11 +127,16 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
                 body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
             })
 
-            console.log(response.status)
             if(response.status === 200){
                 alert("Profil modifié avec succès")
+                window.location.assign('/profile')
             }
-            window.location.href = '/profile'
+            else if(response.status === 400){
+                document.getElementById("wrong-password").style.display = "block"
+            }
+            else{
+                alert("Something went wrong")
+            }
         }
         catch (e) {
             console.log(e.message)
@@ -139,13 +155,12 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
                 body: JSON.stringify({ username: newUsername })
             })
 
-            console.log(response.status)
             if(response.status === 200){
                 alert("Profil modifié avec succès")
-                window.location.href = '/profile'
+                window.location.assign('/profile')
             }
             else if(response.status === 400){
-                document.getElementById("wrong").style.display = "block"
+                document.getElementById("wrong-name").style.display = "block"
             }
             else{
                 alert("Something went wrong")
@@ -171,11 +186,14 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
             if(response.status === 200){
                 alert("Profil modifié avec succès")
-                window.location.href = '/profile'
+                window.location.assign('/profile')
+            }
+            else if(response.status === 400){
+                document.getElementById("wrong-name").style.display = "block"
+                document.getElementById("wrong-password").style.display = "block"
             }
             else{
-                const json = await response.json()
-                console.log(json)
+                alert("Something went wrong")
             }
         }
         catch (e) {
