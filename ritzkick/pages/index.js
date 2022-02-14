@@ -10,8 +10,8 @@ const TITLE = 'CRYPTOOL'
 const SUB_TTTLE = "Restez à l'affut de vos cryptos favorites"
 
 const isProduction = process.env.NODE_ENV === 'production'
-const https = process.env.NEXT_PUBLIC_HTTPS
-const port = process.env.NEXT_PUBLIC_PORT
+const https = process.env.HTTPS || 'localhost'
+const port = process.env.PORT || 3000
 const url = `${isProduction ? 'https' : 'http'}://${https}:${port}/`
 
 export default function Home() {
