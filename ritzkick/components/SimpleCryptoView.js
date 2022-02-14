@@ -10,7 +10,7 @@ function SimpleCryptoView(props) {
 
 	const [data, setData] = useState(props.data)
 
-	const change = data.regularMarketChangePercent //format(((data.price - data.value[0]) / data.value[0]) * 100)
+	const change = data.regularMarketChangePercent
 
 	return (
 		<>

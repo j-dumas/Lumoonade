@@ -13,7 +13,7 @@
 	--t-blue: rgba(5, 134, 229, 0.3);
 	--lightBlue: #01a8ff;
 	--t-lightBlue: rgba(1, 168, 255, 0.3);
-	--orange: #e38215;
+	--orange: rgb(227, 130, 21);
 	--yellow: #f4d933;
 	--lightGray: rgb(200, 200, 200);
 	--gray: rgb(15, 15, 21);
@@ -23,7 +23,8 @@
 
 	--font: Amaranth, Arial, Helvetica, sans-serif;
 
-	--main-color: #e38215; /*#e82357;*/
+	--main-color: var(--orange);/*#e82357;*/
+	--main-color-t: rgba(227, 130, 21,.15);
 
 	--navbar-color: rgb(15, 16, 19);
 	--background-color: rgb(19, 20, 21);

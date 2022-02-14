@@ -7,11 +7,14 @@ function SimpleCryptoDashboard(props) {
 	const [data, setData] = useState(null)
 
 	useEffect(async () => {
-		setData(await Functions.GetTopPopularCryptocurrencies())
+		setData([]) // await Functions.GetTopPopularCryptocurrencies()
+
+		// Éventuellement lorsque les routes seront faits niveau BACKEND.
 		/*
 		setTimeout(async () => {
 			setData(await Functions.GetTopPopularCryptocurrencies())
-		}, 10000)*/
+		}, 10000)
+		*/
 	})
 
 	return !data ? (
