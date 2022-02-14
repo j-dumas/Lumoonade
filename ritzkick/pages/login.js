@@ -6,10 +6,9 @@ import { useEffect } from 'react'
 import { getCookie } from '../services/CookieService'
 
 export default function Login() {
-
 	useEffect(() => {
-		const token = getCookie("token")
-		if(token !== undefined){
+		const token = getCookie('token')
+		if (token !== undefined) {
 			window.location.href = '/'
 		}
 	}, [])

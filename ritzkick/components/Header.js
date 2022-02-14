@@ -1,7 +1,7 @@
-import { connection } from 'mongoose';
-import React, {useState, useEffect, useCallback} from 'react';
-import Navbar from './Navbar';
-import {getCookie} from '../services/CookieService';
+import { connection } from 'mongoose'
+import React, { useState, useEffect, useCallback } from 'react'
+import Navbar from './Navbar'
+import { getCookie } from '../services/CookieService'
 
 function Header() {
 	const [mobile, setMobile] = useState(true)
@@ -12,11 +12,11 @@ function Header() {
 		else setMobile(true)
 	}, [])
 
-    const connection = () => {
-        //todo: validation on token
-        if(getCookie("token") != undefined) setConnection(true)
-        else setConnection(false)
-    }
+	const connection = () => {
+		//todo: validation on token
+		if (getCookie('token') != undefined) setConnection(true)
+		else setConnection(false)
+	}
 
 	useEffect(() => {
 		handleResize()
