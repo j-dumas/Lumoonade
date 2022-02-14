@@ -1,8 +1,12 @@
 const chalk = require('chalk')
 
+const dev = process.env.NODE_ENV !== 'production'
+
 class Room {
 	constructor(name) {
-		log('Room', `room '${name}' created!`)
+		if(dev) {
+			log('Room', `room '${name}' created!`)
+		}
 		this.name = name
 		this.clients = []
 		this.service = undefined
