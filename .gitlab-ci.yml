@@ -29,7 +29,6 @@ utests:
     only:
         refs:
             - main
-            - pushes
         changes:
             - ritzkick/*
 
@@ -51,6 +50,5 @@ deploy:
     only:
         refs:
             - main
-            - pushes
         changes:
             - ritzkick/*

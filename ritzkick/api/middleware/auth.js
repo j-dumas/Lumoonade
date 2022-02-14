@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../../db/model/user')
+const { UnauthorizedHttpError, sendError } = require('../../utils/http_errors')
 
 // ----------------------------------------
 //  Middleware for authentification purpuses
@@ -13,7 +14,7 @@ const auth = async (req, res, next) => {
 		// Trying to find a user that match the _id and have an active session.
 		const user = await User.findOne({ _id: decoded._id, 'sessions.session': token })
 		if (!user) {
-			throw new Error()
+			throw new Error('Please authenticate first')
 		}
 
 		// Passing the token and the user to all request that uses the middleware.
@@ -21,8 +22,10 @@ const auth = async (req, res, next) => {
 		req.user = user
 		next()
 	} catch (e) {
+		// Not using custom http errors for testing
+		// There is only one type of error thrown here anyway
 		res.status(401).send({
-			error: 'Please authenticate first.',
+			error: e.message
 		})
 	}
 }

@@ -6,7 +6,7 @@ function Footer() {
 	return (
 		<>
 			<footer>
-				<a href='https://konjuu.com' target='_blank' rel='noreferrer'>
+				<a href="https://konjuu.com" target="_blank" rel="noreferrer">
 					Powered by {DEV_TEAM_NAME}
 				</a>
 			</footer>

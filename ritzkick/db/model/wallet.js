@@ -5,12 +5,12 @@ const walletSchema = new mongoose.Schema(
 		owner: {
 			type: mongoose.Types.ObjectId,
 			required: true,
-			trim: true,
+			trim: true
 		},
 		asset: {
 			type: mongoose.Types.ObjectId,
 			required: true,
-			trim: true,
+			trim: true
 		},
 		amount: {
 			type: Number,
@@ -19,11 +19,11 @@ const walletSchema = new mongoose.Schema(
 				if (amount < 0) {
 					throw new Error('Unable to set an amount under 0.')
 				}
-			},
-		},
+			}
+		}
 	},
 	{
-		timestamps: true,
+		timestamps: true
 	}
 )
 

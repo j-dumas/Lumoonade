@@ -1,174 +1,101 @@
-import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import yahoo from '../utils/yahoo'
 
-export default function GetCryptoChartData() {
-	const data = [
-		{
-			name: 'Bitcoin',
-			abbreviation: 'BTC',
-			price: 50000,
-			x: [
-				'10h',
-				'11h',
-				'12h',
-				'13h',
-				'14h',
-				'15h',
-				'16h',
-				'17h',
-				'18h',
-				'19h',
-				'20h',
-				'21h',
-				'22h',
-				'23h',
-				'00h',
-				'01h',
-				'02h',
-				'03h',
-				'04h',
-				'05h',
-				'06h',
-				'07h',
-				'08h',
-				'09h',
-				'10h',
-				,
-				'11h',
-				'12h',
-				'13h',
-				'14h',
-				'15h',
-				'16h',
-				'17h',
-				'18h',
-				'19h',
-				'20h',
-				'21h',
-				'22h',
-				'23h',
-				'00h',
-				'01h',
-				'02h',
-				'03h',
-				'04h',
-				'05h',
-				'06h',
-				'07h',
-				'08h',
-				'09h',
-				'10h',
-				'11h',
-				'17h',
-				'18h',
-				'19h',
-				'20h',
-				'21h',
-				'22h',
-				'23h',
-				'00h',
-				'01h',
-				'02h',
-				'03h',
-				'04h',
-				'05h',
-				'06h',
-				'07h',
-				'08h',
-				'09h',
-				'10h',
-				,
-				'11h',
-				'12h',
-				'13h',
-				'14h',
-				'15h',
-				'16h',
-				'17h',
-				'18h',
-				'19h',
-				'20h',
-				'21h',
-				'22h',
-				'23h',
-				'00h',
-				'01h',
-				'02h',
-				'03h',
-				'04h',
-				'05h',
-			],
-			value: [
-				49000,
-				48000,
-				49000,
-				49500,
-				49550,
-				49000,
-				50000,
-				50000,
-				50050,
-				50000,
-				51000,
-				49000,
-				49500,
-				49550,
-				50000,
-				50000,
-				55000,
-				50500,
-				50500,
-				49000,
-				49000,
-				49000,
-				48000,
-				50000,
-				49000,
-				48000,
-				49000,
-				49500,
-				49550,
-				49000,
-				50000,
-				50000,
-				50050,
-				50000,
-				51000,
-				49000,
-				49500,
-				49550,
-				50000,
-				50000,
-				55000,
-				50500,
-				50500,
-				49000,
-				49000,
-				49000,
-				48000,
-				50000,
-				55555,
-				Math.floor(Math.random() * 20000) + 50000,
-			],
-			color: 'orange',
-			maxValue: 56000,
-		} /*,
-        {
-            name: "Ethereum",
-            abbreviation: 'ETH',
-            price: 3400,
-            x: ['10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h', '21h', '22h','23h', '00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h'], 
-            value: [3400, 3300,3400,3450,3500,3500,3550,3350,3400,3500,3400,3400,3300, 3300,3400,3450,3500,3500,3550,3350,3400,3500,3400,3400],
-            color:"white"
-        },
-        {
-            name: "Cardano",
-            abbreviation: 'ADA',
-            price: 1.25,
-            x: ['10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h', '21h', '22h','23h', '00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h'], 
-            value: [1.25, 1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.5,1.5,1.5, 1.5,1.5,1.25,1.25,1.45,1.45,1.6,1.4,1.4,1.3,1.2],
-            color: "blue"
-        },*/,
-	]
+const Functions = {
+	async GetCryptocurrencyInformationsBySlug(slug) {
+		const URL = 'localhost:3000'
+		const URI = '/api/crypto/search/'
 
-	return data
+		var reponse = await fetch(URI + slug)
+		var json = reponse.json()
+
+		return json
+	},
+
+	async GetTopPopularCryptocurrencies(top = 10) {
+		const URI = '/api/crypto/popular/'
+
+		var reponse = await fetch(URI)
+		var json = reponse.json()
+
+		return json
+	},
+
+	async GetTopEfficientCryptocurrencies(top = 3) {
+		const URI = '/api/crypto/ranking/'
+
+		var reponse = await fetch(URI)
+		var json = reponse.json()
+
+		return json
+	},
+
+	async GetCryptocurrencyChartDataBySlug(slug, dateRange, interval) {
+		const URL = 'localhost:3000'
+		const URI = '/api/crypto/chart/'
+
+		var reponse = await fetch(URI + slug + `?dateRange=${dateRange}&interval=${interval}`)
+		var json = await reponse.json()
+
+		return json
+	},
+
+	async GetDummyData() {
+		return [
+			{
+				symbol: 'ETH-CAD',
+				response: [
+					{
+						meta: {
+							currency: 'CAD',
+							symbol: 'ETH-CAD',
+							exchangeName: 'CCC',
+							instrumentType: 'CRYPTOCURRENCY',
+							firstTradeDate: 1510358400,
+							regularMarketTime: 1644524822,
+							gmtoffset: 0,
+							timezone: 'UTC',
+							exchangeTimezoneName: 'UTC',
+							regularMarketPrice: 3969.7336,
+							chartPreviousClose: 2214.7583,
+							priceHint: 2,
+							currentTradingPeriod: {
+								pre: {
+									timezone: 'UTC',
+									start: 1644451200,
+									end: 1644451200,
+									gmtoffset: 0
+								},
+								regular: {
+									timezone: 'UTC',
+									start: 1644451200,
+									end: 1644537540,
+									gmtoffset: 0
+								},
+								post: {
+									timezone: 'UTC',
+									start: 1644537540,
+									end: 1644537540,
+									gmtoffset: 0
+								}
+							},
+							dataGranularity: '1d',
+							range: '1y',
+							validRanges: ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', 'ytd', 'max']
+						},
+						timestamp: [0],
+						indicators: {
+							quote: [
+								{
+									close: [0]
+								}
+							]
+						}
+					}
+				]
+			}
+		]
+	}
 }
+
+export default Functions

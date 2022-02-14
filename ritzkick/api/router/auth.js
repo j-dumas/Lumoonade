@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('../../db/model/user')
 const authentication = require('../middleware/auth')
 const router = express.Router()
+require('../swagger_models')
 
 /**
  * Login Request User Model
@@ -19,26 +20,15 @@ const router = express.Router()
  */
 
 /**
- * Login/Register Response User Model
- * @typedef {object} UserResponse
- * @property {string} username.required - Username
- * @property {string} email.required - Email
- * @property {number} wallet_list - Length of the list of wallets
- * @property {number} favorite_list - Length of the list of favorite currencies
- * @property {number} sessions - Number of sessions open
- * @property {number} watchlist_list - Length of the watchlist
- */
-
-/**
  * Login/Register Response Object
  * @typedef {object} LoginRegisterResponse
- * @property {UserResponse} user - User
+ * @property {UserSummaryResponse} user - User
  * @property {string} token - JWT
  */
 
 /**
  * POST /api/auth/login
- * @summary The default endpoint for authentification
+ * @summary Login default endpoint
  * @tags Authentification
  * @param {LoginRequest} request.body.required - User info
  * @example request - example payload
@@ -73,18 +63,18 @@ router.post('/api/auth/login', async (req, res) => {
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
-			token,
+			token
 		})
 	} catch (e) {
 		res.status(400).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
 
 /**
  * POST /api/auth/register
- * @summary The default endpoint for account creation
+ * @summary Registering default endpoint
  * @tags Authentification
  * @param {RegisterRequest} request.body.required - User info
  * @example request - example payload
@@ -124,18 +114,18 @@ router.post('/api/auth/register', async (req, res) => {
 		const profile = await user.makeProfile()
 		res.status(201).send({
 			user: profile,
-			token,
+			token
 		})
 	} catch (e) {
 		res.status(400).send({
-			error: e.message,
+			error: e.message
 		})
 	}
 })
 
 /**
  * POST /api/auth/logout
- * @summary The default endpoint for logout purpuses
+ * @summary Logout default endpoint
  * @tags Authentification
  * @return {object} 200 - success
  * @example response - 200 - example logout response
@@ -154,7 +144,7 @@ router.post('/api/auth/logout', authentication, async (req, res) => {
 		req.user.sessions = req.user.sessions.filter((session) => session.session !== req.token)
 		await req.user.save()
 		res.send({
-			message: 'Succesfully logout!',
+			message: 'Succesfully logout!'
 		})
 	} catch (e) {
 		res.status(401).send()
@@ -163,7 +153,7 @@ router.post('/api/auth/logout', authentication, async (req, res) => {
 
 /**
  * POST /api/auth/forgot
- * @summary The default endpoint for "forget password" - NOT READY
+ * @summary "Forgot password" default endpoint - NOT READY
  * @tags Authentification
  * @param {string} email.query.deprecated Work in progress
  * @return {object} 200 - success
@@ -174,7 +164,7 @@ router.post('/api/auth/forgot', async (req, res) => {
 		const { email } = req.body
 		// Todo need to find a user related to the email
 		res.send({
-			message: `Notification sent to ${email}`,
+			message: `Notification sent to ${email}`
 		})
 	} catch (e) {
 		res.status(500).send()

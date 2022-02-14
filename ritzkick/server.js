@@ -5,8 +5,6 @@ const http = require('http'),
 
 const next = require('next')
 const log = require('./utils/logging')
-const expressJSDocSwagger = require('express-jsdoc-swagger')
-const swaggerOptions = require('./config/swagger')
 
 /*******************************
  * Reading Environment Variables
@@ -17,6 +15,9 @@ const local = process.env.LOCAL || false
 const ssl = process.env.SSL || false
 const httpsUrl = process.env.HTTPS || 'localhost'
 const httpUrl = process.env.HTTP || 'localhost'
+
+// SOCKET
+const sm = require('./application/socket/socket-manager')
 
 /*****************************
  * Prepare Frontend NextJS App
@@ -33,7 +34,6 @@ app.prepare().catch((ex) => {
  *********************************/
 let server = require('./application/app')
 if (!dev) protocolVerification()
-expressJSDocSwagger(server)(swaggerOptions)
 
 server.get('*', (req, res) => {
 	return handle(req, res)
@@ -47,6 +47,7 @@ if (ssl == 'true') {
 	server = http.createServer(server)
 	log.info('SERVER', 'Starting in HTTP')
 }
+sm.initialize(server)
 
 /**************
  * Start Server

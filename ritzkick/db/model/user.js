@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
 				if (!validator.isEmail(email)) {
 					throw new Error('Invalid Email Format')
 				}
-			},
+			}
 		},
 		username: {
 			type: String,
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
 				if (validator.isEmpty(username)) {
 					throw new Error('Please provide a username.')
 				}
-			},
+			}
 		},
 		password: {
 			type: String,
@@ -42,37 +42,37 @@ const userSchema = new mongoose.Schema(
 				if (validator.isEmpty(password)) {
 					throw new Error('Please provide a password.')
 				}
-			},
+			}
 		},
 		favorite_list: [
 			{
 				favorite: {
-					type: mongoose.Schema.Types.ObjectId,
-				},
-			},
+					type: mongoose.Schema.Types.ObjectId
+				}
+			}
 		],
 		sessions: [
 			{
 				session: {
 					type: String,
-					required: true,
-				},
-			},
+					required: true
+				}
+			}
 		],
 		wallet_list: [
 			{
 				wallet: {
-					type: mongoose.Schema.Types.ObjectId,
-				},
-			},
+					type: mongoose.Schema.Types.ObjectId
+				}
+			}
 		],
 		watchlist_list: [
 			{
 				watch: {
-					type: mongoose.Schema.Types.ObjectId,
-				},
-			},
-		],
+					type: mongoose.Schema.Types.ObjectId
+				}
+			}
+		]
 	},
 	{
 		timestamps: true,
@@ -80,8 +80,8 @@ const userSchema = new mongoose.Schema(
 			transform: function (doc, ret) {
 				delete ret.password
 				delete ret.__v
-			},
-		},
+			}
+		}
 	}
 )
 
@@ -91,7 +91,7 @@ const userSchema = new mongoose.Schema(
 userSchema.virtual('wallet', {
 	ref: 'Wallet',
 	localField: 'wallet_list.wallet',
-	foreignField: '_id',
+	foreignField: '_id'
 })
 
 // ---------------------------------
@@ -100,7 +100,7 @@ userSchema.virtual('wallet', {
 userSchema.virtual('favorite', {
 	ref: 'Favorite',
 	localField: 'favorite_list.favorite',
-	foreignField: '_id',
+	foreignField: '_id'
 })
 
 // ---------------------------------
@@ -109,7 +109,7 @@ userSchema.virtual('favorite', {
 userSchema.virtual('watchlist', {
 	ref: 'Watchlist',
 	localField: 'watchlist_list.watch',
-	foreignField: '_id',
+	foreignField: '_id'
 })
 
 userSchema.methods.makeAuthToken = async function () {
@@ -125,16 +125,7 @@ userSchema.methods.makeAuthToken = async function () {
 
 userSchema.methods.makeProfile = async function () {
 	const user = this
-	const {
-		email,
-		username,
-		favorite_list,
-		sessions,
-		wallet_list,
-		watchlist_list,
-		createdAt,
-		updatedAt,
-	} = user
+	const { email, username, favorite_list, sessions, wallet_list, watchlist_list, createdAt, updatedAt } = user
 	const profile = {
 		email,
 		username,
@@ -143,9 +134,15 @@ userSchema.methods.makeProfile = async function () {
 		wallet_list: wallet_list.length,
 		watchlist_list: watchlist_list.length,
 		createdAt,
-		updatedAt,
+		updatedAt
 	}
 	return profile
+}
+
+userSchema.methods.isOldPassword = async function (oldPassword) {
+	const user = this
+	const match = await bcrypt.compare(oldPassword, user.password)
+	return match
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {

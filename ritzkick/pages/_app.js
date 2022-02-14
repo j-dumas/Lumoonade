@@ -6,13 +6,14 @@ import '../styles/Footer.css'
 import '../styles/Container.css'
 import '../styles/Globe.css'
 import '../styles/BottomArrow.css'
-import '../styles/Cursor.css'
 import '../styles/Icons.css'
 import '../styles/Particules.scss'
 import '../styles/LoginForm.css'
 import '../styles/BubbleEffect.css'
 import '../styles/Charts.css'
 import '../styles/SimpleCrypto.css'
+import '../styles/Profile.css'
+import '../styles/DetailedCrypto.css'
 
 import Script from 'next/script'
 
@@ -23,17 +24,21 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 config.autoAddCss = false /* eslint-disable import/first */
 
+// TODO: Change for SVGR/Webpack: https://github.com/gregberge/svgr/tree/main/packages/webpack
+
 function MyApp({ Component, pageProps }) {
+	const getLayout = Component.getLayout || ((page) => page)
+
 	let app
 	if (process.env.NEXT_PUBLIC_PROD == 'true') {
 		app = (
 			<div>
 				<Script
-					id='gtag'
-					strategy='lazyOnload'
+					id="gtag"
+					strategy="lazyOnload"
 					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN}`}
 				/>
-				<Script id='gtag-script' strategy='lazyOnload'>
+				<Script id="gtag-script" strategy="lazyOnload">
 					{`window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
 						gtag('js', new Date());
@@ -47,7 +52,7 @@ function MyApp({ Component, pageProps }) {
 		app = <Component {...pageProps} />
 	}
 
-	return app
+	return getLayout(app)
 }
 
 export default MyApp

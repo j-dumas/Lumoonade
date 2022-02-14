@@ -6,19 +6,24 @@ import SimpleCryptoCard from '../components/SimpleCryptoCard'
 import GetCryptoData from '../services/CryptoService'
 
 export default function Assets() {
-	const [data, setData] = useState(GetCryptoData())
+	const [data, setData] = useState([]) // GetTopPopularCryptocurrencies()
 
 	return (
 		<div>
-			<DomHead />
+			<DomHead
+				pageMeta={{
+					title: 'CRYPTOOL | ASSETS',
+					description: 'Cryptool assets page'
+				}}
+			/>
 			<Header />
 
-			<section className='section row center principal first'>
+			<section className="section row center principal first">
 				{data.map((element, i) => {
 					return (
-						<>
+						<div key={element}>
 							<SimpleCryptoCard data={element} />
-						</>
+						</div>
 					)
 				})}
 			</section>

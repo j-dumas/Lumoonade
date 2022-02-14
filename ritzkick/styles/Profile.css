@@ -1,0 +1,131 @@
+.profile-header {
+	display: flex;
+	position: absolute;
+	flex-direction: row;
+	width: 100%;
+	top: 10%;
+	left: 2%;
+	justify-content: space-evenly;
+}
+
+#profile-separator {
+	width: 100px;
+	height: 1px;
+	margin: 0%;
+	position: absolute;
+	top: 20%;
+}
+
+.form-separator {
+	width: 100%;
+	height: 1%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+#profile-picture {
+	background-color: white;
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	display: block;
+	border: 2px solid;
+	border-color: white;
+	margin-left: 2%;
+}
+
+#username {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+#information {
+	margin: 2%;
+}
+
+.profile-card {
+	background-color: var(--background-color);
+	margin: auto;
+	border: 2px solid;
+	padding: 10px;
+	text-align: center;
+	border-radius: 20px;
+	border-color: var(--orange);
+}
+
+.icon-button {
+	border: 2px solid;
+	border-color: var(--orange);
+	min-width: 40px;
+	min-height: 40px;
+	border-radius: 50%;
+	background-color: var(--orange);
+	color: white;
+	margin-left: 85%;
+	margin-right: auto;
+	font-size: 120%;
+	text-align: center;
+}
+
+.icon-button:hover {
+	color: var(--orange);
+	background-color: var(--background-color);
+	transition-duration: 0.25s;
+	cursor: pointer;
+}
+
+.edit-popup {
+	background-color: rgb(21, 22, 23, 0.96);
+	padding: 100px 100px;
+	border-radius: 10px;
+	margin-left: 5%;
+	margin-right: 5%;
+	text-align: center;
+}
+
+#cancel-edit {
+	background-color: transparent;
+	color: var(--font-color);
+	border-radius: 10px;
+	border: 2px solid;
+	border-color: red;
+	padding: 12px;
+	width: 20%;
+	height: auto;
+	margin: 8px;
+}
+
+#cancel-edit:hover {
+	background-color: red;
+	transition-duration: 0.25s;
+	cursor: pointer;
+}
+
+#update-form {
+	min-width: 345px;
+	max-width: 600px;
+}
+
+#alerts-header {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+#rotate-button {
+	transform: rotate(45deg);
+}
+
+#rotate-button:active {
+	transform: rotate(0deg);
+}
+
+input[type='number'] {
+	width: 25%;
+	border-radius: 10px;
+}
+
+#favorites {
+	width: 200%;
+}

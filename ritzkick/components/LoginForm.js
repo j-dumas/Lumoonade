@@ -3,10 +3,10 @@ import Container from 'react-bootstrap/Container'
 import AndSeparator from './AndSeparator'
 import Separator from './Separator'
 import GoogleSignIn from './GoogleSignIn'
+import { login } from '../services/AuthService'
 import Link from 'next/link'
 
 const TITLE = 'Connexion'
-let display = 'auto'
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -69,74 +69,46 @@ class LoginForm extends React.Component {
 				event.preventDefault()
 			} else {
 				event.preventDefault()
-				try {
-					let response = await fetch('/api/auth/login', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							email: this.state.username,
-							password: this.state.password,
-						}),
-					})
-
-					if (response.status == 200) {
-						let json = await response.json()
-						sessionStorage.setItem('token', json.token)
-						window.location.href = '/'
-					} else if (response.status == 400) {
-						document.getElementById('wrong').style.display = 'block'
-					} else {
-						alert('Something went wrong')
-					}
-				} catch (e) {
-					console.log(e.message)
-				}
+				await login(this.state.username, this.state.password)
 			}
 		}
 	}
 
 	render() {
 		return (
-			<Container className='p-3 form'>
-				<h1 className='form-title'>{TITLE}</h1>
-				<div id='wrong'>Mauvais courriel ou mot de passe.</div>
+			<Container className="p-3 form">
+				<h1 className="form-title">{TITLE}</h1>
+				<div id="wrong">Mauvais courriel ou mot de passe.</div>
 				<form onSubmit={this.handleSubmit}>
 					<input
-						id='userField'
-						type='text'
-						placeholder='Courriel'
+						id="userField"
+						type="text"
+						placeholder="Courriel"
 						onChange={this.handleUsernameChange}
 						required
-						autoComplete='off'
+						autoComplete="off"
 					/>
 					<input
-						id='passwordField'
-						type='password'
-						placeholder='Mot de passe'
+						id="passwordField"
+						type="password"
+						placeholder="Mot de passe"
 						onChange={this.handlePasswordChange}
 						required
-						autoComplete='off'
+						autoComplete="off"
 					/>
-					<input
-						id='submitButton'
-						type='submit'
-						onClick={this.handleSubmit}
-						value='Connexion'
-					/>
+					<input id="submitButton" type="submit" onClick={this.handleSubmit} value="Connexion" />
 				</form>
 				<AndSeparator />
 				<GoogleSignIn />
-				<Link href='/forgotPassword'>
-					<a className='link'>J&apos;ai oublié mon mot de passe</a>
+				<Link href="/forgotPassword">
+					<a className="link">J&apos;ai oublié mon mot de passe</a>
 				</Link>
 				<div>
 					<Separator />
-					<div id='Signup'>
+					<div id="Signup">
 						<h4>Vous n&apos;avez pas de compte?</h4>
-						<Link href='/register'>
-							<a className='link'>Inscrivez-vous</a>
+						<Link href="/register">
+							<a className="link">Inscrivez-vous</a>
 						</Link>
 					</div>
 				</div>

@@ -3,49 +3,24 @@ import DomHead from '../components/DomHead'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 //import DetailedChart from '../components/DetailedChart';
-import GetCryptoChartData from '../services/CryptoService'
+import GetCryptoData from '../services/CryptoService'
+import CompareMenu from '../components/CompareMenu'
 
-import dynamic from 'next/dynamic'
-
-const DetailedCharts = dynamic(
-	() => {
-		return import('../components/DetailedChart')
-	},
-	{ ssr: false }
-)
-
-export default function Home() {
+// Exemple d'URL: localhost:3000/compare?assets=ETH-BNB
+export default function Compare() {
 	const [data, setData] = useState()
-	/*
-    useEffect(() => {
-        async function getChartData() {
-          let response = await GetCryptoChartData()
-          setData(response)
-        }
 
-        getChartData()
-
-        const interval = setInterval(() => {
-            getChartData()
-            console.log('This will run every second!');
-        }, 1000);
-        return () => clearInterval(interval);
-      }, [])
-*/
 	return (
 		<>
 			<DomHead />
 			<Header />
 
-			<section className='section row principal center first'>
-				<DetailedCharts
-					getChartDatas={() => GetCryptoChartData()}
-					dateRange={'1D'}
-					interval={'1min'}
-				/>
+			<section className="section column principal first center">
+				<CompareMenu />
 			</section>
 
 			<Footer />
 		</>
 	)
 }
+// slug={assetData.slug}

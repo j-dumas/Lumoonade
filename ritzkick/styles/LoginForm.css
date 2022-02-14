@@ -49,40 +49,49 @@ input[type='email'] {
 
 input[type='text']:valid,
 input[type='password']:valid,
-input[type='email']:valid {
+input[type='email']:valid,
+input[type='number']:valid {
 	outline-color: var(--green);
 	border: var(--green);
 }
 
 input[type='text']:invalid,
 input[type='password']:invalid,
-input[type='email']:invalid {
+input[type='email']:invalid,
+input[type='number']:invalid {
 	outline-color: var(--red);
 	border: var(--red);
 }
 
-input[type='submit'] {
+input[type='submit'],
+#purge-session {
 	background-color: var(--orange);
 	color: var(--font-color);
 	border-radius: 10px;
 	border: 2px solid;
-	border-color: var(--orange);
+	border-color: var(--main-color);
 	padding: 12px;
 	width: 30%;
 	height: auto;
 	margin: 8px;
 }
 
-input[type='submit']:hover {
+input[type='submit']:hover,
+#purge-session:hover {
 	background-color: transparent;
 	color: var(--orange);
 	transition-duration: 0.25s;
+	cursor: pointer;
 }
 
 .link {
 	color: var(--orange);
 	text-decoration: underline;
 	margin: 10px;
+}
+
+.link:hover {
+	cursor: pointer;
 }
 
 #Signup {

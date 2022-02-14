@@ -6,12 +6,12 @@ const cryptoSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			trim: true,
-			unique: true,
+			unique: true
 		},
-		apis: [],
+		apis: []
 	},
 	{
-		timestamps: true,
+		timestamps: true
 	}
 )
 

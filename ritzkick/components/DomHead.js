@@ -1,10 +1,18 @@
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const WEBSITE_TITLE = 'CRYPTOOL'
-const WEBSITE_DESCRIPTION = 'CRYPTOOL'
+const WEBSITE_NAME = 'Cryptool'
 
-function DomHead() {
+function DomHead({ pageMeta }) {
+	const meta = {
+		title: 'CRYPTOOL',
+		description: 'Cryptool for CryptoCurrencies',
+		type: 'website',
+		...pageMeta
+	}
+
+	const [url, setUrl] = useState('http://localhost')
+
 	useEffect(() => {
 		const bubbletext = document.getElementsByClassName('bubbles')
 		Array.prototype.forEach.call(bubbletext, function (element) {
@@ -17,11 +25,10 @@ function DomHead() {
 				span.style.top = '0px'
 				span.style.left = '0px'
 				if (Math.round(Math.random() * 1) == 1) span.style.backgroundColor = 'var(--yellow)'
-				else span.style.backgroundColor = 'var(--orange)'
+				else span.style.backgroundColor = 'var(--main-color)'
 				span.style.width = size.toString() + 'px'
 				span.style.height = size.toString() + 'px'
-				span.style.animationDelay =
-					((Math.floor(Math.random() * 30) + 0) / 10).toString() + 's'
+				span.style.animationDelay = ((Math.floor(Math.random() * 30) + 0) / 10).toString() + 's'
 
 				element.append(span)
 			}
@@ -59,14 +66,22 @@ function DomHead() {
 		// })
 
 		//return () => clearTimeout(timeout)
+
+		setUrl(window.location.href)
 	}, [])
 
 	return (
 		<>
 			<Head>
-				<title>{WEBSITE_TITLE}</title>
-				<meta name='description' content={WEBSITE_DESCRIPTION} />
-				<link rel='icon' href='/favicon.ico' />
+				<title>{meta.title}</title>
+				<meta name="description" content={meta.description} />
+				<link rel="icon" href="/favicon.ico" />
+				{/* Open Graph */}
+				<meta property="og:url" content={url} />
+				<meta property="og:type" content={meta.type} />
+				<meta property="og:site_name" content={WEBSITE_NAME} />
+				<meta property="og:description" content={meta.description} />
+				<meta property="og:title" content={meta.title} />
 			</Head>
 		</>
 	)
