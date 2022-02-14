@@ -9,43 +9,6 @@ const assetSchema = new mongoose.Schema(
 			lowercase: true,
 			unique: true
 		},
-		fullname: {
-			type: String,
-			trim: true
-		},
-		price: {
-			type: Number,
-			default: 0,
-			validate(price) {
-				if (price < 0) {
-					throw new Error('Unable to set a price under 0.')
-				}
-			}
-		},
-		changePercent: {
-			type: Number,
-			default: 0
-		},
-		change: {
-			type: Number,
-			default: 0
-		},
-		volume: {
-			type: Number,
-			default: 0
-		},
-		supply: {
-			type: Number,
-			validate(supply) {
-				if (supply < 0) {
-					throw new Error('Cannot set the supply amount under 0.')
-				}
-			}
-		},
-		creationDate: {
-			type: Number,
-			default: Date.now()
-		},
 		searchedCount: {
 			type: Number,
 			default: 0
@@ -58,6 +21,10 @@ const assetSchema = new mongoose.Schema(
 
 assetSchema.statics.exists = async (slug) => {
 	return (await Asset.findOne({ slug })) !== null
+}
+
+assetSchema.statics.isEmpty = async () => {
+	return (await mongoose.connection.db.collection('Asset').count()) == 0
 }
 
 const Asset = mongoose.model('Asset', assetSchema)
