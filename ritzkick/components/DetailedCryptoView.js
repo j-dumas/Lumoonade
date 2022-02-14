@@ -24,10 +24,10 @@ function DetailedCryptoView(props) {
 	useEffect(async () => {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 
-		console.log(`${window.location.protocol}${window.location.hostname}`)
+		console.log(`${window.location.protocol}//${window.location.hostname}`)
 
 		setSocket(
-			io(`${window.location.protocol}${window.location.hostname}`, {
+			io(`${window.location.protocol}//${window.location.hostname}`, {
 					auth: {
 						rooms: ['general', `graph-${dateRange}-${interval}`],
 						query: [slug],
