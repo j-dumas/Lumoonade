@@ -9,14 +9,13 @@ function DetailedInformations(props) {
 
 	const [data, setData] = useState(props.firstData)
 	useEffect(async () => {
-		//setData(await Functions.GetCryptocurrencyInformationsBySlug(props.slug))
-		props.socket.on('priceChange', (data) => {
-			setData([data])
+		props.socket.on('data', (data) => {
+			setData(data)
 		})
 		if (props.socket) return () => socket.disconnect()
 	}, [])
 
-	return !data ? (
+	return !data[0] ? (
 		<>Loading...</>
 	) : (
 		<>

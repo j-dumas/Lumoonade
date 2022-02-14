@@ -16,16 +16,30 @@ const io = require('socket.io-client')
 function DetailedCryptoView(props) {
 	const [slug, setSlug] = useState(props.slug + '-' + props.currency)
 	const [firstData, setFirstData] = useState()
-	const [socket, setSocket] = useState(io('http://localhost:3000/', { auth: { token: [slug] } }))
+	const [socket, setSocket] = useState()
+
+	const [dateRange, setDateRange] = useState('5d')
+	const [interval, setInterval] = useState('15m')
 
 	useEffect(async () => {
-		if (props.slug && props.currency) setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+
+		setSocket(
+			io(`${window.location.protocol}//${window.location.host}`, {
+					auth: {
+						rooms: ['general', `graph-${dateRange}-${interval}`],
+						query: [slug],
+						graph: true
+					}
+				}
+			)
+		)
 	}, [])
 
 	// Validation:
 	if (!props.slug || !props.currency) return <div>Impossible action.</div>
 
-	return !firstData ? (
+	return !firstData || !socket ? (
 		<p>Loading...</p>
 	) : (
 		<>
@@ -33,7 +47,7 @@ function DetailedCryptoView(props) {
 				<DetailedMenu slug={slug} firstData={firstData} />
 				<div className="row space-between">
 					<DetailedInformations socket={socket} slug={slug} firstData={firstData} />
-					<DetailedChart slug={slug} />
+					<DetailedChart socket={socket} slug={slug} />
 				</div>
 			</div>
 		</>

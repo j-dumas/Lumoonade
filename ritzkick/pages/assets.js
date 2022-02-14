@@ -3,11 +3,10 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { useState, useEffect } from 'react'
 import SimpleCryptoCard from '../components/SimpleCryptoCard'
-// import GetCryptoData from '../services/CryptoService';
+import GetCryptoData from '../services/CryptoService'
 
 export default function Assets() {
-	// const [data, setData] = useState(GetCryptoData());
-	const data = []
+	const [data, setData] = useState([]) // GetTopPopularCryptocurrencies()
 
 	return (
 		<div>

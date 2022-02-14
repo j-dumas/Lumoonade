@@ -11,7 +11,6 @@ const log = require('./utils/logging')
  ******************************/
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
-const local = process.env.LOCAL || false
 const ssl = process.env.SSL || false
 const httpsUrl = process.env.HTTPS || 'localhost'
 const httpUrl = process.env.HTTP || 'localhost'

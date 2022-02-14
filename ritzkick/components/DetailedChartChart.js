@@ -1,42 +1,49 @@
 import React, { useState, useEffect } from 'react'
 import { Line, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
-import zoomPlugin from 'chartjs-plugin-zoom'
 import Functions from '../services/CryptoService'
+import 'chartjs-adapter-moment'
+import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
-	const chartReference = React.createRef()
-
+	const [chartReference, setCR] = useState(React.createRef())
 	const [data, setData] = useState()
+	var color = getComputedStyle(document.documentElement).getPropertyValue('--main-color')
+	var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color-t')
+
 	useEffect(async () => {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
-		/*
-       	setInterval(async () => {
-            const chart = chartReference.current;
-            if (chart != null) {
-            chart.data = getRelativeChartData()
-            chart.update()
-            }
-        }, 1000)
-		*/
+		props.socket.on('graph', (datas) => {
+			const chart = chartReference.current
+			if (chart !== null || !isDataNull(datas)) {
+				chart.data = getRelativeChartData(datas)
+				chart.update()
+			}
+		})
+		if (props.socket) return () => socket.disconnect()
 	}, [])
 
-	function getRelativeChartData() {
-		if (!data) return
+	function isDataNull(datas) {
+		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
+			return true
+		} else return false
+	}
+
+	function getRelativeChartData(datas) {
+		if (isDataNull(datas)) return
 		return {
-			labels: data[0].response[0].timestamp,
-			datasets: getRelativeChartDataDatasets()
+			labels: datas[0].response[0].timestamp,
+			datasets: getRelativeChartDataDatasets(datas)
 		}
 	}
 
-	function getRelativeChartDataDatasets() {
+	function getRelativeChartDataDatasets(datas) {
 		const datasets = []
-		console.log(data)
-		data.forEach((element) => {
+		datas.forEach((element) => {
 			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close))
 		})
 		return datasets
@@ -48,10 +55,10 @@ function DetailedChartChart(props) {
 			label: name,
 			data: data,
 
-			fill: false,
+			fill: true,
 			lineTension: 0.05,
-			backgroundColor: 'orange',
-			borderColor: 'orange',
+			backgroundColor: bgColor,
+			borderColor: color,
 			borderWidth: 2.5,
 			borderCapStyle: 'butt',
 			//borderDash: [5, 5],
@@ -77,7 +84,7 @@ function DetailedChartChart(props) {
 				zoom: {
 					wheel: {
 						enabled: true,
-						speed: 0.01
+						speed: 0.05
 					},
 					pinch: {
 						enabled: false
@@ -95,16 +102,16 @@ function DetailedChartChart(props) {
 				},
 				limits: {
 					//y: {min: -1000, max: props.data[0].maxValue+1000},
-					//x: {min: 5} //DATE_RANGE * INTERVAL * 24
+					//x: {min: 500} //DATE_RANGE * INTERVAL * 24
 				}
 			}
 		}
 	}
 
-	function getChartOptionsScales() {
+	function getChartOptionsScales(datas) {
 		return {
 			x: {
-				//min: getChartData()[0].value.length - NB_DATA_DISPLAYED_1ST_VIEW,
+				//min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,
 				grid: {
 					display: true,
 					drawBorder: true,
@@ -150,7 +157,7 @@ function DetailedChartChart(props) {
 		}
 	}
 
-	function getChartOptions() {
+	function getChartOptions(datas) {
 		return {
 			maintainAspectRatio: false,
 			responsive: true,
@@ -163,15 +170,15 @@ function DetailedChartChart(props) {
 				duration: 0
 			},
 			plugins: getChartOptionsPlugins(),
-			scales: getChartOptionsScales()
+			scales: getChartOptionsScales(datas)
 		}
 	}
 
-	return !data ? (
+	return isDataNull(data) ? (
 		<div>Loading...</div>
 	) : (
 		<div className="detailed-chart-chart">
-			<Charts ref={chartReference} data={getRelativeChartData()} options={getChartOptions()} />
+			<Charts ref={chartReference} data={getRelativeChartData(data)} options={getChartOptions(data)} />
 		</div>
 	)
 }

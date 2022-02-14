@@ -30,7 +30,7 @@ utests:
         refs:
             - main
         changes:
-            - ritzkick/*
+            - ritzkick/**/*
 
 #================
 # DEPLOYMENT
@@ -51,4 +51,4 @@ deploy:
         refs:
             - main
         changes:
-            - ritzkick/*
+            - ritzkick/**/*

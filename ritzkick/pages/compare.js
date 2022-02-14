@@ -4,18 +4,10 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 //import DetailedChart from '../components/DetailedChart';
 import GetCryptoData from '../services/CryptoService'
+import CompareMenu from '../components/CompareMenu'
 
-import dynamic from 'next/dynamic'
-const DetailedCryptoView = dynamic(
-	() => {
-		//return import('../components/DetailedChart')
-		return import('../components/DetailedCryptoView')
-	},
-	{ ssr: false }
-)
-
-// <DetailedCharts getChartDatas={() => GetCryptoChartData()} dateRange={'1D'} interval={'1min'} />
-export default function Home() {
+// Exemple d'URL: localhost:3000/compare?assets=ETH-BNB
+export default function Compare() {
 	const [data, setData] = useState()
 
 	return (
@@ -24,11 +16,11 @@ export default function Home() {
 			<Header />
 
 			<section className="section column principal first center">
-				<DetailedCryptoView slug="ETH" currency="CAD" />
-				<p>2</p>
+				<CompareMenu />
 			</section>
 
 			<Footer />
 		</>
 	)
 }
+// slug={assetData.slug}
