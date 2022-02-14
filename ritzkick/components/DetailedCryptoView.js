@@ -26,13 +26,18 @@ function DetailedCryptoView(props) {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 
 		setSocket(
-			io(`${isProduction ? 'https' : 'http'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`, {
-				auth: {
-					rooms: ['general', `graph-${dateRange}-${interval}`],
-					query: [slug],
-					graph: true
+			io(
+				`${isProduction ? 'https' : 'http'}://${process.env.NEXT_PUBLIC_HTTPS}:${
+					process.env.NEXT_PUBLIC_PORT
+				}/`,
+				{
+					auth: {
+						rooms: ['general', `graph-${dateRange}-${interval}`],
+						query: [slug],
+						graph: true
+					}
 				}
-			})
+			)
 		)
 	}, [])
 

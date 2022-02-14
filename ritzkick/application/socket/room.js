@@ -4,7 +4,7 @@ const dev = process.env.NODE_ENV !== 'production'
 
 class Room {
 	constructor(name) {
-		if(dev) {
+		if (dev) {
 			log('Room', `room '${name}' created!`)
 		}
 		this.name = name
