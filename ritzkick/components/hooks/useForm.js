@@ -8,12 +8,8 @@ export const useForm = (initialValues) => {
             ...values,
             [e.target.name]: e.target.value
         })
-    }, e =>{
-        e.forEach(element => {
-            setValues({
-                ...values,
-                [element]: ''
-            })
-        });
+    }, () =>{
+        setValues({
+        })
     }]
 }
