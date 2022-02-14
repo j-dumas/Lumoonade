@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import Functions, {
 	GetCryptocurrencyInformationsBySlug,
 	GetTopPopularCryptocurrencies,
 	GetTopEfficientCryptocurrencies
-} from '../services/CryptoService';
-import dynamic from 'next/dynamic';
-import DetailedChartMenu from './DetailedChartMenu';
+} from '../services/CryptoService'
+import dynamic from 'next/dynamic'
+import DetailedChartMenu from './DetailedChartMenu'
 
 const DetailedChartChart = dynamic(
 	() => {
-		return import('./DetailedChartChart');
+		return import('./DetailedChartChart')
 	},
 	{ ssr: false }
-);
+)
 
 function DetailedChart(props) {
-	// Validation:
-	if (!props.slug) return <div>Impossible action.</div>;
-
     const [showPrice, setShowPrice] = useState(true)
     const [showChange, setShowChange] = useState(false)
     const [showVolume, setShowVolume] = useState(false)
@@ -40,4 +37,4 @@ function DetailedChart(props) {
     )
 }
 
-export default DetailedChart;
+export default DetailedChart

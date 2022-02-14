@@ -17,6 +17,6 @@ module.exports = {
 	baseDir: __dirname,
 	filesPattern: '../api/**/*.js',
 	swaggerUIPath: '/api-docs'
-};
+}
 
 // https://brikev.github.io/express-jsdoc-swagger-docs/#/

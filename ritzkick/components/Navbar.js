@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Icons from './Icons';
-import Link from 'next/link';
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import Icons from './Icons'
+import Link from 'next/link'
 //import { Link } from 'react-router-dom';
 
 function Navbar(props) {
-	const router = useRouter();
+	const router = useRouter()
 
-	const [click, setClick] = useState(false);
-	const handleClick = () => setClick(!click);
-	const closeMobileMenu = () => setClick(false);
+	const [click, setClick] = useState(false)
+	const handleClick = () => setClick(!click)
+	const closeMobileMenu = () => setClick(false)
 
-	const [isScrolled, setIsScrolled] = useState(false);
+	const [isScrolled, setIsScrolled] = useState(false)
 
 	async function logout(event) {
-		event.preventDefault();
+		event.preventDefault()
 		try {
 			await fetch('/api/auth/logout', {
 				method: 'POST',
@@ -22,22 +22,22 @@ function Navbar(props) {
 					'Content-Type': 'application/json',
 					Authorization: 'Bearer ' + sessionStorage.token
 				}
-			});
+			})
 
-			sessionStorage.clear();
-			window.location.href = '/';
+			sessionStorage.clear()
+			window.location.href = '/'
 		} catch (e) {
-			console.log(e);
+			console.log(e)
 		}
 	}
 
 	useEffect(() => {
-		const onScroll = () => setIsScrolled(window.scrollY > 10);
+		const onScroll = () => setIsScrolled(window.scrollY > 10)
 		// clean up code
-		window.removeEventListener('scroll', onScroll);
-		window.addEventListener('scroll', onScroll, { passive: true });
-		return () => window.removeEventListener('scroll', onScroll);
-	}, []);
+		window.removeEventListener('scroll', onScroll)
+		window.addEventListener('scroll', onScroll, { passive: true })
+		return () => window.removeEventListener('scroll', onScroll)
+	}, [])
 
 	return (
 		<>
@@ -129,7 +129,7 @@ function Navbar(props) {
 				</div>
 			</nav>
 		</>
-	);
+	)
 }
 
-export default Navbar;
+export default Navbar

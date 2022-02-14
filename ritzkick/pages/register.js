@@ -1,7 +1,7 @@
-import DomHead from '../components/DomHead';
-import Footer from '../components/Footer';
-import RegisterForm from '../components/RegisterForm';
-import Bubbles from '../components/Bubbles';
+import DomHead from '../components/DomHead'
+import Footer from '../components/Footer'
+import RegisterForm from '../components/RegisterForm'
+import Bubbles from '../components/Bubbles'
 
 export default function Register() {
 	return (
@@ -20,5 +20,5 @@ export default function Register() {
 			<Footer />
 			<div className="cursor"></div>
 		</div>
-	);
+	)
 }

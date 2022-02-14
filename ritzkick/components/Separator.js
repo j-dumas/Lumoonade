@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 class Separator extends React.Component {
 	render() {
@@ -6,8 +6,8 @@ class Separator extends React.Component {
 			<div>
 				<hr className="longLine"></hr>
 			</div>
-		);
+		)
 	}
 }
 
-export default Separator;
+export default Separator

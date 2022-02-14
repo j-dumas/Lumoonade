@@ -1,8 +1,8 @@
-const express = require('express');
-const User = require('../../db/model/user');
-const authentication = require('../middleware/auth');
-const router = express.Router();
-require('../swagger_models');
+const express = require('express')
+const User = require('../../db/model/user')
+const authentication = require('../middleware/auth')
+const router = express.Router()
+require('../swagger_models')
 
 /**
  * Login Request User Model
@@ -57,20 +57,20 @@ require('../swagger_models');
  */
 router.post('/api/auth/login', async (req, res) => {
 	try {
-		const { email, password } = req.body;
-		const user = await User.findByCredentials(email, password);
-		const token = await user.makeAuthToken();
-		const profile = await user.makeProfile();
+		const { email, password } = req.body
+		const user = await User.findByCredentials(email, password)
+		const token = await user.makeAuthToken()
+		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
 			token
-		});
+		})
 	} catch (e) {
 		res.status(400).send({
 			error: e.message
-		});
+		})
 	}
-});
+})
 
 /**
  * POST /api/auth/register
@@ -108,20 +108,20 @@ router.post('/api/auth/login', async (req, res) => {
  */
 router.post('/api/auth/register', async (req, res) => {
 	try {
-		const user = new User(req.body);
-		await user.save();
-		const token = await user.makeAuthToken();
-		const profile = await user.makeProfile();
+		const user = new User(req.body)
+		await user.save()
+		const token = await user.makeAuthToken()
+		const profile = await user.makeProfile()
 		res.status(201).send({
 			user: profile,
 			token
-		});
+		})
 	} catch (e) {
 		res.status(400).send({
 			error: e.message
-		});
+		})
 	}
-});
+})
 
 /**
  * POST /api/auth/logout
@@ -141,15 +141,15 @@ router.post('/api/auth/register', async (req, res) => {
  */
 router.post('/api/auth/logout', authentication, async (req, res) => {
 	try {
-		req.user.sessions = req.user.sessions.filter((session) => session.session !== req.token);
-		await req.user.save();
+		req.user.sessions = req.user.sessions.filter((session) => session.session !== req.token)
+		await req.user.save()
 		res.send({
 			message: 'Succesfully logout!'
-		});
+		})
 	} catch (e) {
-		res.status(401).send();
+		res.status(401).send()
 	}
-});
+})
 
 /**
  * POST /api/auth/forgot
@@ -161,14 +161,14 @@ router.post('/api/auth/logout', authentication, async (req, res) => {
  */
 router.post('/api/auth/forgot', async (req, res) => {
 	try {
-		const { email } = req.body;
+		const { email } = req.body
 		// Todo need to find a user related to the email
 		res.send({
 			message: `Notification sent to ${email}`
-		});
+		})
 	} catch (e) {
-		res.status(500).send();
+		res.status(500).send()
 	}
-});
+})
 
-module.exports = router;
+module.exports = router

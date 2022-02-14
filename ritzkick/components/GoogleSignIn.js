@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 class GoogleSignIn extends React.Component {
 	handleGoogle(event) {
-		alert('Google');
-		event.preventDefault();
+		alert('Google')
+		event.preventDefault()
 	}
 
 	render() {
@@ -16,8 +16,8 @@ class GoogleSignIn extends React.Component {
 				></input>
 				<h4>Se connecter avec Google</h4>
 			</div>
-		);
+		)
 	}
 }
 
-export default GoogleSignIn;
+export default GoogleSignIn

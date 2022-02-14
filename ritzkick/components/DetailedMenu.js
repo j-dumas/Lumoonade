@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Icons from './Icons';
-import ButtonFavorite from '../components/ButtonFavorite';
+import React, { useState, useEffect } from 'react'
+import Icons from './Icons'
+import ButtonFavorite from '../components/ButtonFavorite'
 
 function DetailedMenu(props) {
     return (
@@ -22,4 +22,4 @@ function DetailedMenu(props) {
     )
 }
 
-export default DetailedMenu;
+export default DetailedMenu

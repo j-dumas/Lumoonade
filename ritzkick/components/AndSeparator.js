@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 class AndSeparator extends React.Component {
 	render() {
@@ -8,8 +8,8 @@ class AndSeparator extends React.Component {
 				<h4>OU</h4>
 				<hr className="line"></hr>
 			</div>
-		);
+		)
 	}
 }
 
-export default AndSeparator;
+export default AndSeparator

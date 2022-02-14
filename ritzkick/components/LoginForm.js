@@ -1,74 +1,74 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import AndSeparator from './AndSeparator';
-import Separator from './Separator';
-import GoogleSignIn from './GoogleSignIn';
-import Link from 'next/link';
+import React from 'react'
+import Container from 'react-bootstrap/Container'
+import AndSeparator from './AndSeparator'
+import Separator from './Separator'
+import GoogleSignIn from './GoogleSignIn'
+import Link from 'next/link'
 
-const TITLE = 'Connexion';
-let display = 'auto';
+const TITLE = 'Connexion'
+let display = 'auto'
 
 class LoginForm extends React.Component {
 	constructor(props) {
-		super(props);
-		this.state = { username: '', password: '' };
+		super(props)
+		this.state = { username: '', password: '' }
 
-		this.handleUsernameChange = this.handleUsernameChange.bind(this);
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleGoogle = this.handleGoogle.bind(this);
+		this.handleUsernameChange = this.handleUsernameChange.bind(this)
+		this.handlePasswordChange = this.handlePasswordChange.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleGoogle = this.handleGoogle.bind(this)
 	}
 
 	handleGoogle(event) {
-		alert('Forgot Password');
-		event.preventDefault();
+		alert('Forgot Password')
+		event.preventDefault()
 	}
 
 	handleUsernameChange(event) {
-		let username = document.getElementById('userField');
+		let username = document.getElementById('userField')
 		if (username.validity.typeMismatch) {
-			username.setCustomValidity("Entrez un nom d'utilisateur");
-			username.reportValidity();
+			username.setCustomValidity("Entrez un nom d'utilisateur")
+			username.reportValidity()
 		} else {
-			username.setCustomValidity('');
-			this.setState({ username: event.target.value });
+			username.setCustomValidity('')
+			this.setState({ username: event.target.value })
 		}
 	}
 	handlePasswordChange(event) {
-		let password = document.getElementById('passwordField');
+		let password = document.getElementById('passwordField')
 		if (password.validity.typeMismatch) {
-			password.setCustomValidity("Entrez un nom d'utilisateur");
-			password.reportValidity();
+			password.setCustomValidity("Entrez un nom d'utilisateur")
+			password.reportValidity()
 		} else {
-			password.setCustomValidity('');
-			this.setState({ password: event.target.value });
+			password.setCustomValidity('')
+			this.setState({ password: event.target.value })
 		}
 	}
 
 	showError(password, username) {
 		if (!password.validity.valid) {
-			password.setCustomValidity('Entrez un mot de passe');
-			password.reportValidity();
+			password.setCustomValidity('Entrez un mot de passe')
+			password.reportValidity()
 		}
 		if (!username.validity.valid) {
-			username.setCustomValidity("Entrez un nom d'utilisateur");
-			username.reportValidity();
+			username.setCustomValidity("Entrez un nom d'utilisateur")
+			username.reportValidity()
 		}
 	}
 
 	async handleSubmit(event) {
-		let password = document.getElementById('passwordField');
-		let username = document.getElementById('userField');
+		let password = document.getElementById('passwordField')
+		let username = document.getElementById('userField')
 
 		if (!password.validity.valid || !username.validity.valid) {
-			this.showError(password, username);
-			event.preventDefault();
+			this.showError(password, username)
+			event.preventDefault()
 		} else {
 			if (this.state.username == '' || this.state.password == '') {
-				this.showError(password, username);
-				event.preventDefault();
+				this.showError(password, username)
+				event.preventDefault()
 			} else {
-				event.preventDefault();
+				event.preventDefault()
 				try {
 					let response = await fetch('/api/auth/login', {
 						method: 'POST',
@@ -79,19 +79,19 @@ class LoginForm extends React.Component {
 							email: this.state.username,
 							password: this.state.password
 						})
-					});
+					})
 
 					if (response.status == 200) {
-						let json = await response.json();
-						sessionStorage.setItem('token', json.token);
-						window.location.href = '/';
+						let json = await response.json()
+						sessionStorage.setItem('token', json.token)
+						window.location.href = '/'
 					} else if (response.status == 400) {
-						document.getElementById('wrong').style.display = 'block';
+						document.getElementById('wrong').style.display = 'block'
 					} else {
-						alert('Something went wrong');
+						alert('Something went wrong')
 					}
 				} catch (e) {
-					console.log(e.message);
+					console.log(e.message)
 				}
 			}
 		}
@@ -136,8 +136,8 @@ class LoginForm extends React.Component {
 					</div>
 				</div>
 			</Container>
-		);
+		)
 	}
 }
 
-export default LoginForm;
+export default LoginForm

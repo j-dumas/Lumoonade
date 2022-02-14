@@ -1,7 +1,7 @@
-import DomHead from '../components/DomHead';
-import Footer from '../components/Footer';
-import ForgotPasswordForm from '../components/ForgotPasswordForm';
-import Bubbles from '../components/Bubbles';
+import DomHead from '../components/DomHead'
+import Footer from '../components/Footer'
+import ForgotPasswordForm from '../components/ForgotPasswordForm'
+import Bubbles from '../components/Bubbles'
 
 export default function ForgotPassword() {
 	return (
@@ -20,5 +20,5 @@ export default function ForgotPassword() {
 			<Footer />
 			<div className="cursor"></div>
 		</div>
-	);
+	)
 }

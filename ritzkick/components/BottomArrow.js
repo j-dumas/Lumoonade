@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import Icons from './Icons';
+import React, { useState, useEffect } from 'react'
+import Icons from './Icons'
 
 function BottomArrow() {
 	const scrollDown = () => {
 		/*document.getElementById('about').scrollIntoView({
             behavior: 'smooth'
         });*/
-	};
+	}
 
 	useEffect(() => {
 		//return () => //window.removeEventListener('scroll', onScroll);
-	}, []);
+	}, [])
 
 	return (
 		<>
@@ -20,7 +20,7 @@ function BottomArrow() {
 				</div>
 			</div>
 		</>
-	);
+	)
 }
 
-export default BottomArrow;
+export default BottomArrow

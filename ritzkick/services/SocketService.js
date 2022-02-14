@@ -1,15 +1,15 @@
 class SocketService {
 	constructor(socket) {
-		this.socket = socket;
+		this.socket = socket
 	}
 
 	setSocket(socket) {
-		this.socket = socket;
+		this.socket = socket
 	}
 
 	getSocket() {
-		return this.socket;
+		return this.socket
 	}
 }
 
-export default SocketService;
+export default SocketService

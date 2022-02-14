@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Icons from './Icons';
+import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Icons from './Icons'
 import Functions, {
 	GetCryptocurrencyInformationsBySlug,
 	GetTopPopularCryptocurrencies,
 	GetTopEfficientCryptocurrencies
-} from '../services/CryptoService';
-import ButtonFavorite from '../components/ButtonFavorite';
-import DetailedInformations from '../components/DetailedInformations';
-import DetailedChart from './DetailedChart';
-import DetailedMenu from './DetailedMenu';
+} from '../services/CryptoService'
+import ButtonFavorite from '../components/ButtonFavorite'
+import DetailedInformations from '../components/DetailedInformations'
+import DetailedChart from './DetailedChart'
+import DetailedMenu from './DetailedMenu'
 
-const io = require('socket.io-client');
+const io = require('socket.io-client')
 
 function DetailedCryptoView(props) {
 	// Validation:
@@ -50,7 +50,7 @@ function DetailedCryptoView(props) {
     )
 }
 
-export default DetailedCryptoView;
+export default DetailedCryptoView
 
 /* 
 <div className='row detailed-crypto-div left h-center'>

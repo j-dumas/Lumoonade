@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
-const validator = require('validator').default;
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
+const validator = require('validator').default
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
-const Favorite = require('./favorite');
-const Wallet = require('./wallet');
-const Watchlist = require('./watchlist');
+const Favorite = require('./favorite')
+const Wallet = require('./wallet')
+const Watchlist = require('./watchlist')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			validate(email) {
 				if (!validator.isEmail(email)) {
-					throw new Error('Invalid Email Format');
+					throw new Error('Invalid Email Format')
 				}
 			}
 		},
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			validate(username) {
 				if (validator.isEmpty(username)) {
-					throw new Error('Please provide a username.');
+					throw new Error('Please provide a username.')
 				}
 			}
 		},
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			validate(password) {
 				if (validator.isEmpty(password)) {
-					throw new Error('Please provide a password.');
+					throw new Error('Please provide a password.')
 				}
 			}
 		},
@@ -78,12 +78,12 @@ const userSchema = new mongoose.Schema(
 		timestamps: true,
 		toJSON: {
 			transform: function (doc, ret) {
-				delete ret.password;
-				delete ret.__v;
+				delete ret.password
+				delete ret.__v
 			}
 		}
 	}
-);
+)
 
 // ---------------------------------
 //
@@ -92,7 +92,7 @@ userSchema.virtual('wallet', {
 	ref: 'Wallet',
 	localField: 'wallet_list.wallet',
 	foreignField: '_id'
-});
+})
 
 // ---------------------------------
 //
@@ -101,7 +101,7 @@ userSchema.virtual('favorite', {
 	ref: 'Favorite',
 	localField: 'favorite_list.favorite',
 	foreignField: '_id'
-});
+})
 
 // ---------------------------------
 //
@@ -110,22 +110,22 @@ userSchema.virtual('watchlist', {
 	ref: 'Watchlist',
 	localField: 'watchlist_list.watch',
 	foreignField: '_id'
-});
+})
 
 userSchema.methods.makeAuthToken = async function () {
-	const user = this;
-	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET);
+	const user = this
+	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET)
 
 	// Appending the session to the current sessions.
-	user.sessions = user.sessions.concat({ session: token });
+	user.sessions = user.sessions.concat({ session: token })
 
-	await user.save();
-	return token;
-};
+	await user.save()
+	return token
+}
 
 userSchema.methods.makeProfile = async function () {
-	const user = this;
-	const { email, username, favorite_list, sessions, wallet_list, watchlist_list, createdAt, updatedAt } = user;
+	const user = this
+	const { email, username, favorite_list, sessions, wallet_list, watchlist_list, createdAt, updatedAt } = user
 	const profile = {
 		email,
 		username,
@@ -135,49 +135,49 @@ userSchema.methods.makeProfile = async function () {
 		watchlist_list: watchlist_list.length,
 		createdAt,
 		updatedAt
-	};
-	return profile;
-};
+	}
+	return profile
+}
 
 userSchema.methods.isOldPassword = async function (oldPassword) {
-	const user = this;
-	const match = await bcrypt.compare(oldPassword, user.password);
-	return match;
-};
+	const user = this
+	const match = await bcrypt.compare(oldPassword, user.password)
+	return match
+}
 
 userSchema.statics.findByCredentials = async (email, password) => {
-	const user = await User.findOne({ email });
+	const user = await User.findOne({ email })
 	if (!user) {
-		throw new Error('Could not login properly.');
+		throw new Error('Could not login properly.')
 	}
 
-	const match = await bcrypt.compare(password, user.password);
+	const match = await bcrypt.compare(password, user.password)
 	if (!match) {
-		throw new Error('Could not login properly.');
+		throw new Error('Could not login properly.')
 	}
 
-	return user;
-};
+	return user
+}
 
 userSchema.pre('save', async function (next) {
-	const user = this;
+	const user = this
 
 	if (user.isModified('password')) {
 		// 8 is a perfect number between secure and fast
-		user.password = await bcrypt.hash(user.password, 8);
+		user.password = await bcrypt.hash(user.password, 8)
 	}
 
-	next();
-});
+	next()
+})
 
 userSchema.pre('remove', async function (next) {
-	const user = this;
-	await Favorite.deleteMany({ owner: user._id });
-	await Wallet.deleteMany({ owner: user._id });
-	await Watchlist.deleteMany({ owner: user._id });
-	next();
-});
+	const user = this
+	await Favorite.deleteMany({ owner: user._id })
+	await Wallet.deleteMany({ owner: user._id })
+	await Watchlist.deleteMany({ owner: user._id })
+	next()
+})
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema)
 
-module.exports = User;
+module.exports = User

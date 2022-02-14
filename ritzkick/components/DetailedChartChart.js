@@ -6,7 +6,7 @@ import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
-const NB_DATA_DISPLAYED_1ST_VIEW = 24;
+const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
@@ -65,7 +65,7 @@ function DetailedChartChart(props) {
 			hoverBorderColor: 'white',
 			pointStyle: 'circle',
 			pointRadius: 0
-		};
+		}
 	}
 
 	function getChartOptionsPlugins() {
@@ -154,7 +154,7 @@ function DetailedChartChart(props) {
 					}
 				}
 			}
-		};
+		}
 	}
 
 	function getChartOptions(datas) {
@@ -183,7 +183,7 @@ function DetailedChartChart(props) {
 				options={getChartOptions(data)}
 			/>
 		</div>
-	);
+	)
 }
 
-export default DetailedChartChart;
+export default DetailedChartChart

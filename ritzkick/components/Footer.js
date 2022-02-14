@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-const DEV_TEAM_NAME = 'RitzKick';
+const DEV_TEAM_NAME = 'RitzKick'
 
 function Footer() {
 	return (
@@ -11,7 +11,7 @@ function Footer() {
 				</a>
 			</footer>
 		</>
-	);
+	)
 }
 
-export default Footer;
+export default Footer

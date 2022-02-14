@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import DomHead from '../components/DomHead';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { useState, useEffect } from 'react'
+import DomHead from '../components/DomHead'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 //import DetailedChart from '../components/DetailedChart';
 import GetCryptoData from '../services/CryptoService';
 import CompareMenu from '../components/CompareMenu'
@@ -21,6 +21,6 @@ export default function Compare() {
 
 			<Footer />
 		</>
-	);
+	)
 }
 // slug={assetData.slug}

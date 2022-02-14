@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import ButtonLegend from './ButtonLegend';
+import React, { useState, useEffect } from 'react'
+import ButtonLegend from './ButtonLegend'
 
 export default function DetailedChartMenu(props) {
 	const [showPrice, setShowPrice] = useState(true);
@@ -10,13 +10,13 @@ export default function DetailedChartMenu(props) {
     const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange));
 
 	function getShowPrice(value) {
-		setShowPrice(value);
+		setShowPrice(value)
 	}
 	function getShowChange(value) {
-		setShowChange(value);
+		setShowChange(value)
 	}
 	function getShowVolume(value) {
-		setShowVolume(value);
+		setShowVolume(value)
 	}
 
     return (

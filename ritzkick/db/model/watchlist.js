@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const watchlistSchema = new mongoose.Schema(
 	{
@@ -17,7 +17,7 @@ const watchlistSchema = new mongoose.Schema(
 			required: true,
 			validate(target) {
 				if (target < 0) {
-					throw new Error('Target cannot be set under 0.');
+					throw new Error('Target cannot be set under 0.')
 				}
 			}
 		}
@@ -25,8 +25,8 @@ const watchlistSchema = new mongoose.Schema(
 	{
 		timestamps: true
 	}
-);
+)
 
-const Watchlist = mongoose.model('Watchlist', watchlistSchema);
+const Watchlist = mongoose.model('Watchlist', watchlistSchema)
 
-module.exports = Watchlist;
+module.exports = Watchlist

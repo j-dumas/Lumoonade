@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const favoriteSchema = new mongoose.Schema(
 	{
@@ -6,16 +6,25 @@ const favoriteSchema = new mongoose.Schema(
 			type: mongoose.Types.ObjectId,
 			required: true
 		},
-		asset: {
-			type: mongoose.Types.ObjectId,
-			required: true
+		slug: {
+			type: String,
+			required: true,
+			trim: true,
+			lowercase: true
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		toJSON: {
+			transform: function (doc, ret) {
+				delete ret.__v
+				delete ret.createdAt
+				delete ret.updatedAt
+			}
+		}
 	}
-);
+)
 
-const Favorite = mongoose.model('Favorite', favoriteSchema);
+const Favorite = mongoose.model('Favorite', favoriteSchema)
 
-module.exports = Favorite;
+module.exports = Favorite

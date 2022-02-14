@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+import React, { useState, useEffect } from 'react'
+import { Line } from 'react-chartjs-2'
+import Chart from 'chart.js/auto'
 
 function SimpleChart(props) {
 	const [datas, setDatas] = useState({
@@ -16,7 +16,7 @@ function SimpleChart(props) {
 						? 'lightgreen'
 						: props.data.value[props.data.value.length - 1] == props.data.value[0]
 						? 'gainsboro'
-						: 'lightcoral';
+						: 'lightcoral'
 				},
 				borderWidth: 2,
 				data: props.data.value,
@@ -24,7 +24,7 @@ function SimpleChart(props) {
 				pointRadius: 0
 			}
 		]
-	});
+	})
 
 	return (
 		<div className="simple-chart">
@@ -79,7 +79,7 @@ function SimpleChart(props) {
 				}}
 			/>
 		</div>
-	);
+	)
 }
 
-export default SimpleChart;
+export default SimpleChart

@@ -1,34 +1,34 @@
-import '../styles/globals.css';
-import '../styles/Main.css';
-import '../styles/Navbar.css';
-import '../styles/Header.css';
-import '../styles/Footer.css';
-import '../styles/Container.css';
-import '../styles/Globe.css';
-import '../styles/BottomArrow.css';
-import '../styles/Icons.css';
-import '../styles/Particules.scss';
-import '../styles/LoginForm.css';
-import '../styles/BubbleEffect.css';
-import '../styles/Charts.css';
-import '../styles/SimpleCrypto.css';
-import '../styles/DetailedCrypto.css';
+import '../styles/globals.css'
+import '../styles/Main.css'
+import '../styles/Navbar.css'
+import '../styles/Header.css'
+import '../styles/Footer.css'
+import '../styles/Container.css'
+import '../styles/Globe.css'
+import '../styles/BottomArrow.css'
+import '../styles/Icons.css'
+import '../styles/Particules.scss'
+import '../styles/LoginForm.css'
+import '../styles/BubbleEffect.css'
+import '../styles/Charts.css'
+import '../styles/SimpleCrypto.css'
+import '../styles/DetailedCrypto.css'
 
-import Script from 'next/script';
+import Script from 'next/script'
 
 // The following import prevents a Font Awesome icon server-side rendering bug,
 // where the icons flash from a very large icon down to a properly sized one:
-import '@fortawesome/fontawesome-svg-core/styles.css';
+import '@fortawesome/fontawesome-svg-core/styles.css'
 // Prevent fontawesome from adding its CSS since we did it manually above:
-import { config } from '@fortawesome/fontawesome-svg-core';
-config.autoAddCss = false; /* eslint-disable import/first */
+import { config } from '@fortawesome/fontawesome-svg-core'
+config.autoAddCss = false /* eslint-disable import/first */
 
 // TODO: Change for SVGR/Webpack: https://github.com/gregberge/svgr/tree/main/packages/webpack
 
 function MyApp({ Component, pageProps }) {
-	const getLayout = Component.getLayout || ((page) => page);
+	const getLayout = Component.getLayout || ((page) => page)
 
-	let app;
+	let app
 	if (process.env.NEXT_PUBLIC_PROD == 'true') {
 		app = (
 			<div>
@@ -46,12 +46,12 @@ function MyApp({ Component, pageProps }) {
 				</Script>
 				<Component {...pageProps} />
 			</div>
-		);
+		)
 	} else {
-		app = <Component {...pageProps} />;
+		app = <Component {...pageProps} />
 	}
 
-	return getLayout(app);
+	return getLayout(app)
 }
 
-export default MyApp;
+export default MyApp

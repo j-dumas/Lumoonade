@@ -12,4 +12,4 @@ module.exports = {
 		]
 	},
 	exclude: ['/api/*', '/api-docs']
-};
+}

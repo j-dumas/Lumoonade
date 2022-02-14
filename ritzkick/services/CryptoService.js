@@ -1,15 +1,15 @@
-import axios from 'axios';
-import yahoo from '../utils/yahoo';
+import axios from 'axios'
+import yahoo from '../utils/yahoo'
 
 const Functions = {
 	async GetCryptocurrencyInformationsBySlug(slug) {
-		const URL = 'localhost:3000';
-		const URI = '/api/crypto/search/';
+		const URL = 'localhost:3000'
+		const URI = '/api/crypto/search/'
 
-		var reponse = await fetch(URI + slug);
-		var json = reponse.json();
+		var reponse = await fetch(URI + slug)
+		var json = reponse.json()
 
-		return json;
+		return json
 	},
 
 	async GetTopPopularCryptocurrencies(top = 10) {
@@ -18,21 +18,21 @@ const Functions = {
 		var reponse = await fetch(URI);
 		var json = reponse.json();
 
-		return json;
+		return json
 	},
 
 	async GetTopEfficientCryptocurrencies(top = 3) {
-		const URI = '/api/crypto/ranking/';
+		const URI = '/api/crypto/ranking/'
 
 		var reponse = await fetch(URI);
 		var json = reponse.json();
 
-		return json;
+		return json
 	},
 
 	async GetCryptocurrencyChartDataBySlug(slug, dateRange, interval) {
-		const URL = 'localhost:3000';
-		const URI = '/api/crypto/chart/';
+		const URL = 'localhost:3000'
+		const URI = '/api/crypto/chart/'
 
 		var reponse = await fetch((URI+slug+`?dateRange=${dateRange}&interval=${interval}`))
 		var json = await reponse.json()
@@ -111,6 +111,6 @@ const Functions = {
 			}
 		]
 	}
-};
+}
 
-export default Functions;
+export default Functions
