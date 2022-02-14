@@ -15,7 +15,14 @@ const assetSchema = new mongoose.Schema(
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		toJSON: {
+			transform: function (doc, ret) {
+				delete ret.__v
+				delete ret.createdAt
+				delete ret.updatedAt
+			}
+		}
 	}
 )
 
@@ -24,7 +31,7 @@ assetSchema.statics.exists = async (slug) => {
 }
 
 assetSchema.statics.isEmpty = async () => {
-	return (await mongoose.connection.db.collection('Asset').count()) == 0
+	return (await mongoose.connection.db.collection('assets').count()) === 0
 }
 
 const Asset = mongoose.model('Asset', assetSchema)
