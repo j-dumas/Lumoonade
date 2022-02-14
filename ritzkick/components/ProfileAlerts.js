@@ -11,7 +11,6 @@ export default function ProfileAlerts(){
     useEffect(() => {
         getWatchList()
         .then(res => {
-            console.log(res)
             setData(res)
         })
         .catch(err => {

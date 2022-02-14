@@ -49,11 +49,8 @@
 .profile-card{
     background-color: var(--background-color);
     margin: auto;
-    border: 2px solid;
     padding: 10px;
     text-align: center;
-    border-radius: 20px;
-    border-color: var(--orange);
 }
 
 .icon-button{

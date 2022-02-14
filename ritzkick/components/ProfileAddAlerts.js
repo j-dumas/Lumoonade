@@ -16,7 +16,6 @@ export default function ProfileAddAlerts() {
             //Reset chaque fois que le popup est fermé
             setState({asset: 'BTC', target: 0, symbol: false})
         }
-        console.log(isOpen)
     }, [isOpen])
 
     function handleAssetChange(event){
