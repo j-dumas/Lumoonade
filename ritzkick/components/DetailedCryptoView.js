@@ -13,6 +13,7 @@ import DetailedMenu from './DetailedMenu'
 
 const io = require('socket.io-client')
 const isProduction = process.env.NODE_ENV === 'production'
+const url = `${isProduction ? 'https' : 'http'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`
 
 function DetailedCryptoView(props) {
 	const [slug, setSlug] = useState(props.slug + '-' + props.currency)
@@ -25,16 +26,10 @@ function DetailedCryptoView(props) {
 	useEffect(async () => {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 
-		console.log(`${process.env.NEXT_PUBLIC_HTTPS}:${
-					process.env.NEXT_PUBLIC_PORT
-				}`)
+		console.log(url)
 
 		setSocket(
-			io(
-				`${isProduction ? 'https' : 'http'}://${process.env.NEXT_PUBLIC_HTTPS}:${
-					process.env.NEXT_PUBLIC_PORT
-				}/`,
-				{
+			io(url, {
 					auth: {
 						rooms: ['general', `graph-${dateRange}-${interval}`],
 						query: [slug],
