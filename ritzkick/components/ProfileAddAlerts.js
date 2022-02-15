@@ -41,7 +41,6 @@ export default function ProfileAddAlerts() {
 
     function handleSubmit(event){
         addWatch(state)
-        event.preventDefault()
     }
 
   return (
