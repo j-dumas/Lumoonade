@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const Asset = require('../../db/model/asset')
+const { Asset, Popular } = require('../../db/model/asset')
 const crypto = require('../../application/crypto/crypto')
 
 const pagination = require('../middleware/pagination')
@@ -8,6 +8,7 @@ const pagination = require('../middleware/pagination')
 const { parser, refactorSymbolData, fetchSymbol, fetchMarketData } = require('../../utils/yahoo')
 const { fetchTopAssets, modifyTopAssets, options } = require('../../services/TopAssetService')
 const { TopGainer, TopLoser } = require('../../db/model/top_asset')
+const { fetchPopularAssets, modifyPopularAssets } = require('../../services/PopularAssetService')
 const router = express.Router()
 
 router.get('/api/crypto/search/:slug', async (req, res) => {
@@ -92,35 +93,22 @@ router.get('/api/assets/top/losers', pagination, async (req, res) => {
 	}
 })
 
-router.get('/api/crypto/popular', async (req, res) => {
+router.get('/api/assets/popular', pagination, async (req, res) => {
 	try {
-		const limit = req.query.limit
-		const assets = await Asset.find({}).sort({ searchedCount: 'desc' })
+		const isEmpty = await Popular.isEmpty('populars')
+		if (isEmpty) await fetchPopularAssets()
+		else {
+			let datesAreSame = await checkDatesAndHours(Popular)
+			if (!datesAreSame) await modifyPopularAssets()
+		}
+
+		const assets = await Popular.find().limit(req.limit).skip(req.skipIndex).exec()
 		if (!assets || assets.length === 0) {
 			throw new Error('Unable to fetch assets')
 		}
-		if (limit && limit.length > 0) {
-			assets.length = Math.min(limit, assets.length)
-		}
-		res.send(assets)
+		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
-		res.status(404).send({
-			error: e.message
-		})
-	}
-})
-
-router.get('/api/crypto/:slug', async (req, res) => {
-	try {
-		const asset = await Asset.find({ slug: req.params.slug.toLocaleLowerCase() })
-		if (!asset || asset.length === 0) {
-			throw new Error('Unable to find an asset with a name of ' + (req.params.slug || 'None'))
-		}
-		res.send(asset)
-	} catch (e) {
-		res.status(404).send({
-			error: e.message
-		})
+		res.status(500).send({ error: e.message })
 	}
 })
 
@@ -128,15 +116,19 @@ async function verifyTopAssets(option) {
 	const isEmpty = await option.model.isEmpty(option.collection)
 	if (isEmpty) await fetchTopAssets(option)
 	else {
-		const data = await option.model.findOne()
-		let update = data.updatedAt.toISOString()
-		update = update.substring(update.indexOf('T') + 1, update.indexOf(':'))
-
-		let date = new Date().toISOString()
-		date = date.substring(date.indexOf('T') + 1, date.indexOf(':'))
-
-		if (update != date) await modifyTopAssets(option)
+		let datesAreSame = await checkDatesAndHours(option.model)
+		if (!datesAreSame) await modifyTopAssets(option)
 	}
+}
+
+async function checkDatesAndHours(model) {
+	const data = await model.findOne()
+	let update = data.updatedAt.toISOString()
+	update = update.substring(update.indexOf('T') + 1, update.indexOf(':'))
+
+	let date = new Date().toISOString()
+	date = date.substring(date.indexOf('T') + 1, date.indexOf(':'))
+	return update == date
 }
 
 module.exports = router
