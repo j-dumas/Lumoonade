@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const Asset = require('../../db/model/asset')
 const Crypto = require('../../db/model/crypto')
 const crypto = require('../../application/crypto/crypto')
+
+const pagination = require('../middleware/pagination')
+
 const { parser, refactorSymbolData, fetchSymbol, fetchMarketData } = require('../../utils/yahoo')
 const router = express.Router()
 
@@ -112,17 +115,13 @@ router.get('/api/crypto/ranking/:slug', async (req, res) => {
 //				This is the CRYPTO section
 // ----------------------------------------------------------
 
-router.get('/api/crypto/all', async (req, res) => {
+router.get('/api/assets/all', pagination, async (req, res) => {
 	try {
-		const limit = req.query.limit
-		const assets = await Asset.find({})
+		const assets = await Asset.find().limit(req.limit).skip(req.skipIndex).exec()
 		if (!assets || assets.length === 0) {
 			throw new Error('Unable to fetch assets')
 		}
-		if (limit && limit.length > 0) {
-			assets.length = Math.min(limit, assets.length)
-		}
-		res.send(assets)
+		res.send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
 		res.status(404).send({
 			error: e.message
