@@ -23,8 +23,8 @@
 
 	--font: Amaranth, Arial, Helvetica, sans-serif;
 
-	--main-color: var(--orange);/*#e82357;*/
-	--main-color-t: rgba(227, 130, 21,.15);
+	--main-color: var(--orange); /*#e82357;*/
+	--main-color-t: rgba(227, 130, 21, 0.15);
 
 	--navbar-color: rgb(15, 16, 19);
 	--background-color: rgb(19, 20, 21);

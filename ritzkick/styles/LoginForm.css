@@ -63,7 +63,8 @@ input[type='number']:invalid {
 	border: var(--red);
 }
 
-input[type='submit'], #purge-session {
+input[type='submit'],
+#purge-session {
 	background-color: var(--orange);
 	color: var(--font-color);
 	border-radius: 10px;
@@ -75,7 +76,8 @@ input[type='submit'], #purge-session {
 	margin: 8px;
 }
 
-input[type='submit']:hover, #purge-session:hover {
+input[type='submit']:hover,
+#purge-session:hover {
 	background-color: transparent;
 	color: var(--orange);
 	transition-duration: 0.25s;
@@ -88,7 +90,7 @@ input[type='submit']:hover, #purge-session:hover {
 	margin: 10px;
 }
 
-.link:hover{
+.link:hover {
 	cursor: pointer;
 }
 

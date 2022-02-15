@@ -1,5 +1,4 @@
-import {getCookie, setCookie} from '../services/CookieService'
-
+import { getCookie, setCookie } from '../services/CookieService'
 
 export async function logout() {
     try {
@@ -21,15 +20,15 @@ export async function logout() {
     }
 }
 
-export async function login(email, password){
-    try {
-        let response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: email, password: password })
-        })
+export async function login(email, password) {
+	try {
+		let response = await fetch('/api/auth/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ email: email, password: password })
+		})
 
         if(response.status == 200){
             let json = await response.json()
@@ -48,15 +47,15 @@ export async function login(email, password){
     }
 }
 
-export async function register(email, username, password){
-    try{
-        let response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: email, username: username, password: password })
-        })
+export async function register(email, username, password) {
+	try {
+		let response = await fetch('/api/auth/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ email: email, username: username, password: password })
+		})
 
         let json = await response.json()
         setCookie(json.token)

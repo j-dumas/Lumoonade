@@ -14,18 +14,18 @@ function DetailedChartChart(props) {
 	var color = getComputedStyle(document.documentElement).getPropertyValue('--main-color')
 	var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color-t')
 
-    useEffect(async ()=> {
+	useEffect(async () => {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
 		props.socket.on('graph', (datas) => {
-			const chart = chartReference.current;
-			if (chart !== null || !isDataNull(datas)) {				
+			const chart = chartReference.current
+			if (chart !== null || !isDataNull(datas)) {
 				chart.data = getRelativeChartData(datas)
 				chart.update()
 			}
 		})
-		if (props.socket) return () => socket.disconnect();
-    }, [])
+		if (props.socket) return () => socket.disconnect()
+	}, [])
 
 	function isDataNull(datas) {
 		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
@@ -33,13 +33,13 @@ function DetailedChartChart(props) {
 		} else return false
 	}
 
-    function getRelativeChartData(datas) {
+	function getRelativeChartData(datas) {
 		if (isDataNull(datas)) return
-        return {
-            labels: datas[0].response[0].timestamp,
-            datasets: getRelativeChartDataDatasets(datas)
-        }
-    }
+		return {
+			labels: datas[0].response[0].timestamp,
+			datasets: getRelativeChartDataDatasets(datas)
+		}
+	}
 
 	function getRelativeChartDataDatasets(datas) {
 		const datasets = []
@@ -84,7 +84,7 @@ function DetailedChartChart(props) {
 				zoom: {
 					wheel: {
 						enabled: true,
-						speed: 0.05,
+						speed: 0.05
 					},
 					pinch: {
 						enabled: false
@@ -103,28 +103,28 @@ function DetailedChartChart(props) {
 				limits: {
 					//y: {min: -1000, max: props.data[0].maxValue+1000},
 					//x: {min: 500} //DATE_RANGE * INTERVAL * 24
-				},
-			},
+				}
+			}
 		}
 	}
 
-    function getChartOptionsScales(datas) {
-        return {
-            x: {
-                //min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,
-                grid: {
-                    display: true,
-                    drawBorder: true,
-                    borderColor: 'rgb(51, 52, 54)',
-                    color: 'red',
-                    borderWidth: 2,
-                    drawOnChartArea: false,
-                    drawTicks: false,
-                },
-                title: {
-                    display:false,
-                    text: 'Time'
-                },
+	function getChartOptionsScales(datas) {
+		return {
+			x: {
+				//min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,
+				grid: {
+					display: true,
+					drawBorder: true,
+					borderColor: 'rgb(51, 52, 54)',
+					color: 'red',
+					borderWidth: 2,
+					drawOnChartArea: false,
+					drawTicks: false
+				},
+				title: {
+					display: false,
+					text: 'Time'
+				},
 				ticks: {
 					display: true,
 					color: 'rgb(158,159,160)',
@@ -170,18 +170,15 @@ function DetailedChartChart(props) {
 				duration: 0
 			},
 			plugins: getChartOptionsPlugins(),
-			scales: getChartOptionsScales(datas),
+			scales: getChartOptionsScales(datas)
 		}
 	}
 
-	return (
-		isDataNull(data) ? <div>Loading...</div>:
-		<div className='detailed-chart-chart'>
-			<Charts
-				ref={chartReference}
-				data={getRelativeChartData(data)}
-				options={getChartOptions(data)}
-			/>
+	return isDataNull(data) ? (
+		<div>Loading...</div>
+	) : (
+		<div className="detailed-chart-chart">
+			<Charts ref={chartReference} data={getRelativeChartData(data)} options={getChartOptions(data)} />
 		</div>
 	)
 }

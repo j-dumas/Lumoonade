@@ -223,7 +223,10 @@ router.get('/api/crypto/:slug', async (req, res) => {
 // ROUTE TEST
 router.get('/api/crypto/chart/:slug', async (req, res) => {
 	try {
-		const response = await fetchSymbol(req.params.slug, {range:req.query.dateRange, interval:req.query.interval})
+		const response = await fetchSymbol(req.params.slug, {
+			range: req.query.dateRange,
+			interval: req.query.interval
+		})
 		res.send(response)
 	} catch (e) {
 		res.status(404).send({

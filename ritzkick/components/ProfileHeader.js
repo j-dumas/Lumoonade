@@ -1,41 +1,53 @@
-import React, { useEffect, useState } from "react"
-import ProfilePopup from "./ProfilePopup";
-import { removeSession, getUser } from "../services/UserService";
+import React, { useEffect, useState } from 'react'
+import ProfilePopup from './ProfilePopup'
+import { removeSession, getUser } from '../services/UserService'
 
-const usernameTitleId = "username"
-const memberSinceId = "memberSince"
+const usernameTitleId = 'username'
+const memberSinceId = 'memberSince'
 
+class ProfileHeader extends React.Component {
+	constructor(props) {
+		super(props)
 
-class ProfileHeader extends React.Component{
-    constructor(props){
-        super(props)
+		this.state = { user: {} }
+		this.parseTime = this.parseTime.bind(this)
+		this.getMonth = this.getMonth.bind(this)
+		this.removeUserSession = this.removeUserSession.bind(this)
+	}
 
-        this.state = { user: {}}
-        this.parseTime = this.parseTime.bind(this)
-        this.getMonth = this.getMonth.bind(this)
-        this.removeUserSession = this.removeUserSession.bind(this)
-    }
+	async removeUserSession(event) {
+		await removeSession()
+		const data = await getUser()
+		this.setState({ user: data })
+	}
 
-    async removeUserSession(event){
-        await removeSession()
-        const data = await getUser()
-        this.setState({ user: data})
-    }
+	getMonth(monthNumber) {
+		const month = [
+			'Janvier',
+			'Février',
+			'Mars',
+			'Avril',
+			'Mai',
+			'Juin',
+			'Juillet',
+			'Août',
+			'Septembre',
+			'Octobre',
+			'Novembre',
+			'Decembre'
+		]
 
-    getMonth(monthNumber){
-        const month = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Decembre"];
+		return month[monthNumber - 1]
+	}
 
-        return month[monthNumber - 1];
-    }
+	parseTime(createdAt) {
+		let dateSliced = createdAt.split('-')
+		let year = dateSliced[0]
+		let month = dateSliced[1]
+		let day = dateSliced[2].substring(0, 2)
 
-    parseTime(createdAt) {
-        let dateSliced = createdAt.split('-')
-        let year = dateSliced[0]
-        let month = dateSliced[1]
-        let day = dateSliced[2].substring(0,2)
-
-        return "Membre depuis le " + parseInt(day) + " " + this.getMonth(parseInt(month)) + " " + year
-    }
+		return 'Membre depuis le ' + parseInt(day) + ' ' + this.getMonth(parseInt(month)) + ' ' + year
+	}
 
     async componentDidMount() {
         const data = await getUser()

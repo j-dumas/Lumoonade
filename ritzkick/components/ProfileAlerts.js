@@ -3,8 +3,6 @@ import { getWatchList } from "../services/UserService"
 import ProfileAddAlerts from "./ProfileAddAlerts"
 import ProfileAlertsComponent from "./ProfileAlertsComponent"
 
-
-
 export default function ProfileAlerts(){
     let [data, setData] = useState([])
     

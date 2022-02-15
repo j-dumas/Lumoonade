@@ -1,12 +1,12 @@
-import React from "react"
-import Container from 'react-bootstrap/Container';
-import AndSeparator from "./AndSeparator";
-import Separator from "./Separator";
-import GoogleSignIn from "./GoogleSignIn";
-import {login} from '../services/AuthService'
+import React from 'react'
+import Container from 'react-bootstrap/Container'
+import AndSeparator from './AndSeparator'
+import Separator from './Separator'
+import GoogleSignIn from './GoogleSignIn'
+import { login } from '../services/AuthService'
 import Link from 'next/link'
 
-const TITLE = "Connexion"
+const TITLE = 'Connexion'
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -45,36 +45,34 @@ class LoginForm extends React.Component {
 		}
 	}
 
-    showError(password, username){
-        if(!password.validity.valid){
-            password.setCustomValidity("Entrez un mot de passe")
-            password.reportValidity()
-        }
-        if(!username.validity.valid){
-            username.setCustomValidity("Entrez un nom d'utilisateur")
-            username.reportValidity()
-        }
-    }
-    
-    async handleSubmit(event) {
-        let password = document.getElementById("passwordField")
-        let username = document.getElementById("userField")
-        
-        if(!password.validity.valid || !username.validity.valid){
-            this.showError(password, username)
-            event.preventDefault()
-        }
-        else{
-            if(this.state.username == '' || this.state.password == ''){
-                this.showError(password, username)
-                event.preventDefault()
-            }
-            else {
-                event.preventDefault()
-                await login(this.state.username, this.state.password)
-            }
-        }
-    }
+	showError(password, username) {
+		if (!password.validity.valid) {
+			password.setCustomValidity('Entrez un mot de passe')
+			password.reportValidity()
+		}
+		if (!username.validity.valid) {
+			username.setCustomValidity("Entrez un nom d'utilisateur")
+			username.reportValidity()
+		}
+	}
+
+	async handleSubmit(event) {
+		let password = document.getElementById('passwordField')
+		let username = document.getElementById('userField')
+
+		if (!password.validity.valid || !username.validity.valid) {
+			this.showError(password, username)
+			event.preventDefault()
+		} else {
+			if (this.state.username == '' || this.state.password == '') {
+				this.showError(password, username)
+				event.preventDefault()
+			} else {
+				event.preventDefault()
+				await login(this.state.username, this.state.password)
+			}
+		}
+	}
 
 	render() {
 		return (

@@ -8,9 +8,17 @@ export default function ProfileAddAlerts() {
     const [state, setState] = useState({slug: 'btc', target: 0, parameter: 'lte'})
 
     const [Modal, open, close, isOpen] = useModal('alerts-header', {
-        preventScroll: true,
-        closeOnOverlayClick: true
-    })
+		preventScroll: true,
+		closeOnOverlayClick: true
+	})
+
+	useEffect(() => {
+		if (!isOpen) {
+			//Reset chaque fois que le popup est fermé
+			setState({ asset: 'BTC', target: 0, symbol: false })
+		}
+		console.log(isOpen)
+	}, [isOpen])
 
     useEffect(() => {
         if(!isOpen){
