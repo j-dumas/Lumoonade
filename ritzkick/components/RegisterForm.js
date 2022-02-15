@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Google from './/GoogleSignIn'
 import AndSeparator from './AndSeparator'
 import Separator from './Separator'
+import { register } from '../services/AuthService'
 import Link from 'next/link'
 
 const TITLE = 'Inscription'
@@ -42,7 +43,7 @@ class RegisterForm extends React.Component {
 		let password = document.getElementById('passwordField')
 
 		if (password.validity.typeMismatch) {
-			password.setCustomValidity('Entrez un mot de passe contenant 8 carachtères')
+			password.setCustomValidity('Entrez un mot de passe contenant 8 charactères')
 			password.reportValidity()
 		} else {
 			password.setCustomValidity('')
@@ -86,28 +87,7 @@ class RegisterForm extends React.Component {
 				event.preventDefault()
 			} else {
 				event.preventDefault()
-				try {
-					let response = await fetch('/api/auth/register', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							email: this.state.email,
-							username: this.state.username,
-							password: this.state.password
-						})
-					})
-
-					let json = await response.json()
-					sessionStorage.setItem('token', json.token)
-					window.location.href = '/'
-				} catch (e) {
-					console.log(e)
-					alert(e.message)
-				}
-
-				event.preventDefault()
+				await register(this.state.email, this.state.username, this.state.password)
 			}
 		}
 	}

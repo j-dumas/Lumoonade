@@ -12,6 +12,12 @@ const watchlistSchema = new mongoose.Schema(
 			trim: true,
 			lowercase: true
 		},
+		parameter: {
+			type: String,
+			required: true,
+			trim: true,
+			lowercase: true
+		},
 		target: {
 			type: Number,
 			required: true,

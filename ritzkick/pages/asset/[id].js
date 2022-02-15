@@ -11,7 +11,7 @@ export default function Asset({ assetData }) {
 			<DomHead
 				pageMeta={{
 					title: 'Asset',
-					description: 'Cryptool asset page',
+					description: 'Cryptool asset page'
 				}}
 			/>
 			<Header />
@@ -32,10 +32,9 @@ export async function getStaticPaths() {
 		fallback: false
 	}
 }
-  
+
 export async function getStaticProps({ params }) {
 	const assetData = await getAssetData(params.id)
-	//const allAssetData = JSON.stringify(assetData)
 	return {
 		props: {
 			assetData
@@ -45,26 +44,36 @@ export async function getStaticProps({ params }) {
 
 export async function getAllAssetIds() {
 	return [
-    	{
-       		params: {
-         		id: 'ada'
-       		}
-     	},
-     	{
-       		params: {
-         		id: 'eth'
-       		}
-     	},
 		{
 			params: {
-			  id: 'btc'
+				id: 'ada'
 			}
-	  	}
-   ]
+		},
+		{
+			params: {
+				id: 'bnb'
+			}
+		},
+		{
+			params: {
+				id: 'btc'
+			}
+		},
+		{
+			params: {
+				id: 'doge'
+			}
+		},
+		{
+			params: {
+				id: 'eth'
+			}
+		}
+	]
 }
 
 export async function getAssetData(id) {
 	return {
-		slug:id
+		slug: id//d.toString().toUpperCase()
 	}
 }

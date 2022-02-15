@@ -139,6 +139,20 @@ userSchema.methods.makeProfile = async function () {
 	return profile
 }
 
+userSchema.methods.addWatchlistAlertAndSave = async function(id) {
+	const user = this
+	user.watchlist_list.push({
+		watch: id
+	})
+	await user.save()
+}
+
+userSchema.methods.removeWatchlistAlertAndSave = async function(id) {
+	const user = this
+	user.watchlist_list = user.watchlist_list.filter(watchlist => watchlist.watch.toString() !== id.toString())
+	await user.save()
+}
+
 userSchema.methods.isOldPassword = async function (oldPassword) {
 	const user = this
 	const match = await bcrypt.compare(oldPassword, user.password)

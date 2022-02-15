@@ -11,7 +11,6 @@ function CompareMenu(props) {
     const [value, setValue] = useState()
 
     useEffect(() => {
-        console.log('update')
         props.socket.emit(
             'update',
             props.socket.id,
@@ -56,8 +55,6 @@ function CompareMenu(props) {
         lastCompareList.push(elementToAdd)
         setCompareList(lastCompareList)
         setSearchList([])
-
-        console.log(compareList)
     }
 
     function removeFromCompareList(element) {
@@ -104,7 +101,7 @@ function CompareMenu(props) {
                 : <p></p> }
                 <div className='column detailed-div-item'>
                     {compareList.map((element, i) => {
-                        return(<SimplestItemView command={removeFromCompareList} slug={element} price={"10000"} changeNumber={"10$"} changePercentage={"1%"} bg={i} key={element}/>)
+                        return(<SimplestItemView command={removeFromCompareList} slug={element} price={"10000"} changeNumber={"10$"} changePercentage={"1%"} key={element}/>)
                     })}
                 </div>
             </div>
@@ -112,4 +109,4 @@ function CompareMenu(props) {
     )
 }
 
-export default CompareMenu;
+export default CompareMenu

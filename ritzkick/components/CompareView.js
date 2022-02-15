@@ -21,6 +21,7 @@ function CompareView(props) {
     const [slugs, setSlugs] = useState(['BNB' + '-' + props.currency, 'LTC' + '-' + props.currency])
     const [firstData, setFirstData] = useState()
     const [socket, setSocket] = useState()
+    const [datas, setDatas] = useState([])
 
     const [dateRange, setDateRange] = useState('5d')
     const [interval, setInterval] = useState('15m')
@@ -37,9 +38,22 @@ function CompareView(props) {
         }))
     }, [slugs])
 
+    useEffect(() => {
+        if (!socket) return
+        socket.on('data', (data) => {
+			setDatas(data)
+		})
+		if (socket) return () => socket.disconnect()
+    }, [])
+
     return (
         !firstData || !socket? <p>Loading...</p>:
         <div className='detailed-crypto-view column'>
+            <div className="detailed-menu space-between row h-center">
+			    <div className="row h-center detailed-menu-info">
+				    <h1 className="detailed-menu-title">Compare</h1>
+			    </div>
+		    </div>
             <div className='row space-between'>
                 <CompareMenu socket={socket} slugs={slugs} currency={props.currency} firstData={firstData}/>
                 <DetailedChart socket={socket} slug={slug}/>
@@ -47,6 +61,4 @@ function CompareView(props) {
         </div>
     )
 }
-
 export default CompareView
-// <DetailedInformations socket={socket} slug={slug} firstData={firstData}/>

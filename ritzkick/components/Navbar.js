@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Icons from './Icons'
+import { logout } from '../services/AuthService'
 import Link from 'next/link'
-//import { Link } from 'react-router-dom';
 
 function Navbar(props) {
 	const router = useRouter()
@@ -11,24 +11,9 @@ function Navbar(props) {
 	const handleClick = () => setClick(!click)
 	const closeMobileMenu = () => setClick(false)
 
-	const [isScrolled, setIsScrolled] = useState(false)
-
-	async function logout(event) {
+	async function logoutUser(event) {
 		event.preventDefault()
-		try {
-			await fetch('/api/auth/logout', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + sessionStorage.token
-				}
-			})
-
-			sessionStorage.clear()
-			window.location.href = '/'
-		} catch (e) {
-			console.log(e)
-		}
+		await logout()
 	}
 
 	useEffect(() => {
@@ -61,26 +46,34 @@ function Navbar(props) {
 					<ul className={props.mobile ? 'nav-menu-mobile' : 'nav-menu'}>
 						<li className={router.pathname == '/' ? 'nav-item active-link' : 'nav-item'}>
 							<Icons.Home />
-							<Link href="/" className="nav-links" onClick={closeMobileMenu}>
-								Home
+							<Link href="/">
+								<a className="nav-links" onClick={closeMobileMenu}>
+									Home
+								</a>
 							</Link>
 						</li>
 						<li className={router.pathname == '/assets' ? 'nav-item active-link' : 'nav-item'}>
 							<Icons.Coins />
-							<Link href="/assets" className="nav-links" onClick={closeMobileMenu}>
-								Assets
+							<Link href="/assets">
+								<a className="nav-links" onClick={closeMobileMenu}>
+									Assets
+								</a>
 							</Link>
 						</li>
 						<li className={router.pathname == '/podium' ? 'nav-item active-link' : 'nav-item'}>
 							<Icons.ChartLine />
-							<Link href="/compare" className="nav-links" onClick={closeMobileMenu}>
-								Compare
+							<Link href="/compare">
+								<a className="nav-links" onClick={closeMobileMenu}>
+									Compare
+								</a>
 							</Link>
 						</li>
 						<li className={router.pathname == '/help' ? 'nav-item active-link' : 'nav-item'}>
 							<Icons.InfoCircle />
-							<Link href="/help" className="nav-links" onClick={closeMobileMenu}>
-								Help Center
+							<Link href="/help">
+								<a className="nav-links" onClick={closeMobileMenu}>
+									Help Center
+								</a>
 							</Link>
 						</li>
 					</ul>
@@ -89,22 +82,26 @@ function Navbar(props) {
 							<>
 								<li className={router.pathname == '/wallet' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.Wallet />
-									<Link href="/wallet" className="nav-links" onClick={closeMobileMenu}>
-										Wallet
+									<Link href="/wallet">
+										<a className="nav-links" onClick={closeMobileMenu}>
+											Wallet
+										</a>
 									</Link>
 								</li>
 								<li className={router.pathname == '/profile' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.UserCircle />
-									<Link href="/profile" className="nav-links" onClick={closeMobileMenu}>
-										Profile
+									<Link href="/profile">
+										<a className="nav-links" onClick={closeMobileMenu}>
+											Profile
+										</a>
 									</Link>
 								</li>
 								<li className={router.pathname == '/logout' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.DoorOpen />
 									{
-										<Link className="nav-links" onClick={(closeMobileMenu, logout)}>
+										<a className="nav-links" onClick={(closeMobileMenu, logoutUser)}>
 											Log out
-										</Link>
+										</a>
 									}
 								</li>
 							</>
@@ -114,13 +111,17 @@ function Navbar(props) {
 									<div className="nav-icons">
 										<Icons.DoorClosed />
 									</div>
-									<Link href="/login" className="nav-links" onClick={closeMobileMenu}>
-										Log in
+									<Link href="/login">
+										<a className="nav-links" onClick={closeMobileMenu}>
+											Log in
+										</a>
 									</Link>
 								</li>
 								<li className={router.pathname == '/register' ? 'nav-item active-link' : 'nav-item'}>
-									<Link href="/register" className="nav-links button" onClick={closeMobileMenu}>
-										Register
+									<Link href="/register">
+										<a className="nav-links button" onClick={closeMobileMenu}>
+											Register
+										</a>
 									</Link>
 								</li>
 							</>

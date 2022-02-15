@@ -14,40 +14,44 @@ import DetailedMenu from './DetailedMenu'
 const io = require('socket.io-client')
 
 function DetailedCryptoView(props) {
+	const [slug, setSlug] = useState(props.slug + '-' + props.currency)
+	const [firstData, setFirstData] = useState()
+	const [socket, setSocket] = useState()
+
+	const [dateRange, setDateRange] = useState('5d')
+	const [interval, setInterval] = useState('15m')
+
+	useEffect(async () => {
+		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+
+		setSocket(
+			io(`${window.location.protocol}//${window.location.host}`, {
+					auth: {
+						rooms: ['general', `graph-${dateRange}-${interval}`],
+						query: [slug],
+						graph: true
+					}
+				}
+			)
+		)
+	}, [])
+
 	// Validation:
-	if (!props.slug || !props.currency) return <div>Impossible action.</div>;
+	if (!props.slug || !props.currency) return <div>Impossible action.</div>
 
-    const [slug, setSlug] = useState(props.slug + '-' + props.currency)
-    const [firstData, setFirstData] = useState()
-    const [socket, setSocket] = useState()
-
-    const [dateRange, setDateRange] = useState('5d')
-    const [interval, setInterval] = useState('15m')
-
-    useEffect(async () => {
-        setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-       
-        setSocket(io('http://localhost:3000/', {
-            auth: {
-                rooms: ['general', `graph-${dateRange}-${interval}`],
-                query: [slug],
-                graph: true
-            }
-        }))
-    }, [])
-
-    return (
-        !firstData || !socket? <p>Loading...</p>:
-        <>
-            <div className='detailed-crypto-view column'>
-                <DetailedMenu slug={slug} firstData={firstData}/>
-                <div className='row space-between'>
-                    <DetailedInformations socket={socket} slug={slug} firstData={firstData}/>
-                    <DetailedChart socket={socket} slug={slug}/>
-                </div>
-            </div>
-        </>
-    )
+	return !firstData || !socket ? (
+		<p>Loading...</p>
+	) : (
+		<>
+			<div className="detailed-crypto-view column">
+				<DetailedMenu slug={slug} firstData={firstData} />
+				<div className="row space-between">
+					<DetailedInformations socket={socket} slug={slug} firstData={firstData} />
+					<DetailedChart socket={socket} slug={slug} />
+				</div>
+			</div>
+		</>
+	)
 }
 
 export default DetailedCryptoView

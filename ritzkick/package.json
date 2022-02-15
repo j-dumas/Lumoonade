@@ -16,7 +16,7 @@
 	},
 	"jest": {
 		"testEnvironment": "node",
-		"testTimeout": 2000
+		"testTimeout": 10000
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -32,7 +32,6 @@
 		"chartjs-adapter-moment": "^1.0.0",
 		"chartjs-plugin-zoom": "^1.2.0",
 		"cross-env": "^7.0.3",
-		"dotenv": "^14.3.2",
 		"env-cmd": "^10.1.0",
 		"express": "^4.17.2",
 		"express-jsdoc-swagger": "^1.6.7",
@@ -46,6 +45,8 @@
 		"react-bootstrap": "^2.1.1",
 		"react-chartjs-2": "^4.0.1",
 		"react-dom": "17.0.2",
+		"react-google-login": "^5.2.2",
+		"react-hooks-use-modal": "^2.1.0",
 		"sass": "^1.49.0",
 		"socket.io": "^4.4.1",
 		"socket.io-client": "^4.4.1",
@@ -58,6 +59,7 @@
 		"eslint-plugin-prettier": "^4.0.0",
 		"jest": "^27.4.7",
 		"nodemon": "^2.0.15",
+		"prettier": "2.5.1",
 		"supertest": "^6.2.2"
 	},
 	"resolve": {

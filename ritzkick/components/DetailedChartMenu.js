@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import ButtonLegend from './ButtonLegend'
 
 export default function DetailedChartMenu(props) {
-	const [showPrice, setShowPrice] = useState(true);
-	const [showChange, setShowChange] = useState(false);
-	const [showVolume, setShowVolume] = useState(false);
+	const [showPrice, setShowPrice] = useState(true)
+	const [showChange, setShowChange] = useState(false)
+	const [showVolume, setShowVolume] = useState(false)
 
-    const [dateRange, setDateRange] = useState('5d');
-    const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange));
+	const [dateRange, setDateRange] = useState('5d')
+	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange))
 
 	function getShowPrice(value) {
 		setShowPrice(value)
@@ -22,9 +22,9 @@ export default function DetailedChartMenu(props) {
     return (
         <div className='detailed-div-menu row h-center space-between'>
             <div className='row detailed-chart-legend left h-center'>
-                <ButtonLegend sendData={getShowPrice} value={showPrice} name="Price" backgroundColor="var(--main-color)"/>
-                <ButtonLegend sendData={getShowChange} value={showChange} name="24h change" backgroundColor="orange"/>
-                <ButtonLegend sendData={getShowVolume} value={showVolume} name="24h volume" backgroundColor="red"/>
+                {
+                <ButtonLegend sendData={getShowPrice} value={showPrice} name="Price" backgroundColor="var(--background-color-3)"/>
+                }
             </div>
             <div className='row detailed-chart-options left'>
                 <div className='row h-center'>
@@ -66,28 +66,27 @@ export default function DetailedChartMenu(props) {
     )
 }
 
-export function getIntervalOptionsByDateRange(dateRange) 
-{
-    switch (dateRange) {
-        case '1d':
-            return ['1m', '2m', '5m', '15m', '30m','1h']
-        case '5d':
-            return ['1m', '2m', '5m', '15m', '30m', '1h', '1d']
-        case '1mo':
-            return ['2m', '5m', '15m', '30m', '1h', '1d', '1wk']
-        case '3mo':
-            return ['1h', '1d', '1wk', '1mo']
-        case '6mo':
-            return ['1h', '1d', '1wk', '1mo', '3mo']
-        case '1y':
-            return ['1h', '1d', '1wk', '1mo', '3mo']
-        case '2y':
-            return ['1h', '1d', '1wk', '1mo', '3mo']
-        case '5y':
-            return ['1d', '1wk', '1mo', '3mo']
-        case 'max':
-            return ['1m', '2m', '5m', '15m', '30m','1h', '1d', '1wk', '1mo', '3mo']
-    }
+export function getIntervalOptionsByDateRange(dateRange) {
+	switch (dateRange) {
+		case '1d':
+			return ['1m', '2m', '5m', '15m', '30m', '1h']
+		case '5d':
+			return ['1m', '2m', '5m', '15m', '30m', '1h', '1d']
+		case '1mo':
+			return ['2m', '5m', '15m', '30m', '1h', '1d', '1wk']
+		case '3mo':
+			return ['1h', '1d', '1wk', '1mo']
+		case '6mo':
+			return ['1h', '1d', '1wk', '1mo', '3mo']
+		case '1y':
+			return ['1h', '1d', '1wk', '1mo', '3mo']
+		case '2y':
+			return ['1h', '1d', '1wk', '1mo', '3mo']
+		case '5y':
+			return ['1d', '1wk', '1mo', '3mo']
+		case 'max':
+			return ['1m', '2m', '5m', '15m', '30m', '1h', '1d', '1wk', '1mo', '3mo']
+	}
 }
 
 /*
