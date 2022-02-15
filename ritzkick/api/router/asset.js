@@ -1,12 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const { Asset, TopGainer } = require('../../db/model/asset')
+const Asset = require('../../db/model/asset')
 const crypto = require('../../application/crypto/crypto')
 
 const pagination = require('../middleware/pagination')
 
 const { parser, refactorSymbolData, fetchSymbol, fetchMarketData } = require('../../utils/yahoo')
 const { fetchTopAssets, modifyTopAssets, options } = require('../../services/TopAssetService')
+const { TopGainer, TopLoser } = require('../../db/model/top_asset')
 const router = express.Router()
 
 router.get('/api/crypto/search/:slug', async (req, res) => {
@@ -65,10 +66,23 @@ router.get('/api/assets/all', pagination, async (req, res) => {
 	}
 })
 
-router.get('/api/assets/top', pagination, async (req, res) => {
+router.get('/api/assets/top/gainers', pagination, async (req, res) => {
 	try {
 		await verifyTopAssets(options.gainers)
-		const assets = await TopGainer.find().limit(req.limit).skip(req.skipIndex).exec()
+		const assets = await TopGainer.find().sort({ percentage: -1 }).limit(req.limit).skip(req.skipIndex).exec()
+		if (!assets || assets.length === 0) {
+			throw new Error('Unable to fetch assets')
+		}
+		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
+	} catch (e) {
+		res.status(500).send({ error: e.message })
+	}
+})
+
+router.get('/api/assets/top/losers', pagination, async (req, res) => {
+	try {
+		await verifyTopAssets(options.losers)
+		const assets = await TopLoser.find().sort({ percentage: 1 }).limit(req.limit).skip(req.skipIndex).exec()
 		if (!assets || assets.length === 0) {
 			throw new Error('Unable to fetch assets')
 		}
