@@ -26,14 +26,11 @@ const assetSchema = new mongoose.Schema(
 	}
 )
 
-assetSchema.statics.exists = async (slug) => {
-	return (await Asset.findOne({ slug })) !== null
-}
-
-assetSchema.statics.isEmpty = async () => {
-	return (await mongoose.connection.db.collection('assets').count()) === 0
+assetSchema.statics.isEmpty = async (name) => {
+	return (await mongoose.connection.db.collection(name).count()) === 0
 }
 
 const Asset = mongoose.model('Asset', assetSchema)
+const TopGainer = mongoose.model('TopGainer', assetSchema)
 
-module.exports = Asset
+module.exports = { Asset, TopGainer }
