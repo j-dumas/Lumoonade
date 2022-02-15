@@ -31,7 +31,6 @@ assetSchema.statics.isEmpty = async (name) => {
 }
 
 const Asset = mongoose.model('Asset', assetSchema)
-const Trending = mongoose.model('Trending', assetSchema)
 const Popular = mongoose.model('Popular', assetSchema)
 
-module.exports = { Asset, Trending, Popular }
+module.exports = { Asset, Popular }
