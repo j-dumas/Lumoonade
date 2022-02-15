@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Line, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
+import GetColorByIndex from '../utils/color'
 import Functions from '../services/CryptoService'
 import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
@@ -18,13 +19,13 @@ function DetailedChartChart(props) {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
 		props.socket.on('graph', (datas) => {
-			const chart = chartReference.current;
-			if (chart !== null || !isDataNull(datas)) {				
+			const chart = chartReference.current
+			if (chart !== null || !isDataNull(datas)) {
 				chart.data = getRelativeChartData(datas)
 				chart.update()
 			}
 		})
-		if (props.socket) return () => socket.disconnect();
+		if (props.socket) return () => props.socket.disconnect()
     }, [])
 
 	function isDataNull(datas) {
@@ -43,22 +44,22 @@ function DetailedChartChart(props) {
 
 	function getRelativeChartDataDatasets(datas) {
 		const datasets = []
-		datas.forEach((element) => {
-			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close))
+		datas.forEach((element, i) => {
+			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close, i))
 		})
 		return datasets
 	}
 
-	function getRelativeChartDataDataset(name, data) {
+	function getRelativeChartDataDataset(name, data, index) {
 		return {
 			type: 'line',
 			label: name,
 			data: data,
 
-			fill: true,
+			fill: false,
 			lineTension: 0.05,
 			backgroundColor: bgColor,
-			borderColor: color,
+			borderColor: GetColorByIndex(index),
 			borderWidth: 2.5,
 			borderCapStyle: 'butt',
 			//borderDash: [5, 5],

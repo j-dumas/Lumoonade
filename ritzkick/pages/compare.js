@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 //import DetailedChart from '../components/DetailedChart';
 import GetCryptoData from '../services/CryptoService';
-import CompareMenu from '../components/CompareMenu'
+import CompareView from '../components/CompareView'
 
 // Exemple d'URL: localhost:3000/compare?assets=ETH-BNB
 export default function Compare() {
@@ -16,7 +16,7 @@ export default function Compare() {
 			<Header />
 
 			<section className="section column principal first center">
-				<CompareMenu/>
+				<CompareView currency="CAD"/>
 			</section>
 
 			<Footer />

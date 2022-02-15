@@ -51,6 +51,7 @@
 	min-width: 360px;
 
 	padding: 20px;
+	gap: 5px;
 
 	border-radius: 5px;
 	background: var(--background-color-2);
@@ -64,6 +65,7 @@
 .detailed-div-item {
 	width: 100%;
 	margin-top: 15px;
+	gap: 5px;
 
 	color: white;
 }
@@ -83,4 +85,15 @@
 
 .detailed-price {
 	font-size: 32px;
+}
+
+.dynamic-list-item {
+	background-color: var(--background-color-3);
+	border-radius: 5px;
+	padding: 5px;
+	transition: .5s;
+	cursor: pointer;
+}
+.dynamic-list-item:hover {
+	border: 1px solid white;
 }

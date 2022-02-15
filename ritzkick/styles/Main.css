@@ -38,6 +38,22 @@
 	--bad-color: rgb(234, 46, 73);
 }
 
+.bg0 {
+	background-color: var(--main-color) !important;
+}
+.bg1 {
+	background-color: var(--blue) !important;
+}
+.bg2 {
+	background-color: crimson !important;
+}
+.bg3 {
+	background-color:limegreen !important;
+}
+.bg4 {
+	background-color: gold !important;
+}
+
 html,
 body,
 main {
@@ -173,12 +189,44 @@ p {
 	margin: 1px;
 }
 
+input {
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	outline: none;
+	background-color: var(--background-color-3);
+	color: white;
+	font-size: 15px;
+}
+button {
+	margin-left: 5px;
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	outline: none;
+	background-color: var(--background-color-3);
+	color: white;
+	font-size: 15px;
+	transition: .5s;
+	cursor: pointer;
+}
+button:hover {
+	border: 1px solid white;
+}
+
+
+.max-width {
+	max-width: 360px;
+}
+
 .increase {
 	color: var(--good-color);
 }
 .decrease {
 	color: var(--bad-color);
 }
+
+
 
 /* width */
 ::-webkit-scrollbar {

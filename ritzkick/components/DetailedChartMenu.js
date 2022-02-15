@@ -48,7 +48,7 @@ export default function DetailedChartMenu(props) {
                         </optgroup>
                     </select>
                 </div>
-                <div onLoad={() => {}} className='row h-center'>
+                <div className='row h-center'>
                     <label htmlFor="interval" className='detailed-div-title'>Interval</label>
                     <select onChange={(e) => {props.sendInterval(e.target.value)}} defaultValue="15m" className='detailed-chart-options-select' name="interval">
                         <optgroup label="Interval">
