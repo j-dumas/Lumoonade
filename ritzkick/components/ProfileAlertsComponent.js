@@ -1,6 +1,7 @@
 import React from 'react'
 import Icons from './Icons';
 import { deleteWatch } from '../services/UserService';
+import ProfileAddAlerts from './ProfileAddAlerts';
 
 export default function ProfileAlertsComponent(props) {
 
@@ -34,14 +35,9 @@ export default function ProfileAlertsComponent(props) {
         <div id='alert-target'>
             {props.alert.target}&#36;
         </div>
-        <div className='row'>
-            <button className="icon-button" onClick={handleEdit}>
-                <Icons.Edit  id="icon"/>
-            </button>
-            <button className="icon-button" onClick={(event) => handleDelete(event)}>
-                <Icons.Trash  id="icon"/>
-            </button>
-        </div>
+        <button className="icon-button" onClick={(event) => handleDelete(event)}>
+            <Icons.Trash  id="icon"/>
+        </button>
     </div>
   )
 }

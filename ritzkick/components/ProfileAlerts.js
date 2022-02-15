@@ -24,7 +24,7 @@ export default function ProfileAlerts(){
         <div id="alerts">
             <div id="alerts-header" className="row">
                 <h1>Alerts</h1>
-                <ProfileAddAlerts />
+                <ProfileAddAlerts onDataChange={fetchData} />
             </div>
             <ul>
                 {data.map(alert => (

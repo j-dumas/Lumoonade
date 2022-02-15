@@ -4,21 +4,13 @@ import Icons from './Icons';
 import { addWatch } from '../services/UserService';
 
 
-export default function ProfileAddAlerts() {
+export default function ProfileAddAlerts(props) {
     const [state, setState] = useState({slug: 'btc', target: 0, parameter: 'lte'})
 
     const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,
 		closeOnOverlayClick: true
 	})
-
-	useEffect(() => {
-		if (!isOpen) {
-			//Reset chaque fois que le popup est fermé
-			setState({ asset: 'BTC', target: 0, symbol: false })
-		}
-		console.log(isOpen)
-	}, [isOpen])
 
     useEffect(() => {
         if(!isOpen){
@@ -39,8 +31,10 @@ export default function ProfileAddAlerts() {
         setState({...state, parameter: event.target.value})
     }
 
-    function handleSubmit(event){
-        addWatch(state)
+    async function handleSubmit(event){
+        await addWatch(state)
+        await props.onDataChange()
+        close()
     }
 
   return (
@@ -52,7 +46,7 @@ export default function ProfileAddAlerts() {
             <div className='edit-popup'>
                 <h1>Ajouter une alerte</h1>
                 <form onSubmit={(event) => handleSubmit(event)}>
-                    <select onChange={handleAssetChange} >
+                    <select onChange={handleAssetChange}>
                         <option value="btc">BitCoin</option>
                         <option value="eth">Etherium</option>
                     </select>
