@@ -6,8 +6,7 @@ import ProfileAlertsComponent from "./ProfileAlertsComponent"
 export default function ProfileAlerts(){
     let [data, setData] = useState([])
     
-    
-    useEffect(() => {
+    function fetchData(){
         getWatchList()
         .then(res => {
             setData(res)
@@ -15,6 +14,10 @@ export default function ProfileAlerts(){
         .catch(err => {
             console.log(err)
         })
+    }
+    
+    useEffect(() => {
+        fetchData()
     }, [])
 
     return (
@@ -25,7 +28,7 @@ export default function ProfileAlerts(){
             </div>
             <ul>
                 {data.map(alert => (
-                    <li key={alert._id}><ProfileAlertsComponent  alert={alert}/></li>
+                    <li key={alert._id}><ProfileAlertsComponent onDataChange={fetchData}  alert={alert}/></li>
                 ))}
             </ul>
         </div>

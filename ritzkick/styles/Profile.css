@@ -133,9 +133,9 @@ ul{
 
 .alert-card{
     display: flex;
-    width: 300px;
+    width: 500px;
     background-color: red;
     border-radius: 10px;
     margin: 10px;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }

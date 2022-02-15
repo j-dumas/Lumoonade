@@ -1,4 +1,6 @@
 import React from 'react'
+import Icons from './Icons';
+import { deleteWatch } from '../services/UserService';
 
 export default function ProfileAlertsComponent(props) {
 
@@ -11,6 +13,16 @@ export default function ProfileAlertsComponent(props) {
         }
     }
 
+    function handleEdit(event){
+        console.log(props.alert._id)
+        event.preventDefault()
+    }
+
+    async function handleDelete(event){
+        await deleteWatch(props.alert._id)
+        props.onDataChange()
+    }
+
   return (
     <div className='row alert-card'>
         <div id='alert-slug'>
@@ -21,6 +33,14 @@ export default function ProfileAlertsComponent(props) {
         </div>
         <div id='alert-target'>
             {props.alert.target}&#36;
+        </div>
+        <div className='row'>
+            <button className="icon-button" onClick={handleEdit}>
+                <Icons.Edit  id="icon"/>
+            </button>
+            <button className="icon-button" onClick={(event) => handleDelete(event)}>
+                <Icons.Trash  id="icon"/>
+            </button>
         </div>
     </div>
   )

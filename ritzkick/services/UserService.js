@@ -18,6 +18,25 @@ export async function getWatchList() {
 	}
 }
 
+export async function deleteWatch(alertId){
+    try{
+        let response = await fetch('/api/alerts/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie("token")
+            },
+            body: JSON.stringify({ id: alertId })
+        })
+        
+        let json = await response.json()
+        console.log(json)
+    }
+    catch(e){
+        console.log(e)
+    }
+}
+
 export async function addWatch(alert){
     try{
         let response = await fetch('/api/alerts', {
