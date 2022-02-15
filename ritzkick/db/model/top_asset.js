@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const assetSchema = new mongoose.Schema(
+const topAssetSchema = new mongoose.Schema(
 	{
 		slug: {
 			type: String,
@@ -9,9 +9,9 @@ const assetSchema = new mongoose.Schema(
 			lowercase: true,
 			unique: true
 		},
-		searchedCount: {
+		percentage: {
 			type: Number,
-			default: 0
+			required: true
 		}
 	},
 	{
@@ -26,10 +26,11 @@ const assetSchema = new mongoose.Schema(
 	}
 )
 
-assetSchema.statics.isEmpty = async (name) => {
+topAssetSchema.statics.isEmpty = async (name) => {
 	return (await mongoose.connection.db.collection(name).count()) === 0
 }
 
-const Asset = mongoose.model('Asset', assetSchema)
+const TopGainer = mongoose.model('TopGainer', topAssetSchema)
+const TopLoser = mongoose.model('TopLoser', topAssetSchema)
 
-module.exports = Asset
+module.exports = { TopGainer, TopLoser }

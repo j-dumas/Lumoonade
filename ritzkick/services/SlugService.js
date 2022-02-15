@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { Asset } = require('../db/model/asset')
+const Asset = require('../db/model/asset')
 
 async function addSlugsToDB() {
 	const isEmpty = await Asset.isEmpty('assets')
