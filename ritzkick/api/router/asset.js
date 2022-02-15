@@ -6,7 +6,7 @@ const crypto = require('../../application/crypto/crypto')
 const pagination = require('../middleware/pagination')
 
 const { parser, refactorSymbolData, fetchSymbol, fetchMarketData } = require('../../utils/yahoo')
-const { fetchTopGainers, modifyTopGainers } = require('../../services/TopGainerService')
+const { fetchTopAssets, modifyTopAssets, options } = require('../../services/TopAssetService')
 const router = express.Router()
 
 router.get('/api/crypto/search/:slug', async (req, res) => {
@@ -67,15 +67,14 @@ router.get('/api/assets/all', pagination, async (req, res) => {
 
 router.get('/api/assets/top', pagination, async (req, res) => {
 	try {
-		await verifyTopGainers()
-
+		await verifyTopAssets(options.gainers)
 		const assets = await TopGainer.find().limit(req.limit).skip(req.skipIndex).exec()
 		if (!assets || assets.length === 0) {
 			throw new Error('Unable to fetch assets')
 		}
 		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
-		res.status(500).send()
+		res.status(500).send({ error: e.message })
 	}
 })
 
@@ -111,18 +110,18 @@ router.get('/api/crypto/:slug', async (req, res) => {
 	}
 })
 
-async function verifyTopGainers() {
-	const isEmpty = await TopGainer.isEmpty('topgainers')
-	if (isEmpty) await fetchTopGainers()
+async function verifyTopAssets(option) {
+	const isEmpty = await option.model.isEmpty(option.collection)
+	if (isEmpty) await fetchTopAssets(option)
 	else {
-		const data = await TopGainer.findOne()
+		const data = await option.model.findOne()
 		let update = data.updatedAt.toISOString()
 		update = update.substring(update.indexOf('T') + 1, update.indexOf(':'))
 
 		let date = new Date().toISOString()
 		date = date.substring(date.indexOf('T') + 1, date.indexOf(':'))
 
-		if (update != date) await modifyTopGainers()
+		if (update != date) await modifyTopAssets(option)
 	}
 }
 

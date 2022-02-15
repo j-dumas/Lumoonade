@@ -32,5 +32,6 @@ assetSchema.statics.isEmpty = async (name) => {
 
 const Asset = mongoose.model('Asset', assetSchema)
 const TopGainer = mongoose.model('TopGainer', assetSchema)
+const TopLoser = mongoose.model('TopLoser', assetSchema)
 
-module.exports = { Asset, TopGainer }
+module.exports = { Asset, TopGainer, TopLoser }
