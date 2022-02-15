@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useModal } from 'react-hooks-use-modal';
 import Icons from './Icons';
+import { addWatch } from '../services/UserService';
 
 
 export default function ProfileAddAlerts() {
-    const [state, setState] = useState({asset: 'BTC', target: 0, symbol: false})
+    const [state, setState] = useState({slug: 'btc', target: 0, parameter: 'lte'})
 
     const [Modal, open, close, isOpen] = useModal('alerts-header', {
         preventScroll: true,
@@ -14,35 +15,25 @@ export default function ProfileAddAlerts() {
     useEffect(() => {
         if(!isOpen){
             //Reset chaque fois que le popup est fermé
-            setState({asset: 'BTC', target: 0, symbol: false})
+            setState({slug: 'btc', target: 0, parameter: 'lte'})
         }
     }, [isOpen])
 
     function handleAssetChange(event){
-        setState({asset: event.target.value, target: state.target, symbol: state.symbol})
+        setState({...state, slug: event.target.value})
     }
 
     function handleTargetChange(event){
-        setState({asset: state.asset, target: event.target.value, symbol: state.symbol})
+        setState({...state, target: event.target.value})
     }
     
     function handleSymbolChange(event) {
-        let symbol = null
-        if(event.target.value === "lte"){
-            symbol = false
-        }
-        else if(event.target.value === "gte"){
-            symbol = true
-        }
-        else{
-            alert("something went wrong")
-        }
-        setState({asset: state.asset, target: state.target, symbol: symbol})
+        setState({...state, parameter: event.target.value})
     }
 
-    function handleSubmit(){
-        //Api call to add
-        alert(state)
+    function handleSubmit(event){
+        addWatch(state)
+        event.preventDefault()
     }
 
   return (
@@ -53,10 +44,10 @@ export default function ProfileAddAlerts() {
         <Modal>
             <div className='edit-popup'>
                 <h1>Ajouter une alerte</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(event) => handleSubmit(event)}>
                     <select onChange={handleAssetChange} >
-                        <option value="BTC">BitCoin</option>
-                        <option value="ETH">Etherium</option>
+                        <option value="btc">BitCoin</option>
+                        <option value="eth">Etherium</option>
                     </select>
                     <input type="number" placeholder='Valeur' onChange={handleTargetChange} required min="1"></input> {/*max="market cap"*/}
                     <select onChange={handleSymbolChange}>

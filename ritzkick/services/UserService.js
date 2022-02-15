@@ -19,6 +19,25 @@ export async function getWatchList(){
     }
 }
 
+export async function addWatch(alert){
+    try{
+        console.log(alert)
+        // let response = await fetch('/api/me/watchlists', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': 'Bearer ' + getCookie("token")
+        //     },
+        // })
+        
+        // let json = await response.json()
+        // return json.watchlists
+    }
+    catch(e){
+        console.log(e)
+    }
+}
+
 export async function deleteUser(){
     try{
         let response = await fetch('/api/me/delete', {
