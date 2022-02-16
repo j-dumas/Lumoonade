@@ -1,4 +1,4 @@
-const axios = require('axios')
+const { default: axios } = require('axios')
 const { Popular } = require('../db/model/asset')
 const { info } = require('../utils/logging')
 
@@ -16,6 +16,7 @@ async function fetchPopularAssets() {
 	}
 	info('DB', 'Popular cryptocurrencies added')
 }
+
 async function modifyPopularAssets(option) {
 	const res = await axios.get(POPULAR_URL)
 	const data = res.data['data']
