@@ -139,7 +139,7 @@ userSchema.methods.makeProfile = async function () {
 	return profile
 }
 
-userSchema.methods.addWatchlistAlertAndSave = async function(id) {
+userSchema.methods.addWatchlistAlertAndSave = async function (id) {
 	const user = this
 	user.watchlist_list.push({
 		watch: id
@@ -147,9 +147,23 @@ userSchema.methods.addWatchlistAlertAndSave = async function(id) {
 	await user.save()
 }
 
-userSchema.methods.removeWatchlistAlertAndSave = async function(id) {
+userSchema.methods.removeWatchlistAlertAndSave = async function (id) {
 	const user = this
-	user.watchlist_list = user.watchlist_list.filter(watchlist => watchlist.watch.toString() !== id.toString())
+	user.watchlist_list = user.watchlist_list.filter((watchlist) => watchlist.watch.toString() !== id.toString())
+	await user.save()
+}
+
+userSchema.methods.addFavoriteAndSave = async function (id) {
+	const user = this
+	user.favorite_list.push({
+		favorite: id
+	})
+	await user.save()
+}
+
+userSchema.methods.removeFavoriteAndSave = async function (id) {
+	const user = this
+	user.favorite_list = user.favorite_list.filter((favorite) => favorite.favorite.toString() !== id.toString())
 	await user.save()
 }
 

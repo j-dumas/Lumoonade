@@ -3,7 +3,7 @@ const parser = require('./utils/parser')
 const graphRoom = require('./utils/graph')
 const rm = require('./room-manager')
 const Service = require('./service')
-const chalk = require('chalk')
+const log = require('../../utils/logging')
 
 let serverSocket = undefined
 
@@ -66,14 +66,21 @@ const initialize = (server) => {
 		// This is used to update the query list of a socket
 		// ---------------------------------------
 		socket.on('update', (id, query) => {
-			log('Update', `Updating values for ${id}`)
+			log.info('Update', `Updating values for ${id}`)
 			let rooms = rm.getRoomsOfSocket(id)
 			rooms.forEach((room) => {
-				room.getService().query = parser.appendToList(room.getService().query, query)
-				room.getService().query = room.getService().query.flat()
+				let alone = room.clients.length === 1
+				let service = room.getService()
+				if (!alone) {
+					service.query = parser.appendToList(service.query, query)
+					service.query = service.query.flat()
+				} else {
+					service.query = query
+				}
 				room.modifyClient(id, { query })
 				socket.handshake.auth.query = query
 			})
+			socket.emit('executed')
 		})
 
 		// ---------------------------------------
@@ -81,10 +88,10 @@ const initialize = (server) => {
 		// ---------------------------------------
 		socket.on('switch', (id, newRoom, graph) => {
 			if (!id) return
-			log('Switch', `${id} is switching room`)
+			log.info('Switch', `${id} is switching room`)
 			let client = rm.getClient(id)
 			if (!client) {
-				return log('Switch', `${id} failed to switch`)
+				return log.error('Switch', `${id} failed to switch`)
 			}
 			const { query } = client
 			const { append } = socket.handshake.auth
@@ -111,27 +118,23 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 		let r = rm.getRoom(room)
 		if (r) {
 			if (r.append(socket)) {
-				log('Server', `${socket.id} is new to the room ${r.name}`)
-				console.log(socket.handshake.auth)
+				log.info('Server', `${socket.id} is new to the room ${r.name}`)
 				socket.join(room)
 				if (append) {
 					r.getService().setAppendData(append)
 				}
 
-				if (graph && room.toLowerCase().includes('graph')) {
-					socket.emit('graph', r.getService().latestData())
-				} else {
-					socket.emit('data', r.getService().latestData())
-				}
+				socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
 
 				r.getService().query = parser.appendToList(r.getService().query, query)
 				r.getService().query = r.getService().query.flat()
 				r.getService().run()
 			} else {
-				log('Server', `${socket.id} failed to join ${r.name}`)
+				log.error('Server', `${socket.id} failed to join ${r.name}`)
 			}
 		}
 	})
+	socket.emit('executed')
 }
 
 /**
@@ -140,13 +143,22 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
  */
 const verifyIncomingSocket = (socket) => {
 	const { handshake } = socket
-	if (!handshake.url.includes('socket.io/?') || handshake.auth.rooms.length === 0) socket.disconnect()
+	if (!handshake.url.includes('socket.io/?') || handshake.auth.rooms.length === 0) {
+		socket.emit('reject')
+		socket.disconnect()
+	}
 }
 
-const log = (title, message) => {
-	console.log(chalk.hex('#3ed643')(`[${title}]:`), chalk.hex('#fffaf0')(message))
+/**
+ * This is used for unit testing
+ */
+const close = () => {
+	if (serverSocket) {
+		serverSocket.close()
+	}
 }
 
 module.exports = {
-	initialize
+	initialize,
+	close
 }
