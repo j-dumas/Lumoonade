@@ -3,9 +3,20 @@ import { useModal } from 'react-hooks-use-modal';
 import Icons from './Icons';
 import { addWatch } from '../services/UserService';
 
+const data = [
+    {
+        slug: 'btc',
+        name: 'Bitcoin'
+    },
+    {
+        slug: 'eth',
+        name: 'Etherium'
+    }
+]
+
 
 export default function ProfileAddAlerts(props) {
-    const [state, setState] = useState({slug: 'btc', target: 0, parameter: 'lte'})
+    const [state, setState] = useState({slug: data[0].slug, target: 0, parameter: 'lte'})
 
     const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,
@@ -15,7 +26,7 @@ export default function ProfileAddAlerts(props) {
     useEffect(() => {
         if(!isOpen){
             //Reset chaque fois que le popup est fermé
-            setState({slug: 'btc', target: 0, parameter: 'lte'})
+            setState({slug: data[0].slug, target: 0, parameter: 'lte'})
         }
     }, [isOpen])
 
@@ -32,6 +43,7 @@ export default function ProfileAddAlerts(props) {
     }
 
     async function handleSubmit(event){
+        event.preventDefault()
         await addWatch(state)
         await props.onDataChange()
         close()
@@ -47,8 +59,11 @@ export default function ProfileAddAlerts(props) {
                 <h1>Ajouter une alerte</h1>
                 <form onSubmit={(event) => handleSubmit(event)}>
                     <select onChange={handleAssetChange}>
-                        <option value="btc">BitCoin</option>
-                        <option value="eth">Etherium</option>
+                        {
+                            data.map(element =>(
+                                <option key={element.slug} value={element.slug}>{element.name}</option>
+                            ))
+                        }
                     </select>
                     <input type="number" placeholder='Valeur' onChange={handleTargetChange} required min="1"></input> {/*max="market cap"*/}
                     <select onChange={handleSymbolChange}>

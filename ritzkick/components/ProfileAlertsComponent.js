@@ -26,16 +26,16 @@ export default function ProfileAlertsComponent(props) {
 
   return (
     <div className='row alert-card'>
-        <div id='alert-slug'>
+        <div id='alert-slug' className='alert-card-item'>
             {props.alert.slug}
         </div>
-        <div>
+        <div className='alert-card-item'>
             {getSign(props.alert.parameter)}
         </div>
-        <div id='alert-target'>
+        <div id='alert-target' className='alert-card-item'>
             {props.alert.target}&#36;
         </div>
-        <button className="icon-button" onClick={(event) => handleDelete(event)}>
+        <button className="alert-card-item" onClick={(event) => handleDelete(event)}>
             <Icons.Trash  id="icon"/>
         </button>
     </div>
