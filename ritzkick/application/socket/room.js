@@ -1,15 +1,15 @@
-const chalk = require('chalk')
-
+const log = require('../../utils/logging')
 const dev = process.env.NODE_ENV !== 'production'
 
 class Room {
-	constructor(name) {
+	constructor(name, graph = false) {
 		if (dev) {
-			log('Room', `room '${name}' created!`)
+			log.info('Room', `room '${name}' created!`)
 		}
 		this.name = name
 		this.clients = []
 		this.service = undefined
+		this.graph = graph
 	}
 
 	purge() {
@@ -23,13 +23,17 @@ class Room {
 		this.service = service
 	}
 
+	setGraph(state) {
+		this.graph = state
+	}
+
 	getService() {
 		return this.service
 	}
 
 	append(socket) {
 		if (this._exists(socket)) return false
-		log('Room', socket.id + ' added to the room ' + `'${this.name}'`)
+		log.info('Room', socket.id + ' added to the room ' + `'${this.name}'`)
 		this.clients.push({
 			id: socket.id,
 			socket,
@@ -67,10 +71,6 @@ class Room {
 	_exists(socket) {
 		return this.clients.find((client) => client.id === socket.id)
 	}
-}
-
-const log = (title, message) => {
-	console.log(chalk.hex('#eeba30')(`[${title}]:`), chalk.hex('#fffaf0')(message))
 }
 
 module.exports = Room

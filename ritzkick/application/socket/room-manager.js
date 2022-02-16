@@ -1,5 +1,6 @@
 const Room = require('./room')
-const chalk = require('chalk')
+const handler = require('./utils/handler')
+const log = require('../../utils/logging')
 
 // -------------
 // List of all rooms
@@ -14,10 +15,6 @@ const add = (room) => {
 	rooms.push(new Room(room))
 }
 
-const remove = (room) => {
-	console.log(rooms)
-}
-
 /**
  * Remove the socket from his rooms
  * @param {socket} socket
@@ -25,10 +22,8 @@ const remove = (room) => {
 const disconnect = (socket) => {
 	rooms.forEach((room) => {
 		if (room.remove(socket)) {
-			log('Room Manager', `${socket.id} removed from room ${room.name}`)
-			if (!room.hasClients()) {
-				room.getService().stop()
-			}
+			log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
+			handler.onLeftRoom(room)
 		}
 	})
 }
@@ -36,10 +31,8 @@ const disconnect = (socket) => {
 const disconnectFromRoom = (socket, roomName) => {
 	const room = getRoom(roomName)
 	if (room.remove(socket)) {
-		log('Room Manager', `${socket.id} removed from room ${room.name}`)
-		if (!room.hasClients()) {
-			room.getService().stop()
-		}
+		log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
+		handler.onLeftRoom(room)
 	}
 }
 
@@ -73,14 +66,9 @@ const getRoom = (name) => {
 	return rooms.find((room) => room.name === name)
 }
 
-const log = (title, message) => {
-	console.log(chalk.hex('#4f38ff')(`[${title}]:`), chalk.hex('#fffaf0')(message))
-}
-
 module.exports = {
 	initialization,
 	add,
-	remove,
 	disconnectFromRoom,
 	getClientsFromRoom,
 	getRoom,
