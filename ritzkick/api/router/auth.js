@@ -1,4 +1,5 @@
 const express = require('express')
+const { check } = require('express-validator')
 const User = require('../../db/model/user')
 const authentication = require('../middleware/auth')
 const router = express.Router()
@@ -55,22 +56,26 @@ require('../swagger_models')
  * 	"error": "Could not login properly."
  * }
  */
-router.post('/api/auth/login', async (req, res) => {
-	try {
-		const { email, password } = req.body
-		const user = await User.findByCredentials(email, password)
-		const token = await user.makeAuthToken()
-		const profile = await user.makeProfile()
-		res.send({
-			user: profile,
-			token
-		})
-	} catch (e) {
-		res.status(400).send({
-			error: e.message
-		})
+router.post(
+	'/api/auth/login',
+	[check('username').isLength({ min: 4 }).trim().escape(), check('email').isEmail().normalizeEmail()],
+	async (req, res) => {
+		try {
+			const { email, password } = req.body
+			const user = await User.findByCredentials(email, password)
+			const token = await user.makeAuthToken()
+			const profile = await user.makeProfile()
+			res.send({
+				user: profile,
+				token
+			})
+		} catch (e) {
+			res.status(400).send({
+				error: e.message
+			})
+		}
 	}
-})
+)
 
 /**
  * POST /api/auth/register
@@ -89,8 +94,8 @@ router.post('/api/auth/login', async (req, res) => {
  *  "user": {
  *      "username": "Hubert Laliberté",
  *      "email": "hubert_est_cool@gmail.com",
- *      "wallet_list": 2,
- *      "favorite_list": 4,
+ *      "wallet_list": 0,
+ *      "favorite_list": 0,
  *      "sessions": 1,
  *      "watchlist_list": 0
  *  },
@@ -106,22 +111,26 @@ router.post('/api/auth/login', async (req, res) => {
  * 	"error": "E11000 duplicate key error collection: cryptool.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
  * }
  */
-router.post('/api/auth/register', async (req, res) => {
-	try {
-		const user = new User(req.body)
-		await user.save()
-		const token = await user.makeAuthToken()
-		const profile = await user.makeProfile()
-		res.status(201).send({
-			user: profile,
-			token
-		})
-	} catch (e) {
-		res.status(400).send({
-			error: e.message
-		})
+router.post(
+	'/api/auth/register',
+	[check('username').isLength({ min: 4 }).trim().escape(), check('email').isEmail().normalizeEmail().trim().escape()],
+	async (req, res) => {
+		try {
+			const user = new User(req.body)
+			await user.save()
+			const token = await user.makeAuthToken()
+			const profile = await user.makeProfile()
+			res.status(201).send({
+				user: profile,
+				token
+			})
+		} catch (e) {
+			res.status(400).send({
+				error: e.message
+			})
+		}
 	}
-})
+)
 
 /**
  * POST /api/auth/logout

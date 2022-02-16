@@ -4,6 +4,7 @@ const Favorite = require('../../db/model/favorite')
 const authentification = require('../middleware/auth')
 const router = express.Router()
 const { NotFoundHttpError, ConflictHttpError, sendError } = require('../../utils/http_errors')
+const { check } = require('express-validator')
 require('../swagger_models')
 
 /**
@@ -39,7 +40,7 @@ require('../swagger_models')
  *	}
  * @security BearerAuth
  */
-router.post('/api/favorite', authentification, async (req, res) => {
+router.post('/api/favorite', [check('slug').trim().escape(), authentification], async (req, res) => {
 	try {
 		let data = {
 			owner: req.user._id,
