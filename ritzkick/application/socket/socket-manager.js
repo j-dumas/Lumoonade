@@ -124,7 +124,7 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 					r.getService().setAppendData(append)
 				}
 
-				socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
+				socket.emit((r.graph || graph) ? 'graph' : 'data', r.getService().latestData())
 
 				r.getService().query = parser.appendToList(r.getService().query, query)
 				r.getService().query = r.getService().query.flat()
