@@ -80,19 +80,21 @@ const populate = () => {
 			})
 
 			// Appending the extra value to the url
-			r.getService().setAppendData(`&range=${room}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`)
+			r.getService().setAppendData(
+				`&range=${room}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`
+			)
 		})
 	})
 }
 
 /**
  * Get a specific time format for a specific range graph
- * @param {string} range 
- * @param {number} value 
+ * @param {string} range
+ * @param {number} value
  * @returns the formated time for any graph channel
  */
 const getDateFormat = (range, value) => {
-	switch(range.toLowerCase()) {
+	switch (range.toLowerCase()) {
 		case '1d':
 			return moment(value).format('DD kk:mm')
 		case '5d':
