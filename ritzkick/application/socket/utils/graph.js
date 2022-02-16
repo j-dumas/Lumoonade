@@ -35,12 +35,12 @@ let url = process.env.YAHOO_API + 'spark?symbols='
 const populate = () => {
 	// Looping thru all key values
 	Object.keys(graphRoom).forEach((room) => {
-		graphRoom[room].forEach((x) => {
+		graphRoom[room].forEach((interval) => {
 			// Creating the room
-			let roomName = `graph-${room}-${x}`
+			let roomName = `graph-${room}-${interval}`
 			rm.add(roomName)
 			let r = rm.getRoom(roomName)
-
+			r.setGraph(true)
 			// Binding a service to the room
 			r.setService(
 				new Service(r, url, {
@@ -59,7 +59,7 @@ const populate = () => {
 							res.response[0].timestamp[index] = null
 						} else {
 							let value = res.response[0].timestamp[index]
-							res.response[0].timestamp[index] = moment(value * timeOffset).format('H:mm')
+							res.response[0].timestamp[index] = getDateFormat(room, value * timeOffset)
 						}
 						return obj
 					})
@@ -80,9 +80,37 @@ const populate = () => {
 			})
 
 			// Appending the extra value to the url
-			r.getService().setAppendData(`&range=${room}&interval=${x}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`)
+			r.getService().setAppendData(`&range=${room}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`)
 		})
 	})
+}
+
+/**
+ * Get a specific time format for a specific range graph
+ * @param {string} range 
+ * @param {number} value 
+ * @returns the formated time for any graph channel
+ */
+const getDateFormat = (range, value) => {
+	switch(range.toLowerCase()) {
+		case '1d':
+			return moment(value).format('DD kk:mm')
+		case '5d':
+		case '1mo':
+			return moment(value).format('MM-DD kk:mm')
+		case '3mo':
+		case '6mo':
+			return moment(value).format('MM-DD kk')
+		case '1y':
+		case '2y':
+			return moment(value).format('YY-MM-DD kk')
+		case '5y':
+			return moment(value).format('YY-MM-DD')
+		case 'max':
+			return moment(value).format('YY-MM-DD kk:mm')
+		default:
+			throw new Error('Range doesnt exist')
+	}
 }
 
 module.exports = {

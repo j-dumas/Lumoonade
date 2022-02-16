@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Watchlist = require('../../db/model/watchlist')
-const User = require('../../db/model/user')
 const { sendError, NotFoundHttpError } = require('../../utils/http_errors')
 const auth = require('../middleware/auth')
 
@@ -39,6 +38,14 @@ router.put('/api/alerts/update', auth, async (req, res) => {
         if (!validUpdate) throw new Error('One or more properties are not supported.')
 
         updates.forEach(update => {
+            if (update.toLowerCase().includes('parameter')) {
+                let validModification = ['lte', 'gte']
+                let content = req.body[update].toLowerCase()
+                let found = validModification.find(modification => modification === content)
+                if (!found) {
+                    throw new Error('Possible values are ' + validModification)
+                }
+            }
             alert[update] = req.body[update]
         })
         await alert.save()

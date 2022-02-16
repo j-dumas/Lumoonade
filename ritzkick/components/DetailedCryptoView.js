@@ -25,13 +25,14 @@ function DetailedCryptoView(props) {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 
 		setSocket(
-			io(`ws://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`, {
-				auth: {
-					rooms: ['general', `graph-${dateRange}-${interval}`],
-					query: [slug],
-					graph: true
+			io(`${window.location.protocol}//${window.location.host}`, {
+					auth: {
+						rooms: ['general', `graph-${dateRange}-${interval}`],
+						query: [slug],
+						graph: true
+					}
 				}
-			})
+			)
 		)
 	}, [])
 
