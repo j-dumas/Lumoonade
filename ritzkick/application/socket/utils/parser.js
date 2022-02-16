@@ -37,12 +37,19 @@ const keepFromList = (list, config) => {
 	return result
 }
 
+/**
+ * Checks if the string content is the same as well as the type
+ * @param {string} s1 
+ * @param {string} s2 
+ * @returns true if the string matches
+ */
 const sameString = (s1, s2) => {
-	return s1.toLowerCase() === s2.toLowerCase()
+	return String(s1).toLowerCase() === String(s2).toLowerCase()
 }
 
 module.exports = {
 	appendToList,
 	rebuild,
-	keepFromList
+	keepFromList,
+	sameString
 }

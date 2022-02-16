@@ -1,5 +1,5 @@
 const axios = require('axios').default
-const chalk = require('chalk')
+const log = require('../../utils/logging')
 
 class Service {
 	constructor(room, url, config) {
@@ -13,6 +13,10 @@ class Service {
 		this.callback = undefined
 		this.cleanupCallback = undefined
 		this.appendUrlData = ''
+	}
+
+	isRunning() {
+		return this.running
 	}
 
 	queryField() {
@@ -44,7 +48,7 @@ class Service {
 	 */
 	run() {
 		if (this.running) return
-		log('Service', 'Running service for ' + this.room.name)
+		log.info('Service', 'Running service for ' + this.room.name)
 		this.running = true
 		this.routine = setInterval(() => {
 			axios({
@@ -68,13 +72,10 @@ class Service {
 	stop() {
 		if (!this.running) return
 		this.running = false
-		log('Service', 'Stopping service for ' + this.room.name)
+		this.query.length = 0
+		log.info('Service', 'Stopping service for ' + this.room.name)
 		clearInterval(this.routine)
 	}
-}
-
-const log = (title, message) => {
-	console.log(chalk.hex('#eeba30')(`[${title}]:`), chalk.hex('#fffaf0')(message))
 }
 
 module.exports = Service
