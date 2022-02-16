@@ -10,6 +10,7 @@ import ButtonFavorite from '../components/ButtonFavorite'
 import DetailedInformations from '../components/DetailedInformations'
 import DetailedChart from './DetailedChart'
 import CompareMenu from './CompareMenu'
+import { useRouter } from 'next/router'
 
 const io = require('socket.io-client')
 
@@ -17,14 +18,25 @@ function CompareView(props) {
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>;
 
-    const [slug, setSlug] = useState('bnb' + '-' + props.currency)
-    const [slugs, setSlugs] = useState(['BNB' + '-' + props.currency, 'LTC' + '-' + props.currency])
+    const router = useRouter()
+    const [slug, setSlug] = useState('BTC' + '-' + props.currency)
+    const [slugs, setSlugs] = useState(getFirstCompareList())
     const [firstData, setFirstData] = useState()
     const [socket, setSocket] = useState()
     const [datas, setDatas] = useState([])
 
     const [dateRange, setDateRange] = useState('5d')
     const [interval, setInterval] = useState('15m')
+    
+    function getFirstCompareList() {
+        let paramsString = router.asPath.toString().split('/compare?assets=')[1]
+        if (!paramsString) return []
+        let params = paramsString.split('-')
+        params.map((param, i) => {
+            params[i] = param + '-' + props.currency
+        })
+        return params
+    }
 
     useEffect(async () => {
         setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))

@@ -18,18 +18,25 @@ function CompareMenu(props) {
         )
     })
 
-/*
-    useEffect(() => {
+    function changeURI() {
+        let assets = 'BTC'
+        if (compareList.length > 0) {
+            compareList.map((asset,i)=> {
+                asset = asset.split('-')[0].toString()
+                if (i == 0) assets = asset
+                else assets += ('-'+asset)
+            })
+        }
+        
         router.push(
             {
               pathname: `/compare`,
               query: {}
             },
-            `/compare?param=test`,
+            `/compare?assets=${assets}`,
             {shallow: true}
-        );
-    }, [])
-*/
+        )
+    }
 
     function updateSearchList(event) {
         event.preventDefault()
@@ -55,6 +62,8 @@ function CompareMenu(props) {
         lastCompareList.push(elementToAdd)
         setCompareList(lastCompareList)
         setSearchList([])
+
+        changeURI()
     }
 
     function removeFromCompareList(element) {
@@ -62,6 +71,8 @@ function CompareMenu(props) {
         lastCompareList.splice(lastCompareList.indexOf(element), 1)
         setCompareList(lastCompareList)
         setSearchList([])
+
+        changeURI()
     }
 
     return (
