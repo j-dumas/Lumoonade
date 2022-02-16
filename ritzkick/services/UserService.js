@@ -1,5 +1,4 @@
 import { getCookie } from '../services/CookieService'
-import { logout } from './AuthService'
 
 export async function getWatchList() {
 	try {

@@ -23,7 +23,7 @@ export default function ProfileAlerts(){
     return (
         <div id="alerts">
             <div id="alerts-header" className="row">
-                <h1>Alerts</h1>
+                <h1>Alertes</h1>
                 <ProfileAddAlerts onDataChange={fetchData} />
             </div>
             <ul>

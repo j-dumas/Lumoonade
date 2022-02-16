@@ -144,3 +144,14 @@ ul{
 .alert-card-item{
 	width: 30px;
 }
+
+.search-bar{
+	width: 5em;
+}
+
+#slug-results{
+	display: flex;
+	position: absolute;
+	display: none;
+	flex-direction: column;
+}

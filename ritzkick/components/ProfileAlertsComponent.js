@@ -1,7 +1,6 @@
 import React from 'react'
 import Icons from './Icons';
 import { deleteWatch } from '../services/UserService';
-import ProfileAddAlerts from './ProfileAddAlerts';
 
 export default function ProfileAlertsComponent(props) {
 
