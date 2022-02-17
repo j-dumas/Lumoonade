@@ -6,14 +6,18 @@ const http = require('http'),
 const next = require('next')
 const log = require('./utils/logging')
 
+const compression = require('compression')
+const spdy = require('spdy')
+
 /*******************************
  * Reading Environment Variables
  ******************************/
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
-const ssl = process.env.SSL || false
 const httpsUrl = process.env.HTTPS || 'localhost'
 const httpUrl = process.env.HTTP || 'localhost'
+const cert = process.env.SSL_CERT || 'localhost'
+const key = process.env.SSL_KEY || 'localhostKey'
 
 // SOCKET
 const sm = require('./application/socket/socket-manager')
@@ -28,24 +32,38 @@ app.prepare().catch((ex) => {
 	process.exit(1)
 })
 
+/**********************
+ * Prepare SPDY Options
+ *********************/
+const httpSpdyOptions = {
+	plain: true,
+	ssl: false
+}
+
+const spdyOptions = { protocols: ['h2', 'http/1.1'] }
+
 /**********************************
  * Prepare Backend ExpressJS Server
  *********************************/
 let server = require('./application/app')
 if (!dev) protocolVerification()
 
+const shouldCompress = (req, res) => {
+	if (req.headers['x-no-compression']) {
+		return false
+	}
+
+	return compression.filter(req, res)
+}
+
+server.use(compression({ filter: shouldCompress }))
+
 server.get('*', (req, res) => {
 	return handle(req, res)
 })
 
-if (ssl == 'true') {
-	const httpsOptions = readCertificates()
-	server = https.createServer(httpsOptions, server)
-	log.info('SERVER', 'Starting in HTTPS')
-} else {
-	server = http.createServer(server)
-	log.info('SERVER', 'Starting in HTTP')
-}
+prepareHttps2()
+
 sm.initialize(server)
 
 /**************
@@ -79,11 +97,20 @@ function protocolVerification() {
  * @returns https options with key and certificate
  */
 function readCertificates() {
-	const httpsOptions = {}
-	if (ssl == 'true') {
-		log.info('SERVER', 'Reading certificates')
-		httpsOptions.key = fs.readFileSync(`${__dirname}/certificates/privkey.pem`)
-		httpsOptions.cert = fs.readFileSync(`${__dirname}/certificates/fullchain.pem`)
+	log.info('SERVER', 'Reading certificates')
+	const httpsOptions = {
+		key: fs.readFileSync(`${__dirname}/certificates/${key}.pem`),
+		cert: fs.readFileSync(`${__dirname}/certificates/${cert}.pem`)
 	}
 	return httpsOptions
+}
+
+/**
+ * Prepares the HTTPS/2 server
+ */
+function prepareHttps2() {
+	const options = readCertificates()
+	options.spdy = spdyOptions
+	server = spdy.createServer(options, server)
+	log.info('SERVER', 'Starting in HTTPS/2')
 }
