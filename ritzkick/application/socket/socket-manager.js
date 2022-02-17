@@ -5,8 +5,6 @@ const rm = require('./room-manager')
 const Service = require('./service')
 const log = require('../../utils/logging')
 
-const es = require('../email/email-service')
-
 let serverSocket = undefined
 
 /**
