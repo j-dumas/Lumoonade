@@ -106,7 +106,7 @@
 
 #alerts-header {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-evenly;
 	align-items: center;
 }
 
@@ -133,25 +133,24 @@ ul{
 
 .alert-card{
     display: grid;
-	grid-template-columns: auto auto auto auto;
+	grid-template-columns: auto auto auto auto auto;
     width: 500px;
-    background-color: red;
+    background-color: var(--background-color);
     border-radius: 10px;
     margin: 10px;
 	padding: 10px;
+	border: 2px solid;
+	border-color: greenyellow;
 }
 
 .alert-card-item{
 	width: 30px;
 }
 
-.search-bar{
-	width: 5em;
+.selector{
+	color: var(--background-color);
 }
 
-#slug-results{
-	display: flex;
-	position: absolute;
-	display: none;
-	flex-direction: column;
+.input{
+	color: white;
 }

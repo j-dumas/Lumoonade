@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useModal } from 'react-hooks-use-modal';
 import Icons from './Icons';
 import { addWatch } from '../services/UserService';
-import ProfileSearchBar from './ProfileSearchBar';
+import Select from 'react-select';
+import { Alert, Autocomplete, Snackbar, TextField} from '@mui/material';
 
 const data = [
     {
         slug: 'btc',
-        name: 'Bitcoin',
+        name: 'Bitcoin'
     },
     {
         slug: 'eth',
@@ -15,16 +16,32 @@ const data = [
     }
 ]
 
-
+function parseData(){
+    let parsedData = []
+    data.forEach((element) => {
+        let tempValue = {
+            label: element.slug, value: element.slug
+        }
+        parsedData.push(tempValue)
+    })
+    return parsedData
+}
 
 export default function ProfileAddAlerts(props) {
     const [state, setState] = useState({slug: data[0].slug, target: 0, parameter: 'lte'})
-    const [options, setOptions] = useState(data)
-
     const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,
 		closeOnOverlayClick: true
 	})
+    const [openStatus, setOpen] = useState(false)
+
+    function handleClose(event, reason){
+        if (reason === 'clickaway') {
+            return
+        }
+      
+        setOpen(false)
+    }
 
     useEffect(() => {
         if(!isOpen){
@@ -33,20 +50,16 @@ export default function ProfileAddAlerts(props) {
         }
     }, [isOpen])
 
-    function handleAssetChange(event){
-        setState({...state, slug: event.target.value})
-    }
-
     function handleTargetChange(event){
         setState({...state, target: event.target.value})
     }
     
-    function handleSymbolChange(event) {
-        setState({...state, parameter: event.target.value})
+    function handleSymbolChange(opt) {
+        setState({...state, parameter: opt.value})
     }
 
-    function onInputChange(event) {
-        setOptions(data.filter((option) => option.slug.includes(event.target.value)))
+    function handleSlugChange(opt){
+        setState({...state, slug: opt.value})
     }
 
     async function handleSubmit(event){
@@ -54,6 +67,7 @@ export default function ProfileAddAlerts(props) {
         await addWatch(state)
         await props.onDataChange()
         close()
+        setOpen(true)
     }
 
   return (
@@ -61,23 +75,18 @@ export default function ProfileAddAlerts(props) {
         <button className='icon-button transform' id='rotate-button' onClick={open}>
             <Icons.Times/>
         </button>
+        <Snackbar open={openStatus} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                Alerte ajoutée !
+            </Alert>
+        </Snackbar>
         <Modal>
             <div className='edit-popup'>
                 <h1>Ajouter une alerte</h1>
-                <form onSubmit={(event) => handleSubmit(event)}>
-                    {/* <select onChange={handleAssetChange}>
-                        {
-                            data.map(element =>(
-                                <option key={element.slug} value={element.slug}>{element.name}</option>
-                            ))
-                        }
-                    </select> */}
-                    <ProfileSearchBar  data={options} onInputChange={onInputChange}/>
+                <form className='row' onSubmit={(event) => handleSubmit(event)}>
+                    <Select className='selector' options={parseData()} onChange={opt => handleSlugChange(opt)}/>
                     <input type="number" placeholder='Valeur' onChange={handleTargetChange} required min="1"></input> {/*max="market cap"*/}
-                    <select onChange={handleSymbolChange}>
-                        <option value="lte">Moins que la valeur</option>
-                        <option value="gte">Plus que la valeur</option>
-                    </select>
+                    <Select className='selector' onChange={opt => handleSymbolChange(opt)} options={[{label: "Moins que la valeur", value: "lte"}, {label: "Plus que la valeur", value: "gte"}]} />
                     <input type="submit" value="Ajouter"></input>
                     <button type='button' onClick={close} id="cancel-edit">Annuler</button>
                 </form>
