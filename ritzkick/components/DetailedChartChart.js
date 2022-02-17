@@ -81,7 +81,7 @@ function DetailedChartChart(props) {
 				position: 'top'
 			},
 			tooltip: {
-				backgroundColor: 'rgb(28, 29, 31)',
+				backgroundColor: 'rgba(28, 29, 31, 0.95)',
 				padding: 20,
 				cornerRadius: 5,
 				borderRadius: 50,
