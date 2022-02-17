@@ -95,14 +95,14 @@ router.get('/api/assets/top/losers', pagination, async (req, res) => {
 
 router.get('/api/assets/popular', pagination, async (req, res) => {
 	try {
-		const isEmpty = await Popular.isEmpty('populars')
-		if (isEmpty) await fetchPopularAssets()
-		else {
-			let datesAreSame = await checkDatesAndHours(Popular)
-			if (!datesAreSame) await modifyPopularAssets()
-		}
+		// const isEmpty = await Popular.isEmpty('populars')
+		// if (isEmpty) await fetchPopularAssets()
+		// else {
+		// 	let datesAreSame = await checkDatesAndHours(Popular)
+		// 	if (!datesAreSame) await modifyPopularAssets()
+		// }
 
-		const assets = await Popular.find().limit(req.limit).skip(req.skipIndex).exec()
+		const assets = await Asset.find().sort({ searchedCount: -1 }).limit(req.limit).skip(req.skipIndex).exec()
 		if (!assets || assets.length === 0) {
 			throw new Error('Unable to fetch assets')
 		}
