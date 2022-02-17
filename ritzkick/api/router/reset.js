@@ -24,9 +24,6 @@ router.post('/api/reset', async (req, res) => {
             // This is just a dummy value.
             let url = `http://localhost:3000/${resetLink}`
             emailSender.sendResetPasswordEmail(user.email, url)
-            return res.status(201).send({
-                token: resetLink
-            })
         }
         res.status(201).send()
     } catch (e) {
