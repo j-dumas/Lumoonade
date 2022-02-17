@@ -1,5 +1,22 @@
 import { getCookie } from '../services/CookieService'
 
+export async function getFavorites(){
+    try {
+		let response = await fetch('/api/me/favorites', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + getCookie('token')
+			}
+		})
+
+		let json = await response.json()
+		return json.favorites
+	} catch (e) {
+		console.log(e)
+	}
+}
+
 export async function getWatchList() {
 	try {
 		let response = await fetch('/api/me/watchlists', {
