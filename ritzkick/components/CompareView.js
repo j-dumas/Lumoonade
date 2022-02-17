@@ -33,10 +33,6 @@ function CompareView(props) {
         }
     }))
 
-    useEffect(() => {
-        console.log(compareList)
-    })
-
     function getFirstCompareList() {
         let paramsString = router.asPath.toString().split('/compare?assets=')[1]
         if (!paramsString) return []
@@ -62,7 +58,15 @@ function CompareView(props) {
 			    </div>
 		    </div>
             <div className='row space-between'>
-                <CompareMenu socket={socket} compareList={compareList} setCompareList={setCompareList} currency={props.currency}/>
+                <div className='column'>
+                    <CompareMenu socket={socket} compareList={compareList} setCompareList={setCompareList} currency={props.currency}/>
+                    <div className='column detailed-informations detailed-div max-width'>
+                        <div className='detailed-div-menu row space-between'>
+                            <p>Titre</p>
+                            <p>alkefjalkjfl</p>
+                        </div>
+                    </div>
+                </div>
                 <DetailedChart socket={socket} slug={slug}/>
             </div>
             <DetailedInformationsDashboard socket={socket} currency={props.currency} name={true}/>

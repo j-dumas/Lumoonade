@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 
 function CompareMenu(props) {
     const router = useRouter()
-    const [compareList, setCompareList] = useState(props.compareList)
 	const [searchList, setSearchList] = useState([])
     const [datas, setDatas] = useState([])
 
@@ -14,7 +13,7 @@ function CompareMenu(props) {
         props.socket.emit(
             'update',
             props.socket.id,
-            compareList
+            props.compareList
         )
     })
 
@@ -27,8 +26,8 @@ function CompareMenu(props) {
 
     function changeURI() {
         let assets = ''
-        if (compareList.length > 0) {
-            compareList.map((asset,i)=> {
+        if (props.compareList.length > 0) {
+            props.compareList.map((asset,i)=> {
                 asset = asset.split('-')[0].toString()
                 if (i == 0) assets = asset
                 else assets += ('-'+asset)
@@ -47,8 +46,9 @@ function CompareMenu(props) {
 
     async function updateSearchList(event) {
         event.preventDefault()
-        //setSearchList(['BTC','ETH','ADA','BNB','DOGE','THETA','LTC'])
-        let list = await Functions.GetAllCryptocurrencySlugs(0, 16)
+        let search = event.target[0].value
+        if (!search) search = '0'
+        let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 8)
         list = list.assets
         setSearchList(list)
     }
@@ -56,11 +56,11 @@ function CompareMenu(props) {
     function addToCompareList(event) {
         event.preventDefault()
 
-        if (compareList.length >= 5) return;
-        const elementToAdd = event.target.value + '-' + props.currency
+        if (props.compareList.length >= 5) return;
+        const elementToAdd = (event.target.value + '-' + props.currency).toUpperCase()
 
         let isDoubled = false
-        compareList.map(element => {
+        props.compareList.map(element => {
             if (element === elementToAdd) {
                 isDoubled = true
                 return
@@ -68,9 +68,8 @@ function CompareMenu(props) {
         })
         if (isDoubled) return
 
-        const lastCompareList = compareList;
+        const lastCompareList = props.compareList;
         lastCompareList.push(elementToAdd)
-        setCompareList(lastCompareList)
         props.setCompareList(lastCompareList)
         setSearchList([])
 
@@ -78,9 +77,8 @@ function CompareMenu(props) {
     }
 
     function removeFromCompareList(element) {
-        const lastCompareList = compareList;
+        const lastCompareList = props.compareList;
         lastCompareList.splice(lastCompareList.indexOf(element), 1)
-        setCompareList(lastCompareList)
         props.setCompareList(lastCompareList)
         setSearchList([])
         
@@ -114,7 +112,7 @@ function CompareMenu(props) {
                         return(<button onClick={addToCompareList} key={element.slug} value={element.slug} className='dynamic-list-item'>{element.slug}</button>)
                     })}
                 </form>
-                {compareList.length > 0 ?
+                {props.compareList.length > 0 ?
                 <div className='row'>
                     <div className='row'>
                         <p></p>
@@ -129,7 +127,7 @@ function CompareMenu(props) {
                 </div>
                 : <p></p>}
                 <div className='column detailed-div-item'>
-                    {compareList.map((element, i) => {
+                    {props.compareList.map((element, i) => {
                         let data = {}
                         datas.map((crypto) => {
                             if (crypto.fromCurrency.toString() + '-' + props.currency == element) {
