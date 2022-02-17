@@ -38,6 +38,14 @@
 	--bad-color: rgb(234, 46, 73);
 }
 
+.c-font {
+	color: var(--font-color);
+}
+
+.c-font-2 {
+	color: var(--font-color-2);
+}
+
 html,
 body,
 main {
@@ -210,7 +218,16 @@ button:hover {
 	color: var(--bad-color);
 }
 
+.icon {
+	cursor: pointer;
+}
 
+.circle {
+	border-radius: 50px;
+	width: 10px;
+	height: 10px;
+	background-color: white;
+}
 
 /* width */
 ::-webkit-scrollbar {

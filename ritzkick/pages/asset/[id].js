@@ -5,7 +5,6 @@ import Footer from '../../components/Footer'
 import DetailedCryptoView from '../../components/DetailedCryptoView'
 
 export default function Asset({ assetData }) {
-	console.log(assetData)
 	return (
 		<div>
 			<DomHead

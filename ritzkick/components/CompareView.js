@@ -7,7 +7,7 @@ import Functions, {
 	GetTopEfficientCryptocurrencies
 } from '../services/CryptoService'
 import ButtonFavorite from '../components/ButtonFavorite'
-import DetailedInformations from '../components/DetailedInformations'
+import DetailedInformationsDashboard from '../components/DetailedInformationsDashboard'
 import DetailedChart from './DetailedChart'
 import CompareMenu from './CompareMenu'
 import { useRouter } from 'next/router'
@@ -20,14 +20,23 @@ function CompareView(props) {
 
     const router = useRouter()
     const [slug, setSlug] = useState('BTC' + '-' + props.currency)
-    const [slugs, setSlugs] = useState(getFirstCompareList())
     const [firstData, setFirstData] = useState()
-    const [socket, setSocket] = useState()
-    const [datas, setDatas] = useState([])
+    const [compareList, setCompareList] = useState(getFirstCompareList())
 
     const [dateRange, setDateRange] = useState('5d')
     const [interval, setInterval] = useState('15m')
-    
+    const [socket] = useState(io('http://localhost:3000/', {
+        auth: {
+            rooms: ['general', `graph-${dateRange}-${interval}`],
+            query: compareList,
+            graph: true
+        }
+    }))
+
+    useEffect(() => {
+        console.log(compareList)
+    })
+
     function getFirstCompareList() {
         let paramsString = router.asPath.toString().split('/compare?assets=')[1]
         if (!paramsString) return []
@@ -35,28 +44,14 @@ function CompareView(props) {
         params.map((param, i) => {
             params[i] = param + '-' + props.currency
         })
+
         return params
     }
 
     useEffect(async () => {
+        // TODO: Fonction à changer pour retourner plusieurs datas.
         setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-       
-        setSocket(io('http://localhost:3000/', {
-            auth: {
-                rooms: ['general', `graph-${dateRange}-${interval}`],
-                query: slugs,
-                graph: true
-            }
-        }))
-    }, [slugs])
-
-    useEffect(() => {
-        if (!socket) return
-        socket.on('data', (data) => {
-			setDatas(data)
-		})
-		if (socket) return () => socket.disconnect()
-    }, [])
+    }, [compareList])
 
     return (
         !firstData || !socket? <p>Loading...</p>:
@@ -67,9 +62,10 @@ function CompareView(props) {
 			    </div>
 		    </div>
             <div className='row space-between'>
-                <CompareMenu socket={socket} slugs={slugs} currency={props.currency} firstData={firstData}/>
+                <CompareMenu socket={socket} compareList={compareList} setCompareList={setCompareList} currency={props.currency}/>
                 <DetailedChart socket={socket} slug={slug}/>
             </div>
+            <DetailedInformationsDashboard socket={socket} currency={props.currency} name={true}/>
         </div>
     )
 }

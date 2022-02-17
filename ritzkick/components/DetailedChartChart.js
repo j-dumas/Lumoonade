@@ -12,8 +12,6 @@ const NB_DATA_DISPLAYED_1ST_VIEW = 24
 function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 	const [data, setData] = useState()
-	var color = getComputedStyle(document.documentElement).getPropertyValue('--main-color')
-	var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color-t')
 
 	useEffect(async () => {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
@@ -43,14 +41,15 @@ function DetailedChartChart(props) {
 
 	function getRelativeChartDataDatasets(datas) {
 		const datasets = []
-		datas.forEach((element, i) => {
-			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close, i))
+		datas.forEach((element) => {
+			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close))
 		})
 		return datasets
 	}
 
-	function getRelativeChartDataDataset(name, data, index) {
-		const color =  GetColorBySlug(name)
+	function getRelativeChartDataDataset(name, data) {
+		name = name.toString().split('-')[0]
+		const color = GetColorBySlug(name)
 		return {
 			type: 'line',
 			label: name,
@@ -80,6 +79,32 @@ function DetailedChartChart(props) {
 				// Chart legend
 				display: false,
 				position: 'top'
+			},
+			tooltip: {
+				backgroundColor: 'rgb(28, 29, 31)',
+				padding: 20,
+				cornerRadius: 5,
+				borderRadius: 50,
+				lineWidth: 10,
+				boxPadding: 8,
+				borderColor: 'rgb(51, 52, 54)',
+				borderWidth: 1,
+				caretSize: 0,
+				caretPadding: 15,
+				titleColor: 'rgb(158, 159, 160)',
+				titleFont: {
+					size: 14,
+					weight: 'bold',
+				},
+				titleAlign: 'center',
+				titleMarginBottom: 10,
+				bodyFont: {
+					size: 15,
+					weight: 'bold',
+					color: 'blue'
+				},
+				bodySpacing: 8,
+
 			},
 			zoom: {
 				zoom: {
@@ -165,7 +190,7 @@ function DetailedChartChart(props) {
 			interaction: {
 				mode: 'nearest',
 				intersect: false,
-				axis: 'x'
+				axis: 'x',
 			},
 			animation: {
 				duration: 0

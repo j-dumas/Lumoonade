@@ -12,7 +12,7 @@ export default function GetColorBySlug(slug) {
         case 'ACM':
             return 'orange'
         case 'ADA':
-            return 'blue'
+            return 'rgb(0, 50, 100)'
         case 'ADADOWN':
             return 'orange'
         case 'ADAUP':
@@ -169,16 +169,17 @@ export default function GetColorBySlug(slug) {
             return 'orange'
         case 'AXS':
             return 'orange'
+
         case 'BNB':
-            return 'gold'
+            return 'rgb(255,215,0)'
         case 'BTC':
-            return 'orange'
+            return 'rgb(255,165,0)'
         case 'ETH':
-            return 'darKturquoise'
+            return 'rgb(0,206,209)'
         case 'DOGE':
-            return 'desert'
+            return 'rgb(222,184,135)'
         case 'LTC':
-            return 'dimgray'
+            return 'rgb(211,211,211)'
         default:
             return 'black'
     }

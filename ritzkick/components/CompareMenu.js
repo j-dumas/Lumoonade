@@ -6,9 +6,9 @@ import { useRouter } from 'next/router'
 
 function CompareMenu(props) {
     const router = useRouter()
-    const [compareList, setCompareList] = useState(props.slugs)
+    const [compareList, setCompareList] = useState(props.compareList)
 	const [searchList, setSearchList] = useState([])
-    const [value, setValue] = useState()
+    const [datas, setDatas] = useState([])
 
     useEffect(() => {
         props.socket.emit(
@@ -18,8 +18,15 @@ function CompareMenu(props) {
         )
     })
 
+    useEffect(async () => {
+		props.socket.on('data', (data) => {
+			setDatas(data)
+		})
+		if (props.socket) return () => socket.disconnect()
+	}, [])
+
     function changeURI() {
-        let assets = 'BTC'
+        let assets = ''
         if (compareList.length > 0) {
             compareList.map((asset,i)=> {
                 asset = asset.split('-')[0].toString()
@@ -38,9 +45,12 @@ function CompareMenu(props) {
         )
     }
 
-    function updateSearchList(event) {
+    async function updateSearchList(event) {
         event.preventDefault()
-        setSearchList(['BTC','ETH','ADA','BNB','DOGE','THETA','LTC'])
+        //setSearchList(['BTC','ETH','ADA','BNB','DOGE','THETA','LTC'])
+        let list = await Functions.GetAllCryptocurrencySlugs(0, 16)
+        list = list.assets
+        setSearchList(list)
     }
 
     function addToCompareList(event) {
@@ -61,6 +71,7 @@ function CompareMenu(props) {
         const lastCompareList = compareList;
         lastCompareList.push(elementToAdd)
         setCompareList(lastCompareList)
+        props.setCompareList(lastCompareList)
         setSearchList([])
 
         changeURI()
@@ -70,8 +81,9 @@ function CompareMenu(props) {
         const lastCompareList = compareList;
         lastCompareList.splice(lastCompareList.indexOf(element), 1)
         setCompareList(lastCompareList)
+        props.setCompareList(lastCompareList)
         setSearchList([])
-
+        
         changeURI()
     }
 
@@ -97,22 +109,34 @@ function CompareMenu(props) {
                         <button type="submit" value="Submit">Search</button>
                     </form>
                 </div>
-                <form className='row detailed-div-item'>
+                <form className='row detailed-div-item start'>
                     {searchList.map(element => {
-                        return(<button onClick={addToCompareList} key={element} value={element} className='dynamic-list-item'>{element}</button>)
+                        return(<button onClick={addToCompareList} key={element.slug} value={element.slug} className='dynamic-list-item'>{element.slug}</button>)
                     })}
                 </form>
                 {compareList.length > 0 ?
                 <div className='row'>
-                    <p className='detailed-div-title'>Asset</p>
-                    <p className='detailed-div-title'>Price</p>
-                    <p className='detailed-div-title'>24h Change</p>
+                    <div className='row'>
+                        <p></p>
+                        <p className='detailed-div-title'>Asset</p>
+                    </div>
+                    <p className='detailed-div-title'>Price ($)</p>
+                    <div className='row'>
+                        <p className='detailed-div-title'>24h Change</p>
+                        <p className='detailed-div-title'></p>
+                    </div>
                     <p></p>
                 </div>
-                : <p></p> }
+                : <p></p>}
                 <div className='column detailed-div-item'>
                     {compareList.map((element, i) => {
-                        return(<SimplestItemView command={removeFromCompareList} slug={element} price={"10000"} changeNumber={"10$"} changePercentage={"1%"} key={element}/>)
+                        let data = {}
+                        datas.map((crypto) => {
+                            if (crypto.fromCurrency.toString() + '-' + props.currency == element) {
+                                data = crypto
+                            }
+                        }) 
+                        return(<SimplestItemView command={removeFromCompareList} slug={element} data={data} key={element}/>)
                     })}
                 </div>
             </div>

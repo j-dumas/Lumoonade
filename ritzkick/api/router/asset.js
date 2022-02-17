@@ -112,6 +112,20 @@ router.get('/api/assets/popular', pagination, async (req, res) => {
 	}
 })
 
+router.get('/api/crypto/chart/:slug', async (req, res) => {
+    try {
+        const response = await fetchSymbol(req.params.slug, {
+            range: req.query.dateRange,
+            interval: req.query.interval
+        })
+        res.send(response)
+    } catch (e) {
+        res.status(404).send({
+            error: e.message
+        })
+    }
+})
+
 async function verifyTopAssets(option) {
 	const isEmpty = await option.model.isEmpty(option.collection)
 	if (isEmpty) await fetchTopAssets(option)
