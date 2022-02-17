@@ -39,8 +39,8 @@ const keepFromList = (list, config) => {
 
 /**
  * Checks if the string content is the same as well as the type
- * @param {string} s1 
- * @param {string} s2 
+ * @param {string} s1
+ * @param {string} s2
  * @returns true if the string matches
  */
 const sameString = (s1, s2) => {
