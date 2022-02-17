@@ -11,41 +11,18 @@ const { TopGainer, TopLoser } = require('../../db/model/top_asset')
 const { fetchPopularAssets, modifyPopularAssets } = require('../../services/PopularAssetService')
 const router = express.Router()
 
-router.get('/api/crypto/search/:slug', async (req, res) => {
+router.get('/api/assets/search/:slug', pagination, async (req, res) => {
 	try {
 		const slug = req.params.slug
-		let data = await fetchMarketData(slug)
-
-		// All the informations we want to fetch from the data received.
-		// This will be populate alot depending on how many cryptos we want to fetch
-		let want = {
-			currency: '',
-			regularMarketDayHigh: '',
-			regularMarketDayLow: '',
-			regularMarketChange: '',
-			regularMarketChangePercent: '',
-			regularMarketPrice: '',
-			regularMarketVolume: '',
-			averageDailyVolume3Month: '',
-			averageDailyVolume10Day: '',
-			coinImageUrl: '',
-			fromCurrency: '',
-			marketCap: '',
-			volume24Hr: '',
-			symbol: '',
-			shortName: ''
+		const assets = await Asset.find({ slug: { $regex: slug } })
+			.sort({ searchedCount: -1 })
+			.limit(req.limit)
+			.skip(req.skipIndex)
+			.exec()
+		if (!assets || assets.length === 0) {
+			throw new ServerError('Unable to fetch assets')
 		}
-
-		let response = []
-
-		data.result.forEach((d) => {
-			parser(d, want)
-			response.push({
-				...want
-			})
-		})
-
-		res.send(response)
+		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
 		res.status(400).send({
 			error: e.message
