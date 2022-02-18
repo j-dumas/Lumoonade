@@ -5,7 +5,6 @@ import Footer from '../../components/Footer'
 import DetailedCryptoView from '../../components/DetailedCryptoView'
 
 export default function Asset({ assetData }) {
-	console.log(assetData)
 	return (
 		<div>
 			<DomHead
@@ -35,7 +34,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
 	const assetData = await getAssetData(params.id)
-	//const allAssetData = JSON.stringify(assetData)
 	return {
 		props: {
 			assetData
@@ -52,12 +50,22 @@ export async function getAllAssetIds() {
 		},
 		{
 			params: {
-				id: 'eth'
+				id: 'bnb'
 			}
 		},
 		{
 			params: {
 				id: 'btc'
+			}
+		},
+		{
+			params: {
+				id: 'doge'
+			}
+		},
+		{
+			params: {
+				id: 'eth'
 			}
 		}
 	]
@@ -65,6 +73,6 @@ export async function getAllAssetIds() {
 
 export async function getAssetData(id) {
 	return {
-		slug: id
+		slug: id//d.toString().toUpperCase()
 	}
 }

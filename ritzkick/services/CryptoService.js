@@ -2,6 +2,24 @@ import axios from 'axios'
 import yahoo from '../utils/yahoo'
 
 const Functions = {
+	async GetSCryptocurrencySlugsBySeach(keyword, page=0, limit=16) {
+		const URI = `/api/assets/search/${keyword}?page${page}&limit=${limit}`
+
+		var reponse = await fetch(URI)
+		var json = reponse.json()
+
+		return json
+	},
+
+	async GetAllCryptocurrencySlugs(page=0, limit=16) {
+		const URI = `/api/assets/all?page${page}&limit=${limit}`
+
+		var reponse = await fetch(URI)
+		var json = reponse.json()
+
+		return json
+	},
+
 	async GetCryptocurrencyInformationsBySlug(slug) {
 		const URL = 'localhost:3000'
 		const URI = '/api/crypto/search/'
