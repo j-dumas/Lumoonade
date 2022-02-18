@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import { getWatchList } from '../services/UserService'
 import ProfileAddAlerts from './ProfileAddAlerts'
+import ProfileAlertsComponent from './ProfileAlertsComponent'
 
 export default function ProfileAlerts() {
 	let [data, setData] = useState([])
 
-	useEffect(() => {
+	function fetchData() {
 		getWatchList()
 			.then((res) => {
-				console.log(res)
 				setData(res)
 			})
 			.catch((err) => {
 				console.log(err)
 			})
+	}
+
+	useEffect(() => {
+		fetchData()
 	}, [])
 
 	return (
 		<div id="alerts">
 			<div id="alerts-header" className="row">
-				<h1>Alerts</h1>
-				<ProfileAddAlerts />
+				<h1>Alertes</h1>
+				<ProfileAddAlerts onDataChange={fetchData} />
 			</div>
 			<ul>
 				{data.map((alert) => (
-					<li key={alert._id}>{alert.asset}</li>
+					<li key={alert._id}>
+						<ProfileAlertsComponent onDataChange={fetchData} alert={alert} />
+					</li>
 				))}
 			</ul>
 		</div>

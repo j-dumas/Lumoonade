@@ -25,7 +25,8 @@ import {
 	faArrowDown,
 	faArrowUp,
 	faExchangeAlt,
-	faBell
+	faBell,
+	faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
@@ -104,6 +105,9 @@ const Icons = {
 	},
 	Bell: () => {
 		return <FontAwesomeIcon className="icon" icon={faBell} />
+	},
+	Trash: () => {
+		return <FontAwesomeIcon className="icon" icon={faTrash} />
 	}
 }
 
