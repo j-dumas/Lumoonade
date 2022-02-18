@@ -1,11 +1,7 @@
 const log = require('../../utils/logging')
-const dev = process.env.NODE_ENV !== 'production'
 
 class Room {
 	constructor(name, graph = false) {
-		if (dev) {
-			log.info('Room', `room '${name}' created!`)
-		}
 		this.name = name
 		this.clients = []
 		this.service = undefined

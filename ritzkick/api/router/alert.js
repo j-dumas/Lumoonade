@@ -3,6 +3,7 @@ const router = express.Router()
 const Watchlist = require('../../db/model/watchlist')
 const { sendError, NotFoundHttpError } = require('../../utils/http_errors')
 const auth = require('../middleware/auth')
+const es = require('../../application/email/email-service')
 
 router.post('/api/alerts', auth, async (req, res) => {
 	try {
@@ -12,9 +13,12 @@ router.post('/api/alerts', auth, async (req, res) => {
 			...req.body
 		}
 
+		const { slug } = queryData
+
 		const watchlist = new Watchlist(queryData)
 		await watchlist.save()
 		await req.user.addWatchlistAlertAndSave(watchlist)
+		es.notifyAdd(slug)
 		res.status(201).send(watchlist)
 	} catch (e) {
 		await sendError(res, e)
@@ -83,7 +87,7 @@ router.delete('/api/alerts/delete', auth, async (req, res) => {
 		}
 
 		await req.user.removeWatchlistAlertAndSave(alert._id)
-
+		es.notifyRemove()
 		res.send({
 			message: 'Alert successfully removed.',
 			alert
