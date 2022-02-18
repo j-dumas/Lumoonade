@@ -1,12 +1,12 @@
-const axios = require('axios')
+const { default: axios } = require('axios')
 const { Popular } = require('../db/model/asset')
 const { info } = require('../utils/logging')
 
-const POPULAR_URL = 'https://price-api.crypto.com/price/v1/tokens?_t=1644964219542'
+const POPULAR_URL = 'https://price-api.crypto.com/price/v1/tokens'
 
 async function fetchPopularAssets() {
 	try {
-		const res = await axios.post(POPULAR_URL) // error code: 1020 cloudflare
+		const res = await axios.get(POPULAR_URL) // error code: 1020 cloudflare
 	} catch (e) {
 		console.log(e)
 	}
@@ -16,6 +16,7 @@ async function fetchPopularAssets() {
 	}
 	info('DB', 'Popular cryptocurrencies added')
 }
+
 async function modifyPopularAssets(option) {
 	const res = await axios.get(POPULAR_URL)
 	const data = res.data['data']

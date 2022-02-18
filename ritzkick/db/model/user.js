@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const Favorite = require('./favorite')
 const Wallet = require('./wallet')
 const Watchlist = require('./watchlist')
+const Reset = require('./reset')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -189,10 +190,10 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 userSchema.pre('save', async function (next) {
 	const user = this
+	const SECURE_SALT_NUMBER = 8
 
 	if (user.isModified('password')) {
-		// 8 is a perfect number between secure and fast
-		user.password = await bcrypt.hash(user.password, 8)
+		user.password = await bcrypt.hash(user.password, SECURE_SALT_NUMBER)
 	}
 
 	next()
@@ -203,6 +204,7 @@ userSchema.pre('remove', async function (next) {
 	await Favorite.deleteMany({ owner: user._id })
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })
+	await Reset.deleteMany({ email: user.email })
 	next()
 })
 

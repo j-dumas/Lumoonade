@@ -5,6 +5,8 @@ const server = require('../../application/app')
 const User = require('../../db/model/user')
 const Watchlist = require('../../db/model/watchlist')
 
+const es = require('../../application/email/email-service')
+
 const testId = new mongoose.Types.ObjectId()
 const testAlertId = new mongoose.Types.ObjectId()
 const someoneAlertId = new mongoose.Types.ObjectId()
@@ -42,6 +44,10 @@ beforeEach(async () => {
 	await Watchlist.deleteMany()
 	await new User(testUser).save()
 	await new Watchlist(testAlert).save()
+})
+
+afterEach(() => {
+	es.kill()
 })
 
 afterAll((done) => {

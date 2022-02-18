@@ -11,6 +11,25 @@ const { TopGainer, TopLoser } = require('../../db/model/top_asset')
 const { fetchPopularAssets, modifyPopularAssets } = require('../../services/PopularAssetService')
 const router = express.Router()
 
+router.get('/api/assets/search/:slug', pagination, async (req, res) => {
+	try {
+		const slug = req.params.slug
+		const assets = await Asset.find({ slug: { $regex: slug } })
+			.sort({ searchedCount: -1 })
+			.limit(req.limit)
+			.skip(req.skipIndex)
+			.exec()
+		if (!assets || assets.length === 0) {
+			throw new ServerError('Unable to fetch assets')
+		}
+		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
+	} catch (e) {
+		res.status(400).send({
+			error: e.message
+		})
+	}
+})
+
 router.get('/api/crypto/search/:slug', async (req, res) => {
 	try {
 		const slug = req.params.slug
@@ -95,20 +114,34 @@ router.get('/api/assets/top/losers', pagination, async (req, res) => {
 
 router.get('/api/assets/popular', pagination, async (req, res) => {
 	try {
-		const isEmpty = await Popular.isEmpty('populars')
-		if (isEmpty) await fetchPopularAssets()
-		else {
-			let datesAreSame = await checkDatesAndHours(Popular)
-			if (!datesAreSame) await modifyPopularAssets()
-		}
+		// const isEmpty = await Popular.isEmpty('populars')
+		// if (isEmpty) await fetchPopularAssets()
+		// else {
+		// 	let datesAreSame = await checkDatesAndHours(Popular)
+		// 	if (!datesAreSame) await modifyPopularAssets()
+		// }
 
-		const assets = await Popular.find().limit(req.limit).skip(req.skipIndex).exec()
+		const assets = await Asset.find().sort({ searchedCount: -1 }).limit(req.limit).skip(req.skipIndex).exec()
 		if (!assets || assets.length === 0) {
 			throw new Error('Unable to fetch assets')
 		}
 		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
 		res.status(500).send({ error: e.message })
+	}
+})
+
+router.get('/api/crypto/chart/:slug', async (req, res) => {
+	try {
+		const response = await fetchSymbol(req.params.slug, {
+			range: req.query.dateRange,
+			interval: req.query.interval
+		})
+		res.send(response)
+	} catch (e) {
+		res.status(404).send({
+			error: e.message
+		})
 	}
 })
 
