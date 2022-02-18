@@ -39,7 +39,7 @@ const resetSchema = new mongoose.Schema(
 
 resetSchema.methods.makeResetToken = async function() {
     const reset = this
-    const token = jwt.sign({ email: reset.email, secret: reset.secret }, process.env.JWTSECRET, { expiresIn: '5m' })
+    const token = jwt.sign({ email: reset.email, secret: reset.secret }, process.env.RESET_JWT_SECRET, { expiresIn: '5m' })
 
     reset.resetToken = token
     await reset.save()

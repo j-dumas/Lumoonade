@@ -2,26 +2,32 @@ const Client = require('socket.io-client')
 const Watchlist = require('../../db/model/watchlist')
 const User = require('../../db/model/user')
 const parser = require('../socket/utils/parser')
-const logger = require('../../utils/logging')
 const chalk = require('chalk')
 const email = require('../email/email')
 
 let client = undefined
 let listen = undefined
 
+const SERVICE_NAME = 'Robot'
+
+/**
+ * Create the robot
+ */
 const create = async () => {
     if (client) {
         client.close()
     }
     const watchlists = await Watchlist.find({})
     if (watchlists.length === 0) {
-        return log('Client', `No connection made!`) 
+        return log(SERVICE_NAME, `No connection made!`) 
     }
     listen = parser.rebuild(watchlists.map(w => w.slug))
-    log('Client', 'Found ' + watchlists.length + ' lists with ' + listen.length + ' unique search.')
-    client = new Client(`${(process.env.SSL == 'false') ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`, {
+    log(SERVICE_NAME, 'Found ' + watchlists.length + ' lists with ' + listen.length + ' unique search.')
+    
+    // This will change in the future.
+    const connectionUrl = `${(process.env.SSL == 'false') ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`
+    client = new Client(connectionUrl, {
         auth: {
-            // @TODO unique room?.
             rooms: ['general'],
             query: listen,
             graph: false
@@ -29,11 +35,11 @@ const create = async () => {
     })
 
     client.on('ready', (_) => {
-        log('Client', 'Email Client is connected!')
+        log(SERVICE_NAME, 'Email Client is connected!')
     })
 
     client.on('reject', (_) => {
-        log('Client', 'Email Client got rejected.')
+        log(SERVICE_NAME, 'Email Client got rejected.')
     })
 
     client.on('data', (data) => {
@@ -44,6 +50,11 @@ const create = async () => {
 
 }
 
+/**
+ * Checks if some alerts must be triggered. If so, it sends an email
+ * @param {string} slug slug to filter
+ * @param {number} price current slug price
+ */
 const tracker = async (slug, price) => {
     const gteInterest = await Watchlist.find({ slug, parameter: 'gte' }).where('target').lte(price)
     const lteInterest = await Watchlist.find({ slug, parameter: 'lte' }).where('target').gte(price)
@@ -51,6 +62,11 @@ const tracker = async (slug, price) => {
     handleTracker(lteInterest, price)
 }
 
+/**
+ * Notifies everyone in the list via 'email'
+ * @param {list} list list of people that must be notified
+ * @param {number} price current price of the asset
+ */
 const handleTracker = (list, price) => {
     list.forEach((client) => {
         setTimeout(() => {
@@ -69,6 +85,10 @@ const handleTracker = (list, price) => {
     })
 }
 
+/**
+ * Wakes the robot if he was sleeping, otherwise it adds something new to lookup
+ * @param {string} element referes as the slug to watch
+ */
 const notifyAdd = async (element) => {
 
     if (!client || client.disconnected) {
@@ -81,12 +101,15 @@ const notifyAdd = async (element) => {
     }
 }
 
+/**
+ * Rebuild a new list of things to watch when an alert is removed.
+ */
 const notifyRemove = async () => {
     if (client.connected) {
         const watchlists = await Watchlist.find({})
         if (watchlists.length === 0) {
             kill()
-            return log('Client', `Left ${!client.connected}`) 
+            return log(SERVICE_NAME, `Left ${!client.connected}`) 
         }
         listen = parser.rebuild(watchlists.map(w => w.slug))
         console.log(listen)
@@ -95,12 +118,28 @@ const notifyRemove = async () => {
     await create()
 }
 
+/**
+ * Wakes the robot.
+ */
+const wake = async () => {
+    if (client.connected) return
+    await create()
+}
+
+/**
+ * Kills the robot.
+ */
 const kill = () => {
     if (client) {
         client.close()
     }
 }
 
+/**
+ * Simple log function for debug | production purposes
+ * @param {string} auth authority that sent the message
+ * @param {string} message 
+ */
 function log(auth, message) {
     console.log(chalk.hex('#abcdef')(`[${auth}]:`), chalk.whiteBright(message))
 }
@@ -109,5 +148,6 @@ module.exports = {
     create,
     notifyAdd,
     notifyRemove,
-    kill
+    kill,
+    wake
 }

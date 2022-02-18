@@ -7,6 +7,40 @@ const User = require('../../db/model/user')
 const emailSender = require('../../application/email/email')
 const axios = require('axios').default
 
+/**
+ * Reset Email Model
+ * @typedef {object} ResetEmail
+ * @property {string} email.required
+ */
+
+/**
+ * Verify Reset Email Model
+ * @typedef {object} RedeemResetEmail
+ * @property {string} resetToken.required
+ * @property {string} password.required
+ * @property {string} confirmation.required 
+ */
+
+
+/**
+ * POST /api/reset
+ * @summary Creates a reset link in the database (sends an email to the user)
+ * @tags Reset
+ * @param {ResetEmail} request.body.required - email to reset from
+ * @example request - example payload
+ * {
+ *  "email": "email@mail.com"
+ * }
+ * @return {object} 201 - created
+ * @example
+ * {
+ * }
+ * @return {string} 400 - bad request
+ * @example response 400 - invalid email provided
+ * {
+ *  "message": "Please provide a valid email."
+ * }
+ */
 router.post('/api/reset', async (req, res) => {
     try {
         const { email } = req.body
@@ -33,17 +67,28 @@ router.post('/api/reset', async (req, res) => {
     }
 })
 
+/**
+ * GET /api/reset/verify/{token}
+ * @summary Verify if the token is a valid reset token
+ * @tags Reset
+ * @return {object} 200 - success
+ * @return {string} 400 - bad request
+ * @example response 400 - invalid email provided
+ * {
+ *  "message": "Token may be outdated. | Token is corrupted"
+ * }
+ */
 router.get('/api/reset/verify/:jwt', async (req, res) => {
     try {
         const token = req.params.jwt
-        const decoded = jwt.verify(token, process.env.JWTSECRET)
+        const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
         const { email, secret } = decoded
         const reset = await Reset.findOne({ email, secret })
         if (!reset) {
             throw new Error('Token may be outdated.')
         }
 
-        const decodedTokenStored = jwt.verify(reset.resetToken, process.env.JWTSECRET)
+        const decodedTokenStored = jwt.verify(reset.resetToken, process.env.RESET_JWT_SECRET)
 
         const modified = !Object.keys(decoded).every(key => {
             return (decoded[key] === decodedTokenStored[key])
@@ -63,6 +108,24 @@ router.get('/api/reset/verify/:jwt', async (req, res) => {
     }
 })
 
+/**
+ * POST /api/reset/redeem
+ * @summary Set a new password for the user
+ * @tags Reset
+ * @param {RedeemResetEmail} request.body.required
+ * @example request - example payload
+ * {
+ *  "resetToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+ *  "password": "123456789",
+ *  "confirmation": "123456789"
+ * }
+ * @return {object} 200 - success
+ * @return {string} 400 - bad request
+ * @example response 400 - invalid email provided
+ * {
+ *  "message": "Error explaining the situation"
+ * }
+ */
 router.post('/api/reset/redeem', async (req, res) => {
     try {
         const { resetToken, password, confirmation } = req.body
@@ -85,7 +148,7 @@ router.post('/api/reset/redeem', async (req, res) => {
             throw new Error('Cannot update the profile.')
         }
 
-        const decoded = jwt.verify(resetToken, process.env.JWTSECRET)
+        const decoded = jwt.verify(resetToken, process.env.RESET_JWT_SECRET)
         const { email } = decoded
         const user = await User.findOne({ email })
 
@@ -107,7 +170,11 @@ router.post('/api/reset/redeem', async (req, res) => {
     }
 })
 
-
+/**
+ * Drop the reset link if it finds one
+ * @param {string} email 
+ * @returns the content if it exists
+ */
 const dropIfExist = async (email) => {
     return await Reset.findOneAndDelete({ email })
 }

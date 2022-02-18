@@ -8,6 +8,7 @@ const axios = require('axios').default
 
 
 const email = require('../../application/email/email')
+const validSecret = process.env.RESET_JWT_SECRET
 
 jest.mock('axios')
 
@@ -28,7 +29,7 @@ beforeEach(async () => {
         password: 'HardP@ssw0rd213',
         sessions: [
             {
-                session: jwt.sign({ _id: new mongoose.Types.ObjectId() }, process.env.JWTSECRET)
+                session: jwt.sign({ _id: new mongoose.Types.ObjectId() }, validSecret)
             }
         ]
     }
@@ -117,13 +118,14 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
     })
 
     test(`'BAD REQUEST' if I send an invalid jwt token that doesn't have a valid email and secret (custom jwt made)`, async () => {
-        const secret = process.env.JWTSECRET
+        const secret = validSecret
         const token = jwt.sign({ email: 'email@mail.com', secret: 'shhh' }, secret)
         await request(server).get(BASE + token).send().expect(400)
     })
 
-    test(`'SUCCESS REQUEST' if I send a valid jwt token that doesn have a valid email and secret (custom jwt made)`, async () => {
+    test(`'SUCCESS REQUEST' if I send a valid jwt token that does have a valid email and secret (custom jwt made)`, async () => {
         let reset = await Reset.findOne({ email: resetEmail })
+        console.log(reset)
         const attemps = reset.attemps
         expect(attemps).toBe(0)
 
@@ -156,7 +158,7 @@ describe('Tests for the route /api/reset/redeem', () => {
     })
 
     test(`'BAD REQUEST' if I send any none working resetToken with matching passwords`, async () => {
-        const secret = process.env.JWTSECRET
+        const secret = validSecret
         redeemConfig.resetToken = jwt.sign({ email: 'email@mail.com', secret: 'shhh' }, secret)
         redeemConfig.password = anyPassword
         redeemConfig.confirmation = redeemConfig.password
