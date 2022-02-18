@@ -38,6 +38,14 @@
 	--bad-color: rgb(234, 46, 73);
 }
 
+.c-font {
+	color: var(--font-color);
+}
+
+.c-font-2 {
+	color: var(--font-color-2);
+}
+
 html,
 body,
 main {
@@ -173,11 +181,51 @@ p {
 	margin: 1px;
 }
 
+input {
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	outline: none;
+	background-color: var(--background-color-3);
+	color: white;
+	font-size: 15px;
+}
+button {
+	margin-left: 5px;
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	outline: none;
+	background-color: var(--background-color-3);
+	color: white;
+	font-size: 15px;
+	transition: 0.5s;
+	cursor: pointer;
+}
+button:hover {
+	border: 1px solid white;
+}
+
+.max-width {
+	max-width: 360px;
+}
+
 .increase {
 	color: var(--good-color);
 }
 .decrease {
 	color: var(--bad-color);
+}
+
+.icon {
+	cursor: pointer;
+}
+
+.circle {
+	border-radius: 50px;
+	width: 10px;
+	height: 10px;
+	background-color: white;
 }
 
 /* width */

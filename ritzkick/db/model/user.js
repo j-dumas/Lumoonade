@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const Favorite = require('./favorite')
 const Wallet = require('./wallet')
 const Watchlist = require('./watchlist')
+const Reset = require('./reset')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -139,6 +140,34 @@ userSchema.methods.makeProfile = async function () {
 	return profile
 }
 
+userSchema.methods.addWatchlistAlertAndSave = async function (id) {
+	const user = this
+	user.watchlist_list.push({
+		watch: id
+	})
+	await user.save()
+}
+
+userSchema.methods.removeWatchlistAlertAndSave = async function (id) {
+	const user = this
+	user.watchlist_list = user.watchlist_list.filter((watchlist) => watchlist.watch.toString() !== id.toString())
+	await user.save()
+}
+
+userSchema.methods.addFavoriteAndSave = async function (id) {
+	const user = this
+	user.favorite_list.push({
+		favorite: id
+	})
+	await user.save()
+}
+
+userSchema.methods.removeFavoriteAndSave = async function (id) {
+	const user = this
+	user.favorite_list = user.favorite_list.filter((favorite) => favorite.favorite.toString() !== id.toString())
+	await user.save()
+}
+
 userSchema.methods.isOldPassword = async function (oldPassword) {
 	const user = this
 	const match = await bcrypt.compare(oldPassword, user.password)
@@ -161,10 +190,10 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 userSchema.pre('save', async function (next) {
 	const user = this
+	const SECURE_SALT_NUMBER = 8
 
 	if (user.isModified('password')) {
-		// 8 is a perfect number between secure and fast
-		user.password = await bcrypt.hash(user.password, 8)
+		user.password = await bcrypt.hash(user.password, SECURE_SALT_NUMBER)
 	}
 
 	next()
@@ -175,6 +204,7 @@ userSchema.pre('remove', async function (next) {
 	await Favorite.deleteMany({ owner: user._id })
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })
+	await Reset.deleteMany({ email: user.email })
 	next()
 })
 

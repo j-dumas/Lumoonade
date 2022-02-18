@@ -18,11 +18,7 @@ const testUser = {
 	]
 }
 
-let dummyData = {
-	email: 'dummy@mail.com',
-	username: 'dummyName',
-	password: 'HardP@ssw0rd213'
-}
+let dummyData
 
 beforeEach(async () => {
 	dummyData = {

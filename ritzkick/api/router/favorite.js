@@ -49,6 +49,7 @@ router.post('/api/favorite', authentification, async (req, res) => {
 		if (obj) throw new ConflictHttpError()
 		const favorite = new Favorite(data)
 		await favorite.save()
+		await req.user.addFavoriteAndSave(favorite._id)
 		res.status(201).send(favorite)
 	} catch (e) {
 		await sendError(res, e)
@@ -82,6 +83,7 @@ router.delete('/api/favorite/:slug', authentification, async (req, res) => {
 		const obj = await Favorite.findOne(filter).exec()
 		if (!obj) throw new NotFoundHttpError()
 		await Favorite.deleteOne(filter)
+		await req.user.removeFavoriteAndSave(favorite._id)
 		res.status(204).send()
 	} catch (e) {
 		await sendError(res, e)

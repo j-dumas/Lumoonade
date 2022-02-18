@@ -27,8 +27,8 @@ function DetailedChart(props) {
 
 	return (
 		<div className="detailed-chart detailed-div">
-			<DetailedChartMenu sendDateRange={setDateRange} sendInterval={setInterval} />
-			<DetailedChartChart socket={props.socket} slug="ETH-CAD" dateRange={dateRange} interval={interval} />
+			<DetailedChartMenu socket={props.socket} sendDateRange={setDateRange} sendInterval={setInterval} />
+			<DetailedChartChart socket={props.socket} slug={props.slug} dateRange={dateRange} interval={interval} />
 		</div>
 	)
 }

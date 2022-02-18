@@ -124,6 +124,7 @@ const watchlistTestOne = {
 	_id: watchlistIdOne,
 	owner: testIdOne,
 	slug: 'eth',
+	parameter: 'gte',
 	target: 0
 }
 
@@ -131,6 +132,7 @@ const watchlistTestTwo = {
 	_id: watchlistIdTwo,
 	owner: testIdTwo,
 	slug: 'btc',
+	parameter: 'lte',
 	target: 0
 }
 

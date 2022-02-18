@@ -7,7 +7,7 @@ import Functions, {
 	GetTopEfficientCryptocurrencies
 } from '../services/CryptoService'
 import ButtonFavorite from '../components/ButtonFavorite'
-import DetailedInformations from '../components/DetailedInformations'
+import DetailedInformationsDashboard from '../components/DetailedInformationsDashboard'
 import DetailedChart from './DetailedChart'
 import DetailedMenu from './DetailedMenu'
 
@@ -24,10 +24,8 @@ function DetailedCryptoView(props) {
 	useEffect(async () => {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 
-		console.log(`${window.location.protocol}//${window.location.hostname}`)
-
 		setSocket(
-			io(`${window.location.protocol}//${window.location.hostname}`, {
+			io(`${window.location.protocol}//${window.location.host}`, {
 					auth: {
 						rooms: ['general', `graph-${dateRange}-${interval}`],
 						query: [slug],
@@ -48,7 +46,8 @@ function DetailedCryptoView(props) {
 			<div className="detailed-crypto-view column">
 				<DetailedMenu slug={slug} firstData={firstData} />
 				<div className="row space-between">
-					<DetailedInformations socket={socket} slug={slug} firstData={firstData} />
+					
+					<DetailedInformationsDashboard socket={socket} currency={props.currency} name={false} />
 					<DetailedChart socket={socket} slug={slug} />
 				</div>
 			</div>
