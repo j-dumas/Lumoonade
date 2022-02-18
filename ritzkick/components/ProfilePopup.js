@@ -75,7 +75,7 @@ export default function ProfilePopup(props) {
 						<div className="wrong" id="wrong-name">
 							Le nom que vous désirez entrer est déjà utilisé
 						</div>
-						<label>Nom d'utilisateur</label>
+						<label>Nom d&apos;utilisateur</label>
 						<input
 							name={newUsername}
 							id="usernameField"

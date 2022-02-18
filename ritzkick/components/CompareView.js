@@ -32,9 +32,6 @@ function CompareView(props) {
 		})
 	)
 
-	// Validation:
-	if (!props.currency) return <div>Impossible action.</div>
-
 	function getFirstCompareList() {
 		let paramsString = router.asPath.toString().split('/compare?assets=')[1]
 		if (!paramsString) return []
@@ -50,6 +47,9 @@ function CompareView(props) {
 		// TODO: Fonction à changer pour retourner plusieurs datas.
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 	}, [compareList])
+
+	// Validation:
+	if (!props.currency) return <div>Impossible action.</div>
 
 	return !firstData || !socket ? (
 		<p>Loading...</p>
