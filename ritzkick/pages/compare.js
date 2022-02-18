@@ -14,7 +14,7 @@ export default function Compare() {
 			<Header />
 
 			<section className="section column principal first center">
-				<CompareView currency="CAD"/>
+				<CompareView currency="CAD" />
 			</section>
 
 			<Footer />

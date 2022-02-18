@@ -23,7 +23,7 @@ function DetailedChartChart(props) {
 			chart.update()
 		})
 		if (props.socket) return () => props.socket.disconnect()
-    }, [])
+	}, [])
 
 	function isDataNull(datas) {
 		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
@@ -94,7 +94,7 @@ function DetailedChartChart(props) {
 				titleColor: 'rgb(158, 159, 160)',
 				titleFont: {
 					size: 14,
-					weight: 'bold',
+					weight: 'bold'
 				},
 				titleAlign: 'center',
 				titleMarginBottom: 10,
@@ -103,8 +103,7 @@ function DetailedChartChart(props) {
 					weight: 'bold',
 					color: 'blue'
 				},
-				bodySpacing: 8,
-
+				bodySpacing: 8
 			},
 			zoom: {
 				zoom: {
@@ -190,7 +189,7 @@ function DetailedChartChart(props) {
 			interaction: {
 				mode: 'nearest',
 				intersect: false,
-				axis: 'x',
+				axis: 'x'
 			},
 			animation: {
 				duration: 0

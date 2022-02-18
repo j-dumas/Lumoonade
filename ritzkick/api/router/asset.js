@@ -72,7 +72,6 @@ router.get('/api/crypto/search/:slug', async (req, res) => {
 	}
 })
 
-
 router.get('/api/assets/all', pagination, async (req, res) => {
 	try {
 		const assets = await Asset.find().limit(req.limit).skip(req.skipIndex).exec()
@@ -133,17 +132,17 @@ router.get('/api/assets/popular', pagination, async (req, res) => {
 })
 
 router.get('/api/crypto/chart/:slug', async (req, res) => {
-    try {
-        const response = await fetchSymbol(req.params.slug, {
-            range: req.query.dateRange,
-            interval: req.query.interval
-        })
-        res.send(response)
-    } catch (e) {
-        res.status(404).send({
-            error: e.message
-        })
-    }
+	try {
+		const response = await fetchSymbol(req.params.slug, {
+			range: req.query.dateRange,
+			interval: req.query.interval
+		})
+		res.send(response)
+	} catch (e) {
+		res.status(404).send({
+			error: e.message
+		})
+	}
 })
 
 async function verifyTopAssets(option) {

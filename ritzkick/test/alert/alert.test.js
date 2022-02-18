@@ -7,7 +7,6 @@ const Watchlist = require('../../db/model/watchlist')
 
 const es = require('../../application/email/email-service')
 
-
 const testId = new mongoose.Types.ObjectId()
 const testAlertId = new mongoose.Types.ObjectId()
 const someoneAlertId = new mongoose.Types.ObjectId()

@@ -8,42 +8,44 @@ sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
  * @param {string} to
  */
 const sendResetPasswordEmail = (to, link) => {
-    sendgrid.send({
-        to,
-        from: process.env.SENDGRID_EMAIL_SENDER,
-        subject: 'Reset Password',
-        html: 
-        `
+	sendgrid
+		.send({
+			to,
+			from: process.env.SENDGRID_EMAIL_SENDER,
+			subject: 'Reset Password',
+			html: `
             <h1>Cryptool Service</h1>
             <p>click this link ! <a href="${link}">reset</a></p>
         `
-    }).then(res => {
-        logger.info('Email', `Email sent to ${to}!`)
-    })
+		})
+		.then((res) => {
+			logger.info('Email', `Email sent to ${to}!`)
+		})
 }
 
 /**
  * Send an email to the user for watchlist notification purposes.
- * @param {object} config 
+ * @param {object} config
  */
 const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName }) => {
-    sendgrid.send({
-        to: config.to,
-        from: process.env.SENDGRID_EMAIL_SENDER,
-        subject: 'Watchlist Notification!',
-        html: 
-        `
+	sendgrid
+		.send({
+			to: config.to,
+			from: process.env.SENDGRID_EMAIL_SENDER,
+			subject: 'Watchlist Notification!',
+			html: `
             <h1>Cryptool Service</h1>
             <p>This is a test! notification.</p>
             <p>You asked ${config.assetName} to be ${config.asked}. The price has reached the requirement!</p>
             <p>${config.assetName} is at ${config.asked}.</p>
         `
-    }).then(res => {
-        logger.info('Email', `Email sent to ${config.to}!`)
-    })
+		})
+		.then((res) => {
+			logger.info('Email', `Email sent to ${config.to}!`)
+		})
 }
 
 module.exports = {
-    sendResetPasswordEmail,
-    sendWatchlistNotificationMessage
+	sendResetPasswordEmail,
+	sendWatchlistNotificationMessage
 }

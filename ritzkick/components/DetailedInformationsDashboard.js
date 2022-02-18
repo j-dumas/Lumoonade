@@ -15,10 +15,7 @@ import { useRouter } from 'next/router'
 const io = require('socket.io-client')
 
 function CompareView(props) {
-	// Validation:
-	if (!props.currency) return <div>Impossible action.</div>;
-
-    const [data, setData] = useState([])
+	const [data, setData] = useState([])
 	useEffect(async () => {
 		props.socket.on('data', (data) => {
 			setData(data)
@@ -26,12 +23,15 @@ function CompareView(props) {
 		if (props.socket) return () => socket.disconnect()
 	}, [])
 
-    return (
-        <div className='row start'>
-            {data.map((element) => {
-                return <DetailedInformations data={element} name={props.name} key={element.fromCurrency}/>
-            })}
-        </div>
-    )
+	// Validation:
+	if (!props.currency) return <div>Impossible action.</div>
+
+	return (
+		<div className="row start">
+			{data.map((element) => {
+				return <DetailedInformations data={element} name={props.name} key={element.fromCurrency} />
+			})}
+		</div>
+	)
 }
 export default CompareView

@@ -9,7 +9,10 @@ function DetailedMenu(props) {
 				<img className="detailed-menu-logo" src={'../' + props.firstData[0].fromCurrency + '.svg'} alt="" />
 				<h1 className="detailed-menu-title">{props.firstData[0].shortName}</h1>
 				<p className="detailed-menu-subtitle">{props.firstData[0].fromCurrency}</p>
-				<a className="detailed-chart-legend-button-special" href={'/compare?assets='+props.firstData[0].fromCurrency}>
+				<a
+					className="detailed-chart-legend-button-special"
+					href={'/compare?assets=' + props.firstData[0].fromCurrency}
+				>
 					Compare
 				</a>
 			</div>

@@ -7,13 +7,15 @@ function DetailedInformations(props) {
 	return (
 		<>
 			<div className="column detailed-informations detailed-div">
-				{props.name? 
-				<div className="detailed-div-name row space-between h-center">
-					<img className="detailed-menu-logo" src={'../' + props.data.fromCurrency + '.svg'} alt="" />
-					<h1 className="detailed-menu-title">{props.data.shortName}</h1>
-					<p className="detailed-menu-subtitle">{props.data.fromCurrency}</p>
-				</div>
-				: ''}
+				{props.name ? (
+					<div className="detailed-div-name row space-between h-center">
+						<img className="detailed-menu-logo" src={'../' + props.data.fromCurrency + '.svg'} alt="" />
+						<h1 className="detailed-menu-title">{props.data.shortName}</h1>
+						<p className="detailed-menu-subtitle">{props.data.fromCurrency}</p>
+					</div>
+				) : (
+					''
+				)}
 				<div className="detailed-div-menu row space-between">
 					<label className="detailed-div-title">Detailed informations</label>
 					<p className="detailed-div-title">$ = {props.data.currency}$</p>

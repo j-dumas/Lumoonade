@@ -2,7 +2,7 @@ import axios from 'axios'
 import yahoo from '../utils/yahoo'
 
 const Functions = {
-	async GetSCryptocurrencySlugsBySeach(keyword, page=0, limit=16) {
+	async GetSCryptocurrencySlugsBySeach(keyword, page = 0, limit = 16) {
 		const URI = `/api/assets/search/${keyword}?page${page}&limit=${limit}`
 
 		var reponse = await fetch(URI)
@@ -11,7 +11,7 @@ const Functions = {
 		return json
 	},
 
-	async GetAllCryptocurrencySlugs(page=0, limit=16) {
+	async GetAllCryptocurrencySlugs(page = 0, limit = 16) {
 		const URI = `/api/assets/all?page${page}&limit=${limit}`
 
 		var reponse = await fetch(URI)
