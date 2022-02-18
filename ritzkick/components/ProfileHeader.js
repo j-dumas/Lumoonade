@@ -52,7 +52,6 @@ class ProfileHeader extends React.Component {
 	async componentDidMount() {
 		const data = await getUser()
 		this.setState({ user: data })
-		console.log(this.state.user)
 		document.getElementById(usernameTitleId).innerText = this.state.user.username
 		document.getElementById(memberSinceId).innerText = this.parseTime(this.state.user.createdAt)
 	}
@@ -75,7 +74,7 @@ class ProfileHeader extends React.Component {
 							</div>
 						</div>
 						<div className="profile-card center">
-							<h2>Vous avez présentement {this.state.user.sessions} sessions actives</h2>
+							<h2>Vous avez présentement {this.state.user.sessions} session(s) active(s)</h2>
 							<button
 								id="purge-session"
 								onClick={(event) => {
@@ -85,9 +84,6 @@ class ProfileHeader extends React.Component {
 								Effacer les sessions inutiles
 							</button>
 						</div>
-					</div>
-					<div className="column">
-						<hr id="profile-separator"></hr>
 					</div>
 				</div>
 			</div>

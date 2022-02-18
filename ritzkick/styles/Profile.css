@@ -47,11 +47,8 @@
 .profile-card {
 	background-color: var(--background-color);
 	margin: auto;
-	border: 2px solid;
 	padding: 10px;
 	text-align: center;
-	border-radius: 20px;
-	border-color: var(--orange);
 }
 
 .icon-button {
@@ -109,7 +106,7 @@
 
 #alerts-header {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-evenly;
 	align-items: center;
 }
 
@@ -128,4 +125,32 @@ input[type='number'] {
 
 #favorites {
 	width: 200%;
+}
+
+ul {
+	list-style-type: none;
+}
+
+.alert-card {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto;
+	width: 500px;
+	background-color: var(--background-color);
+	border-radius: 10px;
+	margin: 10px;
+	padding: 10px;
+	border: 2px solid;
+	border-color: greenyellow;
+}
+
+.alert-card-item {
+	width: 30px;
+}
+
+.selector {
+	color: var(--background-color);
+}
+
+.input {
+	color: white;
 }
