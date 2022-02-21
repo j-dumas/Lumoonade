@@ -22,8 +22,11 @@ function CompareView(props) {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
+	const connectionUrl = `ws://${process.env.NEXT_PUBLIC_HTTPS}:${
+		process.env.NEXT_PUBLIC_PORT
+	}/`
 	const [socket] = useState(
-		io('http://localhost:3000/', {
+		io(connectionUrl, {
 			auth: {
 				rooms: ['general', `graph-${dateRange}-${interval}`],
 				query: compareList,
