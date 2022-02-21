@@ -22,7 +22,8 @@ function DetailedChart(props) {
 	const [interval, setInterval] = useState('15m')
 
 	useEffect(() => {
-		props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
+		if (props.socket.id)
+			props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
 	}, [dateRange, interval])
 
 	return (

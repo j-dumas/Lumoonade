@@ -48,7 +48,7 @@ class Service {
 	 */
 	run() {
 		if (this.running) return
-		log.info('Service', 'Running service for ' + this.room.name)
+		// log.info('Service', 'Running service for ' + this.room.name)
 		this.running = true
 		this.routine = setInterval(() => {
 			axios({
@@ -73,7 +73,7 @@ class Service {
 		if (!this.running) return
 		this.running = false
 		this.query.length = 0
-		log.info('Service', 'Stopping service for ' + this.room.name)
+		// log.info('Service', 'Stopping service for ' + this.room.name)
 		clearInterval(this.routine)
 	}
 }

@@ -29,7 +29,7 @@ class Room {
 
 	append(socket) {
 		if (this._exists(socket)) return false
-		log.info('Room', socket.id + ' added to the room ' + `'${this.name}'`)
+		// log.info('Room', socket.id + ' added to the room ' + `'${this.name}'`)
 		this.clients.push({
 			id: socket.id,
 			socket,

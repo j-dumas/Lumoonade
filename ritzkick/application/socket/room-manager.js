@@ -22,7 +22,7 @@ const add = (room) => {
 const disconnect = (socket) => {
 	rooms.forEach((room) => {
 		if (room.remove(socket)) {
-			log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
+			// log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
 			handler.onLeftRoom(room)
 		}
 	})
@@ -31,7 +31,7 @@ const disconnect = (socket) => {
 const disconnectFromRoom = (socket, roomName) => {
 	const room = getRoom(roomName)
 	if (room.remove(socket)) {
-		log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
+		// log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
 		handler.onLeftRoom(room)
 	}
 }

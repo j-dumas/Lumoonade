@@ -13,12 +13,17 @@ import CompareMenu from './CompareMenu'
 import { useRouter } from 'next/router'
 
 const io = require('socket.io-client')
+const parser = require('../application/socket/utils/parser')
 
 function CompareView(props) {
 	const [data, setData] = useState([])
 	useEffect(async () => {
-		props.socket.on('data', (data) => {
-			setData(data)
+		props.socket.on('data', (a) => {
+			let b = a.find(x => {
+				console.log(x.symbol, props.socket.auth.query) 
+				return parser.sameString(x.symbol, props.socket.auth.query)
+			})
+			setData(b === undefined ? undefined : [b])
 		})
 		if (props.socket) return () => socket.disconnect()
 	}, [])
@@ -26,7 +31,9 @@ function CompareView(props) {
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>
 
-	return (
+	return !data ? (
+		<h1>Wait...</h1>
+	) : (
 		<div className="row start">
 			{data.map((element) => {
 				return <DetailedInformations data={element} name={props.name} key={element.fromCurrency} />
