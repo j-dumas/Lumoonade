@@ -1,38 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import SimpleChart from './SimpleChart'
+import format from '../utils/formatter'
+
+//const chart = chartReference.current
+//if (!chart || isDataNull(datas)) return
+//chart.data = getRelativeChartData(datas)
+//chart.update()
 
 function SimpleCryptoCard(props) {
-	function format(x) {
-		return Number.parseFloat(x).toFixed(2)
-	}
-
-	const [data, setData] = useState(props.data)
-	const change = format(((data.price - data.value[0]) / data.value[0]) * 100)
-
+	const [data] = useState(props.data)
+	
 	return (
 		<>
-			<a href={'assets/' + data.abbreviation} className="simple-crypto-card column h-center">
+			<a href={'asset/' + data.fromCurrency.toString().toLowerCase()} className="simple-crypto-card column h-center">
 				<div className="row h-center">
-					<Image src={`/${data.abbreviation}.svg`} alt="" width={50} height={50} />
-					<p className="simple-crypto-name">{data.name}</p>
-					<p className="simple-crypto-abbreviation">{data.abbreviation}</p>
+					<Image src={`/${data.fromCurrency}.svg`} alt="" width={50} height={50} />
+					<p className="simple-crypto-name">{data.shortName}</p>
+					<p className="simple-crypto-abbreviation">{data.fromCurrency}</p>
 				</div>
 				<div className="row">
-					<p className="simple-crypto-view-item simple-crypto-price">{data.price} $</p>
+					<p className="simple-crypto-view-item simple-crypto-price">{format(data.regularMarketPrice)} $</p>
 					<p
 						className={
-							change > 0
+							data.regularMarketChange > 0
 								? 'simple-crypto-view-item simple-crypto-change c-green'
-								: change == 0
+								: data.regularMarketChange == 0
 								? 'simple-crypto-view-item simple-crypto-change c-white'
-								: 'simple-crypto-view-item simple-crypto-change c-red'
+								: 'simple-crypto-view-item simple-crypto-change decrease'
 						}
 					>
-						{change} %
+						{format(data.regularMarketChangePercent)} %
 					</p>
 				</div>
-				<SimpleChart data={data} />
+				{props.chartData?
+					<SimpleChart data={props.chartData} increase={data.regularMarketChange > 0}/>
+				:null}
 			</a>
 		</>
 	)

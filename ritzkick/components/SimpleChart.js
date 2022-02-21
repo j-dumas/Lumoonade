@@ -3,23 +3,23 @@ import { Line } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 
 function SimpleChart(props) {
+	const [chartReference, setCR] = useState(React.createRef())
+
 	const [datas, setDatas] = useState({
-		labels: props.data.x,
+		labels: props.data.response[0].timestamp,
 		datasets: [
 			{
-				label: props.data.name,
+				label: 'TEST',
 				fill: false,
 				lineTension: 0.25,
 				backgroundColor: 'rgb(38, 39, 40)',
 				borderColor: () => {
-					return props.data.value[props.data.value.length - 1] > props.data.value[0]
-						? 'lightgreen'
-						: props.data.value[props.data.value.length - 1] == props.data.value[0]
-						? 'gainsboro'
-						: 'lightcoral'
+					return props.increase
+						? 'rgb(102, 190, 84)'
+						: 'rgb(234, 46, 73)'
 				},
 				borderWidth: 2,
-				data: props.data.value,
+				data: props.data.response[0].indicators.quote[0].close,
 				pointStyle: 'circle',
 				pointRadius: 0
 			}
@@ -29,6 +29,7 @@ function SimpleChart(props) {
 	return (
 		<div className="simple-chart">
 			<Line
+				ref={chartReference}
 				data={datas}
 				options={{
 					maintainAspectRatio: false,

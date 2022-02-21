@@ -63,7 +63,7 @@ function CompareView(props) {
                     <div className='column detailed-informations detailed-div max-width'>
                         <div className='detailed-div-menu row space-between'>
                             <p>Titre</p>
-                            <p>alkefjalkjfl</p>
+                            <p>Lorem</p>
                         </div>
                     </div>
                 </div>

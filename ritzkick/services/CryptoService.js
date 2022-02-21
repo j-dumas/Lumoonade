@@ -30,8 +30,8 @@ const Functions = {
 		return json
 	},
 
-	async GetTopPopularCryptocurrencies(top = 10) {
-		const URI = '/api/crypto/popular/'
+	async GetTopPopularCryptocurrencies(page = 0, limit = 16) {
+		const URI = `/api/assets/popular?page${page}&limit=${limit}`
 
 		var reponse = await fetch(URI)
 		var json = reponse.json()

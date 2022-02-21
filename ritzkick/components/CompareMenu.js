@@ -45,6 +45,7 @@ function CompareMenu(props) {
     }
 
     async function updateSearchList(event) {
+        console.log('test')
         event.preventDefault()
         let search = event.target[0].value
         if (!search) search = '0'
