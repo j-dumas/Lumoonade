@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import AndSeparator from './AndSeparator'
 import Separator from './Separator'
@@ -6,117 +6,106 @@ import GoogleSignIn from './GoogleSignIn'
 import { login } from '../services/AuthService'
 import Link from 'next/link'
 
-const TITLE = 'Connexion'
+import { useTranslation } from 'next-i18next'
 
-class LoginForm extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = { username: '', password: '' }
+const LoginForm = () => {
+	const { t } = useTranslation('forms')
 
-		this.handleUsernameChange = this.handleUsernameChange.bind(this)
-		this.handlePasswordChange = this.handlePasswordChange.bind(this)
-		this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleGoogle = this.handleGoogle.bind(this)
-	}
+	const [email, setEmail] = useState()
+	const [password, setPassword] = useState()
 
-	handleGoogle(event) {
-		alert('Forgot Password')
-		event.preventDefault()
-	}
-
-	handleUsernameChange(event) {
-		let username = document.getElementById('userField')
-		if (username.validity.typeMismatch) {
-			username.setCustomValidity("Entrez un nom d'utilisateur")
-			username.reportValidity()
+	const handleEmailChange = (event) => {
+		let emailField = document.getElementById('emailField')
+		if (emailField.validity.typeMismatch) {
+			emailField.setCustomValidity(t())
+			emailField.reportValidity()
 		} else {
-			username.setCustomValidity('')
-			this.setState({ username: event.target.value })
+			emailField.setCustomValidity(t('validation.username'))
+			setEmail(event.target.value)
 		}
 	}
-	handlePasswordChange(event) {
+
+	const handlePasswordChange = (event) => {
 		let password = document.getElementById('passwordField')
 		if (password.validity.typeMismatch) {
-			password.setCustomValidity("Entrez un nom d'utilisateur")
+			password.setCustomValidity(t('validation.password'))
 			password.reportValidity()
 		} else {
 			password.setCustomValidity('')
-			this.setState({ password: event.target.value })
+			setPassword(event.target.value)
 		}
 	}
 
-	showError(password, username) {
+	const showError = (password, email) => {
 		if (!password.validity.valid) {
-			password.setCustomValidity('Entrez un mot de passe')
+			password.setCustomValidity(t('validation.password'))
 			password.reportValidity()
 		}
-		if (!username.validity.valid) {
-			username.setCustomValidity("Entrez un nom d'utilisateur")
-			username.reportValidity()
+		if (!email.validity.valid) {
+			email.setCustomValidity(t('validation.email'))
+			email.reportValidity()
 		}
 	}
 
-	async handleSubmit(event) {
-		let password = document.getElementById('passwordField')
-		let username = document.getElementById('userField')
+	const handleSubmit = async (event) => {
+		let passwordField = document.getElementById('passwordField')
+		let emailField = document.getElementById('emailField')
 
-		if (!password.validity.valid || !username.validity.valid) {
-			this.showError(password, username)
+		if (!passwordField.validity.valid || !emailField.validity.valid) {
+			showError(passwordField, emailField)
 			event.preventDefault()
 		} else {
-			if (this.state.username == '' || this.state.password == '') {
-				this.showError(password, username)
+			if (email == '' || password == '') {
+				showError(passwordField, emailField)
 				event.preventDefault()
 			} else {
 				event.preventDefault()
-				await login(this.state.username, this.state.password)
+				await login(email, password)
 			}
 		}
 	}
 
-	render() {
-		return (
-			<Container className="p-3 form">
-				<h1 className="form-title">{TITLE}</h1>
-				<div className="wrong" id="wrong">
-					Mauvais courriel ou mot de passe.
+	return (
+		<Container className="p-3 form">
+			<h1 className="form-title">{t('login.title')}</h1>
+			<div className="wrong" id="wrong">
+				Mauvais courriel ou mot de passe.
+			</div>
+			<form onSubmit={handleSubmit}>
+				<input
+					id="emailField"
+					type="text"
+					placeholder={t('fields.email')}
+					onChange={handleEmailChange}
+					required
+					autoComplete="off"
+				/>
+				<input
+					id="passwordField"
+					type="password"
+					placeholder={t('fields.password')}
+					onChange={handlePasswordChange}
+					required
+					autoComplete="off"
+				/>
+				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('login.submit')} />
+			</form>
+			<AndSeparator />
+			<GoogleSignIn />
+			<Link href="/forgotPassword">
+				<a className="link">{t('login.forgot-password')}</a>
+			</Link>
+			<div>
+				<Separator />
+				<div id="Signup">
+					<h4>{t('login.no-account')}</h4>
+					<Link href="/register">
+						<a className="link">{t('login.register')}</a>
+					</Link>
 				</div>
-				<form onSubmit={this.handleSubmit}>
-					<input
-						id="userField"
-						type="text"
-						placeholder="Courriel"
-						onChange={this.handleUsernameChange}
-						required
-						autoComplete="off"
-					/>
-					<input
-						id="passwordField"
-						type="password"
-						placeholder="Mot de passe"
-						onChange={this.handlePasswordChange}
-						required
-						autoComplete="off"
-					/>
-					<input id="submitButton" type="submit" onClick={this.handleSubmit} value="Connexion" />
-				</form>
-				<AndSeparator />
-				<GoogleSignIn />
-				<Link href="/forgotPassword">
-					<a className="link">J&apos;ai oublié mon mot de passe</a>
-				</Link>
-				<div>
-					<Separator />
-					<div id="Signup">
-						<h4>Vous n&apos;avez pas de compte?</h4>
-						<Link href="/register">
-							<a className="link">Inscrivez-vous</a>
-						</Link>
-					</div>
-				</div>
-			</Container>
-		)
-	}
+			</div>
+		</Container>
+	)
 }
 
 export default LoginForm

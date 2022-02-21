@@ -47,8 +47,8 @@ Home.getLayout = function getLayout(page) {
 	return (
 		<Layout
 			pageMeta={{
-				title: t('index.title'),
-				description: t('index.description')
+				title: t('pages.index.title'),
+				description: t('pages.index.description')
 			}}
 		>
 			{page}
