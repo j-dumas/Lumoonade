@@ -44,11 +44,11 @@
 	margin: 2%;
 }
 
-.profile-card{
-    background-color: var(--background-color);
-    margin: auto;
-    padding: 10px;
-    text-align: center;
+.profile-card {
+	background-color: var(--background-color);
+	margin: auto;
+	padding: 10px;
+	text-align: center;
 }
 
 .icon-button {
@@ -127,30 +127,30 @@ input[type='number'] {
 	width: 200%;
 }
 
-ul{
-    list-style-type: none;
+ul {
+	list-style-type: none;
 }
 
-.alert-card{
-    display: grid;
+.alert-card {
+	display: grid;
 	grid-template-columns: auto auto auto auto auto;
-    width: 500px;
-    background-color: var(--background-color);
-    border-radius: 10px;
-    margin: 10px;
+	width: 500px;
+	background-color: var(--background-color);
+	border-radius: 10px;
+	margin: 10px;
 	padding: 10px;
 	border: 2px solid;
 	border-color: greenyellow;
 }
 
-.alert-card-item{
+.alert-card-item {
 	width: 30px;
 }
 
-.selector{
+.selector {
 	color: var(--background-color);
 }
 
-.input{
+.input {
 	color: white;
 }

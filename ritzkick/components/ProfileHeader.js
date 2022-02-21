@@ -49,39 +49,46 @@ class ProfileHeader extends React.Component {
 		return 'Membre depuis le ' + parseInt(day) + ' ' + this.getMonth(parseInt(month)) + ' ' + year
 	}
 
-    async componentDidMount() {
-        const data = await getUser()
-        this.setState({ user: data})
-        document.getElementById(usernameTitleId).innerText = this.state.user.username
-        document.getElementById(memberSinceId).innerText = this.parseTime(this.state.user.createdAt)
-    }
+	async componentDidMount() {
+		const data = await getUser()
+		this.setState({ user: data })
+		document.getElementById(usernameTitleId).innerText = this.state.user.username
+		document.getElementById(memberSinceId).innerText = this.parseTime(this.state.user.createdAt)
+	}
 
-    render(){
-        return (
-            <div>
-                <div className="profile-header" id="header">
-                    <div className="row">
-                        <div className="column profile-card">
-                            <ProfilePopup  username={this.state.user.username} email={this.state.user.email}/>
-                            <div className="row h-center">
-                                <img id="profile-picture" src="/ETH.svg"></img>
-                                <h1 id={usernameTitleId}></h1>
-                            </div>
-                            <div className="row information">
-                                <div>
-                                    <h3 id={memberSinceId}></h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="profile-card center">
-                            <h2>Vous avez présentement {this.state.user.sessions} session(s) active(s)</h2>    
-                            <button id="purge-session" onClick={(event) => {this.removeUserSession(event)}}>Effacer les sessions inutiles</button>                        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+	render() {
+		return (
+			<div>
+				<div className="profile-header" id="header">
+					<div className="row">
+						<div className="column profile-card">
+							<ProfilePopup username={this.state.user.username} email={this.state.user.email} />
+							<div className="row h-center">
+								<img id="profile-picture" src="/ETH.svg"></img>
+								<h1 id={usernameTitleId}></h1>
+							</div>
+							<div className="row information">
+								<div>
+									<h3 id={memberSinceId}></h3>
+								</div>
+							</div>
+						</div>
+						<div className="profile-card center">
+							<h2>Vous avez présentement {this.state.user.sessions} session(s) active(s)</h2>
+							<button
+								id="purge-session"
+								onClick={(event) => {
+									this.removeUserSession(event)
+								}}
+							>
+								Effacer les sessions inutiles
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		)
+	}
 }
 
 export default ProfileHeader
