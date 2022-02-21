@@ -104,6 +104,7 @@ export async function getUser(){
         })
 
         if(response.status === 401){
+            document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Http-Only, SameSite=Strict" 
             window.location.assign('/login')
         }
         else{

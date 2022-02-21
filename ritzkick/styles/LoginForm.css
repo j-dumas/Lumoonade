@@ -34,7 +34,7 @@
 	z-index: 100;
 	width: 25vw;
 	min-width: 300px;
-	background-color: var(--background-color);
+	background-color: transparent;
 }
 
 input[type='text'],
