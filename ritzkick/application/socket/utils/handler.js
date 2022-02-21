@@ -18,7 +18,7 @@ const onUpdate = (room) => {
 
 	let clientQuery = []
 	clients.forEach((client) => {
-		clientQuery.push(client.query.map(x => String(x).toLowerCase()).flat())
+		clientQuery.push(client.query.map((x) => String(x).toLowerCase()).flat())
 		clientQuery = parser.rebuild(clientQuery.flat())
 	})
 	service.query = clientQuery

@@ -54,7 +54,7 @@ const initialize = (server) => {
 			// if (result.length === 0) {
 			// 	return client.socket.disconnect()
 			// }
-			
+
 			client.socket.emit('data', result)
 		})
 	})

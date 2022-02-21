@@ -19,8 +19,8 @@ function CompareView(props) {
 	const [data, setData] = useState([])
 	useEffect(async () => {
 		props.socket.on('data', (a) => {
-			let b = a.find(x => {
-				console.log(x.symbol, props.socket.auth.query) 
+			let b = a.find((x) => {
+				console.log(x.symbol, props.socket.auth.query)
 				return parser.sameString(x.symbol, props.socket.auth.query)
 			})
 			setData(b === undefined ? undefined : [b])

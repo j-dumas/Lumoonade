@@ -49,7 +49,7 @@ const sameString = (s1, s2) => {
 
 const slapToLowerCase = (list) => {
 	let copy = [...list]
-	return copy.map(c => String(c).toLowerCase())
+	return copy.map((c) => String(c).toLowerCase())
 }
 
 module.exports = {
