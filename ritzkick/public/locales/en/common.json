@@ -1,7 +1,8 @@
 {
 	"pages": {
 		"index": { "title": "CRYPTOOL | HOME", "description": "Cryptool home page" },
-		"login": { "title": "CRYPTOOL | LOGIN", "description": "Cryptool login page" }
+		"login": { "title": "CRYPTOOL | LOGIN", "description": "Cryptool login page" },
+		"register": { "title": "CRYPTOOL | REGISTER", "description": "Cryptool register page" }
 	},
 	"meta": { "title": "CRYPTOOL", "description": "Cryptool for CryptoCurrencies", "type": "website" },
 	"footer": { "powered": "Powered by " },

@@ -16,7 +16,7 @@
 	"register": {
 		"title": "Inscription",
 		"existing-account": "Déjà un compte ?",
-		"login": "Se connecter",
+		"login": "Connectez-vous",
 		"submit": "S'inscrire"
 	},
 	"validation": {

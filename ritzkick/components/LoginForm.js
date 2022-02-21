@@ -20,7 +20,7 @@ const LoginForm = () => {
 			emailField.setCustomValidity(t())
 			emailField.reportValidity()
 		} else {
-			emailField.setCustomValidity(t('validation.username'))
+			emailField.setCustomValidity(t('validation.email'))
 			setEmail(event.target.value)
 		}
 	}
