@@ -34,7 +34,13 @@
 	z-index: 100;
 	width: 25vw;
 	min-width: 300px;
-	background-color: transparent;
+	background-color: rgb(21, 22, 23, 0.8);
+	border-radius: 10px;
+}
+
+.inputField{
+	background-color: white;
+	border-radius: 4px;
 }
 
 input[type='text'],
@@ -45,7 +51,6 @@ input[type='email'] {
 	padding: 12px 20px;
 	margin: 8px 0;
 	border-radius: 10px;
-	color: black;
 }
 
 input[type='text']:valid,
