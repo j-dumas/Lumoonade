@@ -1,0 +1,14 @@
+{
+	"index": { "title": "CRYPTOOL | HOME", "description": "Cryptool home page" },
+	"meta": { "title": "CRYPTOOL", "description": "Cryptool for CryptoCurrencies", "type": "website" },
+	"footer": { "powered": "Powered by " },
+	"navbar": {
+		"home": "Home",
+		"assets": "Cryptos",
+		"compare": "Compare",
+		"user": { "wallet": "Wallet", "profile": "Profile" },
+		"login": "Log In",
+		"logout": "Log Out",
+		"register": "Register"
+	}
+}

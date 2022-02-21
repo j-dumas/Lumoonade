@@ -16,6 +16,7 @@ import '../styles/Profile.css'
 import '../styles/DetailedCrypto.css'
 
 import Script from 'next/script'
+import { appWithTranslation } from 'next-i18next'
 
 // The following import prevents a Font Awesome icon server-side rendering bug,
 // where the icons flash from a very large icon down to a properly sized one:
@@ -55,4 +56,4 @@ function MyApp({ Component, pageProps }) {
 	return getLayout(app)
 }
 
-export default MyApp
+export default appWithTranslation(MyApp)

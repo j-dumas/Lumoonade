@@ -1,17 +1,20 @@
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'next-i18next'
 
 const WEBSITE_NAME = 'Cryptool'
 
 function DomHead({ pageMeta }) {
+	const { t } = useTranslation('common')
+
 	const meta = {
-		title: 'CRYPTOOL',
-		description: 'Cryptool for CryptoCurrencies',
-		type: 'website',
+		title: t('meta.title'),
+		description: t('meta.description'),
+		type: t('meta.type'),
 		...pageMeta
 	}
 
-	const [url, setUrl] = useState('http://localhost')
+	const [url, setUrl] = useState()
 
 	useEffect(() => {
 		const bubbletext = document.getElementsByClassName('bubbles')

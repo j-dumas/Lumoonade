@@ -1,0 +1,14 @@
+{
+	"index": { "title": "CRYPTOOL | ACCUEIL", "description": "Page d'accueil Cryptool" },
+	"meta": { "title": "CRYPTOOL", "description": "Cryptool pour les CryptoCurrencies", "type": "website" },
+	"footer": { "powered": "Propulsé par " },
+	"navbar": {
+		"home": "Accueil",
+		"assets": "Cryptos",
+		"compare": "Comparer",
+		"user": { "wallet": "Portefeuille", "profile": "Profil" },
+		"login": "Connexion",
+		"logout": "Déconnexion",
+		"register": "Incription"
+	}
+}

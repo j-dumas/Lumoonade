@@ -3,8 +3,10 @@ import { useRouter } from 'next/router'
 import Icons from './Icons'
 import { logout } from '../services/AuthService'
 import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 
 function Navbar(props) {
+	const { t } = useTranslation('common')
 	const router = useRouter()
 
 	const [click, setClick] = useState(false)
@@ -48,7 +50,7 @@ function Navbar(props) {
 							<Icons.Home />
 							<Link href="/">
 								<a className="nav-links" onClick={closeMobileMenu}>
-									Home
+									{t('navbar.home')}
 								</a>
 							</Link>
 						</li>
@@ -56,7 +58,7 @@ function Navbar(props) {
 							<Icons.Coins />
 							<Link href="/assets">
 								<a className="nav-links" onClick={closeMobileMenu}>
-									Assets
+									{t('navbar.assets')}
 								</a>
 							</Link>
 						</li>
@@ -64,15 +66,7 @@ function Navbar(props) {
 							<Icons.ChartLine />
 							<Link href="/compare">
 								<a className="nav-links" onClick={closeMobileMenu}>
-									Compare
-								</a>
-							</Link>
-						</li>
-						<li className={router.pathname == '/help' ? 'nav-item active-link' : 'nav-item'}>
-							<Icons.InfoCircle />
-							<Link href="/help">
-								<a className="nav-links" onClick={closeMobileMenu}>
-									Help Center
+									{t('navbar.compare')}
 								</a>
 							</Link>
 						</li>
@@ -84,7 +78,7 @@ function Navbar(props) {
 									<Icons.Wallet />
 									<Link href="/wallet">
 										<a className="nav-links" onClick={closeMobileMenu}>
-											Wallet
+											{t('navbar.user.wallet')}
 										</a>
 									</Link>
 								</li>
@@ -92,7 +86,7 @@ function Navbar(props) {
 									<Icons.UserCircle />
 									<Link href="/profile">
 										<a className="nav-links" onClick={closeMobileMenu}>
-											Profile
+											{t('navbar.user.profile')}
 										</a>
 									</Link>
 								</li>
@@ -100,7 +94,7 @@ function Navbar(props) {
 									<Icons.DoorOpen />
 									{
 										<a className="nav-links" onClick={(closeMobileMenu, logoutUser)}>
-											Log out
+											{t('navbar.logout')}
 										</a>
 									}
 								</li>
@@ -113,14 +107,14 @@ function Navbar(props) {
 									</div>
 									<Link href="/login">
 										<a className="nav-links" onClick={closeMobileMenu}>
-											Log in
+											{t('navbar.login')}
 										</a>
 									</Link>
 								</li>
 								<li className={router.pathname == '/register' ? 'nav-item active-link' : 'nav-item'}>
 									<Link href="/register">
 										<a className="nav-links button" onClick={closeMobileMenu}>
-											Register
+											{t('navbar.register')}
 										</a>
 									</Link>
 								</li>
