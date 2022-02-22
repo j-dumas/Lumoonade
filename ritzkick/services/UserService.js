@@ -90,7 +90,6 @@ export async function deleteUser() {
 	}
 }
 
-<<<<<<< HEAD
 export async function getUser(){
     try{
         let response = await fetch('/api/me', {
@@ -113,27 +112,6 @@ export async function getUser(){
     catch(e){
         console.log(e)
     }
-=======
-export async function getUser() {
-	try {
-		let response = await fetch('/api/me', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + getCookie('token')
-			}
-		})
-
-		if (response.status === 401) {
-			window.location.assign('/login')
-		} else {
-			let json = await response.json()
-			return json
-		}
-	} catch (e) {
-		console.log(e)
-	}
->>>>>>> b1c502097d599a8835ca563628c863e509925cd0
 }
 
 export async function removeSession() {

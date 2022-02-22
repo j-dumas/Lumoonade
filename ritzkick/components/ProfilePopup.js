@@ -3,6 +3,9 @@ import Icons from './Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from '../services/UserService'
 import { useForm } from './hooks/useForm'
+import { AccountCircle, Email, Password } from '@mui/icons-material'
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility'
 
 const newUsername = 'newUsername'
 const oldPass = 'oldPass'
@@ -15,6 +18,7 @@ export default function ProfilePopup(props) {
 		closeOnOverlayClick: false
 	})
 	const [values, handleChange, resetValues] = useForm({})
+	const [passwordValues, setPasswordvalues] = useState([])
 
 	function eraseFieldValue() {
 		resetValues()
@@ -24,6 +28,10 @@ export default function ProfilePopup(props) {
 		if (confirm('Êtes-vous sur de vouloir supprimer votre compte?')) {
 			deleteUser()
 		}
+	}
+
+	function handleClickShowPassword(event){
+		//Todo: aller lala
 	}
 
 	async function handleSubmit(event) {
@@ -71,34 +79,78 @@ export default function ProfilePopup(props) {
 							handleSubmit(event)
 						}}
 					>
-						<h1>Informations</h1>
+						<h1>Modification de profile</h1>
 						<div className="wrong" id="wrong-name">
 							Le nom que vous désirez entrer est déjà utilisé
 						</div>
-						<label>Nom d'utilisateur</label>
-						<input
-							name={newUsername}
-							id="usernameField"
-							type="text"
-							defaultValue={props.username}
-							onChange={handleChange}
-							minLength="4"
-							autoComplete="off"
-						/>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-username">Nom d'utilisateur</InputLabel>
+							<OutlinedInput
+								name={newUsername}
+								id="outlined-adornment-username"
+								type="text"
+								defaultValue={props.username}
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position="end">
+										<AccountCircle />
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 4}}
+								autoComplete="off"
+							/>
+						</FormControl>
 						<hr className="form-separator"></hr>
-						<label>Courriel</label>
-						<input name="email" type="email" defaultValue={props.email} disabled />
+						<FormControl className='inputField-disabled' sx={{ m: 1, width: '100%' }} disabled variant="filled">
+							<InputLabel htmlFor="outlined-adornment-courriel">Courriel</InputLabel>
+							<OutlinedInput
+								id="outlined-adornment-courriel"
+								type="email"
+								defaultValue={props.email}
+								startAdornment={
+									<InputAdornment position="end">
+										<Email />
+									</InputAdornment>
+								}
+								fullWidth
+							/>
+						</FormControl>
 						<hr className="form-separator"></hr>
 						<label>Entrez votre ancien mot de passe ainsi que le nouveau</label>
 						<div className="wrong" id="wrong-password">
 							Veuillez vérifier si tous les champs ci dessous concorde bien
 						</div>
-						<input
-							name={oldPass}
-							type="password"
-							placeholder="Ancien mot de passe"
-							onChange={handleChange}
-						></input>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+							<OutlinedInput
+								name={oldPass}
+								id="outlined-adornment-password"
+								type="password"
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position='end'>
+										<Password />
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+										name={oldPass}
+										aria-label="toggle password visibility"
+										onMouseDown={handleClickShowPassword}
+										onMouseUp={handleClickShowPassword}
+										edge="end"
+										>
+											<Visibility />
+											{/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 8}}
+							/>
+						</FormControl>
 						<input
 							name={newPass}
 							id="passwordField"

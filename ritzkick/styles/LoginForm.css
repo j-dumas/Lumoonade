@@ -43,6 +43,11 @@
 	border-radius: 4px;
 }
 
+.inputField-disabled{
+	background-color: var(--background-color-3);
+	border-radius: 4px;
+}
+
 input[type='text'],
 input[type='password'],
 input[type='email'] {

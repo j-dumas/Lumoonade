@@ -55,7 +55,7 @@ router.post('/api/reset', async (req, res) => {
 			const resetLink = await reset.makeResetToken()
 			// Email sent with the valid url for forgot password.
 			// This is just a dummy value.
-			let url = `http://localhost:3000/${resetLink}`
+			let url = `${process.env.SSL == "false" ? "http" : "https"}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/reset-password?key=${resetLink}`
 			emailSender.sendResetPasswordEmail(user.email, url)
 		}
 		res.status(201).send()

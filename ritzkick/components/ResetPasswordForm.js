@@ -17,11 +17,24 @@ export default function ResetPasswordForm() {
     const [error, setError] = useState(false)
 
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
         event.preventDefault()
         if(state.password === state.passwordConfirmation){
-            //Api call
-            alert(state.password + " " + state.passwordConfirmation + " " + key)
+            try{
+                let response = await fetch('/api/reset/redeem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({resetToken: key, password: state.password, confirmation: state.passwordConfirmation})
+                })
+        
+                console.log(response.status)
+                window.location.assign('/login')
+            }
+            catch(e){
+                console.log(e)
+            }
         }
         else{
             setError(true)
@@ -34,11 +47,6 @@ export default function ResetPasswordForm() {
     const handleClickShowPasswordConfirmation = () => {
         setShowPasswordConfirmation(!showPasswordConfirmation)
       };
-    
-      const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-      };
-
 
   return (
     <Container className="p-3 form">
@@ -55,8 +63,8 @@ export default function ResetPasswordForm() {
                             <InputAdornment position="end">
                                 <IconButton
                                 aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
+                                onMouseDown={handleClickShowPassword}
+                                onMouseUp={handleClickShowPassword}
                                 edge="end"
                                 >
                                     {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -86,8 +94,8 @@ export default function ResetPasswordForm() {
                                 <InputAdornment position="end">
                                     <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPasswordConfirmation}
-                                    onMouseDown={handleMouseDownPassword}
+                                    onMouseDown={handleClickShowPasswordConfirmation}
+                                    onMouseUp={handleClickShowPasswordConfirmation}
                                     edge="end"
                                     >
                                         {showPasswordConfirmation ? <VisibilityOff /> : <Visibility />}
