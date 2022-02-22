@@ -16,7 +16,7 @@ function SimpleCryptoView(props) {
 		<>
 			<a href={'assets/' + data.fromCurrency} className="simple-crypto-view row space-between h-center">
 				<div className="simple-crypto-view-item row left h-center">
-					<img className="simple-crypto-view-logo" src={data.fromCurrency + '.svg'} alt="" />
+					<Image src={'/' + data.fromCurrency + '.svg'} alt="logo" width="30" height="30" />
 					<div className="column simple-crypto-names">
 						<p className="simple-crypto-name">{data.shortName.split(' ')[0]}</p>
 						<p className="simple-crypto-abbreviation">{data.fromCurrency}</p>

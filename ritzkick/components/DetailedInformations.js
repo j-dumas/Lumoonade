@@ -4,6 +4,7 @@ import ButtonFavorite from '../components/ButtonFavorite'
 import format from '../utils/formatter'
 
 import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 
 const DetailedInformations = (props) => {
 	const { t } = useTranslation('crypto')
@@ -13,7 +14,7 @@ const DetailedInformations = (props) => {
 			<div className="column detailed-informations detailed-div">
 				{props.name ? (
 					<div className="detailed-div-name row space-between h-center">
-						<img className="detailed-menu-logo" src={'../' + props.data.fromCurrency + '.svg'} alt="" />
+						<Image width="30" height="30" src={'/../' + props.data.fromCurrency + '.svg'} alt="logo" />
 						<h1 className="detailed-menu-title">{props.data.shortName}</h1>
 						<p className="detailed-menu-subtitle">{props.data.fromCurrency}</p>
 					</div>

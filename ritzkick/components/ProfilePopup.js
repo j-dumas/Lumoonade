@@ -56,7 +56,7 @@ export default function ProfilePopup(props) {
 		if (!isOpen) {
 			eraseFieldValue()
 		}
-	}, [isOpen])
+	}, [isOpen, eraseFieldValue])
 
 	return (
 		<div>

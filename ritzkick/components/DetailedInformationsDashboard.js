@@ -12,21 +12,25 @@ import DetailedChart from './charts/DetailedChart'
 import CompareMenu from './menus/CompareMenu'
 import { useRouter } from 'next/router'
 
-const io = require('socket.io-client')
+//const io = require('socket.io-client')
 const parser = require('../application/socket/utils/parser')
 
 const DetailedInformationsDashboard = (props) => {
 	const [data, setData] = useState([])
-	useEffect(async () => {
-		props.socket.on('data', (a) => {
-			let b = a.find((x) => {
-				console.log(x.symbol, props.socket.auth.query)
-				return parser.sameString(x.symbol, props.socket.auth.query)
+
+	useEffect(() => {
+		async function setDataSocket() {
+			props.socket.on('data', (a) => {
+				let b = a.find((x) => {
+					console.log(x.symbol, props.socket.auth.query)
+					return parser.sameString(x.symbol, props.socket.auth.query)
+				})
+				setData(b === undefined ? undefined : [b])
 			})
-			setData(b === undefined ? undefined : [b])
-		})
-		if (props.socket) return () => socket.disconnect()
-	}, [])
+			if (props.socket) return () => socket.disconnect()
+		}
+		return setDataSocket()
+	})
 
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>

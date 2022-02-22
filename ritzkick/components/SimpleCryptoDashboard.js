@@ -6,7 +6,7 @@ import Functions from '../services/CryptoService'
 function SimpleCryptoDashboard(props) {
 	const [data, setData] = useState(null)
 
-	useEffect(async () => {
+	useEffect(() => {
 		setData([]) // await Functions.GetTopPopularCryptocurrencies()
 
 		// Éventuellement lorsque les routes seront faits niveau BACKEND.
@@ -15,7 +15,7 @@ function SimpleCryptoDashboard(props) {
 			setData(await Functions.GetTopPopularCryptocurrencies())
 		}, 10000)
 		*/
-	})
+	}, [])
 
 	return !data ? (
 		<>Loading...</>

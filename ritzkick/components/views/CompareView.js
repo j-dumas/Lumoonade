@@ -50,10 +50,13 @@ const CompareView = (props) => {
 		return params
 	}
 
-	useEffect(async () => {
-		// TODO: Fonction à changer pour retourner plusieurs datas.
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-	}, [compareList])
+	useEffect(() => {
+		async function setStartData() {
+			// TODO: Fonction à changer pour retourner plusieurs datas.
+			setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+		}
+		setStartData()
+	}, [compareList, slug])
 
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>

@@ -21,8 +21,11 @@ function DetailedCryptoView(props) {
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
 
-	useEffect(async () => {
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+	useEffect(() => {
+		async function setStartData() {
+			setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+		}
+		setStartData()
 
 		setSocket(
 			io(`${window.location.protocol}//${window.location.host}`, {
