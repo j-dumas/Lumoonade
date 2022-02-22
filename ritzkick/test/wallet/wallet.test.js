@@ -212,8 +212,49 @@ describe('Modification cases /api/wallets/update', () => {
         await request(server).put(URL).set({ Authorization: `Bearer ${otherToken}` }).send(configUpdate).expect(400)
     })
 
-    test(`'BAD REQUEST' cannot provide random informations other than the amount and the asset name in the body for modification`, async () => {
+    test(`'MODIFY REQUEST' you can modify the wallet with the proper modification's field.`, async () => {
+        let wallet = await Wallet.findById(testWalletId)
+        const currentAmount = wallet.amount
+        const currentAsset = wallet.asset
         await request(server).put(URL).set({ Authorization: `Bearer ${token}` }).send(configUpdate).expect(200)
+
+        wallet = await Wallet.findById(testWalletId)
+        expect(currentAmount).not.toBe(wallet.amount)
+        expect(wallet.amount).toBe(configUpdate.amount)
+        expect(currentAsset).toBe(wallet.asset)
     })
 
+})
+
+describe(`Delete cases /api/wallets/delete`, () => {
+    const URL = '/api/wallets/delete'
+
+    test(`'BAD REQUEST' you cannot provide an empty asset`, async () => {
+        await request(server).delete(URL).set({ Authorization: `Bearer ${token}` }).send().expect(400)
+    })
+
+    test(`'BAD REQUEST' you can't delete a wallet if you don't have one`, async () => {
+        let wallets = await Wallet.find({})
+        let amount = wallets.length
+        await request(server).delete(URL).set({ Authorization: `Bearer ${otherToken}` }).send({
+            asset: 'eth'
+        }).expect(400)
+
+        // Quick verification
+        wallets = await Wallet.find({})
+        expect(amount).toBe(wallets.length)
+    })
+
+    test(`'DELETE REQUEST' you can't delete a wallet if you don't have one`, async () => {
+        let wallets = await Wallet.find({})
+        let amount = wallets.length
+        await request(server).delete(URL).set({ Authorization: `Bearer ${token}` }).send({
+            asset: 'eth'
+        }).expect(204)
+
+        // Quick verification
+        wallets = await Wallet.find({})
+        expect(amount).not.toBe(wallets.length)
+        expect(wallets.length).toBe(0)
+    })
 })

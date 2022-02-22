@@ -80,7 +80,11 @@ router.delete('/api/wallets/delete', auth, async (req, res) => {
 		if (!asset) {
 			throw new Error('Please provide an asset name.')
 		}
-		const wallet = await Wallet.findOneAndDelete({ asset })
+		const wallet = await Wallet.findOneAndDelete({ asset, owner: req.user._id })
+
+		if (!wallet) {
+			throw new Error('Unable to find a wallet for that name.')
+		}
 		
 		await req.user.removeWalletAndSave(wallet._id)
 		
