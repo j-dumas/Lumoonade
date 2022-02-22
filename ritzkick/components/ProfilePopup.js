@@ -3,9 +3,8 @@ import Icons from './Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from '../services/UserService'
 import { useForm } from './hooks/useForm'
-import { AccountCircle, Email, Password } from '@mui/icons-material'
+import { AccountCircle, Email, Password, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
-import Visibility from '@mui/icons-material/Visibility'
 
 const newUsername = 'newUsername'
 const oldPass = 'oldPass'
@@ -18,7 +17,7 @@ export default function ProfilePopup(props) {
 		closeOnOverlayClick: false
 	})
 	const [values, handleChange, resetValues] = useForm({})
-	const [passwordValues, setPasswordvalues] = useState([])
+	const [passwordValues, setPasswordValues] = useState({oldPassShow: false, newPassShow: false, newPassConfirmationShow: false})
 
 	function eraseFieldValue() {
 		resetValues()
@@ -30,8 +29,21 @@ export default function ProfilePopup(props) {
 		}
 	}
 
-	function handleClickShowPassword(event){
-		//Todo: aller lala
+	function handleClickShowPassword(event, index){
+		switch (index) {
+			case 0:
+				setPasswordValues({...passwordValues, oldPassShow: !passwordValues.oldPassShow})
+				break;
+			case 1:
+				setPasswordValues({...passwordValues, newPassShow: !passwordValues.newPassShow})
+				break;
+			case 2:
+				setPasswordValues({...passwordValues, newPassConfirmationShow: !passwordValues.newPassConfirmationShow})
+				break;
+			default:
+				break;
+		}
+
 	}
 
 	async function handleSubmit(event) {
@@ -126,7 +138,7 @@ export default function ProfilePopup(props) {
 							<OutlinedInput
 								name={oldPass}
 								id="outlined-adornment-password"
-								type="password"
+								type={passwordValues.oldPassShow ? "text" : "password"}
 								onChange={handleChange}
 								startAdornment={
 									<InputAdornment position='end'>
@@ -136,14 +148,11 @@ export default function ProfilePopup(props) {
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
-										name={oldPass}
-										aria-label="toggle password visibility"
-										onMouseDown={handleClickShowPassword}
-										onMouseUp={handleClickShowPassword}
+										onMouseDown={(event) => handleClickShowPassword(event, 0)}
+										onMouseUp={(event) => handleClickShowPassword(event, 0)}
 										edge="end"
 										>
-											<Visibility />
-											{/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
+											{passwordValues.oldPassShow ? <VisibilityOff /> : <Visibility />}
 										</IconButton>
 									</InputAdornment>
 								}
@@ -151,22 +160,60 @@ export default function ProfilePopup(props) {
 								inputProps={{minLength: 8}}
 							/>
 						</FormControl>
-						<input
-							name={newPass}
-							id="passwordField"
-							type="password"
-							placeholder="Nouveau mot de passe"
-							onChange={handleChange}
-							minLength="8"
-						></input>
-						<input
-							name={newPassConfirmation}
-							id="passwordConfirmationField"
-							type="password"
-							placeholder="Confirmation nouveau mot de passe"
-							onChange={handleChange}
-							minLength="8"
-						></input>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-password">Nouveau mot de passe</InputLabel>
+							<OutlinedInput
+								name={newPass}
+								id="outlined-adornment-password"
+								type={passwordValues.newPassShow ? "text" : "password"}
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position='end'>
+										<Password />
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+										onMouseDown={(event) => handleClickShowPassword(event, 1)}
+										onMouseUp={(event) => handleClickShowPassword(event, 1)}
+										edge="end"
+										>
+											{passwordValues.newPassShow ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 8}}
+							/>
+						</FormControl>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-password">Confirmation nouveau mot de passe</InputLabel>
+							<OutlinedInput
+								name={newPassConfirmation}
+								id="outlined-adornment-password"
+								type={passwordValues.newPassConfirmationShow ? "text" : "password"}
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position='end'>
+										<Password />
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+										onMouseDown={(event) => handleClickShowPassword(event, 2)}
+										onMouseUp={(event) => handleClickShowPassword(event, 2)}
+										edge="end"
+										>
+											{passwordValues.newPassConfirmationShow ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 8}}
+							/>
+						</FormControl>
 						<input type="submit" value="Modifier" />
 						<button type="button" onClick={close} id="cancel-edit">
 							Annuler

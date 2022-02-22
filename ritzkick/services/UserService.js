@@ -83,7 +83,7 @@ export async function deleteUser() {
 		let json = await response.json()
 		console.log(json)
 
-		document.cookie = 'token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict'
+		document.cookie = 'token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Http-Only, SameSite=Strict'
 		window.location.assign('/')
 	} catch (e) {
 		console.log(e)
