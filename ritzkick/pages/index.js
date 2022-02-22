@@ -6,11 +6,12 @@ import SimpleCryptoDashboard from '../components/SimpleCryptoDashboard'
 import React, { useState, useEffect } from 'react'
 import Layout from '../components/Layout'
 
-const TITLE = 'CRYPTOOL'
-const SUB_TTTLE = "Restez à l'affut de vos cryptos favorites"
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
-export default function Home() {
+const Home = () => {
 	const [data, setData] = useState([{}])
+	const { t } = useTranslation('index')
 
 	return (
 		<>
@@ -18,8 +19,8 @@ export default function Home() {
 				<section className="section row principal center">
 					<div className="column center">
 						<div className="column center">
-							<h1 className="website-title item">{TITLE}</h1>
-							<h2 className="subtitle item">{SUB_TTTLE}</h2>
+							<h1 className="website-title item">{t('title')}</h1>
+							<h2 className="subtitle item">{t('description')}</h2>
 						</div>
 					</div>
 				</section>
@@ -41,14 +42,26 @@ export default function Home() {
 }
 
 Home.getLayout = function getLayout(page) {
+	const { t } = useTranslation('common')
+
 	return (
 		<Layout
 			pageMeta={{
-				title: 'CRYPTOOL | HOME',
-				description: 'Cryptool home page'
+				title: t('pages.index.title'),
+				description: t('pages.index.description')
 			}}
 		>
 			{page}
 		</Layout>
 	)
 }
+
+export async function getStaticProps({ locale }) {
+	return {
+		props: {
+			...(await serverSideTranslations(locale, ['common', 'index']))
+		}
+	}
+}
+
+export default Home

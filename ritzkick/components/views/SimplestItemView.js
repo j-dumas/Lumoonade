@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import GetColorBySlug from '../utils/color'
-import Icons from './Icons'
-import format from '../utils/formatter'
+import GetColorBySlug from '../../utils/color'
+import Icons from '../Icons'
+import format from '../../utils/formatter'
 
 function SimplestItemView(props) {
 	const color = GetColorBySlug(props.slug)

@@ -2,8 +2,11 @@ import Script from 'next/script'
 import React, { useEffect } from 'react'
 import Head from 'next/head'
 import GoogleLogin, { GoogleLogout } from 'react-google-login'
+import { useTranslation } from 'next-i18next'
 
 export default function GoogleSignIn() {
+	const { t } = useTranslation('forms')
+
 	function onSignIn(googleUser) {
 		var profile = googleUser.getBasicProfile()
 		console.log('ID: ' + profile.getId()) // Do not send to your backend! Use an ID token instead.
@@ -37,7 +40,7 @@ export default function GoogleSignIn() {
 				onSuccess={onSignIn}
 			/>
 			{/* <a href="#" onClick={signOut}>Sign out</a> */}
-			<h4>Se connecter avec Google</h4>
+			<h4>{t('login.google')}</h4>
 		</div>
 	)
 }
