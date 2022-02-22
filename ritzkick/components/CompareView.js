@@ -22,15 +22,20 @@ const CompareView = (props) => {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
-	const [socket] = useState(
-		io('http://localhost:3000/', {
+	const connectionUrl = `${process.env.NEXT_PUBLIC_SSL == 'false' ? 'ws': 'wss'}://${process.env.NEXT_PUBLIC_HTTPS}:${
+		process.env.NEXT_PUBLIC_PORT
+	}/`
+	const [socket, setSocket] = useState()
+
+	useEffect(() => {
+		setSocket(io(connectionUrl, {
 			auth: {
 				rooms: ['general', `graph-${dateRange}-${interval}`],
 				query: compareList,
 				graph: true
 			}
-		})
-	)
+		}))
+	}, [])
 
 	function getFirstCompareList() {
 		let paramsString = router.asPath.toString().split('/compare?assets=')[1]
