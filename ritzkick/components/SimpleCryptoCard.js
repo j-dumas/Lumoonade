@@ -21,17 +21,24 @@ function SimpleCryptoCard(props) {
 				</div>
 				<div className="row">
 					<p className="simple-crypto-view-item simple-crypto-price">{format(data.regularMarketPrice)} $</p>
-					<p
-						className={
-							data.regularMarketChange > 0
-								? 'simple-crypto-view-item simple-crypto-change c-green'
-								: data.regularMarketChange == 0
-								? 'simple-crypto-view-item simple-crypto-change c-white'
-								: 'simple-crypto-view-item simple-crypto-change decrease'
-						}
-					>
-						{format(data.regularMarketChangePercent)} %
-					</p>
+					{data.regularMarketChange >= 0 ?
+					<>
+						<p className='simple-crypto-view-item simple-crypto-change c-green'>
+							+{format(data.regularMarketChangePercent)} %
+						</p>
+						<p className='simple-crypto-view-item simple-crypto-change c-green'>
+							+{format(data.regularMarketChange)} $
+						</p>
+					</>
+					:
+					<>
+						<p className='simple-crypto-view-item simple-crypto-change decrease'>
+							{format(data.regularMarketChangePercent)} %
+						</p>
+						<p className='simple-crypto-view-item simple-crypto-change decrease'>
+							{format(data.regularMarketChange)} $
+						</p>
+					</>}
 				</div>
 				{props.chartData?
 					<SimpleChart data={props.chartData} increase={data.regularMarketChange > 0}/>

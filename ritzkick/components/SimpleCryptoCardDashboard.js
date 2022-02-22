@@ -18,7 +18,7 @@ function SimpleCryptoCardDashboard(props) {
 	}, [])
 
 	return (
-		<>
+		<section className="section row center principal">
 			{datas.map((element, i) => {
 				let chartData = null
 				chartDatas.map((chartElement) => {
@@ -31,7 +31,7 @@ function SimpleCryptoCardDashboard(props) {
                     <SimpleCryptoCard data={element} chartData={chartData} key={element.fromCurrency}/>
                 )
             })}
-		</>
+		</section>
 	)
 }
 

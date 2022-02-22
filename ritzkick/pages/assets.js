@@ -13,6 +13,7 @@ export default function Assets() {
 	const [list, setList] = useState([])
 
 	const [socket, setSocket] = useState()
+	const [favSocket, setFavSocket] = useState()
 
 	useState(async () => {
 		//let assets = await Functions.GetTopPopularCryptocurrencies()
@@ -21,13 +22,23 @@ export default function Assets() {
 
 		//setList['btc', 'eth']
 
+		setFavSocket(
+			io('http://localhost:3000/', {
+				auth: {
+					rooms: ['general', `graph-1d-30m`],
+					query: ['btc-cad', 'eth-cad', 'ltc-cad', 'bnb-cad', 'ada-cad'],
+					graph: true
+				}
+			})
+		)
+
 		setSocket(
 			io('http://localhost:3000/', {
-			auth: {
-				rooms: ['general', `graph-1d-30m`],
-				query: ['btc-cad', 'eth-cad', 'ltc-cad', 'ada-cad', 'bnb-cad', 'doge-cad'],
-				graph: true
-			}
+				auth: {
+					rooms: ['general', `graph-1d-30m`],
+					query: ['btc-cad', 'eth-cad', 'ltc-cad', 'ada-cad', 'bnb-cad', 'doge-cad'],
+					graph: true
+				}
 			})
 		)
 	}, [])
@@ -42,7 +53,15 @@ export default function Assets() {
 			/>
 			<Header />
 
-			<section className="section row center principal first">
+			<section className="section column center principal first">
+				<form className='row' action="">
+					<input type="search" />
+					<button>Search</button>
+				</form>
+				
+				<h1>Favorites</h1>
+				<SimpleCryptoCardDashboard socket={favSocket}/>
+				<h1>Markets</h1>
 				<SimpleCryptoCardDashboard socket={socket}/>
 			</section>
 

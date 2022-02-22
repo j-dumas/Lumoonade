@@ -9,7 +9,7 @@ function SimpleChart(props) {
 		labels: props.data.response[0].timestamp,
 		datasets: [
 			{
-				label: 'TEST',
+				label: 'Value',
 				fill: false,
 				lineTension: 0.25,
 				backgroundColor: 'rgb(38, 39, 40)',
