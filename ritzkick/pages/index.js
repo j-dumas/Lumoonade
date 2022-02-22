@@ -1,6 +1,3 @@
-import DomHead from '../components/DomHead'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 import BottomArrow from '../components/BottomArrow'
 import SimpleCryptoDashboard from '../components/SimpleCryptoDashboard'
 import React, { useState, useEffect } from 'react'
