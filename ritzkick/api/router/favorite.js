@@ -81,12 +81,14 @@ router.delete('/api/favorite/:slug', authentification, async (req, res) => {
 			slug: req.params.slug
 		}
 		const obj = await Favorite.findOne(filter).exec()
-		if (!obj) throw new NotFoundHttpError()
-		await Favorite.deleteOne(filter)
+		if (!obj) {
+			return res.status(404).send()
+		}
+		let favorite = await Favorite.findOneAndDelete(filter)
 		await req.user.removeFavoriteAndSave(favorite._id)
 		res.status(204).send()
 	} catch (e) {
-		await sendError(res, e)
+		res.status(400).send()
 	}
 })
 
