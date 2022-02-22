@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 
 const io = require('socket.io-client')
 
-function CompareView(props) {
+const CompareView = (props) => {
 	const router = useRouter()
 	const [slug, setSlug] = useState('BTC' + '-' + props.currency)
 	const [firstData, setFirstData] = useState()

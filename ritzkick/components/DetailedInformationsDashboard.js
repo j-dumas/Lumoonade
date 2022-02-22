@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 const io = require('socket.io-client')
 const parser = require('../application/socket/utils/parser')
 
-function CompareView(props) {
+const DetailedInformationsDashboard = (props) => {
 	const [data, setData] = useState([])
 	useEffect(async () => {
 		props.socket.on('data', (a) => {
@@ -41,4 +41,4 @@ function CompareView(props) {
 		</div>
 	)
 }
-export default CompareView
+export default DetailedInformationsDashboard
