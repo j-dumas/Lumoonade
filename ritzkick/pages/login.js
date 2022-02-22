@@ -1,6 +1,6 @@
 import DomHead from '../components/DomHead'
 import Footer from '../components/Footer'
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/forms/LoginForm'
 import Bubbles from '../components/Bubbles'
 import Layout from '../components/Layout'
 import { useEffect } from 'react'

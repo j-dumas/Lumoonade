@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Line, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
-import GetColorBySlug from '../utils/color'
-import Functions from '../services/CryptoService'
+import GetColorBySlug from '../../utils/color'
+import Functions from '../../services/CryptoService'
 import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)

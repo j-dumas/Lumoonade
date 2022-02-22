@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ButtonLegend from './ButtonLegend'
+import ButtonLegend from '../ButtonLegend'
 
 export default function DetailedChartMenu(props) {
 	const [showPrice, setShowPrice] = useState(true)

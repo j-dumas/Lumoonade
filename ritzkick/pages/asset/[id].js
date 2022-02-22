@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DomHead from '../../components/DomHead'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import DetailedCryptoView from '../../components/DetailedCryptoView'
+import DetailedCryptoView from '../../components/views/DetailedCryptoView'
 
 export default function Asset({ assetData }) {
 	return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import SimpleCryptoView from './SimpleCryptoView'
+import SimpleCryptoView from './views/SimpleCryptoView'
 
 import Functions from '../services/CryptoService'
 

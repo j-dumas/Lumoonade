@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DomHead from '../components/DomHead'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import CompareView from '../components/CompareView'
+import CompareView from '../components/views/CompareView'
 import Layout from '../components/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
-import Google from './/GoogleSignIn'
-import AndSeparator from './AndSeparator'
-import Separator from './Separator'
-import { register } from '../services/AuthService'
+import Google from '../GoogleSignIn'
+import AndSeparator from '../AndSeparator'
+import Separator from '../Separator'
+import { register } from '../../services/AuthService'
 import Link from 'next/link'
 
 import { useTranslation } from 'next-i18next'

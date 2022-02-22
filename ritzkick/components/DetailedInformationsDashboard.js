@@ -8,8 +8,8 @@ import Functions, {
 } from '../services/CryptoService'
 import ButtonFavorite from '../components/ButtonFavorite'
 import DetailedInformations from '../components/DetailedInformations'
-import DetailedChart from './DetailedChart'
-import CompareMenu from './CompareMenu'
+import DetailedChart from './charts/DetailedChart'
+import CompareMenu from './menus/CompareMenu'
 import { useRouter } from 'next/router'
 
 const io = require('socket.io-client')

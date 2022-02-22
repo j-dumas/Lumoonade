@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Functions from '../services/CryptoService'
-import ButtonFavorite from '../components/ButtonFavorite'
-import SimplestItemView from './SimplestItemView'
+import Functions from '../../services/CryptoService'
+import ButtonFavorite from '../ButtonFavorite'
+import SimplestItemView from '../views/SimplestItemView'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'next-i18next'
