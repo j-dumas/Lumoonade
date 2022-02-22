@@ -3,24 +3,36 @@ import DomHead from '../../components/DomHead'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import DetailedCryptoView from '../../components/views/DetailedCryptoView'
+import Layout from '../../components/Layout'
 
-export default function Asset({ assetData }) {
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+
+const Asset = ({ assetData }) => {
 	return (
-		<div>
-			<DomHead
-				pageMeta={{
-					title: 'Asset',
-					description: 'Cryptool asset page'
-				}}
-			/>
-			<Header />
-
+		<>
 			<section className="section column principal first center">
 				<DetailedCryptoView slug={assetData.slug} currency="CAD" />
 			</section>
+		</>
+	)
+}
 
-			<Footer />
-		</div>
+Asset.getLayout = function getLayout(page) {
+	const { t } = useTranslation('common')
+	const router = useRouter()
+	const { id } = router.query
+
+	return (
+		<Layout
+			pageMeta={{
+				title: `${t('pages.asset.title')} ${id.toUpperCase()}`,
+				description: t('pages.asset.description')
+			}}
+		>
+			{page}
+		</Layout>
 	)
 }
 
@@ -32,11 +44,12 @@ export async function getStaticPaths() {
 	}
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, locale }) {
 	const assetData = await getAssetData(params.id)
 	return {
 		props: {
-			assetData
+			assetData,
+			...(await serverSideTranslations(locale, ['common', 'crypto']))
 		}
 	}
 }
@@ -76,3 +89,5 @@ export async function getAssetData(id) {
 		slug: id //d.toString().toUpperCase()
 	}
 }
+
+export default Asset
