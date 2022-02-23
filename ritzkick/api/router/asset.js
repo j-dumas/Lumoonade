@@ -64,7 +64,7 @@ const { sendError, ServerError } = require('../../utils/http_errors')
  * 	"error": "Unable to fetch assets"
  * }
  */
-router.get(paths.assets.search.db, pagination, async (req, res) => {
+router.get(`${paths.assets.search.db}:slug`, pagination, async (req, res) => {
 	try {
 		const searchedValue = req.params.value
 		const assets = await Asset.find({
@@ -107,7 +107,7 @@ router.get(paths.assets.search.db, pagination, async (req, res) => {
  * ]
  * @returns {string} 500 - server error
  */
-router.get(paths.assets.search.yahoo, async (req, res) => {
+router.get(`${paths.assets.search.yahoo}:slug`, async (req, res) => {
 	try {
 		const slug = req.params.slug
 		let data = await fetchMarketData(slug)
@@ -404,7 +404,7 @@ router.get(paths.assets.populars, pagination, async (req, res) => {
  *]
  * @returns {string} 500 - server error
  */
-router.get(paths.assets.chart, async (req, res) => {
+router.get(`${paths.assets.chart}:slug`, async (req, res) => {
 	try {
 		const response = await fetchSymbol(req.params.slug, {
 			range: req.query.dateRange,

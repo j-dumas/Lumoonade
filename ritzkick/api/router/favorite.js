@@ -76,7 +76,7 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
  *	}
  * @security BearerAuth
  */
-router.delete(paths.favorites.delete, authentification, async (req, res) => {
+router.delete(`${paths.favorites.delete}:slug`, authentification, async (req, res) => {
 	try {
 		let filter = {
 			owner: req.user._id,
