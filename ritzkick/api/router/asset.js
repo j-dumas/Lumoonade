@@ -84,7 +84,7 @@ router.get(`${paths.assets.search.db}:value`, pagination, async (req, res) => {
 })
 
 /**
- * GET /api/crypto/search/{slug}
+ * GET /api/yahoo/search/{slug}
  * @summary Searching for an asset on yahoo default endpoint
  * @tags Asset
  * @param {string} slug.path.required - The searched slug
@@ -333,7 +333,7 @@ router.get(paths.assets.populars, pagination, async (req, res) => {
 })
 
 /**
- * GET /api/crypto/chart/{slug}
+ * GET /api/yahoo/chart/{slug}
  * @summary Getting chart values for an asset on yahoo default endpoint
  * @tags Asset
  * @param {string} slug.path.required - The searched slug

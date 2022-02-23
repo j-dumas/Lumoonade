@@ -9,14 +9,14 @@
 		"all": "/api/assets/all",
 		"search": {
 			"db": "/api/assets/search/",
-			"yahoo": "/api/crypto/search/"
+			"yahoo": "/api/yahoo/search/"
 		},
 		"populars": "/api/assets/popular",
 		"top": {
 			"gainers": "/api/assets/top/gainers",
 			"loser": "/api/assets/top/losers"
 		},
-		"chart": "/api/crypto/chart/"
+		"chart": "/api/yahoo/chart/"
 	},
 	"auth": {
 		"login": "/api/auth/login",
