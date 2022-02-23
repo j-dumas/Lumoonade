@@ -1,43 +1,48 @@
 const express = require('express')
 const router = express.Router()
-const Confirmation = require('../../db/model/watchlist')
-const { sendError, NotFoundHttpError } = require('../../utils/http_errors')
-const auth = require('../middleware/auth')
-const es = require('../../application/email/email-service')
+const Confirmation = require('../../db/model/confirmation')
+const emailSender = require('../../application/email/email')
+const validator = require('validator').default
 
-const paths = require('../routes.json')
-
-router.post(paths.alerts.create, auth, async (req, res) => {
+router.post('/api/confirmations', async (req, res) => {
 	try {
-		const user = req.user
-		let queryData = {
-			owner: user._id,
-			...req.body
+		const { email } = req.body
+		if (!email) {
+			throw new Error('Please provide an email in the body.')
+		}
+		
+		if (!validator.isEmail(email)) {
+			throw new Error('Please provide a valid email format.')
 		}
 
-		const { slug } = queryData
-
-		const watchlist = new Watchlist(queryData)
-		await watchlist.save()
-		await req.user.addWatchlistAlertAndSave(watchlist)
-		es.notifyAdd(slug)
-		res.status(201).send(watchlist)
+		const _ = await dropIfExist(email)
+		const confirmation = new Confirmation({ email })
+		await confirmation.save()
+		let token = await confirmation.makeConfirmationToken()
+		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/email-confirmation?key=${token}`
+		// emailSender.sendConfirmationEmail(email, link)
+		res.status(201).send({
+			token,
+			confirmation
+		})
 	} catch (e) {
-		await sendError(res, e)
+		res.status(400).send({
+			message: e.message
+		})
 	}
 })
 
-router.get('/api/confirmation/verify/:jwt', auth, async (req, res) => {
+router.get('/api/confirmation/verify/:jwt', async (req, res) => {
     try {
 		const token = req.params.jwt
 		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
 		const { email, secret } = decoded
-		const reset = await Confirmation.findOne({ email, secret })
-		if (!reset) {
+		const confirmation = await Confirmation.findOne({ email, secret })
+		if (!confirmation) {
 			throw new Error('Token may be outdated.')
 		}
 
-		const decodedTokenStored = jwt.verify(reset.resetToken, process.env.RESET_JWT_SECRET)
+		const decodedTokenStored = jwt.verify(confirmation.confirmationTokens, process.env.RESET_JWT_SECRET)
 
 		const modified = !Object.keys(decoded).every((key) => {
 			return decoded[key] === decodedTokenStored[key]
@@ -47,8 +52,8 @@ router.get('/api/confirmation/verify/:jwt', auth, async (req, res) => {
 			throw new Error('Token is corrupted')
 		}
 
-		reset.attemps = parseInt(reset.attemps) + 1
-		await reset.save()
+		console.log('Verified')
+		await confirmation.save()
 		res.send()
 	} catch (e) {
 		res.status(400).send({
@@ -56,5 +61,9 @@ router.get('/api/confirmation/verify/:jwt', auth, async (req, res) => {
 		})
 	}
 })
+
+const dropIfExist = async (email) => {
+	return await Confirmation.findOneAndDelete({ email })
+}
 
 module.exports = router

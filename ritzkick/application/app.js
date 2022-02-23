@@ -13,6 +13,7 @@ const assetRouter = require('../api/router/asset')
 const alertRouter = require('../api/router/alert')
 const authRouter = require('../api/router/auth')
 const resetRouter = require('../api/router/reset')
+const confirmationRouter = require('../api/router/confirmation')
 
 const server = express()
 
@@ -29,5 +30,6 @@ server.use(alertRouter)
 server.use(watchlistRouter)
 server.use(walletRouter)
 server.use(userRouter)
+server.use(confirmationRouter)
 
 module.exports = server
