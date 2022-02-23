@@ -13,7 +13,7 @@ module.exports = {
 	},
 	baseDir: __dirname,
 	filesPattern: '../api/**/*.js',
-	swaggerUIPath: '/api-docs',
+	swaggerUIPath: '/api/docs',
 	servers: [
 		{
 			url: 'http://localhost:3000',
