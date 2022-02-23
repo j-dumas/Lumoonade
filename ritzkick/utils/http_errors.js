@@ -54,9 +54,14 @@ class ServerError extends HttpError {
 }
 
 async function sendError(res, e) {
-	res.status(e.status).send({
-		error: e.message
-	})
+	if (e.status)
+		res.status(e.status).send({
+			error: e.message
+		})
+	else
+		res.status(500).send({
+			error: e.message
+		})
 }
 
 module.exports = {
