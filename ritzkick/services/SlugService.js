@@ -20,7 +20,7 @@ function createAsset(element) {
 }
 
 function readSlugs() {
-	const txt = fs.readFileSync(`${__dirname}/../application/data/slugs.txt`, 'utf-8')
+	const txt = fs.readFileSync(`${__dirname}/../application/data/symbols.txt`, 'utf-8')
 	const slugs = txt.split('\n')
 	return slugs
 }
