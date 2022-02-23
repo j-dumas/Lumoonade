@@ -2,7 +2,14 @@ const mongoose = require('mongoose')
 
 const assetSchema = new mongoose.Schema(
 	{
-		slug: {
+		symbol: {
+			type: String,
+			required: true,
+			trim: true,
+			lowercase: true,
+			unique: true
+		},
+		name: {
 			type: String,
 			required: true,
 			trim: true,

@@ -6,6 +6,8 @@ const router = express.Router()
 const { NotFoundHttpError, ConflictHttpError, sendError } = require('../../utils/http_errors')
 require('../swagger_models')
 
+const paths = require('../routes.json')
+
 /**
  * Favorite Creation Model
  * @typedef {object} FavoriteRequest
@@ -39,7 +41,7 @@ require('../swagger_models')
  *	}
  * @security BearerAuth
  */
-router.post('/api/favorite', authentification, async (req, res) => {
+router.post(paths.favorites.create, authentification, async (req, res) => {
 	try {
 		let data = {
 			owner: req.user._id,
@@ -74,7 +76,7 @@ router.post('/api/favorite', authentification, async (req, res) => {
  *	}
  * @security BearerAuth
  */
-router.delete('/api/favorite/:slug', authentification, async (req, res) => {
+router.delete(paths.favorites.delete, authentification, async (req, res) => {
 	try {
 		let filter = {
 			owner: req.user._id,
