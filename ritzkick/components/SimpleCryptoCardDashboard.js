@@ -8,7 +8,7 @@ function SimpleCryptoCardDashboard(props) {
     useEffect(() => {
 		props.socket.on('data', (data) => {
 			setDatas(data)
-			console.log(data)
+			//console.log(data)
 		})
 		props.socket.on('graph', (data) => {
 			setChartDatas(data)

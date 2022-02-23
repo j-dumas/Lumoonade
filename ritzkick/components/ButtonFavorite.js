@@ -12,7 +12,6 @@ function ButtonFavorite(props) {
 
 	useEffect(async () => {
 		if (!isUserConnected()) return
-		
 	}, [favorite])
 
 	return (

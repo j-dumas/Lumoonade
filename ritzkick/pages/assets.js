@@ -6,6 +6,7 @@ import SimpleCryptoCardDashboard from '../components/SimpleCryptoCardDashboard'
 import Functions from '../services/CryptoService'
 import { getFavorites } from '../services/UserService'
 import { isUserConnected } from '../services/AuthService'
+import {SlugArrayToSymbolArray} from '../utils/crypto'
 const io = require('socket.io-client')
 
 const CURRENCY = "usd"
@@ -22,23 +23,20 @@ export default function Assets() {
 	async function updateSearchList(event) {
 		event.preventDefault()
 		let search = event.target[0].value
-		if (!search) search = 'a'
+		if (!search || search == undefined || search == "") return
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 16)
 		let symbols = []
 		list.assets.map((element) => {
-			symbols.push(element.slug+'-'+CURRENCY)
+			symbols.push(element.symbol+'-'+CURRENCY)
 		})
-		
 		setSearchList(symbols)
 	}
 	
 	useEffect(async () => {
 		if (!isUserConnected()) return
-		let dummyFavList = await getFavorites()
-		dummyFavList.map((element, i) => {
-			dummyFavList[i] = element.slug + '-' + CURRENCY
-		})
-		setFavList(dummyFavList)
+		let slugs = await getFavorites()
+		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
+		setFavList(symbols)
 	}, [])
 
 	useEffect(() => {
