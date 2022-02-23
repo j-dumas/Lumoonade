@@ -19,7 +19,7 @@ function parseData() {
 	let parsedData = []
 	data.forEach((element) => {
 		let tempValue = {
-			label: element.slug,
+			label: element.name,
 			value: element.slug
 		}
 		parsedData.push(tempValue)
