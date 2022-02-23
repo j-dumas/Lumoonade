@@ -59,10 +59,10 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
 })
 
 /**
- * DELETE /api/favorite/:slug
+ * DELETE /api/favorite/{slug}
  * @summary Deleting a favorite default endpoint
  * @tags Favorite
- * @param {string} slug.path - Favorite slug
+ * @param {string} slug.path.required - Favorite slug
  * @return {object} 204 - deleted
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -76,7 +76,7 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
  *	}
  * @security BearerAuth
  */
-router.delete(paths.favorites.delete, authentification, async (req, res) => {
+router.delete(`${paths.favorites.delete}:slug`, authentification, async (req, res) => {
 	try {
 		let filter = {
 			owner: req.user._id,

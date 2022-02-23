@@ -38,7 +38,7 @@ async function modifyTopAssets(option) {
 }
 
 async function addToDB(model, element) {
-	const asset = await new model({ slug: element.symbol, percentage: element.price_change_1D_percent })
+	const asset = await new model({ symbol: element.symbol, percentage: element.price_change_1D_percent })
 	await asset.save()
 }
 
