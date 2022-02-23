@@ -12,7 +12,58 @@ const { fetchPopularAssets, modifyPopularAssets } = require('../../services/Popu
 const router = express.Router()
 
 const paths = require('../routes.json')
+const { sendError, ServerError } = require('../../utils/http_errors')
 
+/**
+ * Asset Response Model
+ * @typedef {object} AssetResponse
+ * @property {string} _id - ID of the asset
+ * @property {string} symbol - Symbol of the asset
+ * @property {string} name - Name of the asset
+ * @property {number} searchedCount - Number of times the asset has been searched
+ */
+
+/**
+ * Top Asset Response Model
+ * @typedef {object} TopAssetResponse
+ * @property {string} _id - ID of the asset
+ * @property {string} symbol - Symbol of the asset
+ * @property {number} percentage - Percentage of gain or loss
+ */
+
+/**
+ * GET /api/assets/search/{value}
+ * @summary Searching for an asset in the database default endpoint
+ * @tags Asset
+ * @param {string} value.path.required - The searched value (name or symbol)
+ * @param {number} page.query - The page number to show (defaults to 1)
+ * @param {number} limit.query - The limit number per page to show (defaults to 5)
+ * @returns {AssetResponse} 200 - success
+ * @example response - 200 - example success search
+ * {
+ * 	"assets": [
+ * 		{
+ *			"_id": "6215936867d12a1a4b20fd73",
+ *  		"symbol": "btc",
+ *  		"name": "bitcoin",
+ *  		"searchedCount": 0
+ * 		}
+ * 	],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @example response - 200 - example empty response search
+ * {
+ * 	"assets": [],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @returns {string} 500 - server error
+ * @example response - 500 - example server error
+ * {
+ * 	"error": "Unable to fetch assets"
+ * }
+ */
 router.get(paths.assets.search.db, pagination, async (req, res) => {
 	try {
 		const searchedValue = req.params.value
@@ -28,12 +79,34 @@ router.get(paths.assets.search.db, pagination, async (req, res) => {
 		}
 		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
-		res.status(400).send({
-			error: e.message
-		})
+		sendError(res, e)
 	}
 })
 
+/**
+ * GET /api/crypto/search/{slug}
+ * @summary Searching for an asset on yahoo default endpoint
+ * @tags Asset
+ * @param {string} slug.path.required - The searched slug
+ * @returns {object} 200 - success
+ * @example response - 200 - example success search
+ * [
+ *	{
+ *      "currency": "USD",
+ *      "regularMarketDayHigh": 99.1568,
+ *      "regularMarketDayLow": 99.07,
+ *      "regularMarketChange": -0.0374985,
+ *      "regularMarketChangePercent": -0.0378209,
+ *      "regularMarketPrice": 99.11,
+ *      "regularMarketVolume": 2968,
+ *      "averageDailyVolume3Month": 869,
+ *      "averageDailyVolume10Day": 2418,
+ *      "symbol": "BTC",
+ *      "shortName": "ClearShares Piton Intermediate "
+ *	}
+ * ]
+ * @returns {string} 500 - server error
+ */
 router.get(paths.assets.search.yahoo, async (req, res) => {
 	try {
 		const slug = req.params.slug
@@ -68,28 +141,89 @@ router.get(paths.assets.search.yahoo, async (req, res) => {
 			})
 		})
 
-		res.send(response)
+		res.status(200).send(response)
 	} catch (e) {
-		res.status(400).send({
+		res.status(500).send({
 			error: e.message
 		})
 	}
 })
 
+/**
+ * GET /api/assets/all
+ * @summary All of the assets in the database default endpoint
+ * @tags Asset
+ * @param {number} page.query - The page number to show (defaults to 1)
+ * @param {number} limit.query - The limit number per page to show (defaults to 5)
+ * @returns {AssetResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ * 	"assets": [
+ * 		{
+ *			"_id": "6215936867d12a1a4b20fd73",
+ *  		"symbol": "btc",
+ *  		"name": "bitcoin",
+ *  		"searchedCount": 0
+ * 		}
+ * 	],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @example response - 200 - example empty response
+ * {
+ * 	"assets": [],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @returns {string} 500 - server error
+ * @example response - 500 - example server error
+ * {
+ * 	"error": "Unable to fetch assets"
+ * }
+ */
 router.get(paths.assets.all, pagination, async (req, res) => {
 	try {
 		const assets = await Asset.find().limit(req.limit).skip(req.skipIndex).exec()
-		if (!assets || assets.length === 0) {
-			throw new Error('Unable to fetch assets')
+		if (!assets) {
+			throw new ServerError('Unable to fetch assets')
 		}
 		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
-		res.status(404).send({
-			error: e.message
-		})
+		sendError(res, e)
 	}
 })
 
+/**
+ * GET /api/assets/top/gainers
+ * @summary Top gainers stored in the database default endpoint
+ * @tags Asset
+ * @param {number} page.query - The page number to show (defaults to 1)
+ * @param {number} limit.query - The limit number per page to show (defaults to 5)
+ * @returns {TopAssetResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ * 	"assets": [
+ * 		{
+ *			"_id": "62167ae4fe6c10e06f6b1250",
+ *  		"symbol": "osmo",
+ *  		"percentage": 11.19
+ * 		}
+ * 	],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @example response - 200 - example empty response
+ * {
+ * 	"assets": [],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @returns {string} 500 - server error
+ * @example response - 500 - example server error
+ * {
+ * 	"error": "Unable to fetch assets"
+ * }
+ */
 router.get(paths.assets.top.gainers, pagination, async (req, res) => {
 	try {
 		await verifyTopAssets(options.gainers)
@@ -103,6 +237,37 @@ router.get(paths.assets.top.gainers, pagination, async (req, res) => {
 	}
 })
 
+/**
+ * GET /api/assets/top/losers
+ * @summary Top losers stored in the database default endpoint
+ * @tags Asset
+ * @param {number} page.query - The page number to show (defaults to 1)
+ * @param {number} limit.query - The limit number per page to show (defaults to 5)
+ * @returns {TopAssetResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ * 	"assets": [
+ * 		{
+ *			"_id": "62167b9a70dab428073078ec",
+ *  		"symbol": "bit5",
+ *  		"percentage": -1.15
+ * 		}
+ * 	],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @example response - 200 - example empty response
+ * {
+ * 	"assets": [],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @returns {string} 500 - server error
+ * @example response - 500 - example server error
+ * {
+ * 	"error": "Unable to fetch assets"
+ * }
+ */
 router.get(paths.assets.top.loser, pagination, async (req, res) => {
 	try {
 		await verifyTopAssets(options.losers)
@@ -116,6 +281,38 @@ router.get(paths.assets.top.loser, pagination, async (req, res) => {
 	}
 })
 
+/**
+ * GET /api/assets/popular
+ * @summary Popular assets in the database default endpoint (based on searchedCount)
+ * @tags Asset
+ * @param {number} page.query - The page number to show (defaults to 1)
+ * @param {number} limit.query - The limit number per page to show (defaults to 5)
+ * @returns {AssetResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ * 	"assets": [
+ * 		{
+ *			"_id": "6215936867d12a1a4b20fd73",
+ *  		"symbol": "btc",
+ *  		"name": "bitcoin",
+ *  		"searchedCount": 10000
+ * 		}
+ * 	],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @example response - 200 - example empty response
+ * {
+ * 	"assets": [],
+ * 	"page": 1,
+ * 	"count": 1
+ * }
+ * @returns {string} 500 - server error
+ * @example response - 500 - example server error
+ * {
+ * 	"error": "Unable to fetch assets"
+ * }
+ */
 router.get(paths.assets.populars, pagination, async (req, res) => {
 	try {
 		// const isEmpty = await Popular.isEmpty('populars')
@@ -126,15 +323,87 @@ router.get(paths.assets.populars, pagination, async (req, res) => {
 		// }
 
 		const assets = await Asset.find().sort({ searchedCount: -1 }).limit(req.limit).skip(req.skipIndex).exec()
-		if (!assets || assets.length === 0) {
-			throw new Error('Unable to fetch assets')
+		if (!assets) {
+			throw new ServerError('Unable to fetch assets')
 		}
 		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
 	} catch (e) {
-		res.status(500).send({ error: e.message })
+		sendError(res, e)
 	}
 })
 
+/**
+ * GET /api/crypto/chart/{slug}
+ * @summary Getting chart values for an asset on yahoo default endpoint
+ * @tags Asset
+ * @param {string} slug.path.required - The searched slug
+ * @returns {object} 200 - success
+ * @example response - 200 - example success response
+ * [
+ *  {
+ *      "symbol": "btc",
+ *      "response": [
+ *          {
+ *              "meta": {
+ *                  "currency": "USD",
+ *                  "symbol": "BTC",
+ *                  "exchangeName": "PCX",
+ *                  "instrumentType": "ETF",
+ *                  "firstTradeDate": 1601559000,
+ *                  "regularMarketTime": 1620674710,
+ *                  "gmtoffset": -18000,
+ *                  "timezone": "EST",
+ *                  "exchangeTimezoneName": "America/New_York",
+ *                  "regularMarketPrice": 99.11,
+ *                  "chartPreviousClose": 99.1475,
+ *                  "previousClose": 99.1475,
+ *                  "scale": 4,
+ *                  "priceHint": 2,
+ *                  "currentTradingPeriod": {
+ *                      "pre": {
+ *                          "timezone": "EST",
+ *                          "start": 1645606800,
+ *                          "end": 1645626600,
+ *                          "gmtoffset": -18000
+ *                      },
+ *                      "regular": {
+ *                          "timezone": "EST",
+ *                          "start": 1645626600,
+ *                          "end": 1645650000,
+ *                          "gmtoffset": -18000
+ *                      },
+ *                      "post": {
+ *                          "timezone": "EST",
+ *                          "start": 1645650000,
+ *                          "end": 1645664400,
+ *                          "gmtoffset": -18000
+ *                      }
+ *                  },
+ *                  "dataGranularity": "1h",
+ *                  "range": "1d",
+ *                  "validRanges": [
+ *                      "1d",
+ *                      "5d",
+ *                      "1mo",
+ *                      "3mo",
+ *                      "6mo",
+ *                      "1y",
+ *                      "2y",
+ *                      "ytd",
+ *                      "max"
+ *                  ]
+ *              },
+ *              "indicators": {
+ *                  "quote": [
+ *                      {}
+ *                  ]
+ *              }
+ *          }
+ *      ]
+ *	}
+ *]
+ * @returns {string} 500 - server error
+ */
 router.get(paths.assets.chart, async (req, res) => {
 	try {
 		const response = await fetchSymbol(req.params.slug, {
@@ -143,7 +412,7 @@ router.get(paths.assets.chart, async (req, res) => {
 		})
 		res.send(response)
 	} catch (e) {
-		res.status(404).send({
+		res.status(500).send({
 			error: e.message
 		})
 	}
