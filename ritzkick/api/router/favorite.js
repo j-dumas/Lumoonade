@@ -62,7 +62,7 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
  * DELETE /api/favorite/:slug
  * @summary Deleting a favorite default endpoint
  * @tags Favorite
- * @param {string} slug.path - Favorite slug
+ * @param {string} slug.path.required - Favorite slug
  * @return {object} 204 - deleted
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
