@@ -30,8 +30,12 @@ const initialize = (server) => {
 	)
 
 	general.getService().cleanCallback((data) => {
-		if (data.length === 0) return data
-		return data.quoteResponse.result
+		try {
+			if (data.length === 0) return data
+			return data.quoteResponse.result
+		} catch (e) {
+			return data
+		}
 	})
 
 	// ---------------------------------------
@@ -39,23 +43,20 @@ const initialize = (server) => {
 	// and then it emits the result to all sockets in the room
 	// ---------------------------------------
 	general.getService().listenCallback((room, data) => {
-		console.log('----------------------')
-		console.log('room members:', room.clients.length)
-		console.log('data contents:', data.length)
+		if (!data) return
+		if (data.length === 0) return
+		if (!room) return
 		room.clients.forEach((client) => {
 			// Keeping what the client asked for
-			const result = parser.keepFromList(data, {
-				searchTerm: 'symbol',
-				keep: client.query
-			})
-
-			console.log(client.socket.id, 'asked', result.length)
-
-			// if (result.length === 0) {
-			// 	return client.socket.disconnect()
-			// }
-
-			client.socket.emit('data', result)
+			try {
+				const result = parser.keepFromList(data, {
+					searchTerm: 'symbol',
+					keep: client.query
+				})
+				if (result.length !== 0) {
+					client.socket.emit('data', result)
+				}
+			} catch (_) {}
 		})
 	})
 
@@ -77,10 +78,6 @@ const initialize = (server) => {
 		// This is used to update the query list of a socket
 		// ---------------------------------------
 		socket.on('update', (id, query) => {
-			if (query.length === 0) {
-				log.error('Update', 'Query empty, so kicking ' + id)
-				return socket.disconnect()
-			}
 			log.info('Update', `Updating values for ${id}`)
 			let rooms = rm.getRoomsOfSocket(id)
 			rooms.forEach((room) => {
@@ -121,6 +118,14 @@ const initialize = (server) => {
 	})
 }
 
+/**
+ * This is the main process that every socket goes thru.
+ * @param {socket} socket socket
+ * @param {list} rooms list of all rooms
+ * @param {list} query list of what they want to see
+ * @param {string} append content to append on the service's url
+ * @param {boolean} graph this feature is deprecated, it was used to tell if the room needed graph calls
+ */
 const connectionProcess = (socket, rooms, query, append, graph) => {
 	rooms.forEach((room) => {
 		let r = rm.getRoom(room)

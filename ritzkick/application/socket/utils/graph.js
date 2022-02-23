@@ -3,9 +3,15 @@ const Service = require('../service')
 const parser = require('./parser')
 const moment = require('moment')
 
-// Adding combinaisons array with slice soon
+// This is all the possible values available on finance.yahoo.com.
 let combinaisons = ['1m', '2m', '5m', '15m', '30m', '1h', '1d', '1wk', '1mo', '3mo']
 
+/**
+ * Get the content from a point to another
+ * @param {string} from 
+ * @param {string} to 
+ * @returns list of all combinaisons in that range.
+ */
 const fromTo = (from, to) => {
 	let start = combinaisons.indexOf(from)
 	let end = combinaisons.indexOf(to) + 1
@@ -38,7 +44,7 @@ const populate = () => {
 		graphRoom[room].forEach((interval) => {
 			// Creating the room
 			let roomName = `graph-${room}-${interval}`
-			rm.add(roomName)
+			rm.add(roomName, true)
 			let r = rm.getRoom(roomName)
 			r.setGraph(true)
 			// Binding a service to the room
@@ -70,12 +76,17 @@ const populate = () => {
 
 			// Binding a callback when a value is retrieved from the service.
 			r.getService().listenCallback((room, data) => {
+				if (!data) return
+				if (data.length === 0) return
+				if (!room.clients) return
 				room.clients.forEach((client) => {
-					const result = parser.keepFromList(data, {
-						searchTerm: 'symbol',
-						keep: client.query
-					})
-					client.socket.emit('graph', result)
+					try {
+						const result = parser.keepFromList(data, {
+							searchTerm: 'symbol',
+							keep: client.query
+						})
+						client.socket.emit('graph', result)
+					} catch (_) {}
 				})
 			})
 
