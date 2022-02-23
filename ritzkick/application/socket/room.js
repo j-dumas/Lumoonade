@@ -1,5 +1,3 @@
-const log = require('../../utils/logging')
-
 class Room {
 	constructor(name, graph = false) {
 		this.name = name
@@ -29,7 +27,6 @@ class Room {
 
 	append(socket) {
 		if (this._exists(socket)) return false
-		// log.info('Room', socket.id + ' added to the room ' + `'${this.name}'`)
 		this.clients.push({
 			id: socket.id,
 			socket,

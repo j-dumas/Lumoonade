@@ -24,7 +24,7 @@ const rebuild = (list) => {
  * @param {object} config
  * @returns a list of wanted values
  */
-const keepFromList = (list, config) => {
+const keepFromList = (list = [], config) => {
 	let result = []
 	// See if we provided a search term
 	let searchTerm = config.searchTerm
@@ -48,6 +48,7 @@ const sameString = (s1, s2) => {
 }
 
 const slapToLowerCase = (list) => {
+	if (!list) return []
 	let copy = [...list]
 	return copy.map((c) => String(c).toLowerCase())
 }

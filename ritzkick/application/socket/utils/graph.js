@@ -70,12 +70,16 @@ const populate = () => {
 
 			// Binding a callback when a value is retrieved from the service.
 			r.getService().listenCallback((room, data) => {
+				if (!data) return
+				if (data.length === 0) return
 				room.clients.forEach((client) => {
-					const result = parser.keepFromList(data, {
-						searchTerm: 'symbol',
-						keep: client.query
-					})
-					client.socket.emit('graph', result)
+					try {
+						const result = parser.keepFromList(data, {
+							searchTerm: 'symbol',
+							keep: client.query
+						})
+						client.socket.emit('graph', result)
+					} catch (_) {}
 				})
 			})
 

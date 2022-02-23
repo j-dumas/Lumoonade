@@ -39,23 +39,17 @@ const initialize = (server) => {
 	// and then it emits the result to all sockets in the room
 	// ---------------------------------------
 	general.getService().listenCallback((room, data) => {
-		console.log('----------------------')
-		console.log('room members:', room.clients.length)
-		console.log('data contents:', data.length)
+		if (!data) return
+		if (data.length === 0) return
 		room.clients.forEach((client) => {
 			// Keeping what the client asked for
-			const result = parser.keepFromList(data, {
-				searchTerm: 'symbol',
-				keep: client.query
-			})
-
-			console.log(client.socket.id, 'asked', result.length)
-
-			// if (result.length === 0) {
-			// 	return client.socket.disconnect()
-			// }
-
-			client.socket.emit('data', result)
+			try {
+				const result = parser.keepFromList(data, {
+					searchTerm: 'symbol',
+					keep: client.query
+				})
+				client.socket.emit('data', result)
+			} catch (_) {}
 		})
 	})
 
