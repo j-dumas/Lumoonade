@@ -113,8 +113,8 @@ describe('Tests for Socket-Manager', () => {
 		client.on('executed', (_) => {
 			let rooms = rm.getRoomsOfSocket(client.id)
 			expect(rooms.length).toBe(1)
-			expect(rooms[0].getService().query.length).toBe(newQuery.length)
 			expect(rooms[0].getService().query).toStrictEqual(newQuery)
+			expect(rooms[0].getService().query.length).toBe(newQuery.length)
 			done()
 		})
 		client.emit('update', client.id, newQuery)
@@ -139,6 +139,34 @@ describe('Tests for Socket-Manager', () => {
 				newQuery.push(...defaultQuery)
 				let allThere = rooms[0].getService().query.every((e) => newQuery.find((a) => a === e))
 				expect(allThere).toBeTruthy()
+				newConnection.close()
+				done()
+			})
+			client.emit('update', client.id, newQuery)
+		})
+
+		newConnection.on('reject', (_) => {
+			done.fail()
+		})
+	})
+
+	test(`When someone join with a query that already exists, the service query should not contains both version (upper cases)`, (done) => {
+		let newQuery = ['eth-cad', 'eth-usd']
+		let newConnection = new Client(`http://localhost:${port}`, {
+			auth: {
+				rooms: [defaultRoom],
+				query: ['ETH-CAD'],
+				graph: false
+			}
+		})
+
+		newConnection.on('ready', () => {
+			// Waiting for a 'executed' called, we don't care about the content.
+			client.on('executed', (_) => {
+				let room = rm.getRoom(defaultRoom)
+				let service = room.getService()
+				expect(service.query.length).toBe(2)
+				expect(service.query).toStrictEqual(newQuery)
 				newConnection.close()
 				done()
 			})

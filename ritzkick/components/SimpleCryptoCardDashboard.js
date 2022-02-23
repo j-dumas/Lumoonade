@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import SimpleCryptoView from './SimpleCryptoView'
 import SimpleCryptoCard from './SimpleCryptoCard'
-import Functions from '../services/CryptoService'
 
 function SimpleCryptoCardDashboard(props) {
 	const [datas, setDatas] = useState([])
 	const [chartDatas, setChartDatas] = useState([])
 
-    useState(() => {
+    useEffect(() => {
 		props.socket.on('data', (data) => {
 			setDatas(data)
 		})
@@ -18,7 +16,7 @@ function SimpleCryptoCardDashboard(props) {
 	}, [])
 
 	return (
-		<section className="section row center principal">
+		<section className="section row center start principal">
 			{datas.map((element, i) => {
 				let chartData = null
 				chartDatas.map((chartElement) => {

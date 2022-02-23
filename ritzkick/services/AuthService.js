@@ -1,5 +1,9 @@
 import { getCookie, setCookie } from '../services/CookieService'
 
+export async function isUserConnected() {
+	return (getCookie('token'))
+}
+
 export async function logout() {
 	try {
 		const token = getCookie('token')
@@ -13,7 +17,7 @@ export async function logout() {
 
 		//Delete cookie and redirect
 		document.cookie = 'token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict'
-		window.location.href = '/'
+		window.location.assign('/')
 	} catch (e) {
 		console.log(e)
 	}
@@ -32,7 +36,7 @@ export async function login(email, password) {
 		if (response.status == 200) {
 			let json = await response.json()
 			setCookie(json.token)
-			window.location.href = '/'
+			window.location.assign('/')
 		} else if (response.status == 400) {
 			document.getElementById('wrong').style.display = 'block'
 		} else {
@@ -55,7 +59,7 @@ export async function register(email, username, password) {
 
 		let json = await response.json()
 		setCookie(json.token)
-		window.location.href = '/'
+		window.location.assign('/')
 	} catch (e) {
 		console.log(e)
 		alert(e.message)

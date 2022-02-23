@@ -73,6 +73,6 @@ export async function getAllAssetIds() {
 
 export async function getAssetData(id) {
 	return {
-		slug: id//d.toString().toUpperCase()
+		slug: id //d.toString().toUpperCase()
 	}
 }

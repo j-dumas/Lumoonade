@@ -19,51 +19,72 @@ export default function DetailedChartMenu(props) {
 		setShowVolume(value)
 	}
 
-    return (
-        <div className='detailed-div-menu row h-center space-between'>
-            <div className='row detailed-chart-legend left h-center'>
-                {
-                <ButtonLegend sendData={getShowPrice} value={showPrice} name="Price" backgroundColor="var(--background-color-3)"/>
-                }
-            </div>
-            <div className='row detailed-chart-options left'>
-                <div className='row h-center'>
-                    <label htmlFor="daterange" className='detailed-div-title'>Date range</label>
-                    <select onChange={(e) =>
-                    {
-                        props.sendDateRange(e.target.value);
-                        props.sendInterval(getIntervalOptionsByDateRange(e.target.value)[0]);
-                        setDateRange(e.target.value);
-                        setIntervals(getIntervalOptionsByDateRange(e.target.value))
-                    }} defaultValue="5d" className='detailed-chart-options-select' name="daterange">
-                        <optgroup label="Date Range">
-                            <option value="1d">1 day</option>
-                            <option value="5d">5 days</option>
-                            <option value="1mo">1 month</option>
-                            <option value="3mo">3 months</option>
-                            <option value="6mo">6 months</option>
-                            <option value="1y">1 year</option>
-                            <option value="2y">2 years</option>
-                            <option value="5y">5 years</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div className='row h-center'>
-                    <label htmlFor="interval" className='detailed-div-title'>Interval</label>
-                    <select onChange={(e) => {props.sendInterval(e.target.value)}} defaultValue="15m" className='detailed-chart-options-select' name="interval">
-                        <optgroup label="Interval">
-                            {intervals.map((element) => {
-                                return (
-                                    <option key={element} value={element}>{element}</option>
-                                )
-                            })}
-                        </optgroup>
-
-                    </select>
-                </div>
-            </div>
-        </div>
-    )
+	return (
+		<div className="detailed-div-menu row h-center space-between">
+			<div className="row detailed-chart-legend left h-center">
+				{
+					<ButtonLegend
+						sendData={getShowPrice}
+						value={showPrice}
+						name="Price"
+						backgroundColor="var(--background-color-3)"
+					/>
+				}
+			</div>
+			<div className="row detailed-chart-options left">
+				<div className="row h-center">
+					<label htmlFor="daterange" className="detailed-div-title">
+						Date range
+					</label>
+					<select
+						onChange={(e) => {
+							props.sendDateRange(e.target.value)
+							props.sendInterval(getIntervalOptionsByDateRange(e.target.value)[0])
+							setDateRange(e.target.value)
+							setIntervals(getIntervalOptionsByDateRange(e.target.value))
+						}}
+						defaultValue="5d"
+						className="detailed-chart-options-select"
+						name="daterange"
+					>
+						<optgroup label="Date Range">
+							<option value="1d">1 day</option>
+							<option value="5d">5 days</option>
+							<option value="1mo">1 month</option>
+							<option value="3mo">3 months</option>
+							<option value="6mo">6 months</option>
+							<option value="1y">1 year</option>
+							<option value="2y">2 years</option>
+							<option value="5y">5 years</option>
+						</optgroup>
+					</select>
+				</div>
+				<div className="row h-center">
+					<label htmlFor="interval" className="detailed-div-title">
+						Interval
+					</label>
+					<select
+						onChange={(e) => {
+							props.sendInterval(e.target.value)
+						}}
+						defaultValue="15m"
+						className="detailed-chart-options-select"
+						name="interval"
+					>
+						<optgroup label="Interval">
+							{intervals.map((element) => {
+								return (
+									<option key={element} value={element}>
+										{element}
+									</option>
+								)
+							})}
+						</optgroup>
+					</select>
+				</div>
+			</div>
+		</div>
+	)
 }
 
 export function getIntervalOptionsByDateRange(dateRange) {

@@ -78,7 +78,9 @@ class LoginForm extends React.Component {
 		return (
 			<Container className="p-3 form">
 				<h1 className="form-title">{TITLE}</h1>
-				<div id="wrong">Mauvais courriel ou mot de passe.</div>
+				<div className="wrong" id="wrong">
+					Mauvais courriel ou mot de passe.
+				</div>
 				<form onSubmit={this.handleSubmit}>
 					<input
 						id="userField"

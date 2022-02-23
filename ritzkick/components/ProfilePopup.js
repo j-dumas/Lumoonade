@@ -1,98 +1,62 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icons from './Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from '../services/UserService'
+import { useForm } from './hooks/useForm'
 
-let newUsername = ''
-let oldPass = ''
-let newPass = ''
-let newPassConfirmation = ''
-
-function eraseFieldValue() {
-	newUsername = ''
-	oldPass = ''
-	newPass = ''
-	newPassConfirmation = ''
-}
-
-function showError(username, password, passwordConfirmation) {
-	if (!passwordConfirmation.validity.valid) {
-		passwordConfirmation.setCustomValidity('Entrez un mot de passe contenant 8 charactères minimum')
-		passwordConfirmation.reportValidity()
-	}
-	if (!password.validity.valid) {
-		password.setCustomValidity('Entrez un mot de passe contenant 8 charactères minimum')
-		password.reportValidity()
-	}
-	if (!username.validity.valid) {
-		username.setCustomValidity("Entrez un nom d'utilisateur contenant 4 charactères minimum")
-		username.reportValidity()
-	}
-}
-
-async function handleSubmit(event, oldUsername, isPopupOpen) {
-	let username = document.getElementById('usernameField')
-	let password = document.getElementById('passwordField')
-	let passwordConfirmation = document.getElementById('passwordConfirmationField')
-
-	if (!username.validity.valid || !password.validity.valid || !passwordConfirmation.validity.valid) {
-		showError(username, password, passwordConfirmation)
-		event.preventDefault()
-	} else {
-		if (!isPopupOpen) {
-			eraseFieldValue()
-		} else {
-			updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation)
-		}
-	}
-}
-
-function handleUsernameChange(event) {
-	let username = document.getElementById('usernameField')
-	if (username.validity.typeMismatch) {
-		username.setCustomValidity("Entrez un nom d'utilisateur")
-		username.reportValidity()
-	} else {
-		username.setCustomValidity('')
-		newUsername = event.target.value
-	}
-}
-
-function handlePasswordChange(event) {
-	oldPass = event.target.value
-}
-function handleNewPasswordChange(event) {
-	let password = document.getElementById('passwordField')
-
-	if (password.validity.typeMismatch) {
-		password.setCustomValidity('Entrez un mot de passe contenant 8 charactères')
-		password.reportValidity()
-	} else {
-		password.setCustomValidity('')
-		newPass = event.target.value
-	}
-}
-function handleNewConfirmationPasswordChange(event) {
-	let passwordConfirmation = document.getElementById('passwordConfirmationField')
-
-	if (passwordConfirmation.validity.typeMismatch) {
-		passwordConfirmation.setCustomValidity('Entrez un mot de passe contenant 8 charactères')
-		passwordConfirmation.reportValidity()
-	} else {
-		passwordConfirmation.setCustomValidity('')
-		newPassConfirmation = event.target.value
-	}
-}
+const newUsername = 'newUsername'
+const oldPass = 'oldPass'
+const newPass = 'newPass'
+const newPassConfirmation = 'newPassConfirmation'
 
 export default function ProfilePopup(props) {
 	const [Modal, open, close, isOpen] = useModal('header', {
 		preventScroll: true,
-		closeOnOverlayClick: true
+		closeOnOverlayClick: false
 	})
+	const [values, handleChange, resetValues] = useForm({})
 
-	if (!isOpen) {
-		eraseFieldValue()
+	function eraseFieldValue() {
+		resetValues()
 	}
+
+	function deleteAuthUser() {
+		if (confirm('Êtes-vous sur de vouloir supprimer votre compte?')) {
+			deleteUser()
+		}
+	}
+
+	async function handleSubmit(event) {
+		if (!isOpen) {
+			eraseFieldValue()
+		} else {
+			if (
+				values.newUsername === undefined &&
+				values.oldPass === undefined &&
+				values.newPass === undefined &&
+				values.newPassConfirmation === undefined
+			) {
+				close()
+			} else {
+				if (confirm('Êtes-vous sur de vouloir modifier votre profile?')) {
+					updateUser(
+						event,
+						props.username,
+						values.newUsername,
+						values.oldPass,
+						values.newPass,
+						values.newPassConfirmation
+					)
+				}
+			}
+		}
+	}
+
+	useEffect(() => {
+		if (!isOpen) {
+			eraseFieldValue()
+		}
+	}, [isOpen])
 
 	return (
 		<div>
@@ -104,43 +68,51 @@ export default function ProfilePopup(props) {
 					<form
 						id="update-form"
 						onSubmit={(event) => {
-							handleSubmit(event, props.username, isOpen)
+							handleSubmit(event)
 						}}
 					>
 						<h1>Informations</h1>
-						<div id="wrong">Le nom que vous désirez entrer est déjà utilisé</div>
-						<div id="wrong-2">Le nom que vous désirez entrer est déjà utilisé</div>
+						<div className="wrong" id="wrong-name">
+							Le nom que vous désirez entrer est déjà utilisé
+						</div>
 						<label>Nom d&apos;utilisateur</label>
 						<input
+							name={newUsername}
 							id="usernameField"
 							type="text"
 							defaultValue={props.username}
-							onChange={handleUsernameChange}
+							onChange={handleChange}
 							minLength="4"
 							autoComplete="off"
 						/>
 						<hr className="form-separator"></hr>
 						<label>Courriel</label>
-						<input type="email" defaultValue={props.email} disabled />
+						<input name="email" type="email" defaultValue={props.email} disabled />
 						<hr className="form-separator"></hr>
 						<label>Entrez votre ancien mot de passe ainsi que le nouveau</label>
+						<div className="wrong" id="wrong-password">
+							Veuillez vérifier si tous les champs ci dessous concorde bien
+						</div>
 						<input
+							name={oldPass}
 							type="password"
 							placeholder="Ancien mot de passe"
-							onChange={handlePasswordChange}
+							onChange={handleChange}
 						></input>
 						<input
+							name={newPass}
 							id="passwordField"
 							type="password"
 							placeholder="Nouveau mot de passe"
-							onChange={handleNewPasswordChange}
+							onChange={handleChange}
 							minLength="8"
 						></input>
 						<input
+							name={newPassConfirmation}
 							id="passwordConfirmationField"
 							type="password"
 							placeholder="Confirmation nouveau mot de passe"
-							onChange={handleNewConfirmationPasswordChange}
+							onChange={handleChange}
 							minLength="8"
 						></input>
 						<input type="submit" value="Modifier" />
@@ -148,7 +120,7 @@ export default function ProfilePopup(props) {
 							Annuler
 						</button>
 					</form>
-					<a className="link" onClick={deleteUser}>
+					<a className="link" onClick={deleteAuthUser}>
 						Supprimer mon compte
 					</a>
 				</div>

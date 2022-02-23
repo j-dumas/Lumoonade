@@ -3,35 +3,46 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { useState, useEffect } from 'react'
 import SimpleCryptoCardDashboard from '../components/SimpleCryptoCardDashboard'
-import GetCryptoData from '../services/CryptoService'
 import Functions from '../services/CryptoService'
+import { getFavorites } from '../services/UserService'
+import { isUserConnected } from '../services/AuthService'
 const io = require('socket.io-client')
 
-export default function Assets() {
-	const [data, setData] = useState([]) // GetTopPopularCryptocurrencies()
+const CURRENCY = "usd"
 
-	const [list, setList] = useState([])
+export default function Assets() {
+	const [isSocketReady, setIsSocketReady] = useState(false)
+
+	const [favList, setFavList] = useState([])
+	const [searchList, setSearchList] = useState([])
 
 	const [socket, setSocket] = useState()
 	const [favSocket, setFavSocket] = useState()
 
-	useState(async () => {
-		//let assets = await Functions.GetTopPopularCryptocurrencies()
-		//let list = assets.assets
-		//setList(list)
+	async function updateSearchList(event) {
+		event.preventDefault()
+		let search = event.target[0].value
+		if (!search) search = 'a'
+		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 16)
+		let symbols = []
+		list.assets.map((element) => {
+			symbols.push(element.slug+'-'+CURRENCY)
+		})
+		
+		setSearchList(symbols)
+		console.log(searchList)
+	}
 
-		//setList['btc', 'eth']
+	useEffect(async () => {
+		if (!isUserConnected()) return
+		console.log('TOKEN')
+		let dummyFavList = await getFavorites()
+		dummyFavList.map((element, i) => {
+			dummyFavList[i] = element
+		})
+	}, [])
 
-		setFavSocket(
-			io('http://localhost:3000/', {
-				auth: {
-					rooms: ['general', `graph-1d-30m`],
-					query: ['btc-cad', 'eth-cad', 'ltc-cad', 'bnb-cad', 'ada-cad'],
-					graph: true
-				}
-			})
-		)
-
+	useEffect(() => {
 		setSocket(
 			io('http://localhost:3000/', {
 				auth: {
@@ -41,7 +52,45 @@ export default function Assets() {
 				}
 			})
 		)
+
+		if (!isUserConnected()) return
+		console.log('fav socket')
+		setFavSocket(
+			io('http://localhost:3000/', {
+				auth: {
+					rooms: ['general', `graph-1d-30m`],
+					query: [],
+					graph: true
+				}
+			})
+		)
 	}, [])
+
+	useEffect(()=> {
+
+		if (socket) {
+			socket.on('ready', () => {
+				setIsSocketReady(true)
+				console.log('test true')
+			})
+
+			socket.on('executed', () => {
+				setIsSocketReady(true)
+				console.log('query executed')
+			})
+		}
+
+		if (socket) {
+			socket.emit('update', socket.id, searchList)
+			console.log(isSocketReady)
+		}
+
+		if (favSocket) {
+			favSocket.on('ready', () => { 
+				favSocket.emit('update', favSocket.id, favList)
+			})
+		}
+	}, [searchList, favList])
 
 	return (
 		<div>
@@ -52,25 +101,39 @@ export default function Assets() {
 				}}
 			/>
 			<Header />
-
+			
 			<section className="section column center principal first">
-				<form className='row' action="">
-					<input type="search" />
-					<button>Search</button>
-				</form>
 				
-				<h1>Favorites</h1>
-				<SimpleCryptoCardDashboard socket={favSocket}/>
-				<h1>Markets</h1>
-				<SimpleCryptoCardDashboard socket={socket}/>
+				<section className='sub-section'>
+					<div className="page-menu space-between row h-center">
+						<div className="row h-center detailed-menu-info">
+							<h1 className="detailed-menu-title">Markets</h1>
+						</div>
+						<form action="" onSubmit={updateSearchList}>
+									<input type="search" />
+									<button type="submit" value="Submit">Search</button>
+						</form>
+						<div className="detailed-menu-actions row h-center"></div>
+					</div>
+				</section>
+				
+				<section className='sub-section'>
+					{socket ? <>
+					{favSocket && favList.length > 0?
+					<>
+						<h1>Favorites</h1>
+						<SimpleCryptoCardDashboard socket={favSocket}/>
+					</>
+					:null}
+					<h1>Assets</h1>
+					<SimpleCryptoCardDashboard socket={socket}/>
+					</>
+					:null}
+				</section>
+
 			</section>
 
 			<Footer />
 		</div>
 	)
 }
-/*
-	<div key={element.slug}>
-		<p>{element.slug}</p>
-	</div>
-	*/

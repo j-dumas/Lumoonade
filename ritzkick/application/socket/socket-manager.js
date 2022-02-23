@@ -4,6 +4,7 @@ const graphRoom = require('./utils/graph')
 const rm = require('./room-manager')
 const Service = require('./service')
 const log = require('../../utils/logging')
+const handler = require('../../application/socket/utils/handler')
 
 let serverSocket = undefined
 
@@ -38,12 +39,22 @@ const initialize = (server) => {
 	// and then it emits the result to all sockets in the room
 	// ---------------------------------------
 	general.getService().listenCallback((room, data) => {
+		console.log('----------------------')
+		console.log('room members:', room.clients.length)
+		console.log('data contents:', data.length)
 		room.clients.forEach((client) => {
 			// Keeping what the client asked for
 			const result = parser.keepFromList(data, {
 				searchTerm: 'symbol',
 				keep: client.query
 			})
+
+			console.log(client.socket.id, 'asked', result.length)
+
+			// if (result.length === 0) {
+			// 	return client.socket.disconnect()
+			// }
+
 			client.socket.emit('data', result)
 		})
 	})
@@ -66,19 +77,16 @@ const initialize = (server) => {
 		// This is used to update the query list of a socket
 		// ---------------------------------------
 		socket.on('update', (id, query) => {
+			if (query.length === 0) {
+				log.error('Update', 'Query empty, so kicking ' + id)
+				return socket.disconnect()
+			}
 			log.info('Update', `Updating values for ${id}`)
 			let rooms = rm.getRoomsOfSocket(id)
 			rooms.forEach((room) => {
-				let alone = room.clients.length === 1
-				let service = room.getService()
-				if (!alone) {
-					service.query = parser.appendToList(service.query, query)
-					service.query = service.query.flat()
-				} else {
-					service.query = query
-				}
 				room.modifyClient(id, { query })
 				socket.handshake.auth.query = query
+				handler.onUpdate(room)
 			})
 			socket.emit('executed')
 		})
@@ -117,6 +125,7 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 	rooms.forEach((room) => {
 		let r = rm.getRoom(room)
 		if (r) {
+			socket.handshake.auth.query = parser.slapToLowerCase(socket.handshake.auth.query)
 			if (r.append(socket)) {
 				log.info('Server', `${socket.id} is new to the room ${r.name}`)
 				socket.join(room)
@@ -126,8 +135,8 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 
 				socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
 
-				r.getService().query = parser.appendToList(r.getService().query, query)
-				r.getService().query = r.getService().query.flat()
+				handler.onUpdate(r)
+				console.log(r.getClient(socket.id))
 				r.getService().run()
 			} else {
 				log.error('Server', `${socket.id} failed to join ${r.name}`)

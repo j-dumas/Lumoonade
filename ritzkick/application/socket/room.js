@@ -1,11 +1,7 @@
 const log = require('../../utils/logging')
-const dev = process.env.NODE_ENV !== 'production'
 
 class Room {
 	constructor(name, graph = false) {
-		if (dev) {
-			log.info('Room', `room '${name}' created!`)
-		}
 		this.name = name
 		this.clients = []
 		this.service = undefined
@@ -33,7 +29,7 @@ class Room {
 
 	append(socket) {
 		if (this._exists(socket)) return false
-		log.info('Room', socket.id + ' added to the room ' + `'${this.name}'`)
+		// log.info('Room', socket.id + ' added to the room ' + `'${this.name}'`)
 		this.clients.push({
 			id: socket.id,
 			socket,
