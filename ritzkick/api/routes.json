@@ -1,0 +1,38 @@
+{
+	"alerts": {
+		"all": "/api/me/watchlists",
+		"create": "/api/alerts",
+		"update": "/api/alerts/update",
+		"delete": "/api/alerts/delete"
+	},
+	"assets": {
+		"all": "/api/assets/all",
+		"search": {
+			"db": "/api/assets/search/:value",
+			"yahoo": "/api/crypto/search/:slug"
+		},
+		"populars": "/api/assets/popular",
+		"top": {
+			"gainers": "/api/assets/top/gainers",
+			"loser": "/api/assets/top/losers"
+		},
+		"chart": "/api/crypto/chart/:slug"
+	},
+	"auth": {
+		"login": "/api/auth/login",
+		"logout": "/api/auth/logout",
+		"register": "/api/auth/register",
+		"forgot-password": "/api/auth/forgot"
+	},
+	"favorites": {
+		"all": "/api/me/favorites",
+		"create": "/api/favorite",
+		"delete": "/api/favorite/:slug"
+	},
+	"user": {
+		"complete": "/api/me",
+		"summary": "/api/me/profile",
+		"update": "/api/me/update",
+		"delete": "/api/me/delete"
+	}
+}

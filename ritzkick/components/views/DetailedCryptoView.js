@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Icons from './Icons'
+import Icons from '../Icons'
 import Functions, {
 	GetCryptocurrencyInformationsBySlug,
 	GetTopPopularCryptocurrencies,
 	GetTopEfficientCryptocurrencies
-} from '../services/CryptoService'
-import ButtonFavorite from '../components/ButtonFavorite'
-import DetailedInformationsDashboard from '../components/DetailedInformationsDashboard'
-import DetailedChart from './DetailedChart'
-import DetailedMenu from './DetailedMenu'
+} from '../../services/CryptoService'
+import ButtonFavorite from '../ButtonFavorite'
+import DetailedInformationsDashboard from '../DetailedInformationsDashboard'
+import DetailedChart from '../charts/DetailedChart'
+import DetailedMenu from '../menus/DetailedMenu'
 
 const io = require('socket.io-client')
 

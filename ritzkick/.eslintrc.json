@@ -3,6 +3,7 @@
 	"extends": ["next/core-web-vitals", "prettier"],
 	"rules": {
 		"no-console": 1, // Means warning
-		"prettier/prettier": 2 // Means error
+		"prettier/prettier": 2, // Means error
+		"react-hooks/rules-of-hooks": "off"
 	}
 }

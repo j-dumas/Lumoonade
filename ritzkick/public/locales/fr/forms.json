@@ -1,0 +1,30 @@
+{
+	"fields": {
+		"email": "Courriel",
+		"password": "Mot de passe",
+		"username": "Nom d'utilisateur"
+	},
+	"login": {
+		"title": "Connexion",
+		"forgot-password": "J'ai oublié mon mot de passe",
+		"no-account": "Aucun compte ?",
+		"register": "S'inscrire",
+		"submit": "Se connecter",
+		"error": "Mauvais mot de passe ou courriel",
+		"google": "Se connecter avec Google"
+	},
+	"register": {
+		"title": "Inscription",
+		"existing-account": "Déjà un compte ?",
+		"login": "Connectez-vous",
+		"submit": "S'inscrire"
+	},
+	"validation": {
+		"email": "Entrez un courriel valide",
+		"username": "Entrez un nom d'utilisateur valide",
+		"password": "Entrez un mot de passe valide",
+		"minimum-username": "Entrez un nom d'utilisateur avec au minimum 4 caractères",
+		"minimum-password": "Entrez un mot de passe avec au minimum 8 caractères"
+	},
+	"or": "ou"
+}

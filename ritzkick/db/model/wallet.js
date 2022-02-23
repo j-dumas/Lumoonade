@@ -8,7 +8,7 @@ const walletSchema = new mongoose.Schema(
 			trim: true
 		},
 		asset: {
-			type: mongoose.Types.ObjectId,
+			type: String,
 			required: true,
 			trim: true
 		},

@@ -3,7 +3,11 @@ import Functions from '../services/CryptoService'
 import ButtonFavorite from '../components/ButtonFavorite'
 import format from '../utils/formatter'
 
-function DetailedInformations(props) {
+import { useTranslation } from 'next-i18next'
+
+const DetailedInformations = (props) => {
+	const { t } = useTranslation('crypto')
+
 	return (
 		<>
 			<div className="column detailed-informations detailed-div">
@@ -17,15 +21,15 @@ function DetailedInformations(props) {
 					''
 				)}
 				<div className="detailed-div-menu row space-between">
-					<label className="detailed-div-title">Detailed informations</label>
+					<label className="detailed-div-title">{t('detailed.title')}</label>
 					<p className="detailed-div-title">$ = {props.data.currency}$</p>
 				</div>
 				<div className="row space-between detailed-div-item">
-					<p className="detailed-div-item-label">Price &nbsp;($)</p>
+					<p className="detailed-div-item-label">{t('detailed.price')}</p>
 					<p className="detailed-price">{props.data.regularMarketPrice}</p>
 				</div>
 				<div className="row space-between detailed-div-item">
-					<p className="detailed-div-item-label">24h change</p>
+					<p className="detailed-div-item-label">{t('detailed.change')}</p>
 					<p
 						className={
 							props.data.regularMarketChangePercent >= 0
@@ -40,20 +44,20 @@ function DetailedInformations(props) {
 					</p>
 				</div>
 				<div className="row space-between detailed-div-item">
-					<p className="detailed-div-item-label">Market cap</p>
+					<p className="detailed-div-item-label">{t('detailed.market-cap')}</p>
 					<p className="detailed-div-item-value">{props.data.marketCap} $</p>
 				</div>
 				<div className="row space-between detailed-div-item">
-					<p className="detailed-div-item-label">24h Volume</p>
+					<p className="detailed-div-item-label">{t('detailed.volume.24h')}</p>
 					<p className="detailed-div-item-value">{props.data.volume24Hr}</p>
 				</div>
 				<div className="row space-between detailed-div-item">
-					<p className="detailed-div-item-label">Regular volume</p>
+					<p className="detailed-div-item-label">{t('detailed.volume.regular')}</p>
 					<p className="detailed-div-item-value">{props.data.regularMarketVolume}</p>
 				</div>
 			</div>
 		</>
 	)
 }
-//
+
 export default DetailedInformations

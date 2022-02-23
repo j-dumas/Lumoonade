@@ -1,0 +1,18 @@
+{
+	"menu": {
+		"comparing": "Comparing",
+		"options": {
+			"price": "Price",
+			"efficiency": "Efficiency",
+			"volume": "Volume",
+			"market-cap": "Market Cap"
+		},
+		"with": "With",
+		"search": "Search",
+		"table": {
+			"asset": "Asset",
+			"price": "Price ($)",
+			"change": "24h Change"
+		}
+	}
+}
