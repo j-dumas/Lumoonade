@@ -6,6 +6,8 @@ require('../swagger_models')
 
 const router = express.Router()
 
+const paths = require('../routes.json')
+
 /**
  * GET /api/me
  * @summary Complete profile default endpoint
@@ -55,7 +57,7 @@ const router = express.Router()
  * }
  * @security BearerAuth
  */
-router.get('/api/me', authentification, async (req, res) => {
+router.get(paths.user.complete, authentification, async (req, res) => {
 	await req.user.populate({
 		path: 'wallet'
 	})
@@ -94,7 +96,7 @@ router.get('/api/me', authentification, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.get('/api/me/profile', authentification, async (req, res) => {
+router.get(paths.user.summary, authentification, async (req, res) => {
 	const profile = await req.user.makeProfile()
 	res.send(profile)
 })
@@ -131,7 +133,7 @@ const updateHelper = async (body, user) => {
 	return response
 }
 
-router.patch('/api/me/update', authentification, async (req, res) => {
+router.patch(paths.user.update, authentification, async (req, res) => {
 	try {
 		let updates = Object.keys(req.body)
 		if (updates.length === 0) throw new Error('Please provide informations to be modified')
@@ -178,7 +180,7 @@ router.patch('/api/me/update', authentification, async (req, res) => {
 	}
 })
 
-router.delete('/api/me/delete', authentification, async (req, res) => {
+router.delete(paths.user.delete, authentification, async (req, res) => {
 	try {
 		await req.user.remove()
 		res.send({
@@ -201,7 +203,7 @@ router.get('/api/me/wallets', [authentification, pagination], async (req, res) =
 	res.send({ wallets: req.user.wallet, page: req.page, count: req.user.wallet.length })
 })
 
-router.get('/api/me/favorites', [authentification, pagination], async (req, res) => {
+router.get(paths.favorites.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'favorite',
 		options: {
@@ -213,7 +215,7 @@ router.get('/api/me/favorites', [authentification, pagination], async (req, res)
 	res.send({ favorites: req.user.favorite, page: req.page, count: req.user.favorite.length })
 })
 
-router.get('/api/me/watchlists', [authentification, pagination], async (req, res) => {
+router.get(paths.alerts.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'watchlist',
 		options: {

@@ -11,7 +11,9 @@ const { TopGainer, TopLoser } = require('../../db/model/top_asset')
 const { fetchPopularAssets, modifyPopularAssets } = require('../../services/PopularAssetService')
 const router = express.Router()
 
-router.get('/api/assets/search/:value', pagination, async (req, res) => {
+const paths = require('../routes.json')
+
+router.get(paths.assets.search.db, pagination, async (req, res) => {
 	try {
 		const searchedValue = req.params.value
 		const assets = await Asset.find({
@@ -32,7 +34,7 @@ router.get('/api/assets/search/:value', pagination, async (req, res) => {
 	}
 })
 
-router.get('/api/crypto/search/:slug', async (req, res) => {
+router.get(paths.assets.search.yahoo, async (req, res) => {
 	try {
 		const slug = req.params.slug
 		let data = await fetchMarketData(slug)
@@ -74,7 +76,7 @@ router.get('/api/crypto/search/:slug', async (req, res) => {
 	}
 })
 
-router.get('/api/assets/all', pagination, async (req, res) => {
+router.get(paths.assets.all, pagination, async (req, res) => {
 	try {
 		const assets = await Asset.find().limit(req.limit).skip(req.skipIndex).exec()
 		if (!assets || assets.length === 0) {
@@ -88,7 +90,7 @@ router.get('/api/assets/all', pagination, async (req, res) => {
 	}
 })
 
-router.get('/api/assets/top/gainers', pagination, async (req, res) => {
+router.get(paths.assets.top.gainers, pagination, async (req, res) => {
 	try {
 		await verifyTopAssets(options.gainers)
 		const assets = await TopGainer.find().sort({ percentage: -1 }).limit(req.limit).skip(req.skipIndex).exec()
@@ -101,7 +103,7 @@ router.get('/api/assets/top/gainers', pagination, async (req, res) => {
 	}
 })
 
-router.get('/api/assets/top/losers', pagination, async (req, res) => {
+router.get(paths.assets.top.loser, pagination, async (req, res) => {
 	try {
 		await verifyTopAssets(options.losers)
 		const assets = await TopLoser.find().sort({ percentage: 1 }).limit(req.limit).skip(req.skipIndex).exec()
@@ -114,7 +116,7 @@ router.get('/api/assets/top/losers', pagination, async (req, res) => {
 	}
 })
 
-router.get('/api/assets/popular', pagination, async (req, res) => {
+router.get(paths.assets.populars, pagination, async (req, res) => {
 	try {
 		// const isEmpty = await Popular.isEmpty('populars')
 		// if (isEmpty) await fetchPopularAssets()
@@ -133,7 +135,7 @@ router.get('/api/assets/popular', pagination, async (req, res) => {
 	}
 })
 
-router.get('/api/crypto/chart/:slug', async (req, res) => {
+router.get(paths.assets.chart, async (req, res) => {
 	try {
 		const response = await fetchSymbol(req.params.slug, {
 			range: req.query.dateRange,
