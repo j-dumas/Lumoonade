@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Line, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
-import Functions from '../services/CryptoService'
+import GetColorBySlug from '../../utils/color'
+import Functions from '../../services/CryptoService'
 import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
@@ -11,20 +12,17 @@ const NB_DATA_DISPLAYED_1ST_VIEW = 24
 function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 	const [data, setData] = useState()
-	var color = getComputedStyle(document.documentElement).getPropertyValue('--main-color')
-	var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color-t')
 
 	useEffect(async () => {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
 		props.socket.on('graph', (datas) => {
 			const chart = chartReference.current
-			if (chart !== null || !isDataNull(datas)) {
-				chart.data = getRelativeChartData(datas)
-				chart.update()
-			}
+			if (!chart || isDataNull(datas)) return
+			chart.data = getRelativeChartData(datas)
+			chart.update()
 		})
-		if (props.socket) return () => socket.disconnect()
+		if (props.socket) return () => props.socket.disconnect()
 	}, [])
 
 	function isDataNull(datas) {
@@ -50,14 +48,16 @@ function DetailedChartChart(props) {
 	}
 
 	function getRelativeChartDataDataset(name, data) {
+		name = name.toString().split('-')[0]
+		const color = GetColorBySlug(name)
 		return {
 			type: 'line',
 			label: name,
 			data: data,
 
-			fill: true,
+			fill: false,
 			lineTension: 0.05,
-			backgroundColor: bgColor,
+			backgroundColor: color,
 			borderColor: color,
 			borderWidth: 2.5,
 			borderCapStyle: 'butt',
@@ -79,6 +79,31 @@ function DetailedChartChart(props) {
 				// Chart legend
 				display: false,
 				position: 'top'
+			},
+			tooltip: {
+				backgroundColor: 'rgba(28, 29, 31, 0.95)',
+				padding: 20,
+				cornerRadius: 5,
+				borderRadius: 50,
+				lineWidth: 10,
+				boxPadding: 8,
+				borderColor: 'rgb(51, 52, 54)',
+				borderWidth: 1,
+				caretSize: 0,
+				caretPadding: 15,
+				titleColor: 'rgb(158, 159, 160)',
+				titleFont: {
+					size: 14,
+					weight: 'bold'
+				},
+				titleAlign: 'center',
+				titleMarginBottom: 10,
+				bodyFont: {
+					size: 15,
+					weight: 'bold',
+					color: 'blue'
+				},
+				bodySpacing: 8
 			},
 			zoom: {
 				zoom: {

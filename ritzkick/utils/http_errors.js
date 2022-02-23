@@ -44,10 +44,24 @@ class ConflictHttpError extends HttpError {
 	}
 }
 
+class ServerError extends HttpError {
+	constructor(message = 'Internal Server Error') {
+		super(message, 500)
+		this.name = this.constructor.name
+
+		Error.captureStackTrace(this, this.constructor)
+	}
+}
+
 async function sendError(res, e) {
-	res.status(e.status).send({
-		error: e.message
-	})
+	if (e.status)
+		res.status(e.status).send({
+			error: e.message
+		})
+	else
+		res.status(500).send({
+			error: e.message
+		})
 }
 
 module.exports = {
@@ -55,5 +69,6 @@ module.exports = {
 	BadRequestHttpError,
 	UnauthorizedHttpError,
 	NotFoundHttpError,
-	ConflictHttpError
+	ConflictHttpError,
+	ServerError
 }

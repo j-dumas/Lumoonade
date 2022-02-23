@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Icons from './Icons'
+import Icons from '../Icons'
 import Functions, {
 	GetCryptocurrencyInformationsBySlug,
 	GetTopPopularCryptocurrencies,
 	GetTopEfficientCryptocurrencies
-} from '../services/CryptoService'
-import ButtonFavorite from '../components/ButtonFavorite'
-import DetailedInformations from '../components/DetailedInformations'
-import DetailedChart from './DetailedChart'
-import DetailedMenu from './DetailedMenu'
+} from '../../services/CryptoService'
+import ButtonFavorite from '../ButtonFavorite'
+import DetailedInformationsDashboard from '../DetailedInformationsDashboard'
+import DetailedChart from '../charts/DetailedChart'
+import DetailedMenu from '../menus/DetailedMenu'
 
 const io = require('socket.io-client')
 
@@ -46,7 +46,8 @@ function DetailedCryptoView(props) {
 			<div className="detailed-crypto-view column">
 				<DetailedMenu slug={slug} firstData={firstData} />
 				<div className="row space-between">
-					<DetailedInformations socket={socket} slug={slug} firstData={firstData} />
+					
+					<DetailedInformationsDashboard socket={socket} currency={props.currency} name={false} />
 					<DetailedChart socket={socket} slug={slug} />
 				</div>
 			</div>

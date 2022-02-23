@@ -6,6 +6,8 @@ const router = express.Router()
 const { NotFoundHttpError, ConflictHttpError, sendError } = require('../../utils/http_errors')
 require('../swagger_models')
 
+const paths = require('../routes.json')
+
 /**
  * Favorite Creation Model
  * @typedef {object} FavoriteRequest
@@ -39,7 +41,7 @@ require('../swagger_models')
  *	}
  * @security BearerAuth
  */
-router.post('/api/favorite', authentification, async (req, res) => {
+router.post(paths.favorites.create, authentification, async (req, res) => {
 	try {
 		let data = {
 			owner: req.user._id,
@@ -57,10 +59,10 @@ router.post('/api/favorite', authentification, async (req, res) => {
 })
 
 /**
- * DELETE /api/favorite/:slug
+ * DELETE /api/favorite/{slug}
  * @summary Deleting a favorite default endpoint
  * @tags Favorite
- * @param {string} slug.path - Favorite slug
+ * @param {string} slug.path.required - Favorite slug
  * @return {object} 204 - deleted
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -74,19 +76,21 @@ router.post('/api/favorite', authentification, async (req, res) => {
  *	}
  * @security BearerAuth
  */
-router.delete('/api/favorite/:slug', authentification, async (req, res) => {
+router.delete(`${paths.favorites.delete}:slug`, authentification, async (req, res) => {
 	try {
 		let filter = {
 			owner: req.user._id,
 			slug: req.params.slug
 		}
 		const obj = await Favorite.findOne(filter).exec()
-		if (!obj) throw new NotFoundHttpError()
-		await Favorite.deleteOne(filter)
+		if (!obj) {
+			return res.status(404).send()
+		}
+		let favorite = await Favorite.findOneAndDelete(filter)
 		await req.user.removeFavoriteAndSave(favorite._id)
 		res.status(204).send()
 	} catch (e) {
-		await sendError(res, e)
+		res.status(400).send()
 	}
 })
 

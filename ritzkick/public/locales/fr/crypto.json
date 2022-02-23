@@ -1,0 +1,12 @@
+{
+	"detailed": {
+		"title": "Informations détaillées",
+		"price": "Prix ($)",
+		"change": "Changement en 24h",
+		"market-cap": "Market Cap",
+		"volume": {
+			"24h": "Volume en 24h",
+			"regular": "Volume"
+		}
+	}
+}

@@ -3,9 +3,9 @@ import Functions, {
 	GetCryptocurrencyInformationsBySlug,
 	GetTopPopularCryptocurrencies,
 	GetTopEfficientCryptocurrencies
-} from '../services/CryptoService'
+} from '../../services/CryptoService'
 import dynamic from 'next/dynamic'
-import DetailedChartMenu from './DetailedChartMenu'
+import DetailedChartMenu from '../menus/DetailedChartMenu'
 
 const DetailedChartChart = dynamic(
 	() => {
@@ -22,13 +22,14 @@ function DetailedChart(props) {
 	const [interval, setInterval] = useState('15m')
 
 	useEffect(() => {
-		props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
+		if (props.socket.id)
+			props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
 	}, [dateRange, interval])
 
 	return (
 		<div className="detailed-chart detailed-div">
-			<DetailedChartMenu sendDateRange={setDateRange} sendInterval={setInterval} />
-			<DetailedChartChart socket={props.socket} slug="ETH-CAD" dateRange={dateRange} interval={interval} />
+			<DetailedChartMenu socket={props.socket} sendDateRange={setDateRange} sendInterval={setInterval} />
+			<DetailedChartChart socket={props.socket} slug={props.slug} dateRange={dateRange} interval={interval} />
 		</div>
 	)
 }

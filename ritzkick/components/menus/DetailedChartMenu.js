@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ButtonLegend from './ButtonLegend'
+import ButtonLegend from '../ButtonLegend'
 
 export default function DetailedChartMenu(props) {
 	const [showPrice, setShowPrice] = useState(true)
@@ -22,14 +22,14 @@ export default function DetailedChartMenu(props) {
 	return (
 		<div className="detailed-div-menu row h-center space-between">
 			<div className="row detailed-chart-legend left h-center">
-				<ButtonLegend
-					sendData={getShowPrice}
-					value={showPrice}
-					name="Price"
-					backgroundColor="var(--main-color)"
-				/>
-				<ButtonLegend sendData={getShowChange} value={showChange} name="24h change" backgroundColor="orange" />
-				<ButtonLegend sendData={getShowVolume} value={showVolume} name="24h volume" backgroundColor="red" />
+				{
+					<ButtonLegend
+						sendData={getShowPrice}
+						value={showPrice}
+						name="Price"
+						backgroundColor="var(--background-color-3)"
+					/>
+				}
 			</div>
 			<div className="row detailed-chart-options left">
 				<div className="row h-center">
@@ -59,7 +59,7 @@ export default function DetailedChartMenu(props) {
 						</optgroup>
 					</select>
 				</div>
-				<div onLoad={() => {}} className="row h-center">
+				<div className="row h-center">
 					<label htmlFor="interval" className="detailed-div-title">
 						Interval
 					</label>

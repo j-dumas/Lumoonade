@@ -2,25 +2,46 @@ import React, { useState, useEffect } from 'react'
 import DomHead from '../components/DomHead'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-//import DetailedChart from '../components/DetailedChart';
-import GetCryptoData from '../services/CryptoService'
-import CompareMenu from '../components/CompareMenu'
+import CompareView from '../components/views/CompareView'
+import Layout from '../components/Layout'
 
-// Exemple d'URL: localhost:3000/compare?assets=ETH-BNB
-export default function Compare() {
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+
+// Exemple d'URL:/compare?assets=ETH-BNB
+const Compare = () => {
 	const [data, setData] = useState()
 
 	return (
 		<>
-			<DomHead />
-			<Header />
-
 			<section className="section column principal first center">
-				<CompareMenu />
+				<CompareView currency="CAD" />
 			</section>
-
-			<Footer />
 		</>
 	)
 }
-// slug={assetData.slug}
+
+Compare.getLayout = function getLayout(page) {
+	const { t } = useTranslation('common')
+
+	return (
+		<Layout
+			pageMeta={{
+				title: t('pages.compare.title'),
+				description: t('pages.compare.description')
+			}}
+		>
+			{page}
+		</Layout>
+	)
+}
+
+export async function getStaticProps({ locale }) {
+	return {
+		props: {
+			...(await serverSideTranslations(locale, ['common', 'compare', 'crypto']))
+		}
+	}
+}
+
+export default Compare

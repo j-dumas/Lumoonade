@@ -3,8 +3,11 @@ const router = express.Router()
 const Watchlist = require('../../db/model/watchlist')
 const { sendError, NotFoundHttpError } = require('../../utils/http_errors')
 const auth = require('../middleware/auth')
+const es = require('../../application/email/email-service')
 
-router.post('/api/alerts', auth, async (req, res) => {
+const paths = require('../routes.json')
+
+router.post(paths.alerts.create, auth, async (req, res) => {
 	try {
 		const user = req.user
 		let queryData = {
@@ -12,16 +15,19 @@ router.post('/api/alerts', auth, async (req, res) => {
 			...req.body
 		}
 
+		const { slug } = queryData
+
 		const watchlist = new Watchlist(queryData)
 		await watchlist.save()
 		await req.user.addWatchlistAlertAndSave(watchlist)
+		es.notifyAdd(slug)
 		res.status(201).send(watchlist)
 	} catch (e) {
 		await sendError(res, e)
 	}
 })
 
-router.put('/api/alerts/update', auth, async (req, res) => {
+router.put(paths.alerts.update, auth, async (req, res) => {
 	try {
 		let updates = Object.keys(req.body)
 		if (updates.length === 0) throw new Error('Please provide informations to modify')
@@ -61,7 +67,7 @@ router.put('/api/alerts/update', auth, async (req, res) => {
 	}
 })
 
-router.delete('/api/alerts/delete', auth, async (req, res) => {
+router.delete(paths.alerts.delete, auth, async (req, res) => {
 	try {
 		await req.user.populate({
 			path: 'watchlist'
@@ -83,7 +89,7 @@ router.delete('/api/alerts/delete', auth, async (req, res) => {
 		}
 
 		await req.user.removeWatchlistAlertAndSave(alert._id)
-
+		es.notifyRemove()
 		res.send({
 			message: 'Alert successfully removed.',
 			alert

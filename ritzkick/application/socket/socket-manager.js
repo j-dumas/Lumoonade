@@ -4,6 +4,7 @@ const graphRoom = require('./utils/graph')
 const rm = require('./room-manager')
 const Service = require('./service')
 const log = require('../../utils/logging')
+const handler = require('../../application/socket/utils/handler')
 
 let serverSocket = undefined
 
@@ -29,8 +30,12 @@ const initialize = (server) => {
 	)
 
 	general.getService().cleanCallback((data) => {
-		if (data.length === 0) return data
-		return data.quoteResponse.result
+		try {
+			if (data.length === 0) return data
+			return data.quoteResponse.result
+		} catch (e) {
+			return data
+		}
 	})
 
 	// ---------------------------------------
@@ -38,13 +43,20 @@ const initialize = (server) => {
 	// and then it emits the result to all sockets in the room
 	// ---------------------------------------
 	general.getService().listenCallback((room, data) => {
+		if (!data) return
+		if (data.length === 0) return
+		if (!room) return
 		room.clients.forEach((client) => {
 			// Keeping what the client asked for
-			const result = parser.keepFromList(data, {
-				searchTerm: 'symbol',
-				keep: client.query
-			})
-			client.socket.emit('data', result)
+			try {
+				const result = parser.keepFromList(data, {
+					searchTerm: 'symbol',
+					keep: client.query
+				})
+				if (result.length !== 0) {
+					client.socket.emit('data', result)
+				}
+			} catch (_) {}
 		})
 	})
 
@@ -69,16 +81,9 @@ const initialize = (server) => {
 			log.info('Update', `Updating values for ${id}`)
 			let rooms = rm.getRoomsOfSocket(id)
 			rooms.forEach((room) => {
-				let alone = room.clients.length === 1
-				let service = room.getService()
-				if (!alone) {
-					service.query = parser.appendToList(service.query, query)
-					service.query = service.query.flat()
-				} else {
-					service.query = query
-				}
 				room.modifyClient(id, { query })
 				socket.handshake.auth.query = query
+				handler.onUpdate(room)
 			})
 			socket.emit('executed')
 		})
@@ -113,10 +118,19 @@ const initialize = (server) => {
 	})
 }
 
+/**
+ * This is the main process that every socket goes thru.
+ * @param {socket} socket socket
+ * @param {list} rooms list of all rooms
+ * @param {list} query list of what they want to see
+ * @param {string} append content to append on the service's url
+ * @param {boolean} graph this feature is deprecated, it was used to tell if the room needed graph calls
+ */
 const connectionProcess = (socket, rooms, query, append, graph) => {
 	rooms.forEach((room) => {
 		let r = rm.getRoom(room)
 		if (r) {
+			socket.handshake.auth.query = parser.slapToLowerCase(socket.handshake.auth.query)
 			if (r.append(socket)) {
 				log.info('Server', `${socket.id} is new to the room ${r.name}`)
 				socket.join(room)
@@ -126,8 +140,8 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 
 				socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
 
-				r.getService().query = parser.appendToList(r.getService().query, query)
-				r.getService().query = r.getService().query.flat()
+				handler.onUpdate(r)
+				console.log(r.getClient(socket.id))
 				r.getService().run()
 			} else {
 				log.error('Server', `${socket.id} failed to join ${r.name}`)

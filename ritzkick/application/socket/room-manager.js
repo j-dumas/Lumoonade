@@ -1,6 +1,5 @@
 const Room = require('./room')
 const handler = require('./utils/handler')
-const log = require('../../utils/logging')
 
 // -------------
 // List of all rooms
@@ -11,8 +10,8 @@ const initialization = () => {
 	rooms.length = 0
 }
 
-const add = (room) => {
-	rooms.push(new Room(room))
+const add = (room, graph = false) => {
+	rooms.push(new Room(room, graph))
 }
 
 /**
@@ -22,7 +21,6 @@ const add = (room) => {
 const disconnect = (socket) => {
 	rooms.forEach((room) => {
 		if (room.remove(socket)) {
-			log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
 			handler.onLeftRoom(room)
 		}
 	})
@@ -31,7 +29,6 @@ const disconnect = (socket) => {
 const disconnectFromRoom = (socket, roomName) => {
 	const room = getRoom(roomName)
 	if (room.remove(socket)) {
-		log.info('Room Manager', `${socket.id} removed from room ${room.name}`)
 		handler.onLeftRoom(room)
 	}
 }

@@ -1,12 +1,31 @@
 import axios from 'axios'
 import yahoo from '../utils/yahoo'
 
-const Functions = {
-	async GetCryptocurrencyInformationsBySlug(slug) {
-		const URL = 'localhost:3000'
-		const URI = '/api/crypto/search/'
+const paths = require('../api/routes.json')
 
-		var reponse = await fetch(URI + slug)
+const Functions = {
+	async GetSCryptocurrencySlugsBySeach(keyword, page = 0, limit = 16) {
+		const URI = `/api/assets/search/${keyword}?page${page}&limit=${limit}`
+
+		var reponse = await fetch(URI)
+		var json = reponse.json()
+
+		return json
+	},
+
+	async GetAllCryptocurrencySlugs(page = 0, limit = 16) {
+		const URI = `/api/assets/all?page${page}&limit=${limit}`
+
+		var reponse = await fetch(URI)
+		var json = reponse.json()
+
+		return json
+	},
+
+	async GetCryptocurrencyInformationsBySlug(slug) {
+		const URI = paths.assets.search.yahoo
+
+		var reponse = await fetch(`${URI}${slug}`)
 		var json = reponse.json()
 
 		return json
@@ -31,10 +50,9 @@ const Functions = {
 	},
 
 	async GetCryptocurrencyChartDataBySlug(slug, dateRange, interval) {
-		const URL = 'localhost:3000'
-		const URI = '/api/crypto/chart/'
+		const URI = paths.assets.chart
 
-		var reponse = await fetch(URI + slug + `?dateRange=${dateRange}&interval=${interval}`)
+		var reponse = await fetch(`${URI}${slug}?dateRange=${dateRange}&interval=${interval}`)
 		var json = await reponse.json()
 
 		return json

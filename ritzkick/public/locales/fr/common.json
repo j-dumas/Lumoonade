@@ -1,0 +1,20 @@
+{
+	"pages": {
+		"index": { "title": "CRYPTOOL | ACCUEIL", "description": "Page d'accueil Cryptool" },
+		"login": { "title": "CRYPTOOL | CONNEXION", "description": "Page de connexion Cryptool" },
+		"register": { "title": "CRYPTOOL | INSCRIPTION", "description": "Page d'inscription Cryptool" },
+		"compare": { "title": "CRYPTOOL | COMPARER", "description": "Page de comparaison de cryptomonnaies Cryptool" },
+		"asset": { "title": "CRYPTOOL | ", "description": "Page des cryptomonnaies Cryptool" }
+	},
+	"meta": { "title": "CRYPTOOL", "description": "Cryptool pour les CryptoCurrencies", "type": "website" },
+	"footer": { "powered": "Propulsé par " },
+	"navbar": {
+		"home": "Accueil",
+		"assets": "Cryptos",
+		"compare": "Comparer",
+		"user": { "wallet": "Portefeuille", "profile": "Profil" },
+		"login": "Connexion",
+		"logout": "Déconnexion",
+		"register": "Incription"
+	}
+}

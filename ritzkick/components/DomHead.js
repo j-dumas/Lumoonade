@@ -1,17 +1,20 @@
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'next-i18next'
 
 const WEBSITE_NAME = 'Cryptool'
 
 function DomHead({ pageMeta }) {
+	const { t } = useTranslation('common')
+
 	const meta = {
-		title: 'CRYPTOOL',
-		description: 'Cryptool for CryptoCurrencies',
-		type: 'website',
+		title: t('meta.title'),
+		description: t('meta.description'),
+		type: t('meta.type'),
 		...pageMeta
 	}
 
-	const [url, setUrl] = useState('http://localhost')
+	const [url, setUrl] = useState()
 
 	useEffect(() => {
 		const bubbletext = document.getElementsByClassName('bubbles')
@@ -33,39 +36,6 @@ function DomHead({ pageMeta }) {
 				element.append(span)
 			}
 		})
-
-		/****************************************************************/
-
-		const hoverItem = document.getElementsByClassName('hover-item')
-		// const cursor = document.querySelector('.cursor')
-
-		// Array.prototype.forEach.call(hoverItem, function (element) {
-		// 	console.log(cursor)
-		// 	element.addEventListener('mouseenter', () => {
-		// 		cursor.classList.add('cursor-hover')
-		// 	})
-		// 	element.addEventListener('mouseleave', () => {
-		// 		cursor.classList.remove('cursor-hover')
-		// 	})
-		// })
-
-		// document.addEventListener('mousemove', (e) => {
-		// 	cursor.setAttribute(
-		// 		'style',
-		// 		'top: ' + (e.pageY - 10) + 'px; left: ' + (e.pageX - 10) + 'px;'
-		// 	)
-		// })
-
-		// document.addEventListener('click', () => {
-		// 	cursor.classList.remove('cursor-hover')
-		// 	cursor.classList.add('expand')
-
-		// 	var timeout = setTimeout(() => {
-		// 		cursor.classList.remove('expand')
-		// 	}, 500)
-		// })
-
-		//return () => clearTimeout(timeout)
 
 		setUrl(window.location.href)
 	}, [])

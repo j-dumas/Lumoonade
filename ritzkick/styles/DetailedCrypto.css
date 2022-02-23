@@ -4,7 +4,7 @@
 }
 
 .detailed-menu {
-	margin-bottom: 15px;
+	margin: 15px 0px 15px 0px;
 }
 
 .detailed-menu-info {
@@ -23,22 +23,27 @@
 	font-size: 20px;
 }
 .detailed-menu-actions-icon {
-	background-color: var(--main-color);
+	background-color: transparent;
+	color: var(--font-color-2);
+	border: 1px solid var(--background-color-3);
 	padding: 8px 11px 8px 11px;
 	border-radius: 50px;
 	transition: 0.25s;
 }
 .detailed-menu-actions-icon:hover {
-	color: whitesmoke;
+	color: var(--font-color);
+	border: 1px solid var(--font-color-2);
 }
 
 .detailed-menu-title {
 	font-size: 24px;
 	font-weight: bold;
+	margin: 0px;
 }
 .detailed-menu-subtitle {
 	font-size: 24px;
 	color: var(--font-color-2);
+	height: fit-content;
 }
 
 .detailed-informations {
@@ -51,6 +56,7 @@
 	min-width: 360px;
 
 	padding: 20px;
+	gap: 5px;
 
 	border-radius: 5px;
 	background: var(--background-color-2);
@@ -61,9 +67,14 @@
 	color: var(--font-color-2);
 }
 
+.detailed-div-name {
+	margin-bottom: 10px;
+}
+
 .detailed-div-item {
 	width: 100%;
-	margin-top: 15px;
+	margin: 5px 0px 10px 0px;
+	gap: 5px;
 
 	color: white;
 }
@@ -83,4 +94,13 @@
 
 .detailed-price {
 	font-size: 32px;
+}
+
+.dynamic-list-item {
+	background-color: var(--background-color-3);
+	font-size: 15px;
+	border-radius: 5px;
+	padding: 5px 9px 4px 8px;
+	transition: 0.5s;
+	cursor: default;
 }
