@@ -11,15 +11,17 @@ const { TopGainer, TopLoser } = require('../../db/model/top_asset')
 const { fetchPopularAssets, modifyPopularAssets } = require('../../services/PopularAssetService')
 const router = express.Router()
 
-router.get('/api/assets/search/:slug', pagination, async (req, res) => {
+router.get('/api/assets/search/:value', pagination, async (req, res) => {
 	try {
-		const slug = req.params.slug
-		const assets = await Asset.find({ slug: { $regex: slug } })
+		const searchedValue = req.params.value
+		const assets = await Asset.find({
+			$or: [{ symbol: { $regex: searchedValue } }, { name: { $regex: searchedValue } }]
+		})
 			.sort({ searchedCount: -1 })
 			.limit(req.limit)
 			.skip(req.skipIndex)
 			.exec()
-		if (!assets || assets.length === 0) {
+		if (!assets) {
 			throw new ServerError('Unable to fetch assets')
 		}
 		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
