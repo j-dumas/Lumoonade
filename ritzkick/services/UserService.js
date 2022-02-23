@@ -36,7 +36,7 @@ export async function getWatchList() {
 
 export async function deleteWatch(alertId) {
 	try {
-		let response = await fetch('/api/alerts/delete', {
+		await fetch('/api/alerts/delete', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -45,8 +45,6 @@ export async function deleteWatch(alertId) {
 			body: JSON.stringify({ id: alertId })
 		})
 
-		let json = await response.json()
-		console.log(json)
 	} catch (e) {
 		console.log(e)
 	}
@@ -54,7 +52,7 @@ export async function deleteWatch(alertId) {
 
 export async function addWatch(alert) {
 	try {
-		let response = await fetch('/api/alerts', {
+		await fetch('/api/alerts', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -62,9 +60,6 @@ export async function addWatch(alert) {
 			},
 			body: JSON.stringify({ slug: alert.slug, target: alert.target, parameter: alert.parameter })
 		})
-
-		let json = await response.json()
-		console.log(json)
 	} catch (e) {
 		console.log(e)
 	}
@@ -125,7 +120,7 @@ export async function removeSession() {
 		})
 
 		let json = await response.json()
-		console.log(json)
+		return json.purged
 	} catch (e) {
 		console.log(e)
 	}

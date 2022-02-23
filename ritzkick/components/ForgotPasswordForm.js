@@ -1,23 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import AndSeparator from './AndSeparator'
 import Separator from './Separator'
 import Link from 'next/link'
+import Snackbar from '@mui/material/Snackbar'
+import { Alert } from '@mui/material'
 
-const TITLE = 'Connexion'
-const SENDEMAIL = 'https://formsubmit.co/'
+export default function ForgotPasswordForm(){
 
-class ForgotPasswordForm extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = { email: '' }
-		this.emailQuery = SENDEMAIL + this.state.email
+	const [email, setEmail] = useState(undefined)
+	const [open, setOpen] = useState(false)
 
-		this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleEmailChange = this.handleEmailChange.bind(this)
-	}
-
-	async handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault()
 		try{
 			let response = await fetch('/api/reset', {
@@ -25,42 +19,43 @@ class ForgotPasswordForm extends React.Component {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({email: this.state.email})
+				body: JSON.stringify({email: email})
 			})
 	
 			console.log(response.status)
+			setOpen(true)
 		}
 		catch(e){
 			console.log(e)
 		}
 	}
 
-	handleEmailChange(event) {
-		let email = document.getElementById('emailField')
-		if (email.validity.typeMismatch) {
-			email.setCustomValidity('Entrez une adresse courriel valide.')
-			email.reportValidity()
-		} else {
-			email.setCustomValidity('')
-			this.setState({ email: event.target.value })
-		}
+	function handleEmailChange(event) {
+		setEmail(event.target.value)
 	}
 
-	render() {
-		return (
+	function handleClose(event, reason){
+		if (reason === 'clickaway') {
+		  return;
+		}
+	
+		setOpen(false);
+	  };
+
+	return (
 			<Container className="p-3 form">
 				<h1 className="form-title">Problème de connexion?</h1>
 				<h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
-				<form method="POST">
+				<form method="POST" onSubmit={(event) => handleSubmit(event)}>
 					<input
 						name="email"
 						id="emailField"
 						type="email"
 						placeholder="Courriel"
-						onChange={this.handleEmailChange}
+						onChange={handleEmailChange}
 						required
 					></input>
-					<input type="submit" value="Envoyez" onClick={this.handleSubmit}></input>
+					<input type="submit" value="Envoyez"></input>
 				</form>
 				<AndSeparator />
 				<Link href="/register">
@@ -70,10 +65,9 @@ class ForgotPasswordForm extends React.Component {
 				<Link href="/login">
 					<a className="link">Revenir à l&apos;écran de connexion</a>
 				</Link>
+				<Snackbar open={open} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+					<Alert onClose={handleClose} severity="success">{"Un email de confirmation a été envoyé à " + email}</Alert>
+				</Snackbar>
 			</Container>
-		)
-		// &apos; = '
-	}
+	)
 }
-
-export default ForgotPasswordForm
