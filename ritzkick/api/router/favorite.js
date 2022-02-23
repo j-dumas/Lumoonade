@@ -59,7 +59,7 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
 })
 
 /**
- * DELETE /api/favorite/:slug
+ * DELETE /api/favorite/{slug}
  * @summary Deleting a favorite default endpoint
  * @tags Favorite
  * @param {string} slug.path.required - Favorite slug
