@@ -24,10 +24,7 @@ router.post('/api/confirmations', async (req, res) => {
 		let token = await confirmation.makeConfirmationToken()
 		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/email-confirmation?key=${token}`
 		// emailSender.sendConfirmationEmail(email, link)
-		res.status(201).send({
-			token,
-			confirmation
-		})
+		res.status(201).send()
 	} catch (e) {
 		res.status(400).send({
 			message: e.message
@@ -37,7 +34,6 @@ router.post('/api/confirmations', async (req, res) => {
 
 router.get('/api/confirmation/verify/:jwt', async (req, res) => {
     try {
-		console.log(req.params)
 		const token = req.params.jwt
 		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
 		const { email, secret } = decoded
