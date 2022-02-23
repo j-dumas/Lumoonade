@@ -44,7 +44,7 @@ export default function Assets() {
 			io('http://localhost:3000/', {
 				auth: {
 					rooms: ['general', `graph-1d-30m`],
-					query: ['btc-cad', 'eth-cad', 'ltc-cad', 'ada-cad', 'bnb-cad', 'doge-cad'],
+					query: ['btc-cad', 'ltc-cad', 'ada-cad', 'bnb-cad', 'doge-cad'],
 					graph: true
 				}
 			})
@@ -56,7 +56,7 @@ export default function Assets() {
 			io('http://localhost:3000/', {
 				auth: {
 					rooms: ['general', `graph-1d-30m`],
-					query: ['btc-cad'],
+					query: [],
 					graph: true
 				}
 			})
