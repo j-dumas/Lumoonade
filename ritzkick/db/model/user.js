@@ -73,12 +73,17 @@ const userSchema = new mongoose.Schema(
 					type: mongoose.Schema.Types.ObjectId
 				}
 			}
-		]
+		],
+		validatedEmail: {
+			type: Boolean,
+			default: false
+		}
 	},
 	{
 		timestamps: true,
 		toJSON: {
 			transform: function (doc, ret) {
+				delete ret.validatedEmail
 				delete ret.password
 				delete ret.__v
 			}
@@ -122,6 +127,12 @@ userSchema.methods.makeAuthToken = async function () {
 
 	await user.save()
 	return token
+}
+
+userSchema.methods.verified = async function () {
+	const user = this
+	user.validatedEmail = true
+	await user.save()
 }
 
 userSchema.methods.makeProfile = async function () {

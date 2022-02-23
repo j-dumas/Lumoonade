@@ -141,7 +141,7 @@ router.post(paths.auth.register, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.post(paths.auth.logout', authentication, async (req, res) => {
+router.post(paths.auth.logout, authentication, async (req, res) => {
 	try {
 		req.user.sessions = req.user.sessions.filter((session) => session.session !== req.token)
 		await req.user.save()
