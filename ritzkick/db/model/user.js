@@ -7,6 +7,7 @@ const Favorite = require('./favorite')
 const Wallet = require('./wallet')
 const Watchlist = require('./watchlist')
 const Reset = require('./reset')
+const Confirmation = require('./confirmation')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -230,6 +231,7 @@ userSchema.pre('remove', async function (next) {
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })
 	await Reset.deleteMany({ email: user.email })
+	await Confirmation.deleteMany({ email: user.email })
 	next()
 })
 

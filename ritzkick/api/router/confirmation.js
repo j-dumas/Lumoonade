@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const Confirmation = require('../../db/model/confirmation')
+const User = require('../../db/model/user')
 const emailSender = require('../../application/email/email')
 const validator = require('validator').default
+const jwt = require('jsonwebtoken')
 
 router.post('/api/confirmations', async (req, res) => {
 	try {
@@ -16,6 +18,7 @@ router.post('/api/confirmations', async (req, res) => {
 		}
 
 		const _ = await dropIfExist(email)
+		console.log(_)
 		const confirmation = new Confirmation({ email })
 		await confirmation.save()
 		let token = await confirmation.makeConfirmationToken()
@@ -34,6 +37,7 @@ router.post('/api/confirmations', async (req, res) => {
 
 router.get('/api/confirmation/verify/:jwt', async (req, res) => {
     try {
+		console.log(req.params)
 		const token = req.params.jwt
 		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
 		const { email, secret } = decoded
@@ -42,7 +46,7 @@ router.get('/api/confirmation/verify/:jwt', async (req, res) => {
 			throw new Error('Token may be outdated.')
 		}
 
-		const decodedTokenStored = jwt.verify(confirmation.confirmationTokens, process.env.RESET_JWT_SECRET)
+		const decodedTokenStored = jwt.verify(confirmation.confirmationToken, process.env.RESET_JWT_SECRET)
 
 		const modified = !Object.keys(decoded).every((key) => {
 			return decoded[key] === decodedTokenStored[key]
@@ -52,8 +56,9 @@ router.get('/api/confirmation/verify/:jwt', async (req, res) => {
 			throw new Error('Token is corrupted')
 		}
 
-		console.log('Verified')
-		await confirmation.save()
+		await Confirmation.findOneAndDelete({ email, secret })
+		const user = await User.findOne({ email })
+		await user.verified()
 		res.send()
 	} catch (e) {
 		res.status(400).send({

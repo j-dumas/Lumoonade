@@ -16,7 +16,7 @@ const confirmationSchema = new mongoose.Schema({
 			}
 		}
 	},
-	confirmationTokens: {
+	confirmationToken: {
 		type: String,
         trim: true
 	},
@@ -31,7 +31,7 @@ confirmationSchema.methods.makeConfirmationToken = async function () {
 	const token = jwt.sign({ email: confirmation.email, secret: confirmation.secret }, process.env.RESET_JWT_SECRET, {
 		expiresIn: '10m'
 	})
-	confirmation.confirmationTokens = token
+	confirmation.confirmationToken = token
 	await confirmation.save()
 	return token
 }
