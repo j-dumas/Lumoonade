@@ -30,8 +30,12 @@ const initialize = (server) => {
 	)
 
 	general.getService().cleanCallback((data) => {
-		if (data.length === 0) return data
-		return data.quoteResponse.result
+		try {
+			if (data.length === 0) return data
+			return data.quoteResponse.result
+		} catch (e) {
+			return data
+		}
 	})
 
 	// ---------------------------------------
@@ -41,6 +45,7 @@ const initialize = (server) => {
 	general.getService().listenCallback((room, data) => {
 		if (!data) return
 		if (data.length === 0) return
+		if (!room) return
 		room.clients.forEach((client) => {
 			// Keeping what the client asked for
 			try {
@@ -48,7 +53,9 @@ const initialize = (server) => {
 					searchTerm: 'symbol',
 					keep: client.query
 				})
-				client.socket.emit('data', result)
+				if (result.length !== 0) {
+					client.socket.emit('data', result)
+				}
 			} catch (_) {}
 		})
 	})
@@ -71,10 +78,6 @@ const initialize = (server) => {
 		// This is used to update the query list of a socket
 		// ---------------------------------------
 		socket.on('update', (id, query) => {
-			if (query.length === 0) {
-				log.error('Update', 'Query empty, so kicking ' + id)
-				return socket.disconnect()
-			}
 			log.info('Update', `Updating values for ${id}`)
 			let rooms = rm.getRoomsOfSocket(id)
 			rooms.forEach((room) => {
@@ -115,6 +118,14 @@ const initialize = (server) => {
 	})
 }
 
+/**
+ * This is the main process that every socket goes thru.
+ * @param {socket} socket socket
+ * @param {list} rooms list of all rooms
+ * @param {list} query list of what they want to see
+ * @param {string} append content to append on the service's url
+ * @param {boolean} graph this feature is deprecated, it was used to tell if the room needed graph calls
+ */
 const connectionProcess = (socket, rooms, query, append, graph) => {
 	rooms.forEach((room) => {
 		let r = rm.getRoom(room)

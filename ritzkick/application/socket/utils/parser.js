@@ -5,6 +5,8 @@
  * @returns a set cast as a list of all unique values
  */
 const appendToList = (list, content) => {
+	if (!list) return []
+	if (!content) return rebuild(list)
 	list.push(...content)
 	return rebuild(list)
 }
@@ -15,6 +17,7 @@ const appendToList = (list, content) => {
  * @returns a list of unique values
  */
 const rebuild = (list) => {
+	if (!list) return []
 	return [...new Set(list)]
 }
 
@@ -47,6 +50,11 @@ const sameString = (s1, s2) => {
 	return String(s1).toLowerCase() === String(s2).toLowerCase()
 }
 
+/**
+ * Set all values of the list to a lower case format.
+ * @param {list} list 
+ * @returns the content of the list set in lower case.
+ */
 const slapToLowerCase = (list) => {
 	if (!list) return []
 	let copy = [...list]

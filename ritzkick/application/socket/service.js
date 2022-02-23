@@ -48,6 +48,7 @@ class Service {
 	run() {
 		if (this.running) return
 		this.running = true
+		// The services are always running on 1s delay
 		this.routine = setInterval(() => {
 			axios({
 				url: this.url + this.query + this.appendUrlData,

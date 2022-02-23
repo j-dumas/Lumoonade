@@ -10,8 +10,8 @@ const initialization = () => {
 	rooms.length = 0
 }
 
-const add = (room) => {
-	rooms.push(new Room(room))
+const add = (room, graph = false) => {
+	rooms.push(new Room(room, graph))
 }
 
 /**
