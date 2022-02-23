@@ -1,5 +1,31 @@
 import { getCookie } from '../services/CookieService'
 
+export async function addFavorite(slug) {
+	const URI = `/api/me/favorite`
+
+	let response = await fetch(URI, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({ slug: slug })
+	})
+}
+
+export async function deleteFavorite() {
+	const URI = `/api/me/favorite`
+
+	let response = await fetch(URI, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({ slug: slug })
+	})
+}
+
 export async function getFavorites() {
 	try {
 		let response = await fetch('/api/me/favorites', {
