@@ -140,6 +140,20 @@ userSchema.methods.makeProfile = async function () {
 	return profile
 }
 
+userSchema.methods.addWalletAndSave = async function (id) {
+	const user = this
+	user.wallet_list.push({
+		wallet: id
+	})
+	await user.save()
+}
+
+userSchema.methods.removeWalletAndSave = async function (id) {
+	const user = this
+	user.wallet_list = user.wallet_list.filter((wallet) => wallet.wallet.toString() !== id.toString())
+	await user.save()
+}
+
 userSchema.methods.addWatchlistAlertAndSave = async function (id) {
 	const user = this
 	user.watchlist_list.push({

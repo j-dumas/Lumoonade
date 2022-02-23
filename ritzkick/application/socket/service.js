@@ -1,5 +1,4 @@
 const axios = require('axios').default
-const log = require('../../utils/logging')
 
 class Service {
 	constructor(room, url, config) {
@@ -48,8 +47,8 @@ class Service {
 	 */
 	run() {
 		if (this.running) return
-		// log.info('Service', 'Running service for ' + this.room.name)
 		this.running = true
+		// The services are always running on 1s delay
 		this.routine = setInterval(() => {
 			axios({
 				url: this.url + this.query + this.appendUrlData,
@@ -73,7 +72,6 @@ class Service {
 		if (!this.running) return
 		this.running = false
 		this.query.length = 0
-		// log.info('Service', 'Stopping service for ' + this.room.name)
 		clearInterval(this.routine)
 	}
 }

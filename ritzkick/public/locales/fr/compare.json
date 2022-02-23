@@ -1,0 +1,18 @@
+{
+	"menu": {
+		"comparing": "Comparer",
+		"options": {
+			"price": "Prix",
+			"efficiency": "Efficacité",
+			"volume": "Volume",
+			"market-cap": "Market Cap"
+		},
+		"with": "Avec",
+		"search": "Rechercher",
+		"table": {
+			"asset": "Crypto",
+			"price": "Prix ($)",
+			"change": "Changement en 24h"
+		}
+	}
+}
