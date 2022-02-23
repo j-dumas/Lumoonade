@@ -161,10 +161,10 @@ export default function ProfilePopup(props) {
 							/>
 						</FormControl>
 						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-password">Nouveau mot de passe</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-new-password">Nouveau mot de passe</InputLabel>
 							<OutlinedInput
 								name={newPass}
-								id="outlined-adornment-password"
+								id="outlined-adornment-new-password"
 								type={passwordValues.newPassShow ? "text" : "password"}
 								onChange={handleChange}
 								startAdornment={
@@ -188,10 +188,10 @@ export default function ProfilePopup(props) {
 							/>
 						</FormControl>
 						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-password">Confirmation nouveau mot de passe</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-new-confirmation-password">Confirmation nouveau mot de passe</InputLabel>
 							<OutlinedInput
 								name={newPassConfirmation}
-								id="outlined-adornment-password"
+								id="outlined-adornment-new-confirmation-password"
 								type={passwordValues.newPassConfirmationShow ? "text" : "password"}
 								onChange={handleChange}
 								startAdornment={
