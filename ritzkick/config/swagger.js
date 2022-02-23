@@ -16,14 +16,8 @@ module.exports = {
 	swaggerUIPath: '/api-docs',
 	servers: [
 		{
-			url: 'http://localhost',
-			description: 'Dev server',
-			variables: {
-				port: {
-					enum: ['3000'],
-					default: '3000'
-				}
-			}
+			url: 'http://localhost:3000',
+			description: 'Dev server'
 		},
 		{
 			url: 'https://test.cryptool.atgrosdino.ca',
