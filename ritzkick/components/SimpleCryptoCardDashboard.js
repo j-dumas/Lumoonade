@@ -8,8 +8,7 @@ function SimpleCryptoCardDashboard(props) {
     useEffect(() => {
 		props.socket.on('data', (data) => {
 			setDatas(data)
-			//if(data.length > 1) {
-			//console.log(data[0].regularMarketPrice)}
+			console.log(data)
 		})
 		props.socket.on('graph', (data) => {
 			setChartDatas(data)
@@ -22,13 +21,10 @@ function SimpleCryptoCardDashboard(props) {
 			{
 			
 			datas.map((element, i) => {
-				let chartData = null
-				chartDatas.map((chartElement) => {
-					if (chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()) {
-						chartData = chartElement
-					}
+				let chartData = chartDatas.find((chartElement) => {
+					return (chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase())
 				})
-				
+
                 return (
                     <SimpleCryptoCard data={element} chartData={chartData} key={element.fromCurrency}/>
                 )

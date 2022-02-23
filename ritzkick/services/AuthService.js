@@ -1,7 +1,11 @@
 import { getCookie, setCookie } from '../services/CookieService'
 
-export async function isUserConnected() {
-	return (getCookie('token'))
+export function isUserConnected() {
+	const token = getCookie('token')
+
+	if (!token) return false
+	if (token == undefined) return false
+	return true
 }
 
 export async function logout() {

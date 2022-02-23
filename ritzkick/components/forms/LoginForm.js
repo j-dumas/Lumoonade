@@ -15,14 +15,14 @@ const LoginForm = () => {
 	const [password, setPassword] = useState()
 
 	const handleEmailChange = (event) => {
-		let emailField = document.getElementById('emailField')
+		/*let emailField = document.getElementById('emailField')
 		if (emailField.validity.typeMismatch) {
 			emailField.setCustomValidity(t())
 			emailField.reportValidity()
 		} else {
-			emailField.setCustomValidity(t('validation.email'))
+			emailField.setCustomValidity(t('validation.email'))*/
 			setEmail(event.target.value)
-		}
+		//}
 	}
 
 	const handlePasswordChange = (event) => {
@@ -74,7 +74,7 @@ const LoginForm = () => {
 			<form onSubmit={handleSubmit}>
 				<input
 					id="emailField"
-					type="text"
+					type="email"
 					placeholder={t('fields.email')}
 					onChange={handleEmailChange}
 					required

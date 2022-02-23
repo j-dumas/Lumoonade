@@ -30,16 +30,15 @@ export default function Assets() {
 		})
 		
 		setSearchList(symbols)
-		console.log(searchList)
 	}
-
+	
 	useEffect(async () => {
 		if (!isUserConnected()) return
-		console.log('TOKEN')
 		let dummyFavList = await getFavorites()
 		dummyFavList.map((element, i) => {
-			dummyFavList[i] = element
+			dummyFavList[i] = element.slug + '-' + CURRENCY
 		})
+		setFavList(dummyFavList)
 	}, [])
 
 	useEffect(() => {
@@ -59,7 +58,7 @@ export default function Assets() {
 			io('http://localhost:3000/', {
 				auth: {
 					rooms: ['general', `graph-1d-30m`],
-					query: [],
+					query: ['btc-cad'],
 					graph: true
 				}
 			})
@@ -67,7 +66,6 @@ export default function Assets() {
 	}, [])
 
 	useEffect(()=> {
-
 		if (socket) {
 			socket.on('ready', () => {
 				setIsSocketReady(true)

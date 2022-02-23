@@ -48,7 +48,7 @@ function CompareMenu(props) {
 		event.preventDefault()
 		let search = event.target[0].value
 		if (!search) search = '0'
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 8)
+		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 16)
 		list = list.assets
 		setSearchList(list)
 	}
