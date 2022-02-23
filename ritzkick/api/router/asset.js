@@ -64,7 +64,7 @@ const { sendError, ServerError } = require('../../utils/http_errors')
  * 	"error": "Unable to fetch assets"
  * }
  */
-router.get(`${paths.assets.search.db}:slug`, pagination, async (req, res) => {
+router.get(`${paths.assets.search.db}:value`, pagination, async (req, res) => {
 	try {
 		const searchedValue = req.params.value
 		const assets = await Asset.find({
