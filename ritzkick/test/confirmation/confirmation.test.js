@@ -60,11 +60,22 @@ describe(`Validation test cases for /api/confirmation/verify/:jwt`, () => {
 
     test(`'VALIDATED REQUEST' you can validate the token if it exists.`, async () => {
         let confirmations = await Confirmation.find({})
+        expect(confirmations.length).toBe(0)
         let user = await User.findOne({ email: tempUser.email })
         expect(user.validatedEmail).toBeFalsy()
 
         await request(server).post('/api/confirmations').send({ email: tempUser.email }).expect(201)
+        confirmations = await Confirmation.find({})
+        expect(confirmations.length).toBe(1)
 
+        confirmation = await Confirmation.findOne({ email: tempUser.email })
+        expect(confirmation).toBeDefined()
+        let token = confirmation.confirmationToken
+        await request(server).get(URL + token).send().expect(200)
 
+        confirmations = await Confirmation.find({})
+        expect(confirmations.length).toBe(0)
+        user = await User.findOne({ email: tempUser.email })
+        expect(user.validatedEmail).toBeTruthy()
     })
 })
