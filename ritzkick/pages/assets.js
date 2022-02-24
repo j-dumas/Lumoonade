@@ -29,6 +29,7 @@ export default function Assets() {
 		list.assets.map((element) => {
 			symbols.push(element.symbol+'-'+CURRENCY)
 		})
+		console.log(symbols)
 		setSearchList(symbols)
 	}
 	
@@ -44,7 +45,7 @@ export default function Assets() {
 			io('http://localhost:3000/', {
 				auth: {
 					rooms: ['general', `graph-1d-30m`],
-					query: ['btc-cad', 'ltc-cad', 'ada-cad', 'bnb-cad', 'doge-cad'],
+					query: ['btc-cad', 'eth-cad', 'ltc-cad', 'ada-cad', 'bnb-cad', 'doge-cad'],
 					graph: true
 				}
 			})
@@ -99,7 +100,6 @@ export default function Assets() {
 			<Header />
 			
 			<section className="section column center principal first">
-				
 				<section className='sub-section'>
 					<div className="page-menu space-between row h-center">
 						<div className="row h-center detailed-menu-info">
@@ -126,7 +126,6 @@ export default function Assets() {
 					</>
 					:null}
 				</section>
-
 			</section>
 
 			<Footer />
