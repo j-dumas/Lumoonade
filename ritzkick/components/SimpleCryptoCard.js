@@ -3,11 +3,6 @@ import Image from 'next/image'
 import SimpleChart from './charts/SimpleChart'
 import format from '../utils/formatter'
 
-//const chart = chartReference.current
-//if (!chart || isDataNull(datas)) return
-//chart.data = getRelativeChartData(datas)
-//chart.update()
-
 function SimpleCryptoCard(props) {
 	
 	return (

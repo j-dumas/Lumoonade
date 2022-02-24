@@ -17,7 +17,7 @@ export async function addFavorite(slug) {
 
 export async function deleteFavorite(slug) {
 	if (!isUserConnected()) return
-	const URI = `/api/favorite/${slug}`
+	const URI = `/api/favorite`
 
 	let response = await fetch(URI, {
 		method: 'DELETE',
@@ -25,7 +25,7 @@ export async function deleteFavorite(slug) {
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + getCookie('token')
 		},
-		//body: JSON.stringify({ slug: slug })
+		body: JSON.stringify({ slug: slug })
 	})
 }
 

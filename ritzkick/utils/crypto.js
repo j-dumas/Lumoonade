@@ -1,7 +1,8 @@
 export function SlugArrayToSymbolArray(slugs, currency, upperCase = false) {
     let symbols = []
     slugs.map((element, i) => {
-        symbols.push(element.slug + '-' + currency)
+        if (element.slug == undefined) symbols.push(SymbolToSlug(element.symbol) + '-' + currency)
+        else symbols.push(SymbolToSlug(element.slug) + '-' + currency)
     })
     return symbols
 }

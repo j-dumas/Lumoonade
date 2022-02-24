@@ -7,87 +7,42 @@ import Functions from '../services/CryptoService'
 import { getFavorites } from '../services/UserService'
 import { isUserConnected } from '../services/AuthService'
 import {SlugArrayToSymbolArray} from '../utils/crypto'
-const io = require('socket.io-client')
+import {createSocket} from '../services/SocketService'
 
 const CURRENCY = "usd"
 
 export default function Assets() {
-	const [isSocketReady, setIsSocketReady] = useState(false)
-
-	const [favList, setFavList] = useState([])
 	const [searchList, setSearchList] = useState([])
 
 	const [socket, setSocket] = useState()
 	const [favSocket, setFavSocket] = useState()
 
-	async function updateSearchList(event) {
-		event.preventDefault()
-		let search = event.target[0].value
-		if (!search || search == undefined || search == "") return
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 16)
-		let symbols = []
-		list.assets.map((element) => {
-			symbols.push(element.symbol+'-'+CURRENCY)
-		})
-		console.log(symbols)
-		setSearchList(symbols)
-	}
-	
 	useEffect(async () => {
-		if (!isUserConnected()) return
-		let slugs = await getFavorites()
-		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
-		setFavList(symbols)
-	}, [])
-
-	useEffect(() => {
-		setSocket(
-			io('http://localhost:3000/', {
-				auth: {
-					rooms: ['general', `graph-1d-30m`],
-					query: ['btc-cad', 'eth-cad', 'ltc-cad', 'ada-cad', 'bnb-cad', 'doge-cad'],
-					graph: true
-				}
-			})
-		)
-
-		if (!isUserConnected()) return
-		console.log('fav socket')
-		setFavSocket(
-			io('http://localhost:3000/', {
-				auth: {
-					rooms: ['general', `graph-1d-30m`],
-					query: [],
-					graph: true
-				}
-			})
-		)
+		if (isUserConnected()) {
+			let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
+			setFavSocket(createSocket(['general', `graph-1d-30m`], symbols))		
+		}
+		
+		//let symbols = await Functions.GetTopGainersCryptocurrencies(8)
+		//let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
+		let list = ["btc-usd","eth-usd","bnb-usd","ltc-usd","ada-usd","doge-usd","shib-usd","theta-usd"]
+		setSocket(createSocket(['general', `graph-1d-30m`], list))
 	}, [])
 
 	useEffect(()=> {
-		if (socket) {
-			socket.on('ready', () => {
-				setIsSocketReady(true)
-				console.log('test true')
-			})
+		if (socket) socket.emit('update', socket.id, searchList)
+	}, [searchList])
 
-			socket.on('executed', () => {
-				setIsSocketReady(true)
-				console.log('query executed')
-			})
-		}
+	async function updateSearchList(event) {
+		event.preventDefault()
+		const search = event.target[0].value
+		if (!search || search == undefined || search == "") return
 
-		if (socket) {
-			socket.emit('update', socket.id, searchList)
-			console.log(isSocketReady)
-		}
-
-		if (favSocket) {
-			favSocket.on('ready', () => { 
-				favSocket.emit('update', favSocket.id, favList)
-			})
-		}
-	}, [searchList, favList])
+		let symbols = []
+		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 8)
+		list.assets.map((element) => symbols.push(element.symbol+'-'+CURRENCY))
+		setSearchList(symbols)
+	}
 
 	return (
 		<div>
@@ -115,7 +70,7 @@ export default function Assets() {
 				
 				<section className='sub-section'>
 					{socket ? <>
-					{favSocket && favList.length > 0?
+					{favSocket?
 					<>
 						<h1>Favorites</h1>
 						<SimpleCryptoCardDashboard socket={favSocket}/>

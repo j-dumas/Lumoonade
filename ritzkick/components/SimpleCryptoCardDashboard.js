@@ -6,13 +6,8 @@ function SimpleCryptoCardDashboard(props) {
 	const [chartDatas, setChartDatas] = useState([])
 
     useEffect(() => {
-		props.socket.on('data', (data) => {
-			setDatas(data)
-			//console.log(data)
-		})
-		props.socket.on('graph', (data) => {
-			setChartDatas(data)
-		})
+		props.socket.on('data', (data) => setDatas(data))
+		props.socket.on('graph', (data) => setChartDatas(data))
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
 
