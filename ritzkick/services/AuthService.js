@@ -19,7 +19,7 @@ export async function logout() {
     }
 }
 
-export async function login(email, password) {
+export async function login(email, password, handleError) {
 	try {
 		let response = await fetch('/api/auth/login', {
 			method: 'POST',
@@ -35,7 +35,8 @@ export async function login(email, password) {
             window.location.assign('/profile')
         }
         else if (response.status == 400){
-            document.getElementById("wrong").style.display = "block"
+            // document.getElementById("wrong").style.display = "block"
+            handleError()
         }
         else {
             alert("Something went wrong")

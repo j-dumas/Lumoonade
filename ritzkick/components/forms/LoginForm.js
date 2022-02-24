@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import AndSeparator from '../AndSeparator'
 import Separator from '../Separator'
@@ -7,47 +7,42 @@ import { login } from '../../services/AuthService'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { Email, Password, Visibility, VisibilityOff } from '@mui/icons-material'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText } from '@mui/material'
+import { useForm } from '../hooks/useForm'
 
 const LoginForm = () => {
 	const { t } = useTranslation('forms')
 
-	const [email, setEmail] = useState(undefined)
-	const [password, setPassword] = useState(undefined)
+	const [state, handleChange] = useForm({})
 	const [passShow, setPassShow] = useState(false)
-
-	const handleEmailChange = (event) => {
-		setEmail(event.target.value)
-	}
-
-	const handlePasswordChange = (event) => {
-		setPassword(event.target.value)
-	}
+	const [error, setError] = useState(false)
 
 	const handleClickShowPassword = (event) => {
 		setPassShow(!passShow)
 	}
 
+	const handleError = () => {
+		setError(true)
+	}
+
 	const handleSubmit = async (event) => {
-		if(email !== undefined && password !== undefined){
+		if(state.email !== undefined && state.password !== undefined){
 			event.preventDefault()
-			await login(email, password)
+			await login(state.email, state.password, handleError)
 		}
 	}
 
 	return (
 		<Container className="p-3 form">
 			<h1 className="form-title">{t('login.title')}</h1>
-			<div className="wrong" id="wrong">
-				Mauvais courriel ou mot de passe.
-			</div>
 			<form onSubmit={handleSubmit}>
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="outlined-adornment-courriel">{t('fields.email')}</InputLabel>
 					<OutlinedInput
+						name="email"
 						id="outlined-adornment-courriel"
 						type="email"
-						onChange={handleEmailChange}
+						onChange={handleChange}
 						startAdornment={
 							<InputAdornment position="end">
 								<Email />
@@ -58,12 +53,20 @@ const LoginForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+				{
+                    !!error && (
+                        <FormHelperText error id="error-input" sx={{textAlign: "center"}}>
+                            Mauvais courriel ou mot de passe.
+                        </FormHelperText>
+                    )
+                }
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="outlined-adornment-password">{t('fields.password')}</InputLabel>
 					<OutlinedInput
+						name="password"
 						id="outlined-adornment-password"
 						type={passShow ? "text" : "password"}
-						onChange={handlePasswordChange}
+						onChange={handleChange}
 						startAdornment={
 							<InputAdornment position='end'>
 								<Password />
