@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from '../services/CookieService'
+import { getCookie, setCookie, deleteCookie } from '../services/CookieService'
 
 export async function logout() {
     try {
@@ -11,8 +11,7 @@ export async function logout() {
             },
         })
         
-        //Delete cookie and redirect
-        document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Http-Only, SameSite=Strict" 
+        deleteCookie("token")
         window.location.assign('/')
     }
     catch(e){
@@ -59,6 +58,7 @@ export async function register(email, username, password) {
 
         let json = await response.json()
         setCookie(json.token)
+        
         window.location.assign('/profile')
     }
     catch(e){

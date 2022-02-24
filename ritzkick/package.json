@@ -37,6 +37,7 @@
 		"chart.js": "^3.7.0",
 		"chartjs-adapter-moment": "^1.0.0",
 		"chartjs-plugin-zoom": "^1.2.0",
+		"cookies-next": "^2.0.4",
 		"cross-env": "^7.0.3",
 		"cryptocurrencies": "^7.0.0",
 		"env-cmd": "^10.1.0",

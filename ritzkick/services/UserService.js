@@ -1,4 +1,4 @@
-import { getCookie } from '../services/CookieService'
+import { getCookie, deleteCookie } from '../services/CookieService'
 
 export async function getFavorites() {
 	try {
@@ -67,7 +67,7 @@ export async function addWatch(alert) {
 
 export async function deleteUser() {
 	try {
-		let response = await fetch('/api/me/delete', {
+		await fetch('/api/me/delete', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -75,10 +75,7 @@ export async function deleteUser() {
 			}
 		})
 
-		let json = await response.json()
-		console.log(json)
-
-		document.cookie = 'token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Http-Only, SameSite=Strict'
+		deleteCookie("token")
 		window.location.assign('/')
 	} catch (e) {
 		console.log(e)
@@ -96,7 +93,7 @@ export async function getUser(){
         })
 
         if(response.status === 401){
-            document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Http-Only, SameSite=Strict" 
+            deleteCookie("token")
             window.location.assign('/login')
         }
         else{

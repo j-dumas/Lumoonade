@@ -93,7 +93,7 @@ function Navbar(props) {
 								<li className={router.pathname == '/logout' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.DoorOpen />
 									{
-										<a className="nav-links" onClick={(closeMobileMenu, logoutUser)}>
+										<a className="nav-links" onClick={logoutUser}>
 											{t('navbar.logout')}
 										</a>
 									}

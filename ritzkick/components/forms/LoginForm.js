@@ -5,63 +5,33 @@ import Separator from '../Separator'
 import GoogleSignIn from '../GoogleSignIn'
 import { login } from '../../services/AuthService'
 import Link from 'next/link'
-
 import { useTranslation } from 'next-i18next'
+import { Email, Password, Visibility, VisibilityOff } from '@mui/icons-material'
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 
 const LoginForm = () => {
 	const { t } = useTranslation('forms')
 
-	const [email, setEmail] = useState()
-	const [password, setPassword] = useState()
+	const [email, setEmail] = useState(undefined)
+	const [password, setPassword] = useState(undefined)
+	const [passShow, setPassShow] = useState(false)
 
 	const handleEmailChange = (event) => {
-		let emailField = document.getElementById('emailField')
-		if (emailField.validity.typeMismatch) {
-			emailField.setCustomValidity(t())
-			emailField.reportValidity()
-		} else {
-			emailField.setCustomValidity(t('validation.email'))
-			setEmail(event.target.value)
-		}
+		setEmail(event.target.value)
 	}
 
 	const handlePasswordChange = (event) => {
-		let password = document.getElementById('passwordField')
-		if (password.validity.typeMismatch) {
-			password.setCustomValidity(t('validation.password'))
-			password.reportValidity()
-		} else {
-			password.setCustomValidity('')
-			setPassword(event.target.value)
-		}
+		setPassword(event.target.value)
 	}
 
-	const showError = (password, email) => {
-		if (!password.validity.valid) {
-			password.setCustomValidity(t('validation.password'))
-			password.reportValidity()
-		}
-		if (!email.validity.valid) {
-			email.setCustomValidity(t('validation.email'))
-			email.reportValidity()
-		}
+	const handleClickShowPassword = (event) => {
+		setPassShow(!passShow)
 	}
 
 	const handleSubmit = async (event) => {
-		let passwordField = document.getElementById('passwordField')
-		let emailField = document.getElementById('emailField')
-
-		if (!passwordField.validity.valid || !emailField.validity.valid) {
-			showError(passwordField, emailField)
+		if(email !== undefined && password !== undefined){
 			event.preventDefault()
-		} else {
-			if (email == '' || password == '') {
-				showError(passwordField, emailField)
-				event.preventDefault()
-			} else {
-				event.preventDefault()
-				await login(email, password)
-			}
+			await login(email, password)
 		}
 	}
 
@@ -72,22 +42,49 @@ const LoginForm = () => {
 				Mauvais courriel ou mot de passe.
 			</div>
 			<form onSubmit={handleSubmit}>
-				<input
-					id="emailField"
-					type="text"
-					placeholder={t('fields.email')}
-					onChange={handleEmailChange}
-					required
-					autoComplete="off"
-				/>
-				<input
-					id="passwordField"
-					type="password"
-					placeholder={t('fields.password')}
-					onChange={handlePasswordChange}
-					required
-					autoComplete="off"
-				/>
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+					<InputLabel htmlFor="outlined-adornment-courriel">{t('fields.email')}</InputLabel>
+					<OutlinedInput
+						id="outlined-adornment-courriel"
+						type="email"
+						onChange={handleEmailChange}
+						startAdornment={
+							<InputAdornment position="end">
+								<Email />
+							</InputAdornment>
+						}
+						fullWidth
+						required
+						autoComplete="off"
+					/>
+				</FormControl>
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+					<InputLabel htmlFor="outlined-adornment-password">{t('fields.password')}</InputLabel>
+					<OutlinedInput
+						id="outlined-adornment-password"
+						type={passShow ? "text" : "password"}
+						onChange={handlePasswordChange}
+						startAdornment={
+							<InputAdornment position='end'>
+								<Password />
+							</InputAdornment>
+						}
+						endAdornment={
+							<InputAdornment position="end">
+								<IconButton
+								onMouseDown={handleClickShowPassword}
+								onMouseUp={handleClickShowPassword}
+								edge="end"
+								>
+									{passShow ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						}
+						fullWidth
+						required
+						inputProps={{minLength: 8}}
+					/>
+				</FormControl>
 				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('login.submit')} />
 			</form>
 			<AndSeparator />
