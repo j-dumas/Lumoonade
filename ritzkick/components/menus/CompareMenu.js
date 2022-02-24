@@ -49,8 +49,7 @@ function CompareMenu(props) {
 		let search = event.target[0].value
 		if (!search) search = '0'
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 8)
-		list = list.assets
-		setSearchList(list)
+		setSearchList(list.assets)
 	}
 
 	function addToCompareList(event) {
@@ -114,11 +113,11 @@ function CompareMenu(props) {
 						return (
 							<button
 								onClick={addToCompareList}
-								key={element.slug}
-								value={element.slug}
+								key={element.symbol}
+								value={element.symbol}
 								className="dynamic-list-item"
 							>
-								{element.slug}
+								{element.symbol}
 							</button>
 						)
 					})}
