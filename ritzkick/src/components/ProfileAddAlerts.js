@@ -99,8 +99,8 @@ export default function ProfileAddAlerts(props) {
 				<div className="edit-popup">
 					<h1>Ajouter une alerte</h1>
 					<p>
-						L'alerte nous permet de vous envoyez un courriel lorsque la condition que vous entrez n'est pas
-						respectée
+						L&apos;alerte nous permet de vous envoyez un courriel lorsque la condition que vous entrez
+						n&apos;est pas respectée
 					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl sx={{ m: 1, width: '25%' }} className="inputField" variant="filled">

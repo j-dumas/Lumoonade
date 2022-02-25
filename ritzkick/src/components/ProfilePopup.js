@@ -102,7 +102,7 @@ export default function ProfilePopup(props) {
 							Le nom que vous désirez entrer est déjà utilisé
 						</div>
 						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-username">Nom d'utilisateur</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-username">Nom d&apos;utilisateur</InputLabel>
 							<OutlinedInput
 								name={newUsername}
 								id="outlined-adornment-username"

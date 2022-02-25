@@ -8,16 +8,16 @@ function ButtonFavorite(props) {
 	const [favorite, setFavorite] = useState(false)
 
 	async function handleFavorite() {
-		if (favorite) await deleteFavorite(props@/components/slug)
-		else await addFavorite(props@/components/slug)
+		if (favorite) await deleteFavorite(props.slug)
+		else await addFavorite(props.slug)
 		updateFavorite()
 	}
 
 	async function isSlugInFavorites() {
 		const favList = await getFavorites()
 		let isInFav = false
-		favList@/components/map((element) => {
-			if (AreSlugsEqual(element@/components/slug, props@/components/slug)) isInFav = true
+		favList.map((element) => {
+			if (AreSlugsEqual(element.slug, props.slug)) isInFav = true
 		})
 		return isInFav
 	}
@@ -39,7 +39,7 @@ function ButtonFavorite(props) {
 						await handleFavorite()
 					}}
 				>
-					{favorite ? <Icons@/components/StarFulled /> : <Icons@/components/StarEmpty />}
+					{favorite ? <Icons.StarFulled /> : <Icons.StarEmpty />}
 				</div>
 			</div>
 		</>
