@@ -3,6 +3,8 @@ import Icons from './Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from '../services/UserService'
 import { useForm } from './hooks/useForm'
+import { AccountCircle, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 
 const newUsername = 'newUsername'
 const oldPass = 'oldPass'
@@ -15,6 +17,7 @@ export default function ProfilePopup(props) {
 		closeOnOverlayClick: false
 	})
 	const [values, handleChange, resetValues] = useForm({})
+	const [passwordValues, setPasswordValues] = useState({oldPassShow: false, newPassShow: false, newPassConfirmationShow: false})
 
 	function eraseFieldValue() {
 		resetValues()
@@ -24,6 +27,23 @@ export default function ProfilePopup(props) {
 		if (confirm('Êtes-vous sur de vouloir supprimer votre compte?')) {
 			deleteUser()
 		}
+	}
+
+	function handleClickShowPassword(event, index){
+		switch (index) {
+			case 0:
+				setPasswordValues({...passwordValues, oldPassShow: !passwordValues.oldPassShow})
+				break;
+			case 1:
+				setPasswordValues({...passwordValues, newPassShow: !passwordValues.newPassShow})
+				break;
+			case 2:
+				setPasswordValues({...passwordValues, newPassConfirmationShow: !passwordValues.newPassConfirmationShow})
+				break;
+			default:
+				break;
+		}
+
 	}
 
 	async function handleSubmit(event) {
@@ -71,50 +91,129 @@ export default function ProfilePopup(props) {
 							handleSubmit(event)
 						}}
 					>
-						<h1>Informations</h1>
+						<h1>Modification de profile</h1>
 						<div className="wrong" id="wrong-name">
 							Le nom que vous désirez entrer est déjà utilisé
 						</div>
-						<label>Nom d&apos;utilisateur</label>
-						<input
-							name={newUsername}
-							id="usernameField"
-							type="text"
-							defaultValue={props.username}
-							onChange={handleChange}
-							minLength="4"
-							autoComplete="off"
-						/>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-username">Nom d'utilisateur</InputLabel>
+							<OutlinedInput
+								name={newUsername}
+								id="outlined-adornment-username"
+								type="text"
+								defaultValue={props.username}
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position="end">
+										<AccountCircle />
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 4}}
+								autoComplete="off"
+							/>
+						</FormControl>
 						<hr className="form-separator"></hr>
-						<label>Courriel</label>
-						<input name="email" type="email" defaultValue={props.email} disabled />
+						<FormControl className='inputField-disabled' sx={{ m: 1, width: '100%' }} disabled variant="filled">
+							<InputLabel htmlFor="outlined-adornment-courriel">Courriel</InputLabel>
+							<OutlinedInput
+								id="outlined-adornment-courriel"
+								type="email"
+								defaultValue={props.email}
+								startAdornment={
+									<InputAdornment position="end">
+										<Email />
+									</InputAdornment>
+								}
+								fullWidth
+							/>
+						</FormControl>
 						<hr className="form-separator"></hr>
 						<label>Entrez votre ancien mot de passe ainsi que le nouveau</label>
 						<div className="wrong" id="wrong-password">
 							Veuillez vérifier si tous les champs ci dessous concorde bien
 						</div>
-						<input
-							name={oldPass}
-							type="password"
-							placeholder="Ancien mot de passe"
-							onChange={handleChange}
-						></input>
-						<input
-							name={newPass}
-							id="passwordField"
-							type="password"
-							placeholder="Nouveau mot de passe"
-							onChange={handleChange}
-							minLength="8"
-						></input>
-						<input
-							name={newPassConfirmation}
-							id="passwordConfirmationField"
-							type="password"
-							placeholder="Confirmation nouveau mot de passe"
-							onChange={handleChange}
-							minLength="8"
-						></input>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+							<OutlinedInput
+								name={oldPass}
+								id="outlined-adornment-password"
+								type={passwordValues.oldPassShow ? "text" : "password"}
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position='end'>
+										<Lock />
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+										onMouseDown={(event) => handleClickShowPassword(event, 0)}
+										onMouseUp={(event) => handleClickShowPassword(event, 0)}
+										edge="end"
+										>
+											{passwordValues.oldPassShow ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 8}}
+							/>
+						</FormControl>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-new-password">Nouveau mot de passe</InputLabel>
+							<OutlinedInput
+								name={newPass}
+								id="outlined-adornment-new-password"
+								type={passwordValues.newPassShow ? "text" : "password"}
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position='end'>
+										<Lock />
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+										onMouseDown={(event) => handleClickShowPassword(event, 1)}
+										onMouseUp={(event) => handleClickShowPassword(event, 1)}
+										edge="end"
+										>
+											{passwordValues.newPassShow ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 8}}
+							/>
+						</FormControl>
+						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-new-confirmation-password">Confirmation nouveau mot de passe</InputLabel>
+							<OutlinedInput
+								name={newPassConfirmation}
+								id="outlined-adornment-new-confirmation-password"
+								type={passwordValues.newPassConfirmationShow ? "text" : "password"}
+								onChange={handleChange}
+								startAdornment={
+									<InputAdornment position='end'>
+										<Lock />
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+										onMouseDown={(event) => handleClickShowPassword(event, 2)}
+										onMouseUp={(event) => handleClickShowPassword(event, 2)}
+										edge="end"
+										>
+											{passwordValues.newPassConfirmationShow ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+								inputProps={{minLength: 8}}
+							/>
+						</FormControl>
 						<input type="submit" value="Modifier" />
 						<button type="button" onClick={close} id="cancel-edit">
 							Annuler

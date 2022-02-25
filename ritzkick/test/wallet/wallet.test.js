@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const server = require('../../application/app')
 const User = require('../../db/model/user')
 const Wallet = require('../../db/model/wallet')
+const Transaction = require('../../db/model/transaction')
 
 const validSecret = process.env.JWTSECRET
 const testId = new mongoose.Types.ObjectId()
@@ -56,6 +57,7 @@ beforeEach(async () => {
         asset: 'eth',
         amount: 3000
     }
+    await Transaction.deleteMany()
 	await User.deleteMany()
     await Wallet.deleteMany()
 	let user = await new User(dummyData)
@@ -85,6 +87,142 @@ describe('Not authenticated cases', () => {
 
     test('I should get a 401 not authenticate error message if I ping the route /api/wallets/delete', async () => {
         await request(server).delete('/api/wallets/delete').send().expect(401)
+    })
+
+    test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/add`, async () => {
+        await request(server).post('/api/wallet/test/add').send().expect(401)
+    })
+
+    test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/remove`, async () => {
+        await request(server).delete('/api/wallet/test/remove').send().expect(401)
+    })
+
+    test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/content`, async () => {
+        await request(server).get('/api/wallet/test/content').send().expect(401)
+    })
+
+    test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/content`, async () => {
+        await request(server).get('/api/wallets/detailed').send().expect(401)
+    })
+
+})
+
+describe('Creation cases (/api/wallet/:name/add)', () => {
+
+    const URL = '/api/wallet/' + testUserWallet.asset + '/add'
+
+    test(`'BAD REQUEST' you cannot add content to your wallet if you don't have one`, async () => {
+        await request(server).post(URL).set({ Authorization: `Bearer ${otherToken}` }).send().expect(400)
+        const transactions = await Transaction.find({})
+        expect(transactions.length).toBe(0)
+    })
+
+    test(`'BAD REQUEST' you can't add content to your wallet if you don't provide the requirement`, async () => {
+        await request(server).post(URL).set({ Authorization: `Bearer ${token}` }).send().expect(400)
+        const transactions = await Transaction.find({})
+        const wallet = await Wallet.findOne({ owner: testId })
+        expect(transactions.length).toBe(0)
+        expect(wallet.history.length).toBe(0)
+    })
+
+    test(`'CREATE REQUEST' you can add content to your wallet if you provide the requirements and you have a wallet`, async () => {
+        const body = {
+            boughtAt: 40,
+            paid: 20
+        }
+        await request(server).post(URL).set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
+        const transactions = await Transaction.find({})
+        const wallet = await Wallet.findOne({ owner: testId })
+        expect(wallet.history.length).toBe(1)
+        expect(transactions.length).toBe(1)
+        expect(transactions[0].boughtAt).toBe(body.boughtAt)
+        expect(transactions[0].paid).toBe(body.paid)
+    })
+
+})
+
+describe('Remove cases (/api/wallet/:name/remove)', () => {
+
+    const URL = '/api/wallet/' + testUserWallet.asset + '/remove'
+
+    test(`'BAD REQUEST' you cannot remove content from your wallet if you don't have one`, async () => {
+        await request(server).delete(URL).set({ Authorization: `Bearer ${otherToken}` }).send().expect(400)
+    })
+
+    test(`'BAD REQUEST' you can't remove content from your wallet if you don't provide the requirement`, async () => {
+        await request(server).delete(URL).set({ Authorization: `Bearer ${token}` }).send().expect(400)
+    })
+
+    test(`'BAD REQUEST' you can't remove a wallet if you provide the an invalid id`, async () => {
+        const body = {
+            boughtAt: 40,
+            paid: 20
+        }
+        await request(server).post('/api/wallet/' + testUserWallet.asset + '/add').set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
+        let transactions = await Transaction.find({})
+        let wallet = await Wallet.findOne({ owner: testId })
+        expect(wallet.history.length).toBe(1)
+        expect(transactions.length).toBe(1)
+
+        await request(server).delete(URL).set({ Authorization: `Bearer ${token}` }).send({ id: new mongoose.Types.ObjectId() }).expect(400)
+        transactions = await Transaction.find({})
+        wallet = await Wallet.findOne({ owner: testId })
+        expect(wallet.history.length).toBe(1)
+        expect(transactions.length).toBe(1)
+
+    })
+
+    test(`'REMOVE REQUEST' you can remove content from your wallet if you provide the requirements and you have a wallet`, async () => {
+        const body = {
+            boughtAt: 40,
+            paid: 20
+        }
+        await request(server).post('/api/wallet/' + testUserWallet.asset + '/add').set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
+        let transactions = await Transaction.find({})
+        let wallet = await Wallet.findOne({ owner: testId })
+        expect(wallet.history.length).toBe(1)
+        expect(transactions.length).toBe(1)
+
+        await request(server).delete(URL).set({ Authorization: `Bearer ${token}` }).send({ id: transactions[0]._id }).expect(200)
+        transactions = await Transaction.find({})
+        wallet = await Wallet.findOne({ owner: testId })
+        expect(wallet.history.length).toBe(0)
+        expect(transactions.length).toBe(0)
+
+    })
+
+})
+
+describe('Get cases (/api/wallet/:name/content)', () => {
+    
+    const URL = '/api/wallet/' + testUserWallet.asset + '/content'
+
+    test(`'BAD REQUEST' you can't display the content of your wallet if you don't have one`, async () => {
+        await request(server).get(URL).set({ Authorization: `Bearer ${otherToken}` }).send().expect(400)
+    })
+
+    test(`'SUCCESS REQUEST' you can see the content of your wallet even if you don't have any informations in.`, async () => {
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        console.log(content.body)
+        expect(content.body).toBeDefined()
+        expect(content.body.length).toBe(0)
+    })
+
+    test(`'SUCCESS REQUEST' you can see the content of your wallet and all of the informations in.`, async () => {
+        const body = {
+            boughtAt: 40,
+            paid: 20
+        }
+        await request(server).post('/api/wallet/' + testUserWallet.asset + '/add').set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
+        let transactions = await Transaction.find({})
+        let wallet = await Wallet.findOne({ owner: testId })
+        expect(wallet.history.length).toBe(1)
+        expect(transactions.length).toBe(1)
+        
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        console.log(content.body)
+        expect(content.body).toBeDefined()
+        expect(content.body.length).toBe(1)
     })
 
 })
@@ -256,5 +394,78 @@ describe(`Delete cases /api/wallets/delete`, () => {
         wallets = await Wallet.find({})
         expect(amount).not.toBe(wallets.length)
         expect(wallets.length).toBe(0)
+    })
+})
+
+describe(`Detailed cases (/api/wallets/detailed)`, () => {
+    
+    const URL = '/api/wallets/detailed'
+
+    test(`'BAD REQUEST' you can't see detailed informations about your wallets if you don't have one`, async () => {
+        await request(server).get(URL).set({ Authorization: `Bearer ${otherToken}` }).send().expect(400)
+    })
+
+    test(`'SUCCESS REQUEST' if you have one wallet, you should get a detailed response.`, async () => {
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+    })
+
+    test(`'SUCCESS REQUEST' if you have two wallets, you should get a detailed response for both.`, async () => {
+        const newAsset = 'ada'
+        
+        await request(server).post('/api/wallets').set({
+            Authorization: `Bearer ${token}`
+        }).send({
+            asset: newAsset,
+            amount: 0
+        }).expect(201)
+        
+        // const body = {
+        //     boughtAt: 1000,
+        //     paid: 500
+        // }
+        // await request(server).post(`/api/wallet/${newAsset}/add`).set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
+
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(2)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        expect(content.body[`${newAsset}`]).toBeDefined()
+    })
+
+
+    const BODY = {
+        boughtAt: 1000,
+        paid: 500
+    }
+
+    test(`'SUCCESS REQUEST' if you add details to an asset, the coverage should be 100%`, async () => {        
+        await request(server).post(`/api/wallet/${testUserWallet.asset}/add`).set({ Authorization: `Bearer ${token}` }).send(BODY).expect(201)
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        expect(content.body.coverage).toBe(100)
+    })
+
+    test(`'SUCCESS REQUEST' if you add details to an asset, and you have only one asset, the totalSpent should be equal to the amount spent`, async () => {        
+        await request(server).post(`/api/wallet/${testUserWallet.asset}/add`).set({ Authorization: `Bearer ${token}` }).send(BODY).expect(201)
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        expect(content.body.totalSpent).toBe(BODY.paid)
+    })
+
+    test(`'SUCCESS REQUEST' if you add details to an asset, and you have only one asset, you should be able to see small informations about the asset`, async () => {        
+        await request(server).post(`/api/wallet/${testUserWallet.asset}/add`).set({ Authorization: `Bearer ${token}` }).send(BODY).expect(201)
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        
+        const walletHistoryDetailed = content.body[testUserWallet.asset]
+        expect(walletHistoryDetailed.totalSpent).toBe(BODY.paid)
+        expect(walletHistoryDetailed.averageSpent).toBe(BODY.paid)
+        expect(walletHistoryDetailed.holding).toBe(.5) // paid / boughtAt
+        expect(walletHistoryDetailed.transactions).toBe(1)
+        expect(walletHistoryDetailed.percentInPortfolio).toBe(100)
     })
 })
