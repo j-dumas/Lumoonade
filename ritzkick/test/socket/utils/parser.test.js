@@ -1,4 +1,4 @@
-const { appendToList, rebuild, keepFromList, sameString } = require('../../../application/socket/utils/parser')
+const { appendToList, rebuild, keepFromList, sameString } = require('../../../app/socket/utils/parser')
 
 describe('Testing the parser util for the websocket service', () => {
 	describe('SameString function', () => {

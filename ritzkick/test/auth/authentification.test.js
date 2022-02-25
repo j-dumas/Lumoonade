@@ -1,7 +1,7 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 
 const testId = new mongoose.Types.ObjectId()
@@ -50,13 +50,13 @@ test('Should not be able to create a new account if the account already exists (
 	expect(users.length).toBe(1)
 })
 
-test('Should not be able to create a new account if the account already exists (same username)', async () => {
-	dummyData.username = testUser.username
-	await request(server).post('/api/auth/register').send(dummyData).expect(400)
+// test('Should not be able to create a new account if the account already exists (same username)', async () => {
+// 	dummyData.username = testUser.username
+// 	await request(server).post('/api/auth/register').send(dummyData).expect(400)
 
-	const users = await User.find({})
-	expect(users.length).toBe(1)
-})
+// 	const users = await User.find({})
+// 	expect(users.length).toBe(1)
+// })
 
 test('Should not be able to log in if the user does not exist', async () => {
 	const credentials = {

@@ -2,7 +2,7 @@ const Confirmation = require('../../db/model/confirmation')
 const User = require('../../db/model/user')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const request = require('supertest')
 
 let tempUser
