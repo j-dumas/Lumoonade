@@ -7,6 +7,7 @@ const Favorite = require('./favorite')
 const Wallet = require('./wallet')
 const Watchlist = require('./watchlist')
 const Reset = require('./reset')
+const Confirmation = require('./confirmation')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -73,12 +74,17 @@ const userSchema = new mongoose.Schema(
 					type: mongoose.Schema.Types.ObjectId
 				}
 			}
-		]
+		],
+		validatedEmail: {
+			type: Boolean,
+			default: false
+		}
 	},
 	{
 		timestamps: true,
 		toJSON: {
 			transform: function (doc, ret) {
+				delete ret.validatedEmail
 				delete ret.password
 				delete ret.__v
 			}
@@ -122,6 +128,12 @@ userSchema.methods.makeAuthToken = async function () {
 
 	await user.save()
 	return token
+}
+
+userSchema.methods.verified = async function () {
+	const user = this
+	user.validatedEmail = true
+	await user.save()
 }
 
 userSchema.methods.makeProfile = async function () {
@@ -219,6 +231,7 @@ userSchema.pre('remove', async function (next) {
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })
 	await Reset.deleteMany({ email: user.email })
+	await Confirmation.deleteMany({ email: user.email })
 	next()
 })
 

@@ -8,15 +8,15 @@
 	"assets": {
 		"all": "/api/assets/all",
 		"search": {
-			"db": "/api/assets/search/:value",
-			"yahoo": "/api/crypto/search/:slug"
+			"db": "/api/assets/search/",
+			"yahoo": "/api/yahoo/search/"
 		},
 		"populars": "/api/assets/popular",
 		"top": {
 			"gainers": "/api/assets/top/gainers",
 			"loser": "/api/assets/top/losers"
 		},
-		"chart": "/api/crypto/chart/:slug"
+		"chart": "/api/yahoo/chart/"
 	},
 	"auth": {
 		"login": "/api/auth/login",
@@ -27,7 +27,7 @@
 	"favorites": {
 		"all": "/api/me/favorites",
 		"create": "/api/favorite",
-		"delete": "/api/favorite/:slug"
+		"delete": "/api/favorite"
 	},
 	"user": {
 		"complete": "/api/me",
