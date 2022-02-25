@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from '../services/CookieService'
+import { getCookie, setCookie, deleteCookie } from './CookieService'
 
 export function isUserConnected() {
 	const token = getCookie('token')

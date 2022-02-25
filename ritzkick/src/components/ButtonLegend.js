@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Icons from './Icons'
+import Icons from '@/components/Icons'
 
 function ButtonLegend(props) {
 	const [selected, setSelected] = useState(props.value)

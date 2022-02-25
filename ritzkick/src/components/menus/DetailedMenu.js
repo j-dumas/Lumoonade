@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Icons from '../Icons'
-import ButtonFavorite from '../ButtonFavorite'
+import Icons from '@/components/Icons'
+import ButtonFavorite from '@/components/ButtonFavorite'
 
 function DetailedMenu(props) {
 	return (

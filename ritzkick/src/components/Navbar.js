@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Icons from './Icons'
-import { logout } from '../../services/AuthService'
+import { logout } from 'services/AuthService'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 

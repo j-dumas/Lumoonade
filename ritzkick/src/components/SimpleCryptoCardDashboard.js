@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import SimpleCryptoCard from './SimpleCryptoCard'
+import SimpleCryptoCard from '@/components/SimpleCryptoCard'
 
 function SimpleCryptoCardDashboard(props) {
 	const [datas, setDatas] = useState([])

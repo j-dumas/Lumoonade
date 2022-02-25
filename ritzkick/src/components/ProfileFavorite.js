@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import SimpleCryptoDashboard from './SimpleCryptoDashboard'
-import { getFavorites } from '../../services/UserService'
+import SimpleCryptoDashboard from '@/components/SimpleCryptoDashboard'
+import { getFavorites } from 'services/UserService'
 
 export default function ProfileFavorite() {
 	const [data, setData] = useState([])

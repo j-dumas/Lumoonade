@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic'
 
-const DomHead = dynamic(() => import('./DomHead'))
-const Header = dynamic(() => import('./Header'))
-const Footer = dynamic(() => import('./Footer'))
+const DomHead = dynamic(() => import('@/components/DomHead'))
+const Header = dynamic(() => import('@/components/Header'))
+const Footer = dynamic(() => import('@/components/Footer'))
 
 export default function Layout({ children, pageMeta }) {
 	return (

@@ -1,9 +1,9 @@
-import DomHead from '../src/components/DomHead'
-import Header from '../src/components/Header'
-import Footer from '../src/components/Footer'
-import ProfileHeader from '../src/components/ProfileHeader'
-import ProfileAlerts from '../src/components/ProfileAlerts'
-import ProfileFavorite from '../src/components/ProfileFavorite'
+import DomHead from '@/components/DomHead'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import ProfileHeader from '@/components/ProfileHeader'
+import ProfileAlerts from '@/components/ProfileAlerts'
+import ProfileFavorite from '@/components/ProfileFavorite'
 
 export default function profile() {
 	return (

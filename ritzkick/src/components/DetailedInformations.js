@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Functions from '../../services/CryptoService'
-import ButtonFavorite from './ButtonFavorite'
-import format from '../../utils/formatter'
+import Functions from 'services/CryptoService'
+import ButtonFavorite from '@/components/ButtonFavorite'
+import format from 'utils/formatter'
 
 import { useTranslation } from 'next-i18next'
 

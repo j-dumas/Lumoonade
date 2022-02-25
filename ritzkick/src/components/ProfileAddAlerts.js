@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useModal } from 'react-hooks-use-modal'
-import Icons from './Icons'
-import { addWatch } from '../../services/UserService'
+import Icons from '@/components/Icons'
+import { addWatch } from 'services/UserService'
 import {
 	Alert,
 	Snackbar,

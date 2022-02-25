@@ -3,9 +3,9 @@ import Functions, {
 	GetCryptocurrencyInformationsBySlug,
 	GetTopPopularCryptocurrencies,
 	GetTopEfficientCryptocurrencies
-} from '../../../services/CryptoService'
+} from 'services/CryptoService'
 import dynamic from 'next/dynamic'
-import DetailedChartMenu from '../menus/DetailedChartMenu'
+import DetailedChartMenu from '@/components/menus/DetailedChartMenu'
 
 const DetailedChartChart = dynamic(
 	() => {

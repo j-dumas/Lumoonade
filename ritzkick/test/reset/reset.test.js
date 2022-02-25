@@ -1,12 +1,12 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 const Reset = require('../../db/model/reset')
 const axios = require('axios').default
 
-const email = require('../../application/email/email')
+const email = require('../../app/email/email')
 const validSecret = process.env.RESET_JWT_SECRET
 
 jest.mock('axios')

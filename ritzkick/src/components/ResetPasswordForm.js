@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
-import { useForm } from './hooks/useForm'
+import { useForm } from '@/components/hooks/useForm'
 import {
 	InputLabel,
 	OutlinedInput,

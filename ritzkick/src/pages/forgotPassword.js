@@ -1,7 +1,7 @@
-import DomHead from '../src/components/DomHead'
-import Footer from '../src/components/Footer'
-import ForgotPasswordForm from '../src/components/ForgotPasswordForm'
-import Bubbles from '../src/components/Bubbles'
+import DomHead from '@/components/DomHead'
+import Footer from '@/components/Footer'
+import ForgotPasswordForm from '@/components/ForgotPasswordForm'
+import Bubbles from '@/components/Bubbles'
 
 export default function ForgotPassword() {
 	return (

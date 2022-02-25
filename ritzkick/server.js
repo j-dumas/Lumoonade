@@ -16,7 +16,7 @@ const httpsUrl = process.env.HTTPS || 'localhost'
 const httpUrl = process.env.HTTP || 'localhost'
 
 // SOCKET
-const sm = require('./application/socket/socket-manager')
+const sm = require('./app/socket/socket-manager')
 
 /*****************************
  * Prepare Frontend NextJS App
@@ -31,7 +31,7 @@ app.prepare().catch((ex) => {
 /**********************************
  * Prepare Backend ExpressJS Server
  *********************************/
-let server = require('./application/app')
+let server = require('./app/app')
 if (!dev) protocolVerification()
 
 server.get('*', (req, res) => {

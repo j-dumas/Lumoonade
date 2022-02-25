@@ -4,7 +4,7 @@ const graphRoom = require('./utils/graph')
 const rm = require('./room-manager')
 const Service = require('./service')
 const log = require('../../utils/logging')
-const handler = require('../../application/socket/utils/handler')
+const handler = require('./utils/handler')
 
 let serverSocket = undefined
 

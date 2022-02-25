@@ -3,7 +3,7 @@ const Watchlist = require('../../db/model/watchlist')
 const User = require('../../db/model/user')
 const parser = require('../socket/utils/parser')
 const chalk = require('chalk')
-const email = require('../email/email')
+const email = require('./email')
 
 let client = undefined
 let listen = undefined

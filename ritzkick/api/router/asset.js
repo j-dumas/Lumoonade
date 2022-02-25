@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const { Asset, Popular } = require('../../db/model/asset')
-const crypto = require('../../application/crypto/crypto')
+const crypto = require('../../app/crypto/crypto')
 
 const pagination = require('../middleware/pagination')
 

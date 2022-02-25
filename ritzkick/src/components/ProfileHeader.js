@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import ProfilePopup from './ProfilePopup'
-import { removeSession, getUser } from '../../services/UserService'
+import ProfilePopup from '@/components/ProfilePopup'
+import { removeSession, getUser } from 'services/UserService'
 
 const usernameTitleId = 'username'
 const memberSinceId = 'memberSince'

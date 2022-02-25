@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { getWatchList } from '../../services/UserService'
-import ProfileAddAlerts from './ProfileAddAlerts'
-import ProfileAlertsComponent from './ProfileAlertsComponent'
+import { getWatchList } from 'services/UserService'
+import ProfileAddAlerts from '@/components/ProfileAddAlerts'
+import ProfileAlertsComponent from '@/components/ProfileAlertsComponent'
 import { Snackbar, Alert } from '@mui/material'
 
 export default function ProfileAlerts() {

@@ -1,7 +1,7 @@
-import DomHead from '../src/components/DomHead'
-import Footer from '../src/components/Footer'
-import Bubbles from '../src/components/Bubbles'
-import EmailConfirmationCard from '../src/components/EmailConfirmationCard'
+import DomHead from '@/components/DomHead'
+import Footer from '@/components/Footer'
+import Bubbles from '@/components/Bubbles'
+import EmailConfirmationCard from '@/components/EmailConfirmationCard'
 
 export default function ForgotPassword() {
 	return (

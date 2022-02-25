@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import SimpleChart from './charts/SimpleChart'
-import format from '../../utils/formatter'
+import SimpleChart from '@/components/charts/SimpleChart'
+import format from 'utils/formatter'
 
 function SimpleCryptoCard(props) {
 	return (

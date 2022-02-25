@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Icons from './Icons'
+import Icons from '@/components/Icons'
 import { useModal } from 'react-hooks-use-modal'
-import { deleteUser, updateUser } from '../../services/UserService'
-import { useForm } from './hooks/useForm'
+import { deleteUser, updateUser } from 'services/UserService'
+import { useForm } from '@/components/hooks/useForm'
 import { AccountCircle, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 

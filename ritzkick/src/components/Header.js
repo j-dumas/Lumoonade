@@ -1,7 +1,7 @@
 import { connection } from 'mongoose'
 import React, { useState, useEffect, useCallback } from 'react'
-import Navbar from './Navbar'
-import { getCookie } from '../../services/CookieService'
+import Navbar from '@/components/Navbar'
+import { getCookie } from 'services/CookieService'
 
 function Header() {
 	const [mobile, setMobile] = useState(true)

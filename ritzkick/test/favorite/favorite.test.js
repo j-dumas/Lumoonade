@@ -1,6 +1,6 @@
 const request = require('supertest')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 const Favorite = require('../../db/model/favorite')
 const jwt = require('jsonwebtoken')

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import SimpleChart from '../charts/SimpleChart'
-import Icons from '../Icons'
+import SimpleChart from '@/components/charts/SimpleChart'
+import Icons from '@/components/Icons'
 
 function SimpleCryptoView(props) {
 	function format(x) {

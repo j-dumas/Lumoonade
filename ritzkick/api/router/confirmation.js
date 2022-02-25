@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Confirmation = require('../../db/model/confirmation')
 const User = require('../../db/model/user')
-const emailSender = require('../../application/email/email')
+const emailSender = require('../../app/email/email')
 const validator = require('validator').default
 const jwt = require('jsonwebtoken')
 

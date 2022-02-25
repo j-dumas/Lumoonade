@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import SimpleCryptoView from './views/SimpleCryptoView'
+import SimpleCryptoView from '@/components/views/SimpleCryptoView'
 
-import Functions from '../../services/CryptoService'
+import Functions from 'services/CryptoService'
 
 function SimpleCryptoDashboard(props) {
 	const [data, setData] = useState(null)

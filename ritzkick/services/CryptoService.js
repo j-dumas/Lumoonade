@@ -1,6 +1,6 @@
 import axios from 'axios'
 import yahoo from '../utils/yahoo'
-const cc = require('../application/data/symbols.json')
+const cc = require('../app/data/symbols.json')
 
 const paths = require('../api/routes.json')
 

@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { getFavorites, addFavorite, deleteFavorite } from '../../services/UserService'
-import Icons from './Icons'
-import { isUserConnected } from '../../services/AuthService'
-import { AreSlugsEqual } from '../../utils/crypto'
+import { getFavorites, addFavorite, deleteFavorite } from 'services/UserService'
+import Icons from '@/components/Icons'
+import { isUserConnected } from 'services/AuthService'
+import { AreSlugsEqual } from 'utils/crypto'
 
 function ButtonFavorite(props) {
 	const [favorite, setFavorite] = useState(false)
 
 	async function handleFavorite() {
-		if (favorite) await deleteFavorite(props.slug)
-		else await addFavorite(props.slug)
+		if (favorite) await deleteFavorite(props@/components/slug)
+		else await addFavorite(props@/components/slug)
 		updateFavorite()
 	}
 
 	async function isSlugInFavorites() {
 		const favList = await getFavorites()
 		let isInFav = false
-		favList.map((element) => {
-			if (AreSlugsEqual(element.slug, props.slug)) isInFav = true
+		favList@/components/map((element) => {
+			if (AreSlugsEqual(element@/components/slug, props@/components/slug)) isInFav = true
 		})
 		return isInFav
 	}
@@ -39,7 +39,7 @@ function ButtonFavorite(props) {
 						await handleFavorite()
 					}}
 				>
-					{favorite ? <Icons.StarFulled /> : <Icons.StarEmpty />}
+					{favorite ? <Icons@/components/StarFulled /> : <Icons@/components/StarEmpty />}
 				</div>
 			</div>
 		</>

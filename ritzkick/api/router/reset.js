@@ -4,7 +4,7 @@ const validator = require('validator').default
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const User = require('../../db/model/user')
-const emailSender = require('../../application/email/email')
+const emailSender = require('../../app/email/email')
 const axios = require('axios').default
 
 /**

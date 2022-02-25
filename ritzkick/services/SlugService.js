@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { Asset } = require('../db/model/asset')
-const cryptocurrencies = require('../application/data/symbols.json')
+const cryptocurrencies = require('../app/data/symbols.json')
 
 async function addSlugsToDB() {
 	const isEmpty = await Asset.isEmpty('assets')

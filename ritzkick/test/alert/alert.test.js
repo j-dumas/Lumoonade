@@ -1,11 +1,11 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 const Watchlist = require('../../db/model/watchlist')
 
-const es = require('../../application/email/email-service')
+const es = require('../../app/email/email-service')
 
 const testId = new mongoose.Types.ObjectId()
 const testAlertId = new mongoose.Types.ObjectId()
