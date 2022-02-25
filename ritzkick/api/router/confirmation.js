@@ -23,7 +23,7 @@ router.post('/api/confirmations', async (req, res) => {
 		await confirmation.save()
 		let token = await confirmation.makeConfirmationToken()
 		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/email-confirmation?key=${token}`
-		// emailSender.sendConfirmationEmail(email, link)
+		emailSender.sendConfirmationEmail(email, link)
 		res.status(201).send()
 	} catch (e) {
 		res.status(400).send({

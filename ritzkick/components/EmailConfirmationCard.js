@@ -7,10 +7,24 @@ export default function EmailConfirmationCard() {
     const router = useRouter()
     const { key } = router.query
 
-    useEffect(() => {
+    useEffect( async () => {
         if(key !== undefined){
             //Api call
             console.log(key)
+
+            try {
+              const response = await fetch('/api/confirmation/verify/' + key, {
+                  method: 'GET',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+              })
+
+              console.log(response.status)
+            }
+            catch(e){
+                console.log(e)
+            }
         }
     }, [key])
 
