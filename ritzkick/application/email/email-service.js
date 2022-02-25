@@ -112,7 +112,6 @@ const notifyRemove = async () => {
 			return log(SERVICE_NAME, `Left ${!client.connected}`)
 		}
 		listen = parser.rebuild(watchlists.map((w) => w.slug))
-		console.log(listen)
 		return client.emit('update', client.id, listen)
 	}
 	await create()

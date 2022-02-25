@@ -138,10 +138,10 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 					r.getService().setAppendData(append)
 				}
 
-				socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
+				// Fix to do, maybe filter first then send. Or just remove the line since the ping rate is 1s.
+				// socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
 
 				handler.onUpdate(r)
-				console.log(r.getClient(socket.id))
 				r.getService().run()
 			} else {
 				log.error('Server', `${socket.id} failed to join ${r.name}`)

@@ -16,9 +16,13 @@ router.post('/api/confirmations', async (req, res) => {
 		if (!validator.isEmail(email)) {
 			throw new Error('Please provide a valid email format.')
 		}
+		
+		const user = await User.findOne({ email })
+		if (user && user.validatedEmail) {
+			throw new Error(`You can't confirm twice the email.`)
+		}
 
 		const _ = await dropIfExist(email)
-		console.log(_)
 		const confirmation = new Confirmation({ email })
 		await confirmation.save()
 		let token = await confirmation.makeConfirmationToken()

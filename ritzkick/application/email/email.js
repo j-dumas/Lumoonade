@@ -55,7 +55,7 @@ const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName
             <h1>Cryptool Service</h1>
             <p>This is a test! notification.</p>
             <p>You asked ${config.assetName} to be ${config.asked}. The price has reached the requirement!</p>
-            <p>${config.assetName} is at ${config.asked}.</p>
+            <p>${config.assetName} is at ${config.price}.</p>
         `
 		})
 		.then((res) => {
