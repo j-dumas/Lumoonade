@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
-import Google from '../GoogleSignIn'
+import GoogleSignIn from '../GoogleSignIn'
 import AndSeparator from '../AndSeparator'
 import Separator from '../Separator'
 import { register } from '../../services/AuthService'
@@ -35,8 +35,15 @@ const RegisterForm = () => {
 	return (
 		<Container className="p-3 form">
 			<h1 className="form-title">{t('register.title')}</h1>
-			<form onSubmit={(event) => handleSubmit(event)}>
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+			<form onSubmit={handleSubmit}>
+				{
+                    !!error && (
+                        <FormHelperText className='wrong' sx={{ m: 1 }}>
+                            Se courriel est déjà utilisé. Veuillez en entrer une autre.
+                        </FormHelperText>
+                    )
+                }
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
 					<InputLabel htmlFor="usernameField">{t('fields.username')}</InputLabel>
 					<OutlinedInput
 						name="username"
@@ -54,13 +61,6 @@ const RegisterForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-				{
-                    !!error && (
-                        <FormHelperText error sx={{textAlign: "center"}}>
-                            Votre nom doit contenir au moins 4 caractères
-                        </FormHelperText>
-                    )
-                }
 				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="emailField">{t('fields.email')}</InputLabel>
 					<OutlinedInput
@@ -78,14 +78,7 @@ const RegisterForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-				{
-                    !!error && (
-                        <FormHelperText error sx={{textAlign: "center"}}>
-                            Vérifiez que votre courriel est valide
-                        </FormHelperText>
-                    )
-                }
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
 					<InputLabel htmlFor="passwordField">{t('fields.password')}</InputLabel>
 					<OutlinedInput
 						name="password"
@@ -113,17 +106,10 @@ const RegisterForm = () => {
 						inputProps={{minLength: 8}}
 					/>
 				</FormControl>
-				{
-                    !!error && (
-                        <FormHelperText error sx={{textAlign: "center"}}>
-                            Votre mot de passe doit avoir au moins 8 caractères
-                        </FormHelperText>
-                    )
-                }
-				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('register.submit')} />
+				<input id="submitButton" type="submit" value={t('register.submit')} />
 			</form>
 			<AndSeparator />
-			<Google />
+			<GoogleSignIn />
 			<div>
 				<Separator />
 				<div id="Signup">

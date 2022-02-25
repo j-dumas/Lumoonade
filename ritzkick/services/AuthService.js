@@ -56,13 +56,8 @@ export async function register(email, username, password, handleError) {
 			body: JSON.stringify({ email: email, username: username, password: password })
 		})
 
-        console.log(response.status)
 
         if(response.status === 201){
-            //let json = await response.json()
-            //setCookie(json.token)
-            
-            //Confirmation
             await fetch('/api/confirmations', {
                 method: 'POST',
                 headers: {
