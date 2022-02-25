@@ -60,8 +60,64 @@ router.get('/api/wallet/:name/content', auth, async (req, res) => {
 			path: 'hist'
 		})
 		res.status(200).send(wallet.hist)
-	} catch (_) {
-		res.status(400).send()
+	} catch (e) {
+		res.status(400).send({
+			message: e.message
+		})
+	}
+})
+
+router.get('/api/wallets/detailed', auth, async (req, res) => {
+	try {
+		const wallets = await Wallet.find({ owner: req.user._id })
+		if (wallets.length === 0) {
+			throw new Error(`You don't have any wallet.`)
+		}
+
+		for (let i = 0; i < wallets.length; i++) {
+			await wallets[i].populate({
+				path: 'hist'
+			})
+		}
+		const result = {}
+		let totalSpent = 0
+
+		// Possible optimization here.
+		wallets.forEach((wallet) => {
+			let spent = 0
+			let hold = 0
+			let avg = 0
+			// Over here.
+			wallet.hist.forEach(history => {
+				totalSpent += history.paid
+				spent += history.paid
+				hold += history.amount
+				avg++
+			})
+			avg = spent / avg
+			result[wallet.asset] = {
+				totalSpent: spent,
+				averageSpent: avg || 0,
+				holding: hold,
+				transactions: wallet.hist.length
+			}
+		})
+		
+		let coverage = 0
+		Object.keys(result).forEach(res => {
+			result[res].percentInPortfolio = ((result[res].totalSpent / totalSpent) * 100) || 0
+			coverage += result[res].percentInPortfolio
+		})
+		
+		result.assets = Object.keys(result).length
+		result.totalSpent = totalSpent
+		result.coverage = coverage || 0
+		
+		res.send(result)
+	} catch (e) {
+		res.status(400).send({
+			message: e.message
+		})
 	}
 })
 
@@ -155,7 +211,9 @@ router.delete('/api/wallets/delete', auth, async (req, res) => {
 			wallet
 		})
 	} catch (e) {
-		res.status(400).send()
+		res.status(400).send({
+			message: e.message
+		})
 	}
 })
 

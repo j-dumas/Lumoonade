@@ -37,7 +37,15 @@ const transactionSchema = new mongoose.Schema(
 					throw new Error('Unable to set an amount under 0.')
 				}
 			}
-		}
+		},
+        amount: {
+            type: Number,
+            validate(amount) {
+                if (amount < 0) {
+					throw new Error('Unable to set an amount under 0.')
+				}
+            }
+        }
 	},
 	{
 		toJSON: {
@@ -49,6 +57,12 @@ const transactionSchema = new mongoose.Schema(
         }
 	}
 )
+
+transactionSchema.pre('save', async function (next) {
+	const transaction = this
+    transaction.amount = (transaction.paid / transaction.boughtAt)
+	next()
+})
 
 const Transaction = mongoose.model('Transaction', transactionSchema)
 

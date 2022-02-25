@@ -101,6 +101,10 @@ describe('Not authenticated cases', () => {
         await request(server).get('/api/wallet/test/content').send().expect(401)
     })
 
+    test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/content`, async () => {
+        await request(server).get('/api/wallets/detailed').send().expect(401)
+    })
+
 })
 
 describe('Creation cases (/api/wallet/:name/add)', () => {
@@ -390,5 +394,78 @@ describe(`Delete cases /api/wallets/delete`, () => {
         wallets = await Wallet.find({})
         expect(amount).not.toBe(wallets.length)
         expect(wallets.length).toBe(0)
+    })
+})
+
+describe(`Detailed cases (/api/wallets/detailed)`, () => {
+    
+    const URL = '/api/wallets/detailed'
+
+    test(`'BAD REQUEST' you can't see detailed informations about your wallets if you don't have one`, async () => {
+        await request(server).get(URL).set({ Authorization: `Bearer ${otherToken}` }).send().expect(400)
+    })
+
+    test(`'SUCCESS REQUEST' if you have one wallet, you should get a detailed response.`, async () => {
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+    })
+
+    test(`'SUCCESS REQUEST' if you have two wallets, you should get a detailed response for both.`, async () => {
+        const newAsset = 'ada'
+        
+        await request(server).post('/api/wallets').set({
+            Authorization: `Bearer ${token}`
+        }).send({
+            asset: newAsset,
+            amount: 0
+        }).expect(201)
+        
+        // const body = {
+        //     boughtAt: 1000,
+        //     paid: 500
+        // }
+        // await request(server).post(`/api/wallet/${newAsset}/add`).set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
+
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(2)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        expect(content.body[`${newAsset}`]).toBeDefined()
+    })
+
+
+    const BODY = {
+        boughtAt: 1000,
+        paid: 500
+    }
+
+    test(`'SUCCESS REQUEST' if you add details to an asset, the coverage should be 100%`, async () => {        
+        await request(server).post(`/api/wallet/${testUserWallet.asset}/add`).set({ Authorization: `Bearer ${token}` }).send(BODY).expect(201)
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        expect(content.body.coverage).toBe(100)
+    })
+
+    test(`'SUCCESS REQUEST' if you add details to an asset, and you have only one asset, the totalSpent should be equal to the amount spent`, async () => {        
+        await request(server).post(`/api/wallet/${testUserWallet.asset}/add`).set({ Authorization: `Bearer ${token}` }).send(BODY).expect(201)
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        expect(content.body.totalSpent).toBe(BODY.paid)
+    })
+
+    test(`'SUCCESS REQUEST' if you add details to an asset, and you have only one asset, you should be able to see small informations about the asset`, async () => {        
+        await request(server).post(`/api/wallet/${testUserWallet.asset}/add`).set({ Authorization: `Bearer ${token}` }).send(BODY).expect(201)
+        const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
+        expect(content.body.assets).toBe(1)
+        expect(content.body[testUserWallet.asset]).toBeDefined()
+        
+        const walletHistoryDetailed = content.body[testUserWallet.asset]
+        expect(walletHistoryDetailed.totalSpent).toBe(BODY.paid)
+        expect(walletHistoryDetailed.averageSpent).toBe(BODY.paid)
+        expect(walletHistoryDetailed.holding).toBe(.5) // paid / boughtAt
+        expect(walletHistoryDetailed.transactions).toBe(1)
+        expect(walletHistoryDetailed.percentInPortfolio).toBe(100)
     })
 })
