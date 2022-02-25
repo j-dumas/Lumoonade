@@ -35,7 +35,6 @@ export async function login(email, password, handleError) {
             window.location.assign('/profile')
         }
         else if (response.status == 400){
-            // document.getElementById("wrong").style.display = "block"
             handleError()
         }
         else {
@@ -47,7 +46,7 @@ export async function login(email, password, handleError) {
     }
 }
 
-export async function register(email, username, password) {
+export async function register(email, username, password, handleError) {
 	try {
 		let response = await fetch('/api/auth/register', {
 			method: 'POST',
@@ -57,10 +56,16 @@ export async function register(email, username, password) {
 			body: JSON.stringify({ email: email, username: username, password: password })
 		})
 
-        let json = await response.json()
-        setCookie(json.token)
-        
-        window.location.assign('/profile')
+        console.log(response.status)
+
+        if(response.status === 201){
+            let json = await response.json()
+            setCookie(json.token)
+            window.location.assign('/profile')
+        }
+        else{
+            handleError()
+        }
     }
     catch(e){
         console.log(e)

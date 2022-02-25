@@ -19,8 +19,8 @@ export default function EmailConfirmationCard() {
         <h1 className="form-title">Confirmation de courriel</h1>
         <h3>Votre courriel est maintenant confirmé!</h3>
         <Link href="/login">
-			<a className="link">Connectez-vous</a>
-		</Link>
+          <a className="link">Connectez-vous</a>
+        </Link>
     </div>
   )
 }
