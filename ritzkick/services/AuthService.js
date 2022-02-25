@@ -1,5 +1,13 @@
 import { getCookie, setCookie, deleteCookie } from '../services/CookieService'
 
+export function isUserConnected() {
+	const token = getCookie('token')
+
+	if (!token) return false
+	if (token == undefined) return false
+	return true
+}
+
 export async function logout() {
     try {
         const token = getCookie("token")

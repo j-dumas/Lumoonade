@@ -18,15 +18,15 @@ const parser = require('../application/socket/utils/parser')
 const DetailedInformationsDashboard = (props) => {
 	const [data, setData] = useState([])
 	useEffect(async () => {
-		props.socket.on('data', (a) => {
-			let b = a.find((x) => {
-				console.log(x.symbol, props.socket.auth.query)
-				return parser.sameString(x.symbol, props.socket.auth.query)
-			})
-			setData(b === undefined ? undefined : [b])
-		})
-		if (props.socket) return () => socket.disconnect()
-	}, [])
+        props.socket.on('data', (a) => {
+            let b = a.filter((x) => {
+                return props.socket.auth.query.find(cc => cc.toLowerCase() === x.symbol.toLowerCase())
+            })
+            b = parser.rebuild(b)
+            setData(b === undefined ? undefined : b)
+        })
+        if (props.socket) return () => socket.disconnect()
+    }, [])
 
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>

@@ -1,6 +1,36 @@
-import { getCookie, deleteCookie } from '../services/CookieService'
+import { getCookie } from './CookieService'
+import { isUserConnected } from './AuthService'
+
+export async function addFavorite(slug) {
+	if (!isUserConnected()) return
+	const URI = `/api/favorite`
+
+	let response = await fetch(URI, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({ slug: slug })
+	})
+}
+
+export async function deleteFavorite(slug) {
+	if (!isUserConnected()) return
+	const URI = `/api/favorite`
+
+	let response = await fetch(URI, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({ slug: slug })
+	})
+}
 
 export async function getFavorites() {
+	if (!isUserConnected()) return []
 	try {
 		let response = await fetch('/api/me/favorites', {
 			method: 'GET',

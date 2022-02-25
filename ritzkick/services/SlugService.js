@@ -1,22 +1,23 @@
 const fs = require('fs')
 const { Asset } = require('../db/model/asset')
-const cc = require('cryptocurrencies')
+const cc = require('../application/data/symbols.json')
 
 async function addSlugsToDB() {
 	const isEmpty = await Asset.isEmpty('assets')
 
 	if (isEmpty) {
-		const slugs = readSlugs()
-		slugs.forEach((element) => {
-			createAsset(element)
-		})
+		createAsset()
 	}
 }
 
-function createAsset(element) {
-	const name = cc[element]
-	const asset = new Asset({ symbol: element, name: name })
-	asset.save()
+function createAsset() {
+	Object.keys(cc).forEach(el => {
+		let slug = el
+		let name = cc[slug]
+
+		const asset = new Asset({ symbol: slug, name: name })
+		asset.save()
+	})
 }
 
 function readSlugs() {

@@ -4,6 +4,7 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import DetailedCryptoView from '../../components/views/DetailedCryptoView'
 import Layout from '../../components/Layout'
+import Functions from '../../services/CryptoService'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
@@ -55,6 +56,21 @@ export async function getStaticProps({ params, locale }) {
 }
 
 export async function getAllAssetIds() {
+	let slugs = await Functions.GetAllAvailableSlug()
+	
+	let ids = []
+	slugs.map((slug) => {
+		ids.push(
+			{
+				params: {
+					id: slug
+				}
+			}
+		)
+	})
+
+	return ids
+
 	return [
 		{
 			params: {
@@ -79,6 +95,12 @@ export async function getAllAssetIds() {
 		{
 			params: {
 				id: 'eth'
+			}
+		}
+		,
+		{
+			params: {
+				id: 'btcd'
 			}
 		}
 	]

@@ -25,22 +25,23 @@ function CompareMenu(props) {
 
 	function changeURI() {
 		let assets = ''
+		console.log(props.compareList)
 		if (props.compareList.length > 0) {
 			props.compareList.map((asset, i) => {
 				asset = asset.split('-')[0].toString()
 				if (i == 0) assets = asset
 				else assets += '-' + asset
 			})
+			
+			router.push(
+				{
+				  pathname: `/compare`,
+				  query: {}
+				},
+				`/compare?assets=${assets}`,
+				{shallow: true}
+			)	
 		}
-
-		router.push(
-			{
-				pathname: `/compare`,
-				query: {}
-			},
-			`/compare?assets=${assets}`,
-			{ shallow: true }
-		)
 	}
 
 	async function updateSearchList(event) {
@@ -48,8 +49,7 @@ function CompareMenu(props) {
 		let search = event.target[0].value
 		if (!search) search = '0'
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 8)
-		list = list.assets
-		setSearchList(list)
+		setSearchList(list.assets)
 	}
 
 	function addToCompareList(event) {
@@ -113,11 +113,11 @@ function CompareMenu(props) {
 						return (
 							<button
 								onClick={addToCompareList}
-								key={element.slug}
-								value={element.slug}
+								key={element.symbol}
+								value={element.symbol}
 								className="dynamic-list-item"
 							>
-								{element.slug}
+								{element.symbol}
 							</button>
 						)
 					})}

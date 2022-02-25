@@ -3,9 +3,15 @@
 }
 
 .section {
-	min-width: 100%;
+	max-width: 100%;
 	min-width: 360px;
 	gap: 25px;
+}
+
+.sub-section {
+	width: 97%;
+	max-width: 97%;
+	min-width: 360px;
 }
 
 .division {
