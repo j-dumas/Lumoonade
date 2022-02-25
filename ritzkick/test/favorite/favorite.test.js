@@ -43,11 +43,11 @@ beforeEach(async () => {
 	await User.deleteMany()
 	await Favorite.deleteMany()
 	let user = await new User(testUser)
-	await user.save()
+	await user.verified()
 	token = await user.makeAuthToken()
 
 	user = await new User(dummy)
-	await user.save()
+	await user.verified()
 	otherToken = await user.makeAuthToken()
 
 	await new Favorite(testFavorite).save()

@@ -39,6 +39,16 @@ describe(`Creation confirmation test cases for /api/confirmations`, () => {
         await request(server).post(URL).send({ email: 'a@a.a' }).expect(400)
     })
 
+    test(`'BAD REQUEST' you can't reconfirm your email if your already confirmed it.`, async () => {
+        let confirmations = await Confirmation.find({})
+        expect(confirmations.length).toBe(0)
+        const user = await User.findOne({ email: tempUser.email })
+        await user.verified()
+        await request(server).post(URL).send({ email: tempUser.email }).expect(400)
+        confirmations = await Confirmation.find({})
+        expect(confirmations.length).toBe(0)
+    })
+
     test(`'CREATION REQUEST' you can create a confirmation request if the email is a valid format.`, async () => {
         let confirmations = await Confirmation.find({})
         expect(confirmations.length).toBe(0)

@@ -141,7 +141,6 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 				socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
 
 				handler.onUpdate(r)
-				console.log(r.getClient(socket.id))
 				r.getService().run()
 			} else {
 				log.error('Server', `${socket.id} failed to join ${r.name}`)

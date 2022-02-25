@@ -17,6 +17,11 @@ const auth = async (req, res, next) => {
 			throw new Error('Please authenticate first')
 		}
 
+		// In case someone tries to see content without confirming his email.
+		if (!user.validatedEmail) {
+			throw new Error('Please validate your email first.')
+		}
+
 		// Passing the token and the user to all request that uses the middleware.
 		req.token = token
 		req.user = user

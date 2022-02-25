@@ -61,11 +61,11 @@ beforeEach(async () => {
 	await User.deleteMany()
     await Wallet.deleteMany()
 	let user = await new User(dummyData)
-	await user.save()
+	await user.verified()
     otherToken = await user.makeAuthToken()
 
     user = await new User(testUser)
-    await user.save()
+    await user.verified()
     token = await user.makeAuthToken()
     await new Wallet(testUserWallet).save()
 })
@@ -203,7 +203,6 @@ describe('Get cases (/api/wallet/:name/content)', () => {
 
     test(`'SUCCESS REQUEST' you can see the content of your wallet even if you don't have any informations in.`, async () => {
         const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
-        console.log(content.body)
         expect(content.body).toBeDefined()
         expect(content.body.length).toBe(0)
     })
@@ -220,7 +219,6 @@ describe('Get cases (/api/wallet/:name/content)', () => {
         expect(transactions.length).toBe(1)
         
         const content = await request(server).get(URL).set({ Authorization: `Bearer ${token}` }).send().expect(200)
-        console.log(content.body)
         expect(content.body).toBeDefined()
         expect(content.body.length).toBe(1)
     })
@@ -309,8 +307,6 @@ describe('Creation cases (/api/wallets)', () => {
         await request(server).post(URL).set({
             Authorization: `Bearer ${token}`
         }).send(walletData).expect(201)
-
-        console.log(user)
 
         // Checking if it didnt add the new wallet
         user = await User.findById(testId)
