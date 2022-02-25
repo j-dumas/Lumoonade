@@ -6,7 +6,7 @@ import GoogleSignIn from '../GoogleSignIn'
 import { login } from '../../services/AuthService'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
-import { Email, Password, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText } from '@mui/material'
 import { useForm } from '../hooks/useForm'
 
@@ -69,7 +69,7 @@ const LoginForm = () => {
 						onChange={handleChange}
 						startAdornment={
 							<InputAdornment position='end'>
-								<Password />
+								<Lock />
 							</InputAdornment>
 						}
 						endAdornment={

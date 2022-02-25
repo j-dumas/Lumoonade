@@ -3,7 +3,7 @@ import Icons from './Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from '../services/UserService'
 import { useForm } from './hooks/useForm'
-import { AccountCircle, Email, Password, Visibility, VisibilityOff } from '@mui/icons-material'
+import { AccountCircle, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 
 const newUsername = 'newUsername'
@@ -142,7 +142,7 @@ export default function ProfilePopup(props) {
 								onChange={handleChange}
 								startAdornment={
 									<InputAdornment position='end'>
-										<Password />
+										<Lock />
 									</InputAdornment>
 								}
 								endAdornment={
@@ -169,7 +169,7 @@ export default function ProfilePopup(props) {
 								onChange={handleChange}
 								startAdornment={
 									<InputAdornment position='end'>
-										<Password />
+										<Lock />
 									</InputAdornment>
 								}
 								endAdornment={
@@ -196,7 +196,7 @@ export default function ProfilePopup(props) {
 								onChange={handleChange}
 								startAdornment={
 									<InputAdornment position='end'>
-										<Password />
+										<Lock />
 									</InputAdornment>
 								}
 								endAdornment={
