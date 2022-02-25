@@ -12,11 +12,11 @@ router.post('/api/confirmations', async (req, res) => {
 		if (!email) {
 			throw new Error('Please provide an email in the body.')
 		}
-		
+
 		if (!validator.isEmail(email)) {
 			throw new Error('Please provide a valid email format.')
 		}
-		
+
 		const user = await User.findOne({ email })
 		if (user && user.validatedEmail) {
 			throw new Error(`You can't confirm twice the email.`)
@@ -26,7 +26,9 @@ router.post('/api/confirmations', async (req, res) => {
 		const confirmation = new Confirmation({ email })
 		await confirmation.save()
 		let token = await confirmation.makeConfirmationToken()
-		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/email-confirmation?key=${token}`
+		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
+			process.env.NEXT_PUBLIC_PORT
+		}/email-confirmation?key=${token}`
 		emailSender.sendConfirmationEmail(email, link)
 		res.status(201).send()
 	} catch (e) {
@@ -37,7 +39,7 @@ router.post('/api/confirmations', async (req, res) => {
 })
 
 router.get('/api/confirmation/verify/:jwt', async (req, res) => {
-    try {
+	try {
 		const token = req.params.jwt
 		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
 		const { email, secret } = decoded

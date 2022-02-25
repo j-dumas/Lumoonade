@@ -26,7 +26,7 @@ const LoginForm = () => {
 	}
 
 	const handleSubmit = async (event) => {
-		if(state.email !== undefined && state.password !== undefined){
+		if (state.email !== undefined && state.password !== undefined) {
 			event.preventDefault()
 			await login(state.email, state.password, handleError)
 		}
@@ -36,7 +36,7 @@ const LoginForm = () => {
 		<Container className="p-3 form">
 			<h1 className="form-title">{t('login.title')}</h1>
 			<form onSubmit={handleSubmit}>
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="outlined-adornment-courriel">{t('fields.email')}</InputLabel>
 					<OutlinedInput
 						name="email"
@@ -53,31 +53,29 @@ const LoginForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-				{
-                    !!error && (
-                        <FormHelperText error id="error-input" sx={{textAlign: "center"}}>
-                            Mauvais courriel ou mot de passe.
-                        </FormHelperText>
-                    )
-                }
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+				{!!error && (
+					<FormHelperText error id="error-input" sx={{ textAlign: 'center' }}>
+						Mauvais courriel ou mot de passe.
+					</FormHelperText>
+				)}
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="outlined-adornment-password">{t('fields.password')}</InputLabel>
 					<OutlinedInput
 						name="password"
 						id="outlined-adornment-password"
-						type={passShow ? "text" : "password"}
+						type={passShow ? 'text' : 'password'}
 						onChange={handleChange}
 						startAdornment={
-							<InputAdornment position='end'>
+							<InputAdornment position="end">
 								<Lock />
 							</InputAdornment>
 						}
 						endAdornment={
 							<InputAdornment position="end">
 								<IconButton
-								onMouseDown={handleClickShowPassword}
-								onMouseUp={handleClickShowPassword}
-								edge="end"
+									onMouseDown={handleClickShowPassword}
+									onMouseUp={handleClickShowPassword}
+									edge="end"
 								>
 									{passShow ? <VisibilityOff /> : <Visibility />}
 								</IconButton>
@@ -85,7 +83,7 @@ const LoginForm = () => {
 						}
 						fullWidth
 						required
-						inputProps={{minLength: 8}}
+						inputProps={{ minLength: 8 }}
 					/>
 				</FormControl>
 				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('login.submit')} />

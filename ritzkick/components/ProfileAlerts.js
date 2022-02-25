@@ -8,7 +8,7 @@ export default function ProfileAlerts() {
 	let [data, setData] = useState([])
 	const [openStatus, setOpen] = useState(false)
 
-	function deletedAlert(){
+	function deletedAlert() {
 		setOpen(true)
 	}
 
@@ -39,7 +39,13 @@ export default function ProfileAlerts() {
 			<div id="alerts-header" className="row">
 				<h1>Alertes</h1>
 				<ProfileAddAlerts onDataChange={fetchData} />
-				<Snackbar sx={{ m: 6 }} open={openStatus} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+				<Snackbar
+					sx={{ m: 6 }}
+					open={openStatus}
+					autoHideDuration={6000}
+					onClose={handleClose}
+					anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+				>
 					<Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
 						Alerte supprimée!
 					</Alert>

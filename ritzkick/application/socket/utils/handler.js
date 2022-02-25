@@ -14,7 +14,7 @@ const onLeftRoom = (room) => {
 
 /**
  * Reformat the room's service query on each update
- * @param {room} room 
+ * @param {room} room
  */
 const onUpdate = (room) => {
 	let service = room.getService()

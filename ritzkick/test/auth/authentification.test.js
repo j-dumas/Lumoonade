@@ -74,7 +74,7 @@ test('Should be able to log in if the user exists with a validate email', async 
 	// Skipping the confirmation process.
 	const user = await User.findOne({ email: credentials.email })
 	await user.verified()
-	
+
 	await request(server).post('/api/auth/login').send(credentials).expect(200)
 })
 

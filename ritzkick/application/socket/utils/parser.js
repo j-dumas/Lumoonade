@@ -52,7 +52,7 @@ const sameString = (s1, s2) => {
 
 /**
  * Set all values of the list to a lower case format.
- * @param {list} list 
+ * @param {list} list
  * @returns the content of the list set in lower case.
  */
 const slapToLowerCase = (list) => {

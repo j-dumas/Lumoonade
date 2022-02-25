@@ -5,8 +5,8 @@ import { removeSession, getUser } from '../services/UserService'
 const usernameTitleId = 'username'
 const memberSinceId = 'memberSince'
 
-export default function ProfileHeader(){
-	const [state, setState] = useState({user: {}})
+export default function ProfileHeader() {
+	const [state, setState] = useState({ user: {} })
 
 	async function removeUserSession(event) {
 		await removeSession()
@@ -34,18 +34,18 @@ export default function ProfileHeader(){
 	}
 
 	function parseTime(createdAt) {
-		if(createdAt !== undefined){
+		if (createdAt !== undefined) {
 			let dateSliced = createdAt.split('-')
 			let year = dateSliced[0]
 			let month = dateSliced[1]
 			let day = dateSliced[2].substring(0, 2)
-	
+
 			return 'Membre depuis le ' + parseInt(day) + ' ' + getMonth(parseInt(month)) + ' ' + year
 		}
 	}
 
 	useEffect(() => {
-		getUser().then((res) => setState({user: res}))
+		getUser().then((res) => setState({ user: res }))
 	}, [])
 
 	return (

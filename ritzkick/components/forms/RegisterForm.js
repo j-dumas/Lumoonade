@@ -27,7 +27,7 @@ const RegisterForm = () => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault()
-		if(state.email !== undefined && state.username !== undefined && state.password !== undefined){
+		if (state.email !== undefined && state.username !== undefined && state.password !== undefined) {
 			await register(state.email, state.username, state.password, handleError)
 		}
 	}
@@ -36,7 +36,7 @@ const RegisterForm = () => {
 		<Container className="p-3 form">
 			<h1 className="form-title">{t('register.title')}</h1>
 			<form onSubmit={(event) => handleSubmit(event)}>
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="usernameField">{t('fields.username')}</InputLabel>
 					<OutlinedInput
 						name="username"
@@ -50,18 +50,16 @@ const RegisterForm = () => {
 						}
 						fullWidth
 						required
-						inputProps={{minLength: 4}}
+						inputProps={{ minLength: 4 }}
 						autoComplete="off"
 					/>
 				</FormControl>
-				{
-                    !!error && (
-                        <FormHelperText error sx={{textAlign: "center"}}>
-                            Votre nom doit contenir au moins 4 caractères
-                        </FormHelperText>
-                    )
-                }
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+				{!!error && (
+					<FormHelperText error sx={{ textAlign: 'center' }}>
+						Votre nom doit contenir au moins 4 caractères
+					</FormHelperText>
+				)}
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="emailField">{t('fields.email')}</InputLabel>
 					<OutlinedInput
 						name="email"
@@ -78,31 +76,29 @@ const RegisterForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-				{
-                    !!error && (
-                        <FormHelperText error sx={{textAlign: "center"}}>
-                            Vérifiez que votre courriel est valide
-                        </FormHelperText>
-                    )
-                }
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+				{!!error && (
+					<FormHelperText error sx={{ textAlign: 'center' }}>
+						Vérifiez que votre courriel est valide
+					</FormHelperText>
+				)}
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="passwordField">{t('fields.password')}</InputLabel>
 					<OutlinedInput
 						name="password"
 						id="passwordField"
-						type={passShow ? "text" : "password"}
+						type={passShow ? 'text' : 'password'}
 						onChange={handleChange}
 						startAdornment={
-							<InputAdornment position='end'>
+							<InputAdornment position="end">
 								<Lock />
 							</InputAdornment>
 						}
 						endAdornment={
 							<InputAdornment position="end">
 								<IconButton
-								onMouseDown={handleClickShowPassword}
-								onMouseUp={handleClickShowPassword}
-								edge="end"
+									onMouseDown={handleClickShowPassword}
+									onMouseUp={handleClickShowPassword}
+									edge="end"
 								>
 									{passShow ? <Visibility /> : <VisibilityOff />}
 								</IconButton>
@@ -110,16 +106,14 @@ const RegisterForm = () => {
 						}
 						fullWidth
 						required
-						inputProps={{minLength: 8}}
+						inputProps={{ minLength: 8 }}
 					/>
 				</FormControl>
-				{
-                    !!error && (
-                        <FormHelperText error sx={{textAlign: "center"}}>
-                            Votre mot de passe doit avoir au moins 8 caractères
-                        </FormHelperText>
-                    )
-                }
+				{!!error && (
+					<FormHelperText error sx={{ textAlign: 'center' }}>
+						Votre mot de passe doit avoir au moins 8 caractères
+					</FormHelperText>
+				)}
 				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('register.submit')} />
 			</form>
 			<AndSeparator />

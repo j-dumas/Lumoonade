@@ -32,15 +32,15 @@ function CompareMenu(props) {
 				if (i == 0) assets = asset
 				else assets += '-' + asset
 			})
-			
+
 			router.push(
 				{
-				  pathname: `/compare`,
-				  query: {}
+					pathname: `/compare`,
+					query: {}
 				},
 				`/compare?assets=${assets}`,
-				{shallow: true}
-			)	
+				{ shallow: true }
+			)
 		}
 	}
 

@@ -5,7 +5,7 @@ function SimpleCryptoCardDashboard(props) {
 	const [datas, setDatas] = useState([])
 	const [chartDatas, setChartDatas] = useState([])
 
-    useEffect(() => {
+	useEffect(() => {
 		props.socket.on('data', (data) => setDatas(data))
 		props.socket.on('graph', (data) => setChartDatas(data))
 		if (props.socket) return () => props.socket.disconnect()
@@ -13,17 +13,13 @@ function SimpleCryptoCardDashboard(props) {
 
 	return (
 		<section className="section row center start principal">
-			{
-			
-			datas.map((element, i) => {
+			{datas.map((element, i) => {
 				let chartData = chartDatas.find((chartElement) => {
-					return (chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase())
+					return chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()
 				})
 
-                return (
-                    <SimpleCryptoCard data={element} chartData={chartData} key={element.fromCurrency}/>
-                )
-            })}
+				return <SimpleCryptoCard data={element} chartData={chartData} key={element.fromCurrency} />
+			})}
 		</section>
 	)
 }

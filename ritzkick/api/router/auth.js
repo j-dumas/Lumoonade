@@ -61,7 +61,7 @@ router.post(paths.auth.login, async (req, res) => {
 	try {
 		const { email, password } = req.body
 		const user = await User.findByCredentials(email, password)
-		
+
 		if (!user.validatedEmail) {
 			throw new Error('Please confirm your email.')
 		}

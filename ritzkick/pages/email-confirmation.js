@@ -14,7 +14,7 @@ export default function ForgotPassword() {
 			/>
 			<main>
 				<Bubbles />
-                <EmailConfirmationCard />
+				<EmailConfirmationCard />
 				<div className="spacer layer1"></div>
 			</main>
 			<Footer />

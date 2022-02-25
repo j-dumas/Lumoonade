@@ -17,7 +17,7 @@ function DetailedMenu(props) {
 				</a>
 			</div>
 			<div className="detailed-menu-actions row h-center">
-				<ButtonFavorite slug={props.slug}/>
+				<ButtonFavorite slug={props.slug} />
 				<a href="" className="">
 					<Icons.Bell />
 				</a>

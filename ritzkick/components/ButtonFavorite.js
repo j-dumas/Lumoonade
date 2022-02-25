@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import {getFavorites, addFavorite, deleteFavorite} from '../services/UserService'
+import { getFavorites, addFavorite, deleteFavorite } from '../services/UserService'
 import Icons from './Icons'
-import {isUserConnected} from '../services/AuthService'
-import {AreSlugsEqual} from '../utils/crypto'
+import { isUserConnected } from '../services/AuthService'
+import { AreSlugsEqual } from '../utils/crypto'
 
 function ButtonFavorite(props) {
 	const [favorite, setFavorite] = useState(false)
 
 	async function handleFavorite() {
-		if (favorite) await deleteFavorite(props.slug);
-		else await addFavorite(props.slug);
+		if (favorite) await deleteFavorite(props.slug)
+		else await addFavorite(props.slug)
 		updateFavorite()
 	}
 
@@ -31,11 +31,16 @@ function ButtonFavorite(props) {
 		updateFavorite()
 	}, [])
 
-	return (
-		!isUserConnected() ? null :
+	return !isUserConnected() ? null : (
 		<>
 			<div className="">
-				<div onClick={async () => {await handleFavorite()}}>{favorite ? <Icons.StarFulled /> : <Icons.StarEmpty />}</div>
+				<div
+					onClick={async () => {
+						await handleFavorite()
+					}}
+				>
+					{favorite ? <Icons.StarFulled /> : <Icons.StarEmpty />}
+				</div>
 			</div>
 		</>
 	)

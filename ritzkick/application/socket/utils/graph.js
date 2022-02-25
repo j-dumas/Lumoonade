@@ -8,8 +8,8 @@ let combinaisons = ['1m', '2m', '5m', '15m', '30m', '1h', '1d', '1wk', '1mo', '3
 
 /**
  * Get the content from a point to another
- * @param {string} from 
- * @param {string} to 
+ * @param {string} from
+ * @param {string} to
  * @returns list of all combinaisons in that range.
  */
 const fromTo = (from, to) => {

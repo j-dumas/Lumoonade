@@ -88,7 +88,7 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 			let hold = 0
 			let avg = 0
 			// Over here.
-			wallet.hist.forEach(history => {
+			wallet.hist.forEach((history) => {
 				totalSpent += history.paid
 				spent += history.paid
 				hold += history.amount
@@ -102,17 +102,17 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 				transactions: wallet.hist.length
 			}
 		})
-		
+
 		let coverage = 0
-		Object.keys(result).forEach(res => {
-			result[res].percentInPortfolio = ((result[res].totalSpent / totalSpent) * 100) || 0
+		Object.keys(result).forEach((res) => {
+			result[res].percentInPortfolio = (result[res].totalSpent / totalSpent) * 100 || 0
 			coverage += result[res].percentInPortfolio
 		})
-		
+
 		result.assets = Object.keys(result).length
 		result.totalSpent = totalSpent
 		result.coverage = coverage || 0
-		
+
 		res.send(result)
 	} catch (e) {
 		res.status(400).send({
@@ -161,11 +161,11 @@ router.put('/api/wallets/update', auth, async (req, res) => {
 		delete req.body.asset
 		modification = Object.keys(req.body)
 		const allowed = ['amount']
-		const validModification = modification.every(mod => allowed.includes(mod))
+		const validModification = modification.every((mod) => allowed.includes(mod))
 		if (!validModification) {
 			throw new Error('Please provide the necessary fields.')
 		}
-		
+
 		const wallet = await Wallet.findOne({
 			owner: user._id,
 			asset
@@ -175,10 +175,10 @@ router.put('/api/wallets/update', auth, async (req, res) => {
 			throw new Error('Wallet does not exist.')
 		}
 
-		modification.forEach(element => {
+		modification.forEach((element) => {
 			wallet[element] = req.body[element]
 		})
-		
+
 		await wallet.save()
 
 		res.send({
@@ -203,9 +203,9 @@ router.delete('/api/wallets/delete', auth, async (req, res) => {
 		if (!wallet) {
 			throw new Error('Unable to find a wallet for that name.')
 		}
-		
+
 		await req.user.removeWalletAndSave(wallet._id)
-		
+
 		res.status(204).send({
 			message: 'Successfully deleted.',
 			wallet

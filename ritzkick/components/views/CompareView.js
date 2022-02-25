@@ -58,28 +58,34 @@ const CompareView = (props) => {
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>
 
-    return (
-        !firstData || !socket? <p>Loading...</p>:
-        <div className='detailed-crypto-view column'>
-            <div className="page-menu space-between row h-center">
-			    <div className="row h-center detailed-menu-info">
-				    <h1 className="detailed-menu-title">Compare</h1>
-			    </div>
-		    </div>
-            <div className='row space-between'>
-                <div className='column'>
-                    <CompareMenu socket={socket} compareList={compareList} setCompareList={setCompareList} currency={props.currency}/>
-                    <div className='column detailed-informations detailed-div max-width'>
-                        <div className='detailed-div-menu row space-between'>
-                            <p>Titre</p>
-                            <p>Lorem</p>
-                        </div>
-                    </div>
-                </div>
-                <DetailedChart socket={socket} slug={slug}/>
-            </div>
-            <DetailedInformationsDashboard socket={socket} currency={props.currency} name={true}/>
-        </div>
-    )
+	return !firstData || !socket ? (
+		<p>Loading...</p>
+	) : (
+		<div className="detailed-crypto-view column">
+			<div className="page-menu space-between row h-center">
+				<div className="row h-center detailed-menu-info">
+					<h1 className="detailed-menu-title">Compare</h1>
+				</div>
+			</div>
+			<div className="row space-between">
+				<div className="column">
+					<CompareMenu
+						socket={socket}
+						compareList={compareList}
+						setCompareList={setCompareList}
+						currency={props.currency}
+					/>
+					<div className="column detailed-informations detailed-div max-width">
+						<div className="detailed-div-menu row space-between">
+							<p>Titre</p>
+							<p>Lorem</p>
+						</div>
+					</div>
+				</div>
+				<DetailedChart socket={socket} slug={slug} />
+			</div>
+			<DetailedInformationsDashboard socket={socket} currency={props.currency} name={true} />
+		</div>
+	)
 }
 export default CompareView

@@ -10,7 +10,7 @@ const Functions = {
 		Object.keys(cc).forEach((el) => {
 			let slug = el
 			let name = cc[slug]
-			
+
 			slugs.push(slug.toLowerCase())
 		})
 		return slugs

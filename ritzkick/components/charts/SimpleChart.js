@@ -14,9 +14,7 @@ function SimpleChart(props) {
 				lineTension: 0.25,
 				backgroundColor: 'rgb(38, 39, 40)',
 				borderColor: () => {
-					return props.increase
-						? 'rgb(102, 190, 84)'
-						: 'rgb(234, 46, 73)'
+					return props.increase ? 'rgb(102, 190, 84)' : 'rgb(234, 46, 73)'
 				},
 				borderWidth: 2,
 				data: props.data.response[0].indicators.quote[0].close,

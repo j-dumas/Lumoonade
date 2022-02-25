@@ -2,7 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useModal } from 'react-hooks-use-modal'
 import Icons from './Icons'
 import { addWatch } from '../services/UserService'
-import { Alert, Snackbar, FormControl, InputAdornment, InputLabel, OutlinedInput, Select, MenuItem } from '@mui/material'
+import {
+	Alert,
+	Snackbar,
+	FormControl,
+	InputAdornment,
+	InputLabel,
+	OutlinedInput,
+	Select,
+	MenuItem
+} from '@mui/material'
 
 const data = [
 	{
@@ -75,7 +84,13 @@ export default function ProfileAddAlerts(props) {
 			<button className="icon-button transform" id="rotate-button" onClick={open}>
 				<Icons.Times />
 			</button>
-			<Snackbar sx={{ m: 6 }} open={openStatus} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+			<Snackbar
+				sx={{ m: 6 }}
+				open={openStatus}
+				autoHideDuration={6000}
+				onClose={handleClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+			>
 				<Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
 					Alerte ajoutée!
 				</Alert>
@@ -83,38 +98,37 @@ export default function ProfileAddAlerts(props) {
 			<Modal>
 				<div className="edit-popup">
 					<h1>Ajouter une alerte</h1>
-					<p>L'alerte nous permet de vous envoyez un courriel lorsque la condition que vous entrez n'est pas respectée</p>
+					<p>
+						L'alerte nous permet de vous envoyez un courriel lorsque la condition que vous entrez n'est pas
+						respectée
+					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
-						<FormControl sx={{ m: 1, width: '25%' }} className='inputField' variant='filled'>
+						<FormControl sx={{ m: 1, width: '25%' }} className="inputField" variant="filled">
 							<InputLabel>Crypto</InputLabel>
-							<Select
-								defaultValue={data[0].slug}
-								onChange={handleSlugChange}
-							>
+							<Select defaultValue={data[0].slug} onChange={handleSlugChange}>
 								{parseData().map((crypt) => (
-									<MenuItem key={crypt.value} value={crypt.value}>{crypt.label}</MenuItem>
+									<MenuItem key={crypt.value} value={crypt.value}>
+										{crypt.label}
+									</MenuItem>
 								))}
 							</Select>
 						</FormControl>
-						<FormControl sx={{ m: 1, width: '30%' }} className='inputField' variant='filled'>
+						<FormControl sx={{ m: 1, width: '30%' }} className="inputField" variant="filled">
 							<InputLabel>Symbole</InputLabel>
-							<Select
-								defaultValue="lte"
-								onChange={handleSymbolChange}
-							>
+							<Select defaultValue="lte" onChange={handleSymbolChange}>
 								<MenuItem value="lte">Moins que la valeur</MenuItem>
 								<MenuItem value="gte">Plus que la valeur</MenuItem>
 							</Select>
 						</FormControl>
-						<FormControl className='inputField' sx={{ m: 1, width: '25%' }} variant="filled" >
+						<FormControl className="inputField" sx={{ m: 1, width: '25%' }} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-amount">Valeur</InputLabel>
 							<OutlinedInput
 								id="outlined-adornment-amount"
 								onChange={handleTargetChange}
 								startAdornment={<InputAdornment position="start">$</InputAdornment>}
 								required
-								autoComplete='off'
-								inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min : "15000"}}
+								autoComplete="off"
+								inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '15000' }}
 							/>
 						</FormControl>
 						<input type="submit" value="Ajouter"></input>

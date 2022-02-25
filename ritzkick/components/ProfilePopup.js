@@ -17,7 +17,11 @@ export default function ProfilePopup(props) {
 		closeOnOverlayClick: false
 	})
 	const [values, handleChange, resetValues] = useForm({})
-	const [passwordValues, setPasswordValues] = useState({oldPassShow: false, newPassShow: false, newPassConfirmationShow: false})
+	const [passwordValues, setPasswordValues] = useState({
+		oldPassShow: false,
+		newPassShow: false,
+		newPassConfirmationShow: false
+	})
 
 	function eraseFieldValue() {
 		resetValues()
@@ -29,21 +33,23 @@ export default function ProfilePopup(props) {
 		}
 	}
 
-	function handleClickShowPassword(event, index){
+	function handleClickShowPassword(event, index) {
 		switch (index) {
 			case 0:
-				setPasswordValues({...passwordValues, oldPassShow: !passwordValues.oldPassShow})
-				break;
+				setPasswordValues({ ...passwordValues, oldPassShow: !passwordValues.oldPassShow })
+				break
 			case 1:
-				setPasswordValues({...passwordValues, newPassShow: !passwordValues.newPassShow})
-				break;
+				setPasswordValues({ ...passwordValues, newPassShow: !passwordValues.newPassShow })
+				break
 			case 2:
-				setPasswordValues({...passwordValues, newPassConfirmationShow: !passwordValues.newPassConfirmationShow})
-				break;
+				setPasswordValues({
+					...passwordValues,
+					newPassConfirmationShow: !passwordValues.newPassConfirmationShow
+				})
+				break
 			default:
-				break;
+				break
 		}
-
 	}
 
 	async function handleSubmit(event) {
@@ -95,7 +101,7 @@ export default function ProfilePopup(props) {
 						<div className="wrong" id="wrong-name">
 							Le nom que vous désirez entrer est déjà utilisé
 						</div>
-						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-username">Nom d'utilisateur</InputLabel>
 							<OutlinedInput
 								name={newUsername}
@@ -109,12 +115,17 @@ export default function ProfilePopup(props) {
 									</InputAdornment>
 								}
 								fullWidth
-								inputProps={{minLength: 4}}
+								inputProps={{ minLength: 4 }}
 								autoComplete="off"
 							/>
 						</FormControl>
 						<hr className="form-separator"></hr>
-						<FormControl className='inputField-disabled' sx={{ m: 1, width: '100%' }} disabled variant="filled">
+						<FormControl
+							className="inputField-disabled"
+							sx={{ m: 1, width: '100%' }}
+							disabled
+							variant="filled"
+						>
 							<InputLabel htmlFor="outlined-adornment-courriel">Courriel</InputLabel>
 							<OutlinedInput
 								id="outlined-adornment-courriel"
@@ -133,85 +144,91 @@ export default function ProfilePopup(props) {
 						<div className="wrong" id="wrong-password">
 							Veuillez vérifier si tous les champs ci dessous concorde bien
 						</div>
-						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
 							<OutlinedInput
 								name={oldPass}
 								id="outlined-adornment-password"
-								type={passwordValues.oldPassShow ? "text" : "password"}
+								type={passwordValues.oldPassShow ? 'text' : 'password'}
 								onChange={handleChange}
 								startAdornment={
-									<InputAdornment position='end'>
+									<InputAdornment position="end">
 										<Lock />
 									</InputAdornment>
 								}
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
-										onMouseDown={(event) => handleClickShowPassword(event, 0)}
-										onMouseUp={(event) => handleClickShowPassword(event, 0)}
-										edge="end"
+											onMouseDown={(event) => handleClickShowPassword(event, 0)}
+											onMouseUp={(event) => handleClickShowPassword(event, 0)}
+											edge="end"
 										>
 											{passwordValues.oldPassShow ? <VisibilityOff /> : <Visibility />}
 										</IconButton>
 									</InputAdornment>
 								}
 								fullWidth
-								inputProps={{minLength: 8}}
+								inputProps={{ minLength: 8 }}
 							/>
 						</FormControl>
-						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-new-password">Nouveau mot de passe</InputLabel>
 							<OutlinedInput
 								name={newPass}
 								id="outlined-adornment-new-password"
-								type={passwordValues.newPassShow ? "text" : "password"}
+								type={passwordValues.newPassShow ? 'text' : 'password'}
 								onChange={handleChange}
 								startAdornment={
-									<InputAdornment position='end'>
+									<InputAdornment position="end">
 										<Lock />
 									</InputAdornment>
 								}
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
-										onMouseDown={(event) => handleClickShowPassword(event, 1)}
-										onMouseUp={(event) => handleClickShowPassword(event, 1)}
-										edge="end"
+											onMouseDown={(event) => handleClickShowPassword(event, 1)}
+											onMouseUp={(event) => handleClickShowPassword(event, 1)}
+											edge="end"
 										>
 											{passwordValues.newPassShow ? <VisibilityOff /> : <Visibility />}
 										</IconButton>
 									</InputAdornment>
 								}
 								fullWidth
-								inputProps={{minLength: 8}}
+								inputProps={{ minLength: 8 }}
 							/>
 						</FormControl>
-						<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-new-confirmation-password">Confirmation nouveau mot de passe</InputLabel>
+						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
+							<InputLabel htmlFor="outlined-adornment-new-confirmation-password">
+								Confirmation nouveau mot de passe
+							</InputLabel>
 							<OutlinedInput
 								name={newPassConfirmation}
 								id="outlined-adornment-new-confirmation-password"
-								type={passwordValues.newPassConfirmationShow ? "text" : "password"}
+								type={passwordValues.newPassConfirmationShow ? 'text' : 'password'}
 								onChange={handleChange}
 								startAdornment={
-									<InputAdornment position='end'>
+									<InputAdornment position="end">
 										<Lock />
 									</InputAdornment>
 								}
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
-										onMouseDown={(event) => handleClickShowPassword(event, 2)}
-										onMouseUp={(event) => handleClickShowPassword(event, 2)}
-										edge="end"
+											onMouseDown={(event) => handleClickShowPassword(event, 2)}
+											onMouseUp={(event) => handleClickShowPassword(event, 2)}
+											edge="end"
 										>
-											{passwordValues.newPassConfirmationShow ? <VisibilityOff /> : <Visibility />}
+											{passwordValues.newPassConfirmationShow ? (
+												<VisibilityOff />
+											) : (
+												<Visibility />
+											)}
 										</IconButton>
 									</InputAdornment>
 								}
 								fullWidth
-								inputProps={{minLength: 8}}
+								inputProps={{ minLength: 8 }}
 							/>
 						</FormControl>
 						<input type="submit" value="Modifier" />

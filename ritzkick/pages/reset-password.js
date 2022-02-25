@@ -14,7 +14,7 @@ export default function ForgotPassword() {
 			/>
 			<main>
 				<Bubbles />
-                <ResetPasswordForm />
+				<ResetPasswordForm />
 				<div className="spacer layer1"></div>
 			</main>
 			<Footer />

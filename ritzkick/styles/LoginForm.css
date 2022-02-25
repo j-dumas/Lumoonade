@@ -38,12 +38,12 @@
 	border-radius: 10px;
 }
 
-.inputField{
+.inputField {
 	background-color: white;
 	border-radius: 4px;
 }
 
-.inputField-disabled{
+.inputField-disabled {
 	background-color: var(--background-color-3);
 	border-radius: 4px;
 }

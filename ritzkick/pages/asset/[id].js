@@ -57,16 +57,14 @@ export async function getStaticProps({ params, locale }) {
 
 export async function getAllAssetIds() {
 	let slugs = await Functions.GetAllAvailableSlug()
-	
+
 	let ids = []
 	slugs.map((slug) => {
-		ids.push(
-			{
-				params: {
-					id: slug
-				}
+		ids.push({
+			params: {
+				id: slug
 			}
-		)
+		})
 	})
 
 	return ids
@@ -96,8 +94,7 @@ export async function getAllAssetIds() {
 			params: {
 				id: 'eth'
 			}
-		}
-		,
+		},
 		{
 			params: {
 				id: 'btcd'

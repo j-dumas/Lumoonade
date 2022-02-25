@@ -4,7 +4,6 @@ import { deleteWatch } from '../services/UserService'
 import { Snackbar, Alert } from '@mui/material'
 
 export default function ProfileAlertsComponent(props) {
-
 	function getSign(parameter) {
 		if (parameter === 'lte') {
 			return <span>&#8804;</span>
