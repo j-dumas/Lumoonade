@@ -9,9 +9,19 @@
 }
 
 .sub-section {
-	width: 97%;
-	max-width: 97%;
+	width: 95%;
+	max-width: 95%;
 	min-width: 360px;
+	align-items: center;
+}
+
+.dashboard {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
 }
 
 .division {
