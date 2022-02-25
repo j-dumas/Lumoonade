@@ -45,7 +45,7 @@ beforeEach(async () => {
 
 	await User.deleteMany()
 	await Reset.deleteMany()
-	await new User(testUser).save()
+	await new User(testUser).verified()
 	const resetFake = new Reset(testReset)
 	await resetFake.makeResetToken()
 })
@@ -143,7 +143,6 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 
 	test(`'SUCCESS REQUEST' if I send a valid jwt token that does have a valid email and secret (custom jwt made)`, async () => {
 		let reset = await Reset.findOne({ email: resetEmail })
-		console.log(reset)
 		const attemps = reset.attemps
 		expect(attemps).toBe(0)
 

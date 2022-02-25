@@ -42,7 +42,7 @@ beforeEach(async () => {
 	}
 	await User.deleteMany()
 	await Watchlist.deleteMany()
-	await new User(testUser).save()
+	await new User(testUser).verified()
 	await new Watchlist(testAlert).save()
 })
 

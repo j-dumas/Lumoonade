@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import Functions from '../services/CryptoService'
-import ButtonFavorite from '../components/ButtonFavorite'
-import SimplestItemView from './SimplestItemView'
+import Functions from '../../services/CryptoService'
+import ButtonFavorite from '../ButtonFavorite'
+import SimplestItemView from '../views/SimplestItemView'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'next-i18next'
+
 function CompareMenu(props) {
+	const { t } = useTranslation('compare')
 	const router = useRouter()
 	const [searchList, setSearchList] = useState([])
 	const [datas, setDatas] = useState([])
@@ -85,23 +88,23 @@ function CompareMenu(props) {
 		<>
 			<div className="column detailed-informations detailed-div max-width">
 				<div className="detailed-div-menu row space-between">
-					<label className="detailed-div-title">Comparing</label>
+					<label className="detailed-div-title">{t('menu.comparing')}</label>
 					<div>
 						<select name="" id="" className="detailed-chart-options-select">
-							<option value="price">Price</option>
-							<option value="efficiency">Efficiency</option>
-							<option value="volume">Volume</option>
-							<option value="marketCap">Market cap</option>
+							<option value="price">{t('menu.options.price')}</option>
+							<option value="efficiency">{t('menu.options.efficiency')}</option>
+							<option value="volume">{t('menu.options.volume')}</option>
+							<option value="marketCap">{t('menu.options.market-cap')}</option>
 						</select>
 						<p className="detailed-div-title">{'$ = ' + props.currency + '$'}</p>
 					</div>
 				</div>
 				<div className="row space-between detailed-div-item">
-					<p className="detailed-div-item-label">With</p>
+					<p className="detailed-div-item-label">{t('menu.with')}</p>
 					<form action="" onSubmit={updateSearchList}>
 						<input type="search" />
 						<button type="submit" value="Submit">
-							Search
+							{t('menu.search')}
 						</button>
 					</form>
 				</div>
@@ -123,11 +126,11 @@ function CompareMenu(props) {
 					<div className="row">
 						<div className="row">
 							<p></p>
-							<p className="detailed-div-title">Asset</p>
+							<p className="detailed-div-title">{t('menu.table.asset')}</p>
 						</div>
-						<p className="detailed-div-title">Price ($)</p>
+						<p className="detailed-div-title">{t('menu.table.price')}</p>
 						<div className="row">
-							<p className="detailed-div-title">24h Change</p>
+							<p className="detailed-div-title">{t('menu.table.change')}</p>
 							<p className="detailed-div-title"></p>
 						</div>
 						<p></p>

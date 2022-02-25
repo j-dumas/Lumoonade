@@ -3,6 +3,24 @@ const logger = require('../../utils/logging')
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 
+const sendConfirmationEmail = (to, link) => {
+	sendgrid
+		.send({
+			to,
+			from: process.env.SENDGRID_EMAIL_SENDER,
+			subject: 'Welcome abord !',
+			html: `
+            	<h1>Cryptool Service</h1>
+				<hr>
+				<p>Hi,</p>
+            	<p>Please confirm your email at <a href="${link}">this</a> url.</p>
+        	`
+		})
+		.then((res) => {
+			logger.info('Email', `Email sent to ${to}!`)
+		})
+}
+
 /**
  * Send an email to the user for reset password purposes.
  * @param {string} to
@@ -37,7 +55,7 @@ const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName
             <h1>Cryptool Service</h1>
             <p>This is a test! notification.</p>
             <p>You asked ${config.assetName} to be ${config.asked}. The price has reached the requirement!</p>
-            <p>${config.assetName} is at ${config.asked}.</p>
+            <p>${config.assetName} is at ${config.price}.</p>
         `
 		})
 		.then((res) => {
@@ -47,5 +65,6 @@ const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName
 
 module.exports = {
 	sendResetPasswordEmail,
-	sendWatchlistNotificationMessage
+	sendWatchlistNotificationMessage,
+	sendConfirmationEmail
 }

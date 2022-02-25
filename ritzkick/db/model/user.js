@@ -7,6 +7,7 @@ const Favorite = require('./favorite')
 const Wallet = require('./wallet')
 const Watchlist = require('./watchlist')
 const Reset = require('./reset')
+const Confirmation = require('./confirmation')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -24,7 +25,6 @@ const userSchema = new mongoose.Schema(
 		},
 		username: {
 			type: String,
-			unique: true,
 			trim: true,
 			minlength: 4,
 			required: true,
@@ -73,12 +73,17 @@ const userSchema = new mongoose.Schema(
 					type: mongoose.Schema.Types.ObjectId
 				}
 			}
-		]
+		],
+		validatedEmail: {
+			type: Boolean,
+			default: false
+		}
 	},
 	{
 		timestamps: true,
 		toJSON: {
 			transform: function (doc, ret) {
+				delete ret.validatedEmail
 				delete ret.password
 				delete ret.__v
 			}
@@ -124,6 +129,12 @@ userSchema.methods.makeAuthToken = async function () {
 	return token
 }
 
+userSchema.methods.verified = async function () {
+	const user = this
+	user.validatedEmail = true
+	await user.save()
+}
+
 userSchema.methods.makeProfile = async function () {
 	const user = this
 	const { email, username, favorite_list, sessions, wallet_list, watchlist_list, createdAt, updatedAt } = user
@@ -138,6 +149,20 @@ userSchema.methods.makeProfile = async function () {
 		updatedAt
 	}
 	return profile
+}
+
+userSchema.methods.addWalletAndSave = async function (id) {
+	const user = this
+	user.wallet_list.push({
+		wallet: id
+	})
+	await user.save()
+}
+
+userSchema.methods.removeWalletAndSave = async function (id) {
+	const user = this
+	user.wallet_list = user.wallet_list.filter((wallet) => wallet.wallet.toString() !== id.toString())
+	await user.save()
 }
 
 userSchema.methods.addWatchlistAlertAndSave = async function (id) {
@@ -205,6 +230,7 @@ userSchema.pre('remove', async function (next) {
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })
 	await Reset.deleteMany({ email: user.email })
+	await Confirmation.deleteMany({ email: user.email })
 	next()
 })
 

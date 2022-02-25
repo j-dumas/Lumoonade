@@ -4,6 +4,8 @@ const authentication = require('../middleware/auth')
 const router = express.Router()
 require('../swagger_models')
 
+const paths = require('../routes.json')
+
 /**
  * Login Request User Model
  * @typedef {object} LoginRequest
@@ -55,10 +57,15 @@ require('../swagger_models')
  * 	"error": "Could not login properly."
  * }
  */
-router.post('/api/auth/login', async (req, res) => {
+router.post(paths.auth.login, async (req, res) => {
 	try {
 		const { email, password } = req.body
 		const user = await User.findByCredentials(email, password)
+		
+		if (!user.validatedEmail) {
+			throw new Error('Please confirm your email.')
+		}
+
 		const token = await user.makeAuthToken()
 		const profile = await user.makeProfile()
 		res.send({
@@ -106,7 +113,7 @@ router.post('/api/auth/login', async (req, res) => {
  * 	"error": "E11000 duplicate key error collection: cryptool.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
  * }
  */
-router.post('/api/auth/register', async (req, res) => {
+router.post(paths.auth.register, async (req, res) => {
 	try {
 		const user = new User(req.body)
 		await user.save()
@@ -139,7 +146,7 @@ router.post('/api/auth/register', async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.post('/api/auth/logout', authentication, async (req, res) => {
+router.post(paths.auth.logout, authentication, async (req, res) => {
 	try {
 		req.user.sessions = req.user.sessions.filter((session) => session.session !== req.token)
 		await req.user.save()
@@ -159,7 +166,7 @@ router.post('/api/auth/logout', authentication, async (req, res) => {
  * @return {object} 200 - success
  * @return {string} 500 - server error
  */
-router.post('/api/auth/forgot', async (req, res) => {
+router.post(paths.auth['forgot-password'], async (req, res) => {
 	try {
 		const { email } = req.body
 		// Todo need to find a user related to the email

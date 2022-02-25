@@ -1,0 +1,20 @@
+{
+	"pages": {
+		"index": { "title": "CRYPTOOL | HOME", "description": "Cryptool home page" },
+		"login": { "title": "CRYPTOOL | LOGIN", "description": "Cryptool login page" },
+		"register": { "title": "CRYPTOOL | REGISTER", "description": "Cryptool register page" },
+		"compare": { "title": "CRYPTOOL | COMPARE", "description": "Cryptool compare page" },
+		"asset": { "title": "CRYPTOOL | ", "description": "Cryptool asset page" }
+	},
+	"meta": { "title": "CRYPTOOL", "description": "Cryptool for CryptoCurrencies", "type": "website" },
+	"footer": { "powered": "Powered by " },
+	"navbar": {
+		"home": "Home",
+		"assets": "Cryptos",
+		"compare": "Compare",
+		"user": { "wallet": "Wallet", "profile": "Profile" },
+		"login": "Log In",
+		"logout": "Log Out",
+		"register": "Register"
+	}
+}

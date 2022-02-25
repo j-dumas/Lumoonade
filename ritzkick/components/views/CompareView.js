@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Icons from './Icons'
+import Icons from '../Icons'
 import Functions, {
 	GetCryptocurrencyInformationsBySlug,
 	GetTopPopularCryptocurrencies,
 	GetTopEfficientCryptocurrencies
-} from '../services/CryptoService'
-import ButtonFavorite from '../components/ButtonFavorite'
-import DetailedInformationsDashboard from '../components/DetailedInformationsDashboard'
-import DetailedChart from './DetailedChart'
-import CompareMenu from './CompareMenu'
+} from '../../services/CryptoService'
+import ButtonFavorite from '../ButtonFavorite'
+import DetailedInformationsDashboard from '../DetailedInformationsDashboard'
+import DetailedChart from '../charts/DetailedChart'
+import CompareMenu from '../menus/CompareMenu'
 import { useRouter } from 'next/router'
 
 const io = require('socket.io-client')
 
-function CompareView(props) {
+const CompareView = (props) => {
 	const router = useRouter()
 	const [slug, setSlug] = useState('BTC' + '-' + props.currency)
 	const [firstData, setFirstData] = useState()
@@ -22,15 +22,22 @@ function CompareView(props) {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
-	const [socket] = useState(
-		io('http://localhost:3000/', {
-			auth: {
-				rooms: ['general', `graph-${dateRange}-${interval}`],
-				query: compareList,
-				graph: true
-			}
-		})
-	)
+	const connectionUrl = `${process.env.NEXT_PUBLIC_SSL == 'false' ? 'ws' : 'wss'}://${
+		process.env.NEXT_PUBLIC_HTTPS
+	}:${process.env.NEXT_PUBLIC_PORT}/`
+	const [socket, setSocket] = useState()
+
+	useEffect(() => {
+		setSocket(
+			io(connectionUrl, {
+				auth: {
+					rooms: ['general', `graph-${dateRange}-${interval}`],
+					query: compareList,
+					graph: true
+				}
+			})
+		)
+	}, [])
 
 	function getFirstCompareList() {
 		let paramsString = router.asPath.toString().split('/compare?assets=')[1]

@@ -1,0 +1,30 @@
+{
+	"fields": {
+		"email": "Email",
+		"password": "Password",
+		"username": "Username"
+	},
+	"login": {
+		"title": "Login",
+		"forgot-password": "Forgot my password",
+		"no-account": "No account yet ?",
+		"register": "Register",
+		"submit": "Login",
+		"error": "Wrong password or email",
+		"google": "Login with Google"
+	},
+	"register": {
+		"title": "Register",
+		"existing-account": "Already have an account ?",
+		"login": "Login",
+		"submit": "Register"
+	},
+	"validation": {
+		"email": "Enter a valid email",
+		"username": "Enter a valid username",
+		"password": "Enter a valid password",
+		"minimum-username": "Enter a valid username with a least 4 characters",
+		"minimum-password": "Enter a valid password with a least 8 characters"
+	},
+	"or": "or"
+}
