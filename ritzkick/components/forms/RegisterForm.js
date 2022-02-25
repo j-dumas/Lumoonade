@@ -1,121 +1,125 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Google from '../GoogleSignIn'
 import AndSeparator from '../AndSeparator'
 import Separator from '../Separator'
 import { register } from '../../services/AuthService'
 import Link from 'next/link'
-
 import { useTranslation } from 'next-i18next'
+import { useForm } from '../hooks/useForm'
+import { Email, Lock, Visibility, VisibilityOff, AccountCircle } from '@mui/icons-material'
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText } from '@mui/material'
 
 const RegisterForm = () => {
 	const { t } = useTranslation('forms')
 
-	const [username, setUsername] = useState()
-	const [password, setPassword] = useState()
-	const [email, setEmail] = useState()
+	const [state, handleChange] = useForm({})
+	const [passShow, setPassShow] = useState(false)
+	const [error, setError] = useState(false)
 
-	const handleEmailChange = (event) => {
-		let email = document.getElementById('emailField')
-		if (email.validity.typeMismatch) {
-			email.setCustomValidity(t('validation.email'))
-			email.reportValidity()
-		} else {
-			email.setCustomValidity('')
-			setEmail(event.target.value)
-		}
+	const handleClickShowPassword = (event) => {
+		setPassShow(!passShow)
 	}
 
-	const handleUsernameChange = (event) => {
-		let username = document.getElementById('usernameField')
-		if (username.validity.typeMismatch) {
-			username.setCustomValidity(t('validation.username'))
-			username.reportValidity()
-		} else {
-			username.setCustomValidity('')
-			setUsername(event.target.value)
-		}
-	}
-
-	const handlePasswordChange = (event) => {
-		let password = document.getElementById('passwordField')
-
-		if (password.validity.typeMismatch) {
-			password.setCustomValidity(t('validation.minimum-password'))
-			password.reportValidity()
-		} else {
-			password.setCustomValidity('')
-			setPassword(event.target.value)
-		}
-	}
-
-	//https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
-	const showError = (password, username, email) => {
-		if (!password.validity.valid) {
-			password.setCustomValidity(t('validation.minimum-password'))
-			password.reportValidity()
-		}
-		if (!email.validity.valid) {
-			if (email.validity.typeMismatch || email.validity.valueMissing) {
-				email.setCustomValidity(t('validation.email'))
-				email.reportValidity()
-			}
-		}
-		if (!username.validity.valid) {
-			username.setCustomValidity(t('validation.minimum-username'))
-			username.reportValidity()
-		}
+	const handleError = () => {
+		setError(true)
 	}
 
 	const handleSubmit = async (event) => {
-		let passwordField = document.getElementById('passwordField')
-		let usernameField = document.getElementById('usernameField')
-		let emailField = document.getElementById('emailField')
-
-		if (!passwordField.validity.valid || !usernameField.validity.valid || !emailField.validity.valid) {
-			showError(passwordField, usernameField, emailField)
-			event.preventDefault()
-		} else {
-			if (username == '' || password == '' || email == '') {
-				showError(passwordField, usernameField, emailField)
-				event.preventDefault()
-			} else {
-				event.preventDefault()
-				await register(email, username, password)
-			}
+		event.preventDefault()
+		if(state.email !== undefined && state.username !== undefined && state.password !== undefined){
+			await register(state.email, state.username, state.password, handleError)
 		}
 	}
 
 	return (
 		<Container className="p-3 form">
 			<h1 className="form-title">{t('register.title')}</h1>
-			<form onSubmit={handleSubmit} id="registerForm">
-				<input
-					id="usernameField"
-					type="text"
-					placeholder={t('fields.username')}
-					onChange={handleUsernameChange}
-					required
-					autoComplete="off"
-					minLength="4"
-				/>
-				<input
-					id="emailField"
-					type="email"
-					placeholder={t('fields.email')}
-					onChange={handleEmailChange}
-					required
-					autoComplete="off"
-				/>
-				<input
-					id="passwordField"
-					type="password"
-					placeholder={t('fields.password')}
-					onChange={handlePasswordChange}
-					required
-					minLength="8"
-					autoComplete="off"
-				/>
+			<form onSubmit={(event) => handleSubmit(event)}>
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+					<InputLabel htmlFor="usernameField">{t('fields.username')}</InputLabel>
+					<OutlinedInput
+						name="username"
+						id="usernameField"
+						type="text"
+						onChange={handleChange}
+						startAdornment={
+							<InputAdornment position="end">
+								<AccountCircle />
+							</InputAdornment>
+						}
+						fullWidth
+						required
+						inputProps={{minLength: 4}}
+						autoComplete="off"
+					/>
+				</FormControl>
+				{
+                    !!error && (
+                        <FormHelperText error sx={{textAlign: "center"}}>
+                            Votre nom doit contenir au moins 4 caractères
+                        </FormHelperText>
+                    )
+                }
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+					<InputLabel htmlFor="emailField">{t('fields.email')}</InputLabel>
+					<OutlinedInput
+						name="email"
+						id="emailField"
+						type="email"
+						onChange={handleChange}
+						startAdornment={
+							<InputAdornment position="end">
+								<Email />
+							</InputAdornment>
+						}
+						fullWidth
+						required
+						autoComplete="off"
+					/>
+				</FormControl>
+				{
+                    !!error && (
+                        <FormHelperText error sx={{textAlign: "center"}}>
+                            Vérifiez que votre courriel est valide
+                        </FormHelperText>
+                    )
+                }
+				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+					<InputLabel htmlFor="passwordField">{t('fields.password')}</InputLabel>
+					<OutlinedInput
+						name="password"
+						id="passwordField"
+						type={passShow ? "text" : "password"}
+						onChange={handleChange}
+						startAdornment={
+							<InputAdornment position='end'>
+								<Lock />
+							</InputAdornment>
+						}
+						endAdornment={
+							<InputAdornment position="end">
+								<IconButton
+								onMouseDown={handleClickShowPassword}
+								onMouseUp={handleClickShowPassword}
+								edge="end"
+								>
+									{passShow ? <Visibility /> : <VisibilityOff />}
+								</IconButton>
+							</InputAdornment>
+						}
+						fullWidth
+						required
+						inputProps={{minLength: 8}}
+					/>
+				</FormControl>
+				{
+                    !!error && (
+                        <FormHelperText error sx={{textAlign: "center"}}>
+                            Votre mot de passe doit avoir au moins 8 caractères
+                        </FormHelperText>
+                    )
+                }
 				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('register.submit')} />
 			</form>
 			<AndSeparator />

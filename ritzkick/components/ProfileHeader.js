@@ -5,90 +5,78 @@ import { removeSession, getUser } from '../services/UserService'
 const usernameTitleId = 'username'
 const memberSinceId = 'memberSince'
 
-class ProfileHeader extends React.Component {
-	constructor(props) {
-		super(props)
+export default function ProfileHeader(){
+	const [state, setState] = useState({user: {}})
 
-		this.state = { user: {} }
-		this.parseTime = this.parseTime.bind(this)
-		this.getMonth = this.getMonth.bind(this)
-		this.removeUserSession = this.removeUserSession.bind(this)
-	}
-
-	async removeUserSession(event) {
+	async function removeUserSession(event) {
 		await removeSession()
 		const data = await getUser()
-		this.setState({ user: data })
+		setState({ user: data })
 	}
 
-	getMonth(monthNumber) {
+	function getMonth(monthNumber) {
 		const month = [
-			'Janvier',
-			'Février',
-			'Mars',
-			'Avril',
-			'Mai',
-			'Juin',
-			'Juillet',
-			'Août',
-			'Septembre',
-			'Octobre',
-			'Novembre',
-			'Decembre'
+			'janvier',
+			'février',
+			'mars',
+			'avril',
+			'mai',
+			'juin',
+			'juillet',
+			'août',
+			'septembre',
+			'octobre',
+			'novembre',
+			'décembre'
 		]
 
 		return month[monthNumber - 1]
 	}
 
-	parseTime(createdAt) {
-		let dateSliced = createdAt.split('-')
-		let year = dateSliced[0]
-		let month = dateSliced[1]
-		let day = dateSliced[2].substring(0, 2)
-
-		return 'Membre depuis le ' + parseInt(day) + ' ' + this.getMonth(parseInt(month)) + ' ' + year
+	function parseTime(createdAt) {
+		if(createdAt !== undefined){
+			let dateSliced = createdAt.split('-')
+			let year = dateSliced[0]
+			let month = dateSliced[1]
+			let day = dateSliced[2].substring(0, 2)
+	
+			return 'Membre depuis le ' + parseInt(day) + ' ' + getMonth(parseInt(month)) + ' ' + year
+		}
 	}
 
-	async componentDidMount() {
-		const data = await getUser()
-		this.setState({ user: data })
-		document.getElementById(usernameTitleId).innerText = this.state.user.username
-		document.getElementById(memberSinceId).innerText = this.parseTime(this.state.user.createdAt)
-	}
+	useEffect(() => {
+		getUser().then((res) => setState({user: res}))
+	}, [])
 
-	render() {
-		return (
-			<div>
-				<div className="profile-header" id="header">
-					<div className="row">
-						<div className="column profile-card">
-							<ProfilePopup username={this.state.user.username} email={this.state.user.email} />
-							<div className="row h-center">
-								<img id="profile-picture" src="/ETH.svg"></img>
-								<h1 id={usernameTitleId}></h1>
-							</div>
-							<div className="row information">
-								<div>
-									<h3 id={memberSinceId}></h3>
-								</div>
+	return (
+		<div>
+			<div className="profile-header" id="header">
+				<div className="row">
+					<div className="column profile-card">
+						<ProfilePopup username={state.user.username} email={state.user.email} />
+						<div className="row h-center">
+							<img id="profile-picture" src="/ETH.svg"></img>
+							<h1 id={usernameTitleId}>{state.user.username}</h1>
+						</div>
+						<div className="row information">
+							<div>
+								<h3 id={memberSinceId}>{parseTime(state.user.createdAt)}</h3>
 							</div>
 						</div>
-						<div className="profile-card center">
-							<h2>Vous avez présentement {this.state.user.sessions} session(s) active(s)</h2>
-							<button
-								id="purge-session"
-								onClick={(event) => {
-									this.removeUserSession(event)
-								}}
-							>
-								Effacer les sessions inutiles
-							</button>
-						</div>
+					</div>
+					<div className="profile-card center">
+						<h2>Vous avez présentement {state.user.sessions} session(s) active(s)</h2>
+						<button
+							id="purge-session"
+							onClick={(event) => {
+								removeUserSession(event)
+							}}
+						>
+							Effacer les sessions inutiles
+						</button>
 					</div>
 				</div>
 			</div>
-		)
-	}
+		</div>
+	)
 }
-
-export default ProfileHeader

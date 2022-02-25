@@ -4,15 +4,6 @@ import { deleteWatch } from '../services/UserService'
 import { Snackbar, Alert } from '@mui/material'
 
 export default function ProfileAlertsComponent(props) {
-	const [openStatus, setOpen] = useState(false)
-
-	function handleClose(event, reason) {
-		if (reason === 'clickaway') {
-			return
-		}
-
-		setOpen(false)
-	}
 
 	function getSign(parameter) {
 		if (parameter === 'lte') {
@@ -22,26 +13,15 @@ export default function ProfileAlertsComponent(props) {
 		}
 	}
 
-	function handleEdit(event) {
-		console.log(props.alert._id)
-		event.preventDefault()
-	}
-
 	async function handleDelete(event) {
 		event.preventDefault()
 		await deleteWatch(props.alert._id)
 		props.onDataChange()
-		setOpen(true)
+		props.onDelete()
 	}
 
 	return (
 		<div>
-			<Snackbar open={openStatus} autoHideDuration={6000} onClose={handleClose}>
-				<Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-					Alerte supprimée !
-				</Alert>
-			</Snackbar>
-
 			<div className="row alert-card">
 				<div id="alert-slug" className="alert-card-item">
 					{props.alert.slug}

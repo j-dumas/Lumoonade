@@ -1,4 +1,4 @@
-import { getCookie } from '../services/CookieService'
+import { getCookie, deleteCookie } from '../services/CookieService'
 
 export async function getFavorites() {
 	try {
@@ -36,7 +36,7 @@ export async function getWatchList() {
 
 export async function deleteWatch(alertId) {
 	try {
-		let response = await fetch('/api/alerts/delete', {
+		await fetch('/api/alerts/delete', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -45,8 +45,6 @@ export async function deleteWatch(alertId) {
 			body: JSON.stringify({ id: alertId })
 		})
 
-		let json = await response.json()
-		console.log(json)
 	} catch (e) {
 		console.log(e)
 	}
@@ -54,7 +52,7 @@ export async function deleteWatch(alertId) {
 
 export async function addWatch(alert) {
 	try {
-		let response = await fetch('/api/alerts', {
+		await fetch('/api/alerts', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -62,9 +60,6 @@ export async function addWatch(alert) {
 			},
 			body: JSON.stringify({ slug: alert.slug, target: alert.target, parameter: alert.parameter })
 		})
-
-		let json = await response.json()
-		console.log(json)
 	} catch (e) {
 		console.log(e)
 	}
@@ -72,7 +67,7 @@ export async function addWatch(alert) {
 
 export async function deleteUser() {
 	try {
-		let response = await fetch('/api/me/delete', {
+		await fetch('/api/me/delete', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -80,35 +75,35 @@ export async function deleteUser() {
 			}
 		})
 
-		let json = await response.json()
-		console.log(json)
-
-		document.cookie = 'token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict'
+		deleteCookie("token")
 		window.location.assign('/')
 	} catch (e) {
 		console.log(e)
 	}
 }
 
-export async function getUser() {
-	try {
-		let response = await fetch('/api/me', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + getCookie('token')
-			}
-		})
+export async function getUser(){
+    try{
+        let response = await fetch('/api/me', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie("token")
+            },
+        })
 
-		if (response.status === 401) {
-			window.location.assign('/login')
-		} else {
-			let json = await response.json()
-			return json
-		}
-	} catch (e) {
-		console.log(e)
-	}
+        if(response.status === 401){
+            deleteCookie("token")
+            window.location.assign('/login')
+        }
+        else{
+            let json = await response.json()
+            return json
+        }
+    }
+    catch(e){
+        console.log(e)
+    }
 }
 
 export async function removeSession() {
@@ -122,7 +117,7 @@ export async function removeSession() {
 		})
 
 		let json = await response.json()
-		console.log(json)
+		return json.purged
 	} catch (e) {
 		console.log(e)
 	}
