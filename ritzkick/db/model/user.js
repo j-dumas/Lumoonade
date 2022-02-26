@@ -120,7 +120,7 @@ userSchema.virtual('watchlist', {
 
 userSchema.methods.makeAuthToken = async function () {
 	const user = this
-	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET)
+	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET, { algorithm: 'ES256' })
 
 	// Appending the session to the current sessions.
 	user.sessions = user.sessions.concat({ session: token })
