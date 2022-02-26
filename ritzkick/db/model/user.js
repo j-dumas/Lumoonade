@@ -118,9 +118,19 @@ userSchema.virtual('watchlist', {
 	foreignField: '_id'
 })
 
-userSchema.methods.makeAuthToken = async function () {
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth'
+}
+
+userSchema.methods.makeAuthToken = async function (host) {
 	const user = this
-	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET, { algorithm: 'ES256' })
+	console.log(host)
+	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET, {
+		...jwtOptions,
+		issuer: host,
+		audience: host
+	})
 
 	// Appending the session to the current sessions.
 	user.sessions = user.sessions.concat({ session: token })

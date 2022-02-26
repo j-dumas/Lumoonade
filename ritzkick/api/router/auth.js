@@ -117,7 +117,7 @@ router.post(paths.auth.register, async (req, res) => {
 	try {
 		const user = new User(req.body)
 		await user.save()
-		const token = await user.makeAuthToken()
+		const token = await user.makeAuthToken(req.host.toString().split(':')[0])
 		const profile = await user.makeProfile()
 		res.status(201).send({
 			user: profile,

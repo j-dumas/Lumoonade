@@ -5,6 +5,14 @@ const { UnauthorizedHttpError, sendError } = require('../../utils/http_errors')
 // ----------------------------------------
 //  Middleware for authentification purpuses
 // -----------------------------------------
+
+const verifyOptions = {
+	algorithm: 'ES256',
+	issuer: ['LUMOONADE', 'localhost'],
+	audience: ['https://lumoonade.com', 'localhost'],
+	subject: 'Lumoonade Auth'
+}
+
 const auth = async (req, res, next) => {
 	try {
 		//  Decoding the jwt and finding a user related to it.
