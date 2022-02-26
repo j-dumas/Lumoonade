@@ -1,4 +1,4 @@
-const { appendToList, rebuild, keepFromList, sameString } = require('../../../app/socket/utils/parser')
+const { appendToList, rebuild, keepFromList, sameString, slapToLowerCase } = require('../../../app/socket/utils/parser')
 
 describe('Testing the parser util for the websocket service', () => {
 	describe('SameString function', () => {
@@ -93,5 +93,25 @@ describe('Testing the parser util for the websocket service', () => {
 			expect(someList.length).toBe(3)
 			expect(someList[someList.length - 1]).toBe(newValue)
 		})
+	})
+
+	describe('SlapToLowerCase function', () => {
+	
+		test(`Testing 'slapToLowerCase' turn every string in the array to lower case`, () => {
+			let list = ['A', 'B', 'C']
+			let expected = ['a', 'b', 'c']
+			
+			let res = slapToLowerCase(list)
+			expect(expected).toStrictEqual(res)
+		})
+
+		test(`Testing 'slapToLowerCase' turn every string in the arry to lower case 2`, () => {
+			let list = ['a', 'b', 'C']
+			let expected = ['a', 'b', 'c']
+			
+			let res = slapToLowerCase(list)
+			expect(expected).toStrictEqual(res)
+		})
+		
 	})
 })
