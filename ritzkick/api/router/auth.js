@@ -3,6 +3,7 @@ const User = require('../../db/model/user')
 const authentication = require('../middleware/auth')
 const router = express.Router()
 require('../swagger_models')
+const { OAuth2Client } = require('google-auth-library')
 
 const paths = require('../routes.json')
 
@@ -177,5 +178,26 @@ router.post(paths.auth['forgot-password'], async (req, res) => {
 		res.status(500).send()
 	}
 })
+
+router.post(paths.auth.google, async (req, res) => {
+	try {
+		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+		const client = new OAuth2Client(GOOGLE_CLIENT_ID)
+		const payload = await verify(client, req.body.idToken, GOOGLE_CLIENT_ID).catch((e) => {
+			throw new Error(e.message)
+		})
+		res.send()
+	} catch (e) {
+		res.status(500).send({ error: e.message })
+	}
+})
+
+async function verify(client, token, GOOGLE_CLIENT_ID) {
+	const ticket = await client.verifyIdToken({
+		idToken: token,
+		audience: GOOGLE_CLIENT_ID
+	})
+	return ticket.getPayload()
+}
 
 module.exports = router
