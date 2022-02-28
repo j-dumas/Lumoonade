@@ -1,54 +1,58 @@
 import React, { useState, useEffect } from 'react'
 import { Line, Doughnut, Pie, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
+import GetColorBySlug from '../../utils/color'
 
 function PieChart(props) {
-	useEffect(async () => {
-        /*
-		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
+    if (!props.data || props.data.length == 0) return (<></>)
+	useEffect(async () => {}, [])
 
-		props.socket.on('graph', (datas) => {
-			const chart = chartReference.current
-			if (!chart || isDataNull(datas)) return
-			chart.data = getRelativeChartData(datas)
-			chart.update()
-		})
-		if (props.socket) return () => props.socket.disconnect()*/
-	}, [])
+    function generateData() {
+        let labels = []
+        let data = []
+        let backgroudColors = []
+        props.data.map((asset) => {
+            labels.push(asset.name)
+            data.push(asset.totalSpent)
+            backgroudColors.push(GetColorBySlug(asset.name))
+        })
 
-    let chartInstance = null
-    const pieData = {
-        maintainAspectRatio: false,
-        responsive: false,
-        labels: ["ETH", "BTC", "LTC", "BNB","DOGE", "SHIB", "THETA", "ADA"],
-        datasets: [
-          {
-            data: [1000, 2000, 550, 1000, 50, 50, 100, 200],
-            backgroundColor: ['aqua', 'orange', 'gray', 'gold', 'green', 'yellow', 'magenta', 'blue'],
-            //hoverBackgroundColor:  ['red', 'blue', 'green', 'yellow']
-          }
-        ]
-      };
+        const pieData = {
+            maintainAspectRatio: false,
+            responsive: false,
+            labels: labels,
+            datasets: [
+              {
+                data: data,
+                backgroundColor: backgroudColors,
+              }
+            ]
+        }
+        
+        return pieData
+    }
 
-      const pieOptions = {
+    const pieOptions = {
         plugins: {
             legend: {
                 display: true,
                 position: 'right'
-              },
+                },
         },
         elements: {
-          arc: {
+            arc: {
             borderWidth: 1
-          }
+            }
         }
-      };
+    };
+
+    let chartInstance = null
 	return (
 		<div className="pie-chart">
 			<Pie 
-                data={pieData}
+                data={generateData()}
                 options={pieOptions}
-                ref={input => {chartInstance = input;}}
+                ref={input => {chartInstance = input}}
             />
 		</div>
 	)
