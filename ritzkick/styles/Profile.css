@@ -91,6 +91,7 @@
 	width: 20%;
 	height: auto;
 	margin: 8px;
+	min-width: 80px;
 }
 
 #cancel-edit:hover {
