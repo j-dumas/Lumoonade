@@ -9,8 +9,8 @@ const fs = require('fs')
 
 const verifyOptions = {
 	algorithm: 'ES256',
-	issuer: ['LUMOONADE', 'localhost'],
-	audience: ['https://lumoonade.com', 'localhost'],
+	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
+	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
@@ -34,8 +34,8 @@ router.post('/api/confirmations', async (req, res) => {
 		const confirmation = new Confirmation({ email })
 		await confirmation.save()
 		let token = await confirmation.makeConfirmationToken(req.host.toString().split(':')[0])
-		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
-			process.env.NEXT_PUBLIC_PORT
+		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.URL}:${
+			process.env.PORT
 		}/email-confirmation?key=${token}`
 		emailSender.sendConfirmationEmail(email, link)
 		res.status(201).send()
@@ -48,7 +48,7 @@ router.post('/api/confirmations', async (req, res) => {
 
 router.get('/api/confirmation/verify/:jwt', async (req, res) => {
 	try {
-		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 		const token = req.params.jwt
 		const decoded = jwt.verify(token, publicKey, verifyOptions)
 		const { email, secret } = decoded

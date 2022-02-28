@@ -43,12 +43,13 @@ const jwtOptions = {
 
 resetSchema.methods.makeResetToken = async function (host) {
 	const reset = this
-	const privateKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-priv-key.pem`)
+	host = host || 'localhost'
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
 	const token = jwt.sign({ email: reset.email, secret: reset.secret }, privateKey, {
 		expiresIn: '5m',
 		...jwtOptions,
-		issuer: host,
-		audience: host
+		issuer: host.toString(),
+		audience: host.toString()
 	})
 
 	reset.resetToken = token

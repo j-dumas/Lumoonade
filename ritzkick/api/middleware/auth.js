@@ -9,14 +9,14 @@ const fs = require('fs')
 
 const verifyOptions = {
 	algorithm: 'ES256',
-	issuer: ['LUMOONADE', 'localhost'],
-	audience: ['https://lumoonade.com', 'localhost'],
+	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
+	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
 const auth = async (req, res, next) => {
 	try {
-		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 
 		//  Decoding the jwt and finding a user related to it.
 		const token = req.header('Authorization').replace('Bearer', '').trim()

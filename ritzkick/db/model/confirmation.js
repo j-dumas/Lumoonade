@@ -34,7 +34,8 @@ const jwtOptions = {
 
 confirmationSchema.methods.makeConfirmationToken = async function (host) {
 	const confirmation = this
-	const privateKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-priv-key.pem`)
+	console.log(host)
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
 	const token = jwt.sign({ email: confirmation.email, secret: confirmation.secret }, privateKey, {
 		expiresIn: '10m',
 		...jwtOptions,

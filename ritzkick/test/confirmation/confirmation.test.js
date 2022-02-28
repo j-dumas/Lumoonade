@@ -5,6 +5,16 @@ const mongoose = require('mongoose')
 const server = require('../../app/app')
 const request = require('supertest')
 
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
+
 let tempUser
 
 beforeEach(async () => {
@@ -61,7 +71,7 @@ describe(`Validation test cases for /api/confirmation/verify/:jwt`, () => {
 	const URL = '/api/confirmation/verify/'
 
 	test(`'BAD REQUEST' fail to verify if the token doesn't match any confirmation`, async () => {
-		const customJWT = jwt.sign({ email: 'any@email.com', secret: 123123123 }, process.env.RESET_JWT_SECRET)
+		const customJWT = jwt.sign({ email: 'any@email.com', secret: 123123123 }, privateKey, jwtOptions)
 		await request(server)
 			.get(URL + customJWT)
 			.send()
