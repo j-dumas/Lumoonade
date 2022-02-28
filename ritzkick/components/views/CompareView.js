@@ -11,6 +11,7 @@ import DetailedInformationsDashboard from '../DetailedInformationsDashboard'
 import DetailedChart from '../charts/DetailedChart'
 import CompareMenu from '../menus/CompareMenu'
 import { useRouter } from 'next/router'
+import {createSocket} from '../../services/SocketService'
 
 const io = require('socket.io-client')
 
@@ -22,20 +23,14 @@ const CompareView = (props) => {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
-	const connectionUrl = `${process.env.NEXT_PUBLIC_SSL == 'false' ? 'ws' : 'wss'}://${
-		process.env.NEXT_PUBLIC_HTTPS
+	const connectionUrl = `wss://${
+		process.env.NEXT_PUBLIC_URL
 	}:${process.env.NEXT_PUBLIC_PORT}/`
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {
 		setSocket(
-			io(connectionUrl, {
-				auth: {
-					rooms: ['general', `graph-${dateRange}-${interval}`],
-					query: compareList,
-					graph: true
-				}
-			})
+			createSocket(['general', `graph-${dateRange}-${interval}`],compareList)
 		)
 	}, [])
 

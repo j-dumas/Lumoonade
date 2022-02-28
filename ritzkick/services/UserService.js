@@ -74,7 +74,6 @@ export async function deleteWatch(alertId) {
 			},
 			body: JSON.stringify({ id: alertId })
 		})
-
 	} catch (e) {
 		console.log(e)
 	}
@@ -105,35 +104,33 @@ export async function deleteUser() {
 			}
 		})
 
-		deleteCookie("token")
+		deleteCookie('token')
 		window.location.assign('/')
 	} catch (e) {
 		console.log(e)
 	}
 }
 
-export async function getUser(){
-    try{
-        let response = await fetch('/api/me', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie("token")
-            },
-        })
+export async function getUser() {
+	try {
+		let response = await fetch('/api/me', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + getCookie('token')
+			}
+		})
 
-        if(response.status === 401){
-            deleteCookie("token")
-            window.location.assign('/login')
-        }
-        else{
-            let json = await response.json()
-            return json
-        }
-    }
-    catch(e){
-        console.log(e)
-    }
+		if (response.status === 401) {
+			deleteCookie('token')
+			window.location.assign('/login')
+		} else {
+			let json = await response.json()
+			return json
+		}
+	} catch (e) {
+		console.log(e)
+	}
 }
 
 export async function removeSession() {

@@ -25,7 +25,6 @@ export function setCookie(value) {
 	document.cookie = name + '=' + value + ';' + expires + '; Http-Only, SameSite=Strict, path=/'
 }
 
-export function deleteCookie(cname){
-	document.cookie = cname + "=; expires=Thu, 1 Jan 1970 00:00:00 UTC; Http-Only, SameSite=Strict, path=/" 
-
+export function deleteCookie(cname) {
+	document.cookie = cname + '=; expires=Thu, 1 Jan 1970 00:00:00 UTC; Http-Only, SameSite=Strict, path=/'
 }

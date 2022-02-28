@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const { Asset, Popular } = require('../../db/model/asset')
-const crypto = require('../../application/crypto/crypto')
+const crypto = require('../../app/crypto/crypto')
 
 const pagination = require('../middleware/pagination')
 
@@ -422,19 +422,21 @@ async function verifyTopAssets(option) {
 	const isEmpty = await option.model.isEmpty(option.collection)
 	if (isEmpty) await fetchTopAssets(option)
 	else {
-		let datesAreSame = await checkDatesAndHours(option.model)
-		if (!datesAreSame) await modifyTopAssets(option)
+		let hasFiveMinutesPassed = await hasTimePassed(option.model, 5)
+		if (hasFiveMinutesPassed) await modifyTopAssets(option)
 	}
 }
 
-async function checkDatesAndHours(model) {
+async function hasTimePassed(model, time) {
 	const data = await model.findOne()
 	let update = data.updatedAt.toISOString()
-	update = update.substring(update.indexOf('T') + 1, update.indexOf(':'))
+	update = update.substring(update.indexOf(':') + 1, update.indexOf(':') + 3)
 
 	let date = new Date().toISOString()
-	date = date.substring(date.indexOf('T') + 1, date.indexOf(':'))
-	return update == date
+	date = date.substring(date.indexOf(':') + 1, date.indexOf(':') + 3)
+
+	const diff = Math.abs(parseInt(update) - parseInt(date))
+	return diff >= time
 }
 
 module.exports = router

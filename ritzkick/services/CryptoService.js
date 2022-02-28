@@ -1,6 +1,6 @@
 import axios from 'axios'
 import yahoo from '../utils/yahoo'
-const cc = require('../application/data/symbols.json')
+const cc = require('../app/data/symbols.json')
 
 const paths = require('../api/routes.json')
 
@@ -10,7 +10,7 @@ const Functions = {
 		Object.keys(cc).forEach((el) => {
 			let slug = el
 			let name = cc[slug]
-			
+
 			slugs.push(slug.toLowerCase())
 		})
 		return slugs
