@@ -50,14 +50,6 @@ test('Should not be able to create a new account if the account already exists (
 	expect(users.length).toBe(1)
 })
 
-// test('Should not be able to create a new account if the account already exists (same username)', async () => {
-// 	dummyData.username = testUser.username
-// 	await request(server).post('/api/auth/register').send(dummyData).expect(400)
-
-// 	const users = await User.find({})
-// 	expect(users.length).toBe(1)
-// })
-
 test('Should not be able to log in if the user does not exist', async () => {
 	const credentials = {
 		email: dummyData.email,
