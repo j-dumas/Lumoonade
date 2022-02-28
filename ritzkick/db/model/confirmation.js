@@ -18,7 +18,7 @@ const confirmationSchema = new mongoose.Schema({
 	},
 	confirmationToken: {
 		type: String,
-        trim: true
+		trim: true
 	},
 	secret: {
 		type: String,

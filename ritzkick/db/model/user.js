@@ -9,6 +9,8 @@ const Watchlist = require('./watchlist')
 const Reset = require('./reset')
 const Confirmation = require('./confirmation')
 
+const fs = require('fs')
+
 const userSchema = new mongoose.Schema(
 	{
 		email: {
@@ -25,7 +27,6 @@ const userSchema = new mongoose.Schema(
 		},
 		username: {
 			type: String,
-			unique: true,
 			trim: true,
 			minlength: 4,
 			required: true,
@@ -119,9 +120,20 @@ userSchema.virtual('watchlist', {
 	foreignField: '_id'
 })
 
-userSchema.methods.makeAuthToken = async function () {
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth'
+}
+
+userSchema.methods.makeAuthToken = async function (host) {
 	const user = this
-	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET)
+	console.log(process.env.SSL_CERT)
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-priv-key.pem`)
+	const token = jwt.sign({ _id: user._id.toString() }, privateKey, {
+		...jwtOptions,
+		issuer: host,
+		audience: host
+	})
 
 	// Appending the session to the current sessions.
 	user.sessions = user.sessions.concat({ session: token })

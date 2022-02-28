@@ -1,15 +1,28 @@
 import axios from 'axios'
 import yahoo from '../utils/yahoo'
+const cc = require('../app/data/symbols.json')
 
 const paths = require('../api/routes.json')
 
 const Functions = {
+	async GetAllAvailableSlug() {
+		let slugs = []
+		Object.keys(cc).forEach((el) => {
+			let slug = el
+			let name = cc[slug]
+
+			slugs.push(slug.toLowerCase())
+		})
+		return slugs
+	},
+
 	async GetSCryptocurrencySlugsBySeach(keyword, page = 0, limit = 16) {
 		const URI = `/api/assets/search/${keyword}?page${page}&limit=${limit}`
 
 		var reponse = await fetch(URI)
 		var json = reponse.json()
 
+		if (!json || json == undefined) json = []
 		return json
 	},
 
@@ -31,8 +44,8 @@ const Functions = {
 		return json
 	},
 
-	async GetTopPopularCryptocurrencies(top = 10) {
-		const URI = '/api/crypto/popular/'
+	async GetTopPopularCryptocurrencies(page = 0, limit = 8) {
+		const URI = `/api/assets/popular?page${page}&limit=${limit}`
 
 		var reponse = await fetch(URI)
 		var json = reponse.json()
@@ -40,8 +53,8 @@ const Functions = {
 		return json
 	},
 
-	async GetTopEfficientCryptocurrencies(top = 3) {
-		const URI = '/api/crypto/ranking/'
+	async GetTopGainersCryptocurrencies(top = 3) {
+		const URI = `/api/assets/top/gainers?page1&limit=${top}`
 
 		var reponse = await fetch(URI)
 		var json = reponse.json()

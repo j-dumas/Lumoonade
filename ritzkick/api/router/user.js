@@ -211,7 +211,6 @@ router.get(paths.favorites.all, [authentification, pagination], async (req, res)
 			skip: req.skipIndex
 		}
 	})
-	console.log(req.user)
 	res.send({ favorites: req.user.favorite, page: req.page, count: req.user.favorite.length })
 })
 
