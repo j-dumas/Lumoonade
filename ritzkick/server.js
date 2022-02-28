@@ -16,6 +16,7 @@ const url = process.env.URL || 'localhost'
 const testUrl = process.env.TEST_URL || 'localhost'
 const cert = process.env.SSL_CERT || 'localhost'
 const key = process.env.SSL_KEY || 'localhostKey'
+const ca = process.env.SSL_CA
 
 // SOCKET
 const sm = require('./app/socket/socket-manager')
@@ -100,6 +101,7 @@ function readCertificates() {
 		key: fs.readFileSync(`${__dirname}/config/certificates/${key}.pem`),
 		cert: fs.readFileSync(`${__dirname}/config/certificates/${cert}.pem`)
 	}
+	if (ca != 'null') httpsOptions.ca = fs.readFileSync(`${__dirname}/config/certificates/${cert}.ca-bundle`)
 	return httpsOptions
 }
 
