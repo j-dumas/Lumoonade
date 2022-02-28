@@ -498,8 +498,8 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0]).toBeDefined()
 	})
 
 	test(`'SUCCESS REQUEST' if you have two wallets, you should get a detailed response for both.`, async () => {
@@ -527,9 +527,9 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(2)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
-		expect(content.body[`${newAsset}`]).toBeDefined()
+		expect(content.body.assets.length).toBe(2)
+		expect(content.body.assets[0]).toBeDefined()
+		expect(content.body.assets[1].name).toBe(newAsset)
 	})
 
 	const BODY = {
@@ -548,8 +548,8 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0]).toBeDefined()
 		expect(content.body.coverage).toBe(100)
 	})
 
@@ -564,8 +564,8 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0]).toBeDefined()
 		expect(content.body.totalSpent).toBe(BODY.paid)
 	})
 
@@ -580,10 +580,10 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0].name).toBeDefined()
 
-		const walletHistoryDetailed = content.body[testUserWallet.asset]
+		const walletHistoryDetailed = content.body.assets[0]
 		expect(walletHistoryDetailed.totalSpent).toBe(BODY.paid)
 		expect(walletHistoryDetailed.averageSpent).toBe(BODY.paid)
 		expect(walletHistoryDetailed.holding).toBe(0.5) // paid / boughtAt

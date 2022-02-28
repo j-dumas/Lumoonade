@@ -79,7 +79,9 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 				path: 'hist'
 			})
 		}
-		const result = {}
+		const result = {
+			assets: []
+		}
 		let totalSpent = 0
 
 		// Possible optimization here.
@@ -95,21 +97,23 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 				avg++
 			})
 			avg = spent / avg
-			result[wallet.asset] = {
+			result.assets.push({
+				name: wallet.asset,
 				totalSpent: spent,
 				averageSpent: avg || 0,
 				holding: hold,
 				transactions: wallet.hist.length
-			}
+			})
 		})
 
 		let coverage = 0
-		Object.keys(result).forEach((res) => {
-			result[res].percentInPortfolio = (result[res].totalSpent / totalSpent) * 100 || 0
-			coverage += result[res].percentInPortfolio
+		Object.keys(result.assets).forEach((res) => {
+			
+			result.assets[res].percentInPortfolio = (result.assets[res].totalSpent / totalSpent) * 100 || 0
+			coverage += result.assets[res].percentInPortfolio
 		})
 
-		result.assets = Object.keys(result).length
+		result.assetCount = Object.keys(result).length
 		result.totalSpent = totalSpent
 		result.coverage = coverage || 0
 
