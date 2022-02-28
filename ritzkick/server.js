@@ -14,8 +14,9 @@ const spdy = require('spdy')
  ******************************/
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 3000
-const httpsUrl = process.env.HTTPS || 'localhost'
-const httpUrl = process.env.HTTP || 'localhost'
+const testPort = process.env.TEST_PORT || 4000
+const url = process.env.URL || 'localhost'
+const testUrl = process.env.TEST_URL || 'localhost'
 const cert = process.env.SSL_CERT || 'localhost'
 const key = process.env.SSL_KEY || 'localhostKey'
 
@@ -81,12 +82,12 @@ server.listen(port, (err) => {
  */
 function protocolVerification() {
 	server.get('*', (req, res) => {
-		if (req.protocol == 'http' && req.headers['host'] != `${httpUrl}`) {
-			log.debug('SERVER', `Redirecting to http://${httpUrl}${req.url}`)
-			res.redirect(`http://${httpUrl}${req.url}`)
-		} else if (req.protocol == 'https' && req.headers['host'] != httpsUrl) {
-			log.debug('SERVER', `Redirecting to https://${httpsUrl}${req.url}`)
-			res.redirect(`https://${httpsUrl}${req.url}`)
+		if (req.headers['host'] != `${testUrl}`) {
+			log.debug('SERVER', `Redirecting to https://${testUrl}:${testPort}${req.url}`)
+			res.redirect(`http://${testUrl}${req.url}`)
+		} else if (req.headers['host'] != url) {
+			log.debug('SERVER', `Redirecting to https://${url}${req.url}`)
+			res.redirect(`https://${url}${req.url}`)
 		} else return handle(req, res)
 	})
 }
