@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
+const fs = require('fs')
 
 const MAX_ATTEMPS_PER_RESET = 5
 
@@ -35,10 +36,20 @@ const resetSchema = new mongoose.Schema({
 	}
 })
 
-resetSchema.methods.makeResetToken = async function () {
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth'
+}
+
+resetSchema.methods.makeResetToken = async function (host) {
 	const reset = this
-	const token = jwt.sign({ email: reset.email, secret: reset.secret }, process.env.RESET_JWT_SECRET, {
-		expiresIn: '5m'
+	host = host || 'localhost'
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+	const token = jwt.sign({ email: reset.email, secret: reset.secret }, privateKey, {
+		expiresIn: '5m',
+		...jwtOptions,
+		issuer: host.toString(),
+		audience: host.toString()
 	})
 
 	reset.resetToken = token
