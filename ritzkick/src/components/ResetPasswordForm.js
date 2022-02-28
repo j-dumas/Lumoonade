@@ -38,12 +38,8 @@ export default function ResetPasswordForm() {
 						confirmation: state.passwordConfirmation
 					})
 				})
-
-				console.log(response.status)
 				window.location.assign('/login')
-			} catch (e) {
-				console.log(e)
-			}
+			} catch (e) {}
 		} else {
 			setError(true)
 		}

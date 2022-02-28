@@ -55,7 +55,7 @@ export default function ProfileHeader() {
 					<div className="column profile-card">
 						<ProfilePopup username={state.user.username} email={state.user.email} />
 						<div className="row h-center">
-							<img id="profile-picture" src="/ETH.svg"></img>
+							<img id="profile-picture" src="/ETH.svg" alt=""></img>
 							<h1 id={usernameTitleId}>{state.user.username}</h1>
 						</div>
 						<div className="row information">
