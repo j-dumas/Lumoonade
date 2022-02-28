@@ -99,8 +99,8 @@ function protocolVerification() {
 function readCertificates() {
 	log.info('SERVER', 'Reading certificates')
 	const httpsOptions = {
-		key: fs.readFileSync(`${__dirname}/certificates/${key}.pem`),
-		cert: fs.readFileSync(`${__dirname}/certificates/${cert}.pem`)
+		key: fs.readFileSync(`${__dirname}/config/certificates/${key}.pem`),
+		cert: fs.readFileSync(`${__dirname}/config/certificates/${cert}.pem`)
 	}
 	return httpsOptions
 }
