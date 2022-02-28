@@ -2,6 +2,13 @@
 let connections = []
 
 /**
+ * Clean the connections array
+ */
+const clean = () => {
+	connections.length = 0
+}
+
+/**
  * Register a new connection to the active connections list
  * @param {socket} socket
  */
@@ -20,7 +27,7 @@ const registerConnection = (socket) => {
  */
 const registerListeningChannel = (socket, join) => {
 	let user = getConnectionFromSocket(socket)
-	user.channels.push(join.toLowerCase().trim())
+	if (user) user.channels.push(join.toLowerCase().trim())
 }
 
 /**
@@ -91,5 +98,6 @@ module.exports = {
 	getConnections,
 	getActiveConnections,
 	getActiveConnectionsInChannel,
-	getAllListeningChannels
+	getAllListeningChannels,
+	clean
 }
