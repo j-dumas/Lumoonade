@@ -37,7 +37,8 @@ yarn-error.log*
 .key
 .perm
 .crt
-**/certificates
+**/certificates/*
+!**/certificates/localhost*
 
 # sitemaps
 **/robots.txt
