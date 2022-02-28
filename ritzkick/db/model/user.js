@@ -127,7 +127,8 @@ const jwtOptions = {
 
 userSchema.methods.makeAuthToken = async function (host) {
 	const user = this
-	const privateKey = fs.readFileSync(`${__dirname}/../../config/key/ec-secp256k1-priv-key.pem`)
+	console.log(process.env.SSL_CERT)
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-priv-key.pem`)
 	const token = jwt.sign({ _id: user._id.toString() }, privateKey, {
 		...jwtOptions,
 		issuer: host,

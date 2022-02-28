@@ -16,7 +16,7 @@ const verifyOptions = {
 
 const auth = async (req, res, next) => {
 	try {
-		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/ec-secp256k1-pub-key.pem`)
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
 
 		//  Decoding the jwt and finding a user related to it.
 		const token = req.header('Authorization').replace('Bearer', '').trim()
