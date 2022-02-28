@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
-<<<<<<< HEAD:ritzkick/components/forms/RegisterForm.js
-import GoogleSignIn from '../GoogleSignIn'
-import AndSeparator from '../AndSeparator'
-import Separator from '../Separator'
-import { register } from '../../services/AuthService'
-=======
-import Google from '@/components/GoogleSignIn'
+import GoogleSignIn from '@/components/GoogleSignIn'
 import AndSeparator from '@/components/AndSeparator'
 import Separator from '@/components/Separator'
 import { register } from 'services/AuthService'
->>>>>>> develop:ritzkick/src/components/forms/RegisterForm.js
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { useForm } from '@/components/hooks/useForm'
@@ -42,7 +35,6 @@ const RegisterForm = () => {
 	return (
 		<Container className="p-3 form">
 			<h1 className="form-title">{t('register.title')}</h1>
-<<<<<<< HEAD:ritzkick/components/forms/RegisterForm.js
 			<form onSubmit={handleSubmit}>
 				{
                     !!error && (
@@ -52,10 +44,6 @@ const RegisterForm = () => {
                     )
                 }
 				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
-=======
-			<form onSubmit={(event) => handleSubmit(event)}>
-				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
->>>>>>> develop:ritzkick/src/components/forms/RegisterForm.js
 					<InputLabel htmlFor="usernameField">{t('fields.username')}</InputLabel>
 					<OutlinedInput
 						name="username"
@@ -73,16 +61,7 @@ const RegisterForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-<<<<<<< HEAD:ritzkick/components/forms/RegisterForm.js
 				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
-=======
-				{!!error && (
-					<FormHelperText error sx={{ textAlign: 'center' }}>
-						Votre nom doit contenir au moins 4 caractères
-					</FormHelperText>
-				)}
-				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
->>>>>>> develop:ritzkick/src/components/forms/RegisterForm.js
 					<InputLabel htmlFor="emailField">{t('fields.email')}</InputLabel>
 					<OutlinedInput
 						name="email"
@@ -99,16 +78,7 @@ const RegisterForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-<<<<<<< HEAD:ritzkick/components/forms/RegisterForm.js
 				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
-=======
-				{!!error && (
-					<FormHelperText error sx={{ textAlign: 'center' }}>
-						Vérifiez que votre courriel est valide
-					</FormHelperText>
-				)}
-				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
->>>>>>> develop:ritzkick/src/components/forms/RegisterForm.js
 					<InputLabel htmlFor="passwordField">{t('fields.password')}</InputLabel>
 					<OutlinedInput
 						name="password"
@@ -136,16 +106,7 @@ const RegisterForm = () => {
 						inputProps={{ minLength: 8 }}
 					/>
 				</FormControl>
-<<<<<<< HEAD:ritzkick/components/forms/RegisterForm.js
 				<input id="submitButton" type="submit" value={t('register.submit')} />
-=======
-				{!!error && (
-					<FormHelperText error sx={{ textAlign: 'center' }}>
-						Votre mot de passe doit avoir au moins 8 caractères
-					</FormHelperText>
-				)}
-				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('register.submit')} />
->>>>>>> develop:ritzkick/src/components/forms/RegisterForm.js
 			</form>
 			<AndSeparator />
 			<GoogleSignIn />

@@ -1,24 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useModal } from 'react-hooks-use-modal'
-<<<<<<< HEAD:ritzkick/components/ProfileAddAlerts.js
 import Icons from './Icons'
-import { addWatch } from '../services/UserService'
+import { addWatch } from '../../services/UserService'
 import { Alert, Snackbar, FormControl, InputAdornment, InputLabel, OutlinedInput, Select, MenuItem, FormHelperText } from '@mui/material'
 import { useForm } from './hooks/useForm'
-=======
-import Icons from '@/components/Icons'
-import { addWatch } from 'services/UserService'
-import {
-	Alert,
-	Snackbar,
-	FormControl,
-	InputAdornment,
-	InputLabel,
-	OutlinedInput,
-	Select,
-	MenuItem
-} from '@mui/material'
->>>>>>> develop:ritzkick/src/components/ProfileAddAlerts.js
 
 const data = [
 	{
@@ -131,16 +116,12 @@ export default function ProfileAddAlerts(props) {
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl sx={{ m: 1, width: '25%' }} className="inputField" variant="filled">
 							<InputLabel>Crypto</InputLabel>
-<<<<<<< HEAD:ritzkick/components/ProfileAddAlerts.js
 							<Select
 								name="slug"
 								defaultValue=""
 								onChange={handleChange}
 								required
 							>
-=======
-							<Select defaultValue={data[0].slug} onChange={handleSlugChange}>
->>>>>>> develop:ritzkick/src/components/ProfileAddAlerts.js
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}
@@ -150,16 +131,12 @@ export default function ProfileAddAlerts(props) {
 						</FormControl>
 						<FormControl sx={{ m: 1, width: '30%' }} className="inputField" variant="filled">
 							<InputLabel>Symbole</InputLabel>
-<<<<<<< HEAD:ritzkick/components/ProfileAddAlerts.js
 							<Select
 								name="parameter"
 								defaultValue=""
 								onChange={handleChange}
 								required
 							>
-=======
-							<Select defaultValue="lte" onChange={handleSymbolChange}>
->>>>>>> develop:ritzkick/src/components/ProfileAddAlerts.js
 								<MenuItem value="lte">Moins que la valeur</MenuItem>
 								<MenuItem value="gte">Plus que la valeur</MenuItem>
 							</Select>
@@ -173,13 +150,8 @@ export default function ProfileAddAlerts(props) {
 								onChange={handleChange}
 								startAdornment={<InputAdornment position="start">$</InputAdornment>}
 								required
-<<<<<<< HEAD:ritzkick/components/ProfileAddAlerts.js
 								autoComplete='off'
 								inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min : minPrice.toString(), max: maxPrice.toString()}}
-=======
-								autoComplete="off"
-								inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '15000' }}
->>>>>>> develop:ritzkick/src/components/ProfileAddAlerts.js
 							/>
 						</FormControl>
 						<div className='column'>

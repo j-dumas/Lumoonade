@@ -55,8 +55,8 @@ router.post('/api/reset', async (req, res) => {
 			const resetLink = await reset.makeResetToken()
 			// Email sent with the valid url for forgot password.
 			// This is just a dummy value.
-			let url = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
-				process.env.NEXT_PUBLIC_PORT
+			let url = `https://${process.env.URL}:${
+				process.env.PORT
 			}/reset-password?key=${resetLink}`
 			emailSender.sendResetPasswordEmail(user.email, url)
 		}
@@ -149,8 +149,8 @@ router.post('/api/reset/redeem', async (req, res) => {
 
 		let response = await axios
 			.get(
-				`${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
-					process.env.NEXT_PUBLIC_PORT
+				`https://${process.env.URL}:${
+					process.env.PORT
 				}/api/reset/verify/${resetToken}`
 			)
 			.catch((e) => {

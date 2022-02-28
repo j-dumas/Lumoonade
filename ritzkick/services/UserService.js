@@ -1,4 +1,4 @@
-import { getCookie } from './CookieService'
+import { getCookie, deleteCookie } from './CookieService'
 import { isUserConnected } from './AuthService'
 
 export async function addFavorite(slug) {
@@ -123,7 +123,7 @@ export async function getUser() {
 
 		if (response.status === 401) {
 			deleteCookie('token')
-			window.location.assign('/login')
+			window.location.assign('/en/login')
 		} else {
 			let json = await response.json()
 			return json
