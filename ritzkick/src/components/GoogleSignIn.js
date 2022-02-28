@@ -31,6 +31,7 @@ export default function GoogleSignIn() {
 				clientId="878368249999-m504lbn87tdvn4cd9lrmg2vkh54iu8bi.apps.googleusercontent.com"
 				buttonText="Login"
 				onSuccess={onSignIn}
+				strategy="lazyOnload"
 			/>
 			{/* <a href="#" onClick={signOut}>Sign out</a> */}
 			<h4>{t('login.google')}</h4>

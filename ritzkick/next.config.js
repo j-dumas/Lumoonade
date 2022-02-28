@@ -6,7 +6,7 @@ const { i18n } = require('./next-i18next.config')
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' https://apis.google.com/;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com/;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
   frame-src 'self' https://accounts.google.com/;
@@ -58,5 +58,13 @@ module.exports = withBundleAnalyzer({
 				headers: securityHeaders
 			}
 		]
+	},
+	webpack(config) {
+		config.module.rules.push({
+			test: /\.svg$/,
+			use: ['@svgr/webpack']
+		})
+
+		return config
 	}
 })

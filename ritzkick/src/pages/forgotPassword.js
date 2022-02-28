@@ -1,24 +1,45 @@
-import DomHead from '@/components/DomHead'
-import Footer from '@/components/Footer'
-import ForgotPasswordForm from '@/components/ForgotPasswordForm'
-import Bubbles from '@/components/Bubbles'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
 
-export default function ForgotPassword() {
+import Layout from '@/components/Layout'
+
+const ForgotPasswordForm = dynamic(() => import('@/components/forms/ForgotPasswordForm'))
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
+
+const ForgotPassword = () => {
 	return (
-		<div>
-			<DomHead
-				pageMeta={{
-					title: 'CRYPTOOL | FORGOT PASSWORD',
-					description: 'Cryptool forgot password page'
-				}}
-			/>
+		<>
 			<main>
 				<Bubbles />
 				<ForgotPasswordForm />
 				<div className="spacer layer1"></div>
 			</main>
-			<Footer />
-			<div className="cursor"></div>
-		</div>
+		</>
 	)
 }
+
+ForgotPassword.getLayout = function getLayout(page) {
+	const { t } = useTranslation('common')
+
+	return (
+		<Layout
+			pageMeta={{
+				title: t('pages.forgot.title'),
+				description: t('pages.forgot.description')
+			}}
+		>
+			{page}
+		</Layout>
+	)
+}
+
+export async function getStaticProps({ locale }) {
+	return {
+		props: {
+			...(await serverSideTranslations(locale, ['common', 'forms']))
+		}
+	}
+}
+
+export default ForgotPassword
