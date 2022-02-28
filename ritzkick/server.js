@@ -101,7 +101,7 @@ function readCertificates() {
 		key: fs.readFileSync(`${__dirname}/config/certificates/${key}.pem`),
 		cert: fs.readFileSync(`${__dirname}/config/certificates/${cert}.pem`)
 	}
-	if (ca != 'null') httpsOptions.ca = fs.readFileSync(`${__dirname}/config/certificates/${cert}.ca-bundle`)
+	if (ca != 'null') httpsOptions.ca = fs.readFileSync(`${__dirname}/config/certificates/${ca}.ca-bundle`)
 	return httpsOptions
 }
 
