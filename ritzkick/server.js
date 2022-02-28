@@ -98,10 +98,10 @@ function protocolVerification() {
 function readCertificates() {
 	log.info('SERVER', 'Reading certificates')
 	const httpsOptions = {
-		key: fs.readFileSync(`${__dirname}/config/certificates/${key}.pem`),
-		cert: fs.readFileSync(`${__dirname}/config/certificates/${cert}.pem`)
+		key: fs.readFileSync(`${__dirname}/config/certificates/${key}`),
+		cert: fs.readFileSync(`${__dirname}/config/certificates/${cert}`)
 	}
-	if (ca != 'null') httpsOptions.ca = fs.readFileSync(`${__dirname}/config/certificates/${ca}.ca-bundle`)
+	if (ca != 'null') httpsOptions.ca = fs.readFileSync(`${__dirname}/config/certificates/${ca}`)
 	return httpsOptions
 }
 
