@@ -6,6 +6,16 @@ const User = require('../../db/model/user')
 
 const testId = new mongoose.Types.ObjectId()
 
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
+
 const testUser = {
 	_id: testId,
 	email: 'test@mail.com',
@@ -13,7 +23,7 @@ const testUser = {
 	password: 'HardP@ssw0rd213',
 	sessions: [
 		{
-			session: jwt.sign({ _id: testId }, process.env.JWTSECRET)
+			session: jwt.sign({ _id: testId }, privateKey, jwtOptions)
 		}
 	]
 }

@@ -71,8 +71,8 @@ router.post('/api/reset', async (req, res) => {
 
 const verifyOptions = {
 	algorithm: 'ES256',
-	issuer: ['LUMOONADE', 'localhost'],
-	audience: ['https://lumoonade.com', 'localhost'],
+	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
+	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
@@ -89,7 +89,7 @@ const verifyOptions = {
  */
 router.get('/api/reset/verify/:jwt', async (req, res) => {
 	try {
-		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 
 		const token = req.params.jwt
 		const decoded = jwt.verify(token, publicKey, verifyOptions)
@@ -159,8 +159,8 @@ router.post('/api/reset/redeem', async (req, res) => {
 
 		let response = await axios
 			.get(
-				`${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
-					process.env.NEXT_PUBLIC_PORT
+				`${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.URL}:${
+					process.env.PORT
 				}/api/reset/verify/${resetToken}`
 			)
 			.catch((e) => {
@@ -171,15 +171,15 @@ router.post('/api/reset/redeem', async (req, res) => {
 			throw new Error('Cannot update the profile.')
 		}
 
-		const decoded = jwt.verify(publicKey, verifyOptions)
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
+
+		const decoded = jwt.verify(resetToken, publicKey, verifyOptions)
 		const { email } = decoded
 		const user = await User.findOne({ email })
 
 		if (!user) {
 			throw new Error('No user matches the email')
 		}
-
-		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
 
 		user['password'] = password
 		user.sessions = []

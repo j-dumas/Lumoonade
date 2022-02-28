@@ -66,7 +66,7 @@ router.post(paths.auth.login, async (req, res) => {
 			throw new Error('Please confirm your email.')
 		}
 
-		const token = await user.makeAuthToken()
+		const token = await user.makeAuthToken('localhost')
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
