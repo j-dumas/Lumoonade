@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const User = require('../../db/model/user')
 const { UnauthorizedHttpError, sendError } = require('../../utils/http_errors')
+const fs = require('fs')
 
 // ----------------------------------------
 //  Middleware for authentification purpuses
@@ -15,9 +16,11 @@ const verifyOptions = {
 
 const auth = async (req, res, next) => {
 	try {
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/ec-secp256k1-pub-key.pem`)
+
 		//  Decoding the jwt and finding a user related to it.
 		const token = req.header('Authorization').replace('Bearer', '').trim()
-		const decoded = jwt.verify(token, process.env.JWTSECRET)
+		const decoded = jwt.verify(token, publicKey, verifyOptions)
 
 		// Trying to find a user that match the _id and have an active session.
 		const user = await User.findOne({ _id: decoded._id, 'sessions.session': token })

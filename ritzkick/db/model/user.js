@@ -9,6 +9,8 @@ const Watchlist = require('./watchlist')
 const Reset = require('./reset')
 const Confirmation = require('./confirmation')
 
+const fs = require('fs')
+
 const userSchema = new mongoose.Schema(
 	{
 		email: {
@@ -125,8 +127,8 @@ const jwtOptions = {
 
 userSchema.methods.makeAuthToken = async function (host) {
 	const user = this
-	console.log(host)
-	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET, {
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/key/ec-secp256k1-priv-key.pem`)
+	const token = jwt.sign({ _id: user._id.toString() }, privateKey, {
 		...jwtOptions,
 		issuer: host,
 		audience: host
