@@ -42,15 +42,15 @@ walletSchema.virtual('hist', {
 	ref: 'Transaction'
 })
 
-walletSchema.methods.appendTransaction = async function(transaction) {
+walletSchema.methods.appendTransaction = async function (transaction) {
 	const wallet = this
 	wallet.history = wallet.history.concat({ transaction: transaction._id })
 	await wallet.save()
 }
 
-walletSchema.methods.removeTransaction = async function(transaction) {
+walletSchema.methods.removeTransaction = async function (transaction) {
 	const wallet = this
-	wallet.history = wallet.history.filter(hist => hist.transaction._id.toString() !== transaction._id.toString())
+	wallet.history = wallet.history.filter((hist) => hist.transaction._id.toString() !== transaction._id.toString())
 	await wallet.save()
 }
 
@@ -59,7 +59,6 @@ walletSchema.pre('remove', async function (next) {
 	await Transaction.deleteMany({ wallet: wallet._id })
 	next()
 })
-
 
 const Wallet = mongoose.model('Wallet', walletSchema)
 

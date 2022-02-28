@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const validator = require('validator').default
+const fs = require('fs')
 
 const confirmationSchema = new mongoose.Schema({
 	email: {
@@ -18,7 +19,7 @@ const confirmationSchema = new mongoose.Schema({
 	},
 	confirmationToken: {
 		type: String,
-        trim: true
+		trim: true
 	},
 	secret: {
 		type: String,
@@ -26,10 +27,20 @@ const confirmationSchema = new mongoose.Schema({
 	}
 })
 
-confirmationSchema.methods.makeConfirmationToken = async function () {
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth'
+}
+
+confirmationSchema.methods.makeConfirmationToken = async function (host) {
 	const confirmation = this
-	const token = jwt.sign({ email: confirmation.email, secret: confirmation.secret }, process.env.RESET_JWT_SECRET, {
-		expiresIn: '10m'
+	console.log(host)
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+	const token = jwt.sign({ email: confirmation.email, secret: confirmation.secret }, privateKey, {
+		expiresIn: '10m',
+		...jwtOptions,
+		issuer: host,
+		audience: host
 	})
 	confirmation.confirmationToken = token
 	await confirmation.save()

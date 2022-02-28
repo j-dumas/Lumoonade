@@ -1,4 +1,12 @@
-import { getCookie, setCookie } from '../services/CookieService'
+import { getCookie, setCookie, deleteCookie } from './CookieService'
+
+export function isUserConnected() {
+	const token = getCookie('token')
+
+	if (!token) return false
+	if (token == undefined) return false
+	return true
+}
 
 export async function logout() {
 	try {
@@ -11,15 +19,14 @@ export async function logout() {
 			}
 		})
 
-		//Delete cookie and redirect
-		document.cookie = 'token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict'
+		deleteCookie('token')
 		window.location.assign('/')
 	} catch (e) {
 		console.log(e)
 	}
 }
 
-export async function login(email, password) {
+export async function login(email, password, handleError) {
 	try {
 		let response = await fetch('/api/auth/login', {
 			method: 'POST',
@@ -32,9 +39,9 @@ export async function login(email, password) {
 		if (response.status == 200) {
 			let json = await response.json()
 			setCookie(json.token)
-			window.location.assign('/')
+			window.location.assign('/profile')
 		} else if (response.status == 400) {
-			document.getElementById('wrong').style.display = 'block'
+			handleError()
 		} else {
 			alert('Something went wrong')
 		}
@@ -43,7 +50,7 @@ export async function login(email, password) {
 	}
 }
 
-export async function register(email, username, password) {
+export async function register(email, username, password, handleError) {
 	try {
 		let response = await fetch('/api/auth/register', {
 			method: 'POST',
@@ -53,9 +60,27 @@ export async function register(email, username, password) {
 			body: JSON.stringify({ email: email, username: username, password: password })
 		})
 
-		let json = await response.json()
-		setCookie(json.token)
-		window.location.assign('/')
+		console.log(response.status)
+
+		if (response.status === 201) {
+			//let json = await response.json()
+			//setCookie(json.token)
+
+			//Confirmation
+			await fetch('/api/confirmations', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ email: email })
+			})
+				.catch((e) => console.log(e))
+				.finally(() => {
+					window.location.assign('/login')
+				})
+		} else {
+			handleError()
+		}
 	} catch (e) {
 		console.log(e)
 		alert(e.message)

@@ -61,12 +61,12 @@ router.post(paths.auth.login, async (req, res) => {
 	try {
 		const { email, password } = req.body
 		const user = await User.findByCredentials(email, password)
-		
+
 		if (!user.validatedEmail) {
 			throw new Error('Please confirm your email.')
 		}
 
-		const token = await user.makeAuthToken()
+		const token = await user.makeAuthToken('localhost')
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
@@ -117,11 +117,9 @@ router.post(paths.auth.register, async (req, res) => {
 	try {
 		const user = new User(req.body)
 		await user.save()
-		const token = await user.makeAuthToken()
 		const profile = await user.makeProfile()
 		res.status(201).send({
-			user: profile,
-			token
+			user: profile
 		})
 	} catch (e) {
 		res.status(400).send({

@@ -1,10 +1,20 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 
 const testId = new mongoose.Types.ObjectId()
+
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
 
 const testUser = {
 	_id: testId,
@@ -13,7 +23,7 @@ const testUser = {
 	password: 'HardP@ssw0rd213',
 	sessions: [
 		{
-			session: jwt.sign({ _id: testId }, process.env.JWTSECRET)
+			session: jwt.sign({ _id: testId }, privateKey, jwtOptions)
 		}
 	]
 }
@@ -50,14 +60,6 @@ test('Should not be able to create a new account if the account already exists (
 	expect(users.length).toBe(1)
 })
 
-test('Should not be able to create a new account if the account already exists (same username)', async () => {
-	dummyData.username = testUser.username
-	await request(server).post('/api/auth/register').send(dummyData).expect(400)
-
-	const users = await User.find({})
-	expect(users.length).toBe(1)
-})
-
 test('Should not be able to log in if the user does not exist', async () => {
 	const credentials = {
 		email: dummyData.email,
@@ -74,7 +76,7 @@ test('Should be able to log in if the user exists with a validate email', async 
 	// Skipping the confirmation process.
 	const user = await User.findOne({ email: credentials.email })
 	await user.verified()
-	
+
 	await request(server).post('/api/auth/login').send(credentials).expect(200)
 })
 

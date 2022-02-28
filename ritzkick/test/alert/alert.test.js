@@ -1,16 +1,27 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 const Watchlist = require('../../db/model/watchlist')
 
-const es = require('../../application/email/email-service')
+const es = require('../../app/email/email-service')
 
 const testId = new mongoose.Types.ObjectId()
 const testAlertId = new mongoose.Types.ObjectId()
 const someoneAlertId = new mongoose.Types.ObjectId()
-const token = jwt.sign({ _id: testId }, process.env.JWTSECRET)
+
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
+
+const token = jwt.sign({ _id: testId }, privateKey, jwtOptions)
 
 let dummyData
 

@@ -2,9 +2,17 @@ const express = require('express')
 const router = express.Router()
 const Confirmation = require('../../db/model/confirmation')
 const User = require('../../db/model/user')
-const emailSender = require('../../application/email/email')
+const emailSender = require('../../app/email/email')
 const validator = require('validator').default
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
+
+const verifyOptions = {
+	algorithm: 'ES256',
+	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
+	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	subject: 'Lumoonade Auth'
+}
 
 router.post('/api/confirmations', async (req, res) => {
 	try {
@@ -12,11 +20,11 @@ router.post('/api/confirmations', async (req, res) => {
 		if (!email) {
 			throw new Error('Please provide an email in the body.')
 		}
-		
+
 		if (!validator.isEmail(email)) {
 			throw new Error('Please provide a valid email format.')
 		}
-		
+
 		const user = await User.findOne({ email })
 		if (user && user.validatedEmail) {
 			throw new Error(`You can't confirm twice the email.`)
@@ -25,9 +33,11 @@ router.post('/api/confirmations', async (req, res) => {
 		const _ = await dropIfExist(email)
 		const confirmation = new Confirmation({ email })
 		await confirmation.save()
-		let token = await confirmation.makeConfirmationToken()
-		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/email-confirmation?key=${token}`
-		// emailSender.sendConfirmationEmail(email, link)
+		let token = await confirmation.makeConfirmationToken(req.host.toString().split(':')[0])
+		let link = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.URL}:${
+			process.env.PORT
+		}/email-confirmation?key=${token}`
+		emailSender.sendConfirmationEmail(email, link)
 		res.status(201).send()
 	} catch (e) {
 		res.status(400).send({
@@ -37,16 +47,17 @@ router.post('/api/confirmations', async (req, res) => {
 })
 
 router.get('/api/confirmation/verify/:jwt', async (req, res) => {
-    try {
+	try {
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 		const token = req.params.jwt
-		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
+		const decoded = jwt.verify(token, publicKey, verifyOptions)
 		const { email, secret } = decoded
 		const confirmation = await Confirmation.findOne({ email, secret })
 		if (!confirmation) {
 			throw new Error('Token may be outdated.')
 		}
 
-		const decodedTokenStored = jwt.verify(confirmation.confirmationToken, process.env.RESET_JWT_SECRET)
+		const decodedTokenStored = jwt.verify(confirmation.confirmationToken, publicKey, verifyOptions)
 
 		const modified = !Object.keys(decoded).every((key) => {
 			return decoded[key] === decodedTokenStored[key]
