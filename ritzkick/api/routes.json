@@ -27,7 +27,7 @@
 	"favorites": {
 		"all": "/api/me/favorites",
 		"create": "/api/favorite",
-		"delete": "/api/favorite/"
+		"delete": "/api/favorite"
 	},
 	"user": {
 		"complete": "/api/me",

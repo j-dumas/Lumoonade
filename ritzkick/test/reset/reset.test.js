@@ -1,12 +1,12 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 const Reset = require('../../db/model/reset')
 const axios = require('axios').default
 
-const email = require('../../application/email/email')
+const email = require('../../app/email/email')
 const validSecret = process.env.RESET_JWT_SECRET
 
 jest.mock('axios')
@@ -45,7 +45,7 @@ beforeEach(async () => {
 
 	await User.deleteMany()
 	await Reset.deleteMany()
-	await new User(testUser).save()
+	await new User(testUser).verified()
 	const resetFake = new Reset(testReset)
 	await resetFake.makeResetToken()
 })
@@ -143,7 +143,6 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 
 	test(`'SUCCESS REQUEST' if I send a valid jwt token that does have a valid email and secret (custom jwt made)`, async () => {
 		let reset = await Reset.findOne({ email: resetEmail })
-		console.log(reset)
 		const attemps = reset.attemps
 		expect(attemps).toBe(0)
 

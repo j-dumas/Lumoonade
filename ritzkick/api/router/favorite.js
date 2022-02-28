@@ -9,7 +9,7 @@ require('../swagger_models')
 const paths = require('../routes.json')
 
 /**
- * Favorite Creation Model
+ * Favorite Request Model
  * @typedef {object} FavoriteRequest
  * @property {string} slug.required - Slug of the Asset
  */
@@ -59,10 +59,14 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
 })
 
 /**
- * DELETE /api/favorite/{slug}
+ * DELETE /api/favorite
  * @summary Deleting a favorite default endpoint
  * @tags Favorite
- * @param {string} slug.path.required - Favorite slug
+ * @param {FavoriteRequest} request.body.required - Favorite info
+ * @example request - example payload
+ * {
+ * 	"slug": "eth"
+ * }
  * @return {object} 204 - deleted
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -76,11 +80,11 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
  *	}
  * @security BearerAuth
  */
-router.delete(`${paths.favorites.delete}:slug`, authentification, async (req, res) => {
+router.delete(paths.favorites.delete, authentification, async (req, res) => {
 	try {
 		let filter = {
 			owner: req.user._id,
-			slug: req.params.slug
+			...req.body
 		}
 		const obj = await Favorite.findOne(filter).exec()
 		if (!obj) {

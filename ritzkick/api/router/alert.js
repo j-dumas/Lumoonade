@@ -3,7 +3,7 @@ const router = express.Router()
 const Watchlist = require('../../db/model/watchlist')
 const { sendError, NotFoundHttpError } = require('../../utils/http_errors')
 const auth = require('../middleware/auth')
-const es = require('../../application/email/email-service')
+const es = require('../../app/email/email-service')
 
 const paths = require('../routes.json')
 

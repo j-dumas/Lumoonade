@@ -1,0 +1,71 @@
+.principal {
+	height: 100%;
+}
+
+.section {
+	max-width: 100%;
+	min-width: 360px;
+	gap: 25px;
+}
+
+.sub-section {
+	width: 97%;
+	max-width: 97%;
+	min-width: 360px;
+}
+
+.division {
+	width: 48%;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	/*width: 100%;*/
+	gap: 10px;
+}
+
+.center {
+	justify-content: center;
+	align-items: center;
+}
+
+.h-center {
+	align-items: center;
+}
+
+.v-center {
+	justify-content: center;
+}
+
+.left {
+	justify-content: left;
+}
+
+.right {
+	justify-content: right;
+}
+
+.align-start {
+	align-self: flex-start;
+}
+
+.align-end {
+	align-self: flex-end;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+.start {
+	justify-content: start;
+}

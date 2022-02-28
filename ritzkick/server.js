@@ -20,7 +20,7 @@ const cert = process.env.SSL_CERT || 'localhost'
 const key = process.env.SSL_KEY || 'localhostKey'
 
 // SOCKET
-const sm = require('./application/socket/socket-manager')
+const sm = require('./app/socket/socket-manager')
 
 /*****************************
  * Prepare Frontend NextJS App
@@ -45,7 +45,7 @@ const spdyOptions = { protocols: ['h2', 'http/1.1'] }
 /**********************************
  * Prepare Backend ExpressJS Server
  *********************************/
-let server = require('./application/app')
+let server = require('./app/app')
 if (!dev) protocolVerification()
 
 const shouldCompress = (req, res) => {
