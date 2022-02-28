@@ -16,7 +16,7 @@
 	},
 	"jest": {
 		"testEnvironment": "node",
-		"testTimeout": 10000
+		"testTimeout": 30000
 	},
 	"dependencies": {
 		"@emotion/react": "^11.7.1",
