@@ -1,8 +1,5 @@
 const fs = require('fs')
 
-const http = require('http'),
-	https = require('https')
-
 const next = require('next')
 const log = require('./utils/logging')
 

@@ -66,5 +66,6 @@ module.exports = withBundleAnalyzer({
 		})
 
 		return config
-	}
+	},
+	swcMinify: true
 })

@@ -22,9 +22,7 @@ const CompareView = (props) => {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
-	const connectionUrl = `${process.env.NEXT_PUBLIC_SSL == 'false' ? 'ws' : 'wss'}://${
-		process.env.NEXT_PUBLIC_HTTPS
-	}:${process.env.NEXT_PUBLIC_PORT}/`
+	const connectionUrl = `wss://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/`
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {
