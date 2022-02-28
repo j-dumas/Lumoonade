@@ -6,9 +6,10 @@ const { i18n } = require('./next-i18next.config')
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval';
+  script-src 'self' 'unsafe-eval' https://apis.google.com/;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src 'self' https://fonts.gstatic.com;  
+  font-src 'self' https://fonts.gstatic.com;
+  frame-src 'self' https://accounts.google.com/;
 `
 
 const securityHeaders = [
