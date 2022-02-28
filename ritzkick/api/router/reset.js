@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../../db/model/user')
 const emailSender = require('../../app/email/email')
 const axios = require('axios').default
+const fs = require('fs')
 
 /**
  * Reset Email Model
@@ -68,6 +69,13 @@ router.post('/api/reset', async (req, res) => {
 	}
 })
 
+const verifyOptions = {
+	algorithm: 'ES256',
+	issuer: ['LUMOONADE', 'localhost'],
+	audience: ['https://lumoonade.com', 'localhost'],
+	subject: 'Lumoonade Auth'
+}
+
 /**
  * GET /api/reset/verify/{token}
  * @summary Verify if the token is a valid reset token
@@ -81,15 +89,17 @@ router.post('/api/reset', async (req, res) => {
  */
 router.get('/api/reset/verify/:jwt', async (req, res) => {
 	try {
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
+
 		const token = req.params.jwt
-		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
+		const decoded = jwt.verify(token, publicKey, verifyOptions)
 		const { email, secret } = decoded
 		const reset = await Reset.findOne({ email, secret })
 		if (!reset) {
 			throw new Error('Token may be outdated.')
 		}
 
-		const decodedTokenStored = jwt.verify(reset.resetToken, process.env.RESET_JWT_SECRET)
+		const decodedTokenStored = jwt.verify(reset.resetToken, publicKey, verifyOptions)
 
 		const modified = !Object.keys(decoded).every((key) => {
 			return decoded[key] === decodedTokenStored[key]
@@ -161,13 +171,15 @@ router.post('/api/reset/redeem', async (req, res) => {
 			throw new Error('Cannot update the profile.')
 		}
 
-		const decoded = jwt.verify(resetToken, process.env.RESET_JWT_SECRET)
+		const decoded = jwt.verify(publicKey, verifyOptions)
 		const { email } = decoded
 		const user = await User.findOne({ email })
 
 		if (!user) {
 			throw new Error('No user matches the email')
 		}
+
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
 
 		user['password'] = password
 		user.sessions = []

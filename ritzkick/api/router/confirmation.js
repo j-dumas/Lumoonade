@@ -5,6 +5,14 @@ const User = require('../../db/model/user')
 const emailSender = require('../../app/email/email')
 const validator = require('validator').default
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
+
+const verifyOptions = {
+	algorithm: 'ES256',
+	issuer: ['LUMOONADE', 'localhost'],
+	audience: ['https://lumoonade.com', 'localhost'],
+	subject: 'Lumoonade Auth'
+}
 
 router.post('/api/confirmations', async (req, res) => {
 	try {
@@ -40,15 +48,16 @@ router.post('/api/confirmations', async (req, res) => {
 
 router.get('/api/confirmation/verify/:jwt', async (req, res) => {
 	try {
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/key/${process.env.ES256_KEY}-pub-key.pem`)
 		const token = req.params.jwt
-		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
+		const decoded = jwt.verify(token, publicKey, verifyOptions)
 		const { email, secret } = decoded
 		const confirmation = await Confirmation.findOne({ email, secret })
 		if (!confirmation) {
 			throw new Error('Token may be outdated.')
 		}
 
-		const decodedTokenStored = jwt.verify(confirmation.confirmationToken, process.env.RESET_JWT_SECRET)
+		const decodedTokenStored = jwt.verify(confirmation.confirmationToken, publicKey, verifyOptions)
 
 		const modified = !Object.keys(decoded).every((key) => {
 			return decoded[key] === decodedTokenStored[key]
