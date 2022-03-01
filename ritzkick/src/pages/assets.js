@@ -21,7 +21,7 @@ export default function Assets() {
 		async function prepareSockets() {
 			if (isUserConnected()) {
 				let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
-				setFavSocket(createSocket(['general', `graph-1d-30m`], symbols))
+				setFavSocket(createSocket(['general', `graph-1d-30m`], symbols, `wss://${window.location.host}`))
 			}
 		}
 
@@ -30,7 +30,7 @@ export default function Assets() {
 		//let symbols = await Functions.GetTopGainersCryptocurrencies(8)
 		//let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
 		let list = ['btc-usd', 'eth-usd', 'bnb-usd', 'ltc-usd', 'ada-usd', 'doge-usd', 'shib-usd', 'theta-usd']
-		setSocket(createSocket(['general', `graph-1d-30m`], list))
+		setSocket(createSocket(['general', `graph-1d-30m`], list, `wss://${window.location.host}`))
 	}, [setSocket])
 
 	useEffect(() => {
