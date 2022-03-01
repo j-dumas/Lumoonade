@@ -105,7 +105,7 @@ export async function deleteUser() {
 		})
 
 		deleteCookie('token')
-		window.location.assign('/')
+		window.location.assign(`/${navigator.language}`)
 	} catch (e) {
 		console.log(e)
 	}
@@ -123,7 +123,7 @@ export async function getUser() {
 
 		if (response.status === 401) {
 			deleteCookie('token')
-			window.location.assign('/en/login')
+			window.location.assign(`/${navigator.language}/login`)
 		} else {
 			let json = await response.json()
 			return json
@@ -193,7 +193,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 200) {
 				alert('Profil modifié avec succès')
-				window.location.assign('/profile')
+				window.location.assign(`/${navigator.language}/profile`)
 			} else if (response.status === 400) {
 				document.getElementById('wrong-password').style.display = 'block'
 			} else {
@@ -218,7 +218,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 200) {
 				alert('Profil modifié avec succès')
-				window.location.assign('/profile')
+				window.location.assign(`/${navigator.language}/profile`)
 			} else if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
 			} else {
@@ -243,7 +243,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 200) {
 				alert('Profil modifié avec succès')
-				window.location.assign('/profile')
+				window.location.assign(`/${navigator.language}/profile`)
 			} else if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
 				document.getElementById('wrong-password').style.display = 'block'

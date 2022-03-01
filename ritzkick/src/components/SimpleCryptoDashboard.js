@@ -15,7 +15,7 @@ function SimpleCryptoDashboard(props) {
 			setData(await Functions.GetTopPopularCryptocurrencies())
 		}, 10000)
 		*/
-	})
+	}, [])
 
 	return !data ? (
 		<>Loading...</>
