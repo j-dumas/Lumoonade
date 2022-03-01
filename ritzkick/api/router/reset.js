@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../../db/model/user')
 const emailSender = require('../../app/email/email')
 const axios = require('axios').default
+const fs = require('fs')
 
 /**
  * Reset Email Model
@@ -52,7 +53,7 @@ router.post('/api/reset', async (req, res) => {
 			// Maybe do something if it exists...
 			const reset = new Reset({ email })
 			await reset.save()
-			const resetLink = await reset.makeResetToken()
+			const resetLink = await reset.makeResetToken(req.host.toString().split(':')[0])
 			// Email sent with the valid url for forgot password.
 			// This is just a dummy value.
 			let url = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
@@ -68,6 +69,13 @@ router.post('/api/reset', async (req, res) => {
 	}
 })
 
+const verifyOptions = {
+	algorithm: 'ES256',
+	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
+	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	subject: 'Lumoonade Auth'
+}
+
 /**
  * GET /api/reset/verify/{token}
  * @summary Verify if the token is a valid reset token
@@ -81,15 +89,17 @@ router.post('/api/reset', async (req, res) => {
  */
 router.get('/api/reset/verify/:jwt', async (req, res) => {
 	try {
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
+
 		const token = req.params.jwt
-		const decoded = jwt.verify(token, process.env.RESET_JWT_SECRET)
+		const decoded = jwt.verify(token, publicKey, verifyOptions)
 		const { email, secret } = decoded
 		const reset = await Reset.findOne({ email, secret })
 		if (!reset) {
 			throw new Error('Token may be outdated.')
 		}
 
-		const decodedTokenStored = jwt.verify(reset.resetToken, process.env.RESET_JWT_SECRET)
+		const decodedTokenStored = jwt.verify(reset.resetToken, publicKey, verifyOptions)
 
 		const modified = !Object.keys(decoded).every((key) => {
 			return decoded[key] === decodedTokenStored[key]
@@ -149,8 +159,8 @@ router.post('/api/reset/redeem', async (req, res) => {
 
 		let response = await axios
 			.get(
-				`${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
-					process.env.NEXT_PUBLIC_PORT
+				`${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.URL}:${
+					process.env.PORT
 				}/api/reset/verify/${resetToken}`
 			)
 			.catch((e) => {
@@ -161,7 +171,9 @@ router.post('/api/reset/redeem', async (req, res) => {
 			throw new Error('Cannot update the profile.')
 		}
 
-		const decoded = jwt.verify(resetToken, process.env.RESET_JWT_SECRET)
+		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
+
+		const decoded = jwt.verify(resetToken, publicKey, verifyOptions)
 		const { email } = decoded
 		const user = await User.findOne({ email })
 

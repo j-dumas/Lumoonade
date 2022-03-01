@@ -6,12 +6,22 @@ const User = require('../../db/model/user')
 const Wallet = require('../../db/model/wallet')
 const Transaction = require('../../db/model/transaction')
 
-const validSecret = process.env.JWTSECRET
 const testId = new mongoose.Types.ObjectId()
 const otherTestId = new mongoose.Types.ObjectId()
 const testWalletId = new mongoose.Types.ObjectId()
-const testUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, validSecret)
-const otherUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, validSecret)
+
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
+
+const testUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, privateKey, jwtOptions)
+const otherUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, privateKey, jwtOptions)
 
 const testUser = {
 	_id: testId,
@@ -62,11 +72,11 @@ beforeEach(async () => {
 	await Wallet.deleteMany()
 	let user = await new User(dummyData)
 	await user.verified()
-	otherToken = await user.makeAuthToken()
+	otherToken = await user.makeAuthToken('localhost')
 
 	user = await new User(testUser)
 	await user.verified()
-	token = await user.makeAuthToken()
+	token = await user.makeAuthToken('localhost')
 	await new Wallet(testUserWallet).save()
 })
 
@@ -498,8 +508,8 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0]).toBeDefined()
 	})
 
 	test(`'SUCCESS REQUEST' if you have two wallets, you should get a detailed response for both.`, async () => {
@@ -527,9 +537,9 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(2)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
-		expect(content.body[`${newAsset}`]).toBeDefined()
+		expect(content.body.assets.length).toBe(2)
+		expect(content.body.assets[0]).toBeDefined()
+		expect(content.body.assets[1].name).toBe(newAsset)
 	})
 
 	const BODY = {
@@ -548,8 +558,8 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0]).toBeDefined()
 		expect(content.body.coverage).toBe(100)
 	})
 
@@ -564,8 +574,8 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0]).toBeDefined()
 		expect(content.body.totalSpent).toBe(BODY.paid)
 	})
 
@@ -580,10 +590,10 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
-		expect(content.body.assets).toBe(1)
-		expect(content.body[testUserWallet.asset]).toBeDefined()
+		expect(content.body.assets.length).toBe(1)
+		expect(content.body.assets[0].name).toBeDefined()
 
-		const walletHistoryDetailed = content.body[testUserWallet.asset]
+		const walletHistoryDetailed = content.body.assets[0]
 		expect(walletHistoryDetailed.totalSpent).toBe(BODY.paid)
 		expect(walletHistoryDetailed.averageSpent).toBe(BODY.paid)
 		expect(walletHistoryDetailed.holding).toBe(0.5) // paid / boughtAt

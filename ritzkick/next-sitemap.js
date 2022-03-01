@@ -1,5 +1,5 @@
 module.exports = {
-	siteUrl: 'https://cryptool.atgrosdino.ca',
+	siteUrl: 'https://lumoonade.com',
 	generateRobotsTxt: true,
 	robotsTxtOptions: {
 		policies: [
