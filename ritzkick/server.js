@@ -22,10 +22,11 @@ const sm = require('./app/socket/socket-manager')
 /*****************************
  * Prepare Frontend NextJS App
  ****************************/
+let handle
 if (nodeEnv !== 'test') {
 	const dev = nodeEnv !== 'production'
 	const app = next({ dev })
-	const handle = app.getRequestHandler()
+	handle = app.getRequestHandler()
 	app.prepare().catch((ex) => {
 		log.error('SERVER', 'Launch error', ex.stack)
 		process.exit(1)
@@ -48,9 +49,10 @@ const spdyOptions = { protocols: ['h2', 'http/1.1'] }
  *********************************/
 let server = require('./app/app')
 
-server.get('*', (req, res) => {
-	return handle(req, res)
-})
+if (nodeEnv !== 'test')
+	server.get('*', (req, res) => {
+		return handle(req, res)
+	})
 
 const shouldCompress = (req, res) => {
 	if (req.headers['x-no-compression']) {
