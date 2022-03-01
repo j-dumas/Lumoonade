@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"start": "env-cmd -f ./env/.prod.env node --no-deprecation server.js",
-		"start-test": "env-cmd -f ./env/.prod.test.env node server.js",
+		"start-test": "env-cmd -f ./env/.prod.test.env --no-deprecation node server.js",
 		"dev": "env-cmd -f ./env/.local.env nodemon --no-deprecation server.js",
 		"build": "next build",
 		"analyze": "cross-env ANALYZE=true next build",
