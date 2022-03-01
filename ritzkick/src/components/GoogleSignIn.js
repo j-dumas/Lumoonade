@@ -9,15 +9,10 @@ export default function GoogleSignIn() {
 
 	function onSignIn(googleUser) {
 		var profile = googleUser.getBasicProfile()
-		var id_token = googleUser.getAuthResponse().id_token
-
-		// var xhr = new XMLHttpRequest();
-		// xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
-		// xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		// xhr.onload = function() {
-		//   console.log('Signed in as: ' + xhr.responseText);
-		// };
-		// xhr.send('idtoken=' + id_token);
+		console.log('ID: ' + profile.getId())
+		console.log('Name: ' + profile.getName())
+		console.log('Image URL: ' + profile.getImageUrl())
+		console.log('Email: ' + profile.getEmail())
 	}
 
 	function signOut() {
@@ -28,7 +23,7 @@ export default function GoogleSignIn() {
 	return (
 		<div id="googleSignin">
 			<GoogleLogin
-				clientId="878368249999-m504lbn87tdvn4cd9lrmg2vkh54iu8bi.apps.googleusercontent.com"
+				clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}.apps.googleusercontent.com`}
 				buttonText="Login"
 				onSuccess={onSignIn}
 				strategy="lazyOnload"
