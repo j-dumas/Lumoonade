@@ -24,7 +24,7 @@ function DetailedChart(props) {
 	useEffect(() => {
 		if (props.socket.id)
 			props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
-	}, [dateRange, interval])
+	}, [dateRange, interval, props.socket])
 
 	return (
 		<div className="detailed-chart detailed-div">

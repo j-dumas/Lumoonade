@@ -21,11 +21,8 @@ export default function ForgotPasswordForm() {
 				body: JSON.stringify({ email: email })
 			})
 
-			console.log(response.status)
 			setOpen(true)
-		} catch (e) {
-			console.log(e)
-		}
+		} catch (e) {}
 	}
 
 	function handleEmailChange(event) {

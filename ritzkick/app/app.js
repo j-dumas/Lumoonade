@@ -28,14 +28,14 @@ setRouters()
 
 function setRouters() {
 	server.use(resetRouter)
-server.use(authRouter)
-server.use(assetRouter)
-server.use(favoriteRouter)
-server.use(alertRouter)
-server.use(watchlistRouter)
-server.use(walletRouter)
-server.use(userRouter)
-server.use(confirmationRouter)
+	server.use(authRouter)
+	server.use(assetRouter)
+	server.use(favoriteRouter)
+	server.use(alertRouter)
+	server.use(watchlistRouter)
+	server.use(walletRouter)
+	server.use(userRouter)
+	server.use(confirmationRouter)
 }
 
 module.exports = server

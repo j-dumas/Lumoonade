@@ -16,16 +16,15 @@ function CompareMenu(props) {
 		props.socket.emit('update', props.socket.id, props.compareList)
 	})
 
-	useEffect(async () => {
+	useEffect(() => {
 		props.socket.on('data', (data) => {
 			setDatas(data)
 		})
-		if (props.socket) return () => socket.disconnect()
-	}, [])
+		if (props.socket) return () => props.socket.disconnect()
+	})
 
 	function changeURI() {
 		let assets = ''
-		console.log(props.compareList)
 		if (props.compareList.length > 0) {
 			props.compareList.map((asset, i) => {
 				asset = asset.split('-')[0].toString()

@@ -96,11 +96,10 @@ describe('Testing the parser util for the websocket service', () => {
 	})
 
 	describe('SlapToLowerCase function', () => {
-	
 		test(`Testing 'slapToLowerCase' turn every string in the array to lower case`, () => {
 			let list = ['A', 'B', 'C']
 			let expected = ['a', 'b', 'c']
-			
+
 			let res = slapToLowerCase(list)
 			expect(expected).toStrictEqual(res)
 		})
@@ -108,10 +107,9 @@ describe('Testing the parser util for the websocket service', () => {
 		test(`Testing 'slapToLowerCase' turn every string in the arry to lower case 2`, () => {
 			let list = ['a', 'b', 'C']
 			let expected = ['a', 'b', 'c']
-			
+
 			let res = slapToLowerCase(list)
 			expect(expected).toStrictEqual(res)
 		})
-		
 	})
 })

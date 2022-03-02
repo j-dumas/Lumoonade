@@ -17,21 +17,25 @@ export default function Assets() {
 	const [socket, setSocket] = useState()
 	const [favSocket, setFavSocket] = useState()
 
-	useEffect(async () => {
-		if (isUserConnected()) {
-			let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
-			setFavSocket(createSocket(['general', `graph-1d-30m`], symbols))
+	useEffect(() => {
+		async function prepareSockets() {
+			if (isUserConnected()) {
+				let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
+				setFavSocket(createSocket(['general', `graph-1d-30m`], symbols, `wss://${window.location.host}`))
+			}
 		}
+
+		prepareSockets()
 
 		//let symbols = await Functions.GetTopGainersCryptocurrencies(8)
 		//let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
 		let list = ['btc-usd', 'eth-usd', 'bnb-usd', 'ltc-usd', 'ada-usd', 'doge-usd', 'shib-usd', 'theta-usd']
-		setSocket(createSocket(['general', `graph-1d-1h`], list))
-	}, [])
+		setSocket(createSocket(['general', `graph-1d-30m`], list, `wss://${window.location.host}`))
+	}, [setSocket])
 
 	useEffect(() => {
 		if (socket) socket.emit('update', socket.id, searchList)
-	}, [searchList])
+	}, [socket, searchList])
 
 	async function updateSearchList(event) {
 		event.preventDefault()

@@ -23,9 +23,9 @@ const CompareView = (props) => {
 
 	useEffect(() => {
 		setSocket(
-			createSocket(['general', `graph-${dateRange}-${interval}`],compareList)
+			createSocket(['general', `graph-${dateRange}-${interval}`],compareList, `wss://${window.location.host}/`)
 		)
-	}, [])
+	}, [compareList, dateRange, interval])
 
 	function getFirstCompareList() {
 		let paramsString = router.asPath.toString().split('/compare?assets=')[1]
@@ -38,10 +38,14 @@ const CompareView = (props) => {
 		return params
 	}
 
-	useEffect(async () => {
-		// TODO: Fonction à changer pour retourner plusieurs datas.
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-	}, [compareList])
+	useEffect(() => {
+		async function setData() {
+			// TODO: Fonction à changer pour retourner plusieurs datas.
+			setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+		}
+
+		setData()
+	}, [slug])
 
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>

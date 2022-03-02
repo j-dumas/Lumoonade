@@ -26,9 +26,9 @@ function DetailedCryptoView(props) {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
 		
 		setSocket(
-			createSocket(['general', `graph-${dateRange}-${interval}`], [slug])
+			createSocket(['general', `graph-${dateRange}-${interval}`], [slug],`wss://${window.location.host}/`)
 		)
-	}, [])
+	}, [dateRange, interval, slug])
 
 	// Validation:
 	if (!props.slug || !props.currency) return <div>Impossible action.</div>

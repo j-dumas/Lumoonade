@@ -25,9 +25,7 @@ const create = async () => {
 	log(SERVICE_NAME, 'Found ' + watchlists.length + ' lists with ' + listen.length + ' unique search.')
 
 	// This will change in the future.
-	const connectionUrl = `${process.env.SSL == 'false' ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HTTPS}:${
-		process.env.NEXT_PUBLIC_PORT
-	}/`
+	const connectionUrl = `https://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`
 	client = new Client(connectionUrl, {
 		auth: {
 			rooms: ['general'],
