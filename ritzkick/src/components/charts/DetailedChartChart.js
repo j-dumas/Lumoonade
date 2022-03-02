@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Line, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
@@ -13,8 +13,12 @@ function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 	const [data, setData] = useState()
 
-	useEffect(async () => {
-		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
+	useEffect(() => {
+		async function prepareData() {
+			setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
+		}
+
+		prepareData()
 
 		props.socket.on('graph', (datas) => {
 			const chart = chartReference.current
@@ -23,7 +27,7 @@ function DetailedChartChart(props) {
 			chart.update()
 		})
 		if (props.socket) return () => props.socket.disconnect()
-	}, [])
+	}, [chartReference, getRelativeChartData, props])
 
 	function isDataNull(datas) {
 		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
@@ -31,21 +35,24 @@ function DetailedChartChart(props) {
 		} else return false
 	}
 
-	function getRelativeChartData(datas) {
-		if (isDataNull(datas)) return
-		return {
-			labels: datas[0].response[0].timestamp,
-			datasets: getRelativeChartDataDatasets(datas)
-		}
-	}
+	const getRelativeChartData = useCallback(
+		(datas) => {
+			if (isDataNull(datas)) return
+			return {
+				labels: datas[0].response[0].timestamp,
+				datasets: getRelativeChartDataDatasets(datas)
+			}
+		},
+		[getRelativeChartDataDatasets]
+	)
 
-	function getRelativeChartDataDatasets(datas) {
+	const getRelativeChartDataDatasets = useCallback((datas) => {
 		const datasets = []
 		datas.forEach((element) => {
 			datasets.push(getRelativeChartDataDataset(element.symbol, element.response[0].indicators.quote[0].close))
 		})
 		return datasets
-	}
+	}, [])
 
 	function getRelativeChartDataDataset(name, data) {
 		name = name.toString().split('-')[0]

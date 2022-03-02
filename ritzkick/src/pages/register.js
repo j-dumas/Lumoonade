@@ -1,13 +1,14 @@
-import DomHead from '@/components/DomHead'
-import Footer from '@/components/Footer'
-import RegisterForm from '@/components/forms/RegisterForm'
-import Bubbles from '@/components/Bubbles'
-import Layout from '@/components/Layout'
 import { useEffect } from 'react'
 import { getCookie } from 'services/CookieService'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
+
+import Layout from '@/components/Layout'
+
+const RegisterForm = dynamic(() => import('@/components/forms/RegisterForm'))
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const Register = () => {
 	useEffect(() => {

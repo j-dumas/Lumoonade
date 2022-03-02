@@ -22,14 +22,11 @@ const CompareView = (props) => {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
-	const connectionUrl = `${process.env.NEXT_PUBLIC_SSL == 'false' ? 'ws' : 'wss'}://${
-		process.env.NEXT_PUBLIC_HTTPS
-	}:${process.env.NEXT_PUBLIC_PORT}/`
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {
 		setSocket(
-			io(connectionUrl, {
+			io(`wss://${window.location.host}/`, {
 				auth: {
 					rooms: ['general', `graph-${dateRange}-${interval}`],
 					query: compareList,
@@ -37,7 +34,7 @@ const CompareView = (props) => {
 				}
 			})
 		)
-	}, [])
+	}, [compareList, dateRange, interval])
 
 	function getFirstCompareList() {
 		let paramsString = router.asPath.toString().split('/compare?assets=')[1]
@@ -50,10 +47,14 @@ const CompareView = (props) => {
 		return params
 	}
 
-	useEffect(async () => {
-		// TODO: Fonction à changer pour retourner plusieurs datas.
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-	}, [compareList])
+	useEffect(() => {
+		async function setData() {
+			// TODO: Fonction à changer pour retourner plusieurs datas.
+			setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+		}
+
+		setData()
+	}, [slug])
 
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>
