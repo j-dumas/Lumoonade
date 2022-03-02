@@ -117,7 +117,7 @@ ul {
 	color: white;
 }
 
-.page-navbar{
+.page-navbar {
 	margin-top: 60px;
 	margin-left: 10%;
 	margin-right: 10%;
@@ -126,12 +126,12 @@ ul {
 	position: relative;
 }
 
-.line{
+.line {
 	margin: 0%;
 	width: 100%;
 }
 
-.profile-nav-selected{
+.profile-nav-selected {
 	margin: 0%;
 	background-color: transparent;
 	border-bottom: 2px solid;
@@ -141,28 +141,27 @@ ul {
 	max-width: 200px;
 }
 
-.profile-nav{
+.profile-nav {
 	margin: 0%;
 	background-color: transparent;
 	border-radius: 0;
-	border-bottom: 2px;	
+	border-bottom: 2px;
 	width: 40%;
 	max-width: 200px;
 }
 
-
-.profile-nav:hover, .profile-nav-selected:hover{
+.profile-nav:hover,
+.profile-nav-selected:hover {
 	transition: 0.25s;
 	border: none;
 	border-color: gray;
 	border-bottom: 2px solid;
 }
 
-#purge-session{
+#purge-session {
 	max-width: 215px;
 }
 
-.no-margin{
+.no-margin {
 	margin: -21px;
 }
-

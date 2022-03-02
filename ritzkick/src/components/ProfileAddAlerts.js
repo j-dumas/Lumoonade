@@ -2,7 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useModal } from 'react-hooks-use-modal'
 import Icons from './Icons'
 import { addWatch } from '../../services/UserService'
-import { Alert, Snackbar, FormControl, InputAdornment, InputLabel, OutlinedInput, Select, MenuItem, FormHelperText } from '@mui/material'
+import {
+	Alert,
+	Snackbar,
+	FormControl,
+	InputAdornment,
+	InputLabel,
+	OutlinedInput,
+	Select,
+	MenuItem,
+	FormHelperText
+} from '@mui/material'
 import { useForm } from './hooks/useForm'
 
 const data = [
@@ -41,35 +51,32 @@ export default function ProfileAddAlerts(props) {
 	const [minPrice, setMinPrice] = useState(0)
 	const [maxPrice, setMaxPrice] = useState(0)
 
-
-	function getPrice(slug){
+	function getPrice(slug) {
 		data.forEach((element) => {
-			if(element.slug === slug){
+			if (element.slug === slug) {
 				console.log(element.price)
 				setPrice(element.price)
 			}
-		})	
+		})
 	}
 
-	
 	function handleClose(event, reason) {
 		if (reason === 'clickaway') {
 			return
 		}
-		
+
 		setOpen(false)
 	}
-	
+
 	useEffect(() => {
-		if(state.slug !== undefined){
+		if (state.slug !== undefined) {
 			getPrice(state.slug)
 		}
-		if(state.parameter !== undefined){
-			if(state.parameter === 'lte'){
+		if (state.parameter !== undefined) {
+			if (state.parameter === 'lte') {
 				setMinPrice(0)
 				setMaxPrice(price)
-			}
-			else{
+			} else {
 				setMinPrice(price)
 				setMaxPrice(Infinity)
 			}
@@ -91,7 +98,7 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	return (
-		<div className='row center'>
+		<div className="row center">
 			<button className="icon-button transform" id="rotate-button" onClick={open}>
 				<Icons.Times />
 			</button>
@@ -116,12 +123,7 @@ export default function ProfileAddAlerts(props) {
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl sx={{ m: 1, width: '25%' }} className="inputField" variant="filled">
 							<InputLabel>Crypto</InputLabel>
-							<Select
-								name="slug"
-								defaultValue=""
-								onChange={handleChange}
-								required
-							>
+							<Select name="slug" defaultValue="" onChange={handleChange} required>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}
@@ -131,12 +133,7 @@ export default function ProfileAddAlerts(props) {
 						</FormControl>
 						<FormControl sx={{ m: 1, width: '30%' }} className="inputField" variant="filled">
 							<InputLabel>Symbole</InputLabel>
-							<Select
-								name="parameter"
-								defaultValue=""
-								onChange={handleChange}
-								required
-							>
+							<Select name="parameter" defaultValue="" onChange={handleChange} required>
 								<MenuItem value="lte">Moins que la valeur</MenuItem>
 								<MenuItem value="gte">Plus que la valeur</MenuItem>
 							</Select>
@@ -150,21 +147,27 @@ export default function ProfileAddAlerts(props) {
 								onChange={handleChange}
 								startAdornment={<InputAdornment position="start">$</InputAdornment>}
 								required
-								autoComplete='off'
-								inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min : minPrice.toString(), max: maxPrice.toString()}}
+								autoComplete="off"
+								inputProps={{
+									inputMode: 'numeric',
+									pattern: '[0-9]*',
+									min: minPrice.toString(),
+									max: maxPrice.toString()
+								}}
 							/>
 						</FormControl>
-						<div className='column'>
-							{
-								(state.parameter !== undefined && state.slug !== undefined) && (
-									
-									state.parameter === 'lte' 
-										?	<div>Veuillez entrer une valeur entre {minPrice} et {maxPrice}$</div>
-										: 	<div>Veuillez entrer une valeur minimal {minPrice}$</div>
-								)
-							}
+						<div className="column">
+							{state.parameter !== undefined &&
+								state.slug !== undefined &&
+								(state.parameter === 'lte' ? (
+									<div>
+										Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
+									</div>
+								) : (
+									<div>Veuillez entrer une valeur minimal {minPrice}$</div>
+								))}
 						</div>
-						<div className='row'>
+						<div className="row">
 							<input type="submit" value="Ajouter"></input>
 							<button type="button" onClick={close} id="cancel-edit">
 								Annuler

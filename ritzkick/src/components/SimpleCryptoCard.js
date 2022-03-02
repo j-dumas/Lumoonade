@@ -12,7 +12,6 @@ function SimpleCryptoCard(props) {
 				className="simple-crypto-card column h-center"
 			>
 				<div className="row h-center">
-					
 					<p className="simple-crypto-name">{props.data.shortName}</p>
 					<p className="simple-crypto-abbreviation">{props.data.fromCurrency}</p>
 				</div>

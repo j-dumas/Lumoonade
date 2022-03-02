@@ -5,7 +5,6 @@ const usernameTitleId = 'username'
 const memberSinceId = 'memberSince'
 
 export default function ProfileHeader(props) {
-
 	function getMonth(monthNumber) {
 		const month = [
 			'janvier',
@@ -40,7 +39,7 @@ export default function ProfileHeader(props) {
 		<div className="profile-header" id="header">
 			<div className="profile-card">
 				<ProfilePopup username={props.user.username} email={props.user.email} />
-				<div className='column center'>
+				<div className="column center">
 					<img id="profile-picture" src="/ETH.svg"></img>
 					<h1 id={usernameTitleId}>{props.user.username}</h1>
 					<div className="information">

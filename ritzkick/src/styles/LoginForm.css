@@ -80,12 +80,12 @@ input[type='number']:invalid {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-input[type=number] {
-  -moz-appearance: textfield;
+input[type='number'] {
+	-moz-appearance: textfield;
 }
 
 input[type='submit'],
@@ -180,22 +180,22 @@ input:focus::placeholder {
 .layer1 {
 	background-image: url(/peaks-1.svg);
 	background-repeat: no-repeat;
-  	background-attachment: fixed;
+	background-attachment: fixed;
 }
 .layer2 {
 	background-image: url(/peaks-2.svg);
 	background-repeat: no-repeat;
-  	background-attachment: fixed;
+	background-attachment: fixed;
 }
 .layer3 {
 	background-image: url(/peaks-3.svg);
 	background-repeat: no-repeat;
-  	background-attachment: fixed;
+	background-attachment: fixed;
 }
 .layer4 {
 	background-image: url(/peaks-4.svg);
 	background-repeat: no-repeat;
-  	background-attachment: fixed;
+	background-attachment: fixed;
 }
 
 .wrong {

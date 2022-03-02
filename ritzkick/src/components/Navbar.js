@@ -103,7 +103,7 @@ function Navbar(props) {
 										</a>
 									</Link>
 								</li>
-								<li className='nav-item'>
+								<li className="nav-item">
 									<Link href="/register">
 										<a className="nav-links button" onClick={closeMobileMenu}>
 											{t('navbar.register')}
