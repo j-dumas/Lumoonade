@@ -184,7 +184,37 @@ router.post(paths.auth.google, async (req, res) => {
 		const payload = await verify(client, req.body.idToken, GOOGLE_CLIENT_ID).catch((e) => {
 			throw new Error(e.message)
 		})
-		res.send()
+
+		let user = await User.findOne({ email: payload['email'] })
+
+		if (!user) {
+			const data = {
+				email: payload['email'],
+				username: payload['name'],
+				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`
+			}
+			user = new User(data)
+			await user.save()
+		}
+
+		let returnPayload
+
+		if (payload['email_verified']) {
+			await user.verified()
+			const token = await user.makeAuthToken('localhost')
+			const profile = await user.makeProfile()
+			returnPayload = {
+				user: profile,
+				token
+			}
+		} else {
+			const profile = await user.makeProfile()
+			returnPayload = {
+				user: profile
+			}
+		}
+
+		res.status(200).send(returnPayload)
 	} catch (e) {
 		res.status(500).send({ error: e.message })
 	}

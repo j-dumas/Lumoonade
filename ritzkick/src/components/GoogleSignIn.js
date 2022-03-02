@@ -21,21 +21,15 @@ export default function GoogleSignIn() {
 		auth2.signOut()
 	}
 
-	const responseGoogle = (response) => {
-		console.log(response)
-	}
-
 	return (
 		<div id="googleSignin">
 			<GoogleLogin
 				clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
 				buttonText="Login"
-				onSuccess={responseGoogle}
-				onFailure={responseGoogle}
+				onSuccess={onSignIn}
 				cookiePolicy={'single_host_origin'}
 				strategy="lazyOnload"
 			/>
-			{/* <a href="#" onClick={signOut}>Sign out</a> */}
 			<h4>{t('login.google')}</h4>
 		</div>
 	)
