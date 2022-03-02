@@ -1,5 +1,4 @@
 const sendgrid = require('@sendgrid/mail')
-const logger = require('../../utils/logging')
 const ev = require('../../utils/email-validator')
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
@@ -58,6 +57,11 @@ const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName
 	sendMail(content, config.to)
 }
 
+/**
+ * Send a sendgrid email to the user, if the email is valid.
+ * @param {object} content object that sendgrid needs on .send()
+ * @param {string} email email of the user
+ */
 const sendMail = (content, email) => {
 	ev.isLegitimateEmail(email).then((res) => {
 		if (res) {
