@@ -8,8 +8,6 @@ import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
-const test = require('../../../utils/dashboard-yahoo')
-
 
 function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
@@ -19,7 +17,6 @@ function DetailedChartChart(props) {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
 		props.socket.on('graph', (datas) => {
-			test.yahooToDashBoard2(datas, [], props.dateRange)
 			const chart = chartReference.current
 			if (!chart || isDataNull(datas)) return
 			chart.data = getRelativeChartData(datas)

@@ -1,7 +1,7 @@
 const moment = require('moment')
 const graph = require('app/socket/utils/graph')
 
-const yahooToDashBoard2 = async (data = [], transactions = [], range, single = false) => {
+const yahooToDashBoard2 = (data = [], transactions = [], range, single = true) => {
     if (data.length === 0) return []
 
     // Dummy values ETH
@@ -81,14 +81,18 @@ const yahooToDashBoard2 = async (data = [], transactions = [], range, single = f
     transactions = orderByDate(transactions)
 
     if (single) {
-        // map one timestamp
-        // map two state
-        // add values
-        data.forEach(entry => {
-            yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range)
+        data.forEach(entry => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range))
+        let timestamps = data[0].response[0].timestamp
+        timestamps.forEach((_, index) => {
+            let priceSum = 0
+            data.forEach(entry => {
+                let price = entry.response[0].indicators.quote[0].close[index]
+                priceSum += price
+            })
+            data[0].response[0].indicators.quote[0].close[index] = priceSum
         })
-        data = [ data[0] ]
-        return
+        data[0].symbol = 'dashboard'
+        return [ data[0] ]
     }
 
     data.forEach(entry => {
@@ -133,24 +137,6 @@ const amountOfAssetsAtDate = (timestamp, transactions) => {
         } else { return true }
     })
     return amount
-}
-
-const amountByDate = (transactions) => {
-    let copy = [...transactions]
-    for (let i = 1; i < copy.length; i++) {
-        copy[i].amount += copy[i - 1].amount 
-    }
-    return copy
-}
-
-const minimDate = (timestamp, minDate) => {
-    let a = moment(timestamp).format('YYYY-MM-DD')
-    return dateDiff(minDate.when, a) >= 0
-}
-
-const isDate = (date, comp) => {
-    let b = moment(comp).format('YYYY-MM-DD')
-    return dateDiff(date, b) === 0
 }
 
 const dateDiff = (date, comp) => {
