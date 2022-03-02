@@ -111,7 +111,7 @@ function Navbar(props) {
 										</a>
 									</Link>
 								</li>
-								<li className={router.pathname == '/register' ? 'nav-item active-link' : 'nav-item'}>
+								<li className='nav-item'>
 									<Link href="/register">
 										<a className="nav-links button" onClick={closeMobileMenu}>
 											{t('navbar.register')}

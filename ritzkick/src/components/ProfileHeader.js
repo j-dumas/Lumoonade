@@ -37,7 +37,6 @@ export default function ProfileHeader(props) {
 	}
 
 	return (
-<<<<<<< HEAD
 		<div className="profile-header" id="header">
 			<div className='center row'>
 				<div className="profile-card">
@@ -47,16 +46,6 @@ export default function ProfileHeader(props) {
 					<div className="information">
 						<div>
 							<h3 id={memberSinceId}>{parseTime(props.user.createdAt)}</h3>
-=======
-		<div>
-			<div className="profile-header" id="header">
-				<div className="row">
-					<div className="column profile-card">
-						<ProfilePopup username={state.user.username} email={state.user.email} />
-						<div className="row h-center">
-							<img id="profile-picture" src="/ETH.svg" alt=""></img>
-							<h1 id={usernameTitleId}>{state.user.username}</h1>
->>>>>>> develop
 						</div>
 					</div>
 				</div>

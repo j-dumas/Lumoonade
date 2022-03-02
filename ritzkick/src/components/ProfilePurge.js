@@ -19,7 +19,7 @@ export default function ProfilePurge(props) {
 	}
 
   return (
-    <div className="profile-card">
+    <div className="column center">
         <Snackbar
             sx={{ m: 6 }}
             open={openStatus}

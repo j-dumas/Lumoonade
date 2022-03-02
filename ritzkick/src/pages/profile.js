@@ -16,11 +16,11 @@ export default function profile() {
 	async function removeUserSession(){
 		await removeSession()
 		const data = await getUser()
-		setUser({ user: data })
+		setUser(data)
 	}
 
 	useEffect(() => {
-		getUser().then((res) => setUser({user: res})).then(() => console.log(user))
+		getUser().then((res) => setUser(res))
 	}, [])
 
 	return (
@@ -30,7 +30,9 @@ export default function profile() {
 			<main>
 				<div className='column page-navbar'>
 					<div className="center">
-						{/* <ProfileHeader user={user} /> */}
+						{
+							(user !== undefined) && <ProfileHeader user={user} /> 
+						}
 					</div>
 					<div>
 						<div className='row'>
@@ -45,7 +47,7 @@ export default function profile() {
 						}
 					</div>
 					<div>
-						{/* <ProfilePurge user={user} removeSession={removeUserSession} /> */}
+						{ (user !== undefined) && <ProfilePurge user={user} removeSession={removeUserSession} /> }
 					</div>
 				</div>
 			</main>
