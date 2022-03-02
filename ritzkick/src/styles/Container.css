@@ -40,7 +40,7 @@
 	flex-wrap: wrap;
 	justify-content: space-evenly;
 	/*width: 100%;*/
-	gap: 10px;
+	gap: 15px;
 }
 
 .center {

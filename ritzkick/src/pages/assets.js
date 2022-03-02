@@ -26,7 +26,7 @@ export default function Assets() {
 		//let symbols = await Functions.GetTopGainersCryptocurrencies(8)
 		//let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
 		let list = ['btc-usd', 'eth-usd', 'bnb-usd', 'ltc-usd', 'ada-usd', 'doge-usd', 'shib-usd', 'theta-usd']
-		setSocket(createSocket(['general', `graph-1d-30m`], list))
+		setSocket(createSocket(['general', `graph-1d-1h`], list))
 	}, [])
 
 	useEffect(() => {

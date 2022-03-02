@@ -3,31 +3,54 @@ import { useRouter } from 'next/router'
 import Layout from '../../components/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import PieChart from '../../../components/charts/PieChart'
+import PieChart from '../../components/charts/PieChart'
 import { getUserDashboardData } from '../../../services/dashboard-service'
 import { isUserConnected } from '../../../services/AuthService'
+import DetailedChart from '../../components/charts/DetailedChart'
+import {createSocket} from '../../../services/SocketService'
+import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
+import {SlugArrayToSymbolArray} from '../../../utils/crypto'
+
+const CURRENCY = 'usd'
 
 const Dashboard = () => {
 	const router = useRouter()
-    const [data, setData] = useState()
-
-    useEffect(async () => {
-		//if (!isUserConnected()) router.push('/login')
-
-        let data = await getUserDashboardData()
-		console.log(data)
-        if (!data && data != undefined) setData(data.assets)
-    }, [])
+	const [socket, setSocket] = useState()
+	const [slug, setSlug] = useState('btc-cad')
+	const [dateRange, setDateRange] = useState('1d')
+	const [interval, setInterval] = useState('1h')
+	useEffect(async () => {
+		let userData = await getUserDashboardData()
+		let slugs =[]
+		userData.assets.map((asset) => {
+			slugs.push(asset.name)
+		})
+		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
+		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols))
+	}, [])
 
 	return (
+		!socket ? <></> :
 		<>
 			<section className="section column principal first center">
-                <PieChart data={data}/>
+				<section className="sub-section">
+					<div className="page-menu space-between row h-center">
+						<div className="row h-center detailed-menu-info">
+							<h1 className="detailed-menu-title">Portfolio</h1>
+						</div>
+					</div>
+					<div className='row'>
+						<PieChart socket={socket}/>
+						<DetailedChart socket={socket} slug={slug} />
+					</div>
+					<SimpleCryptoDashboard socket={socket}/>
+				</section>
+				
 			</section>
 		</>
 	)
 }
-
+//
 Dashboard.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 

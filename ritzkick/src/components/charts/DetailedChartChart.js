@@ -52,7 +52,7 @@ function DetailedChartChart(props) {
 		const color = GetColorBySlug(name)
 		return {
 			type: 'line',
-			label: name,
+			label: name.toUpperCase(),
 			data: data,
 
 			fill: false,
