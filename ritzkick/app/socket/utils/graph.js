@@ -65,7 +65,7 @@ const populate = () => {
 							res.response[0].timestamp[index] = null
 						} else {
 							let value = res.response[0].timestamp[index]
-							res.response[0].timestamp[index] = value * timeOffset//getDateFormat(room, value * timeOffset)
+							res.response[0].timestamp[index] = value * timeOffset //getDateFormat(room, value * timeOffset)
 						}
 						return obj
 					})

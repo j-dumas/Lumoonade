@@ -18,9 +18,9 @@ export async function logout() {
 				Authorization: 'Bearer ' + token
 			}
 		})
-		
-		if(response.status === 200){
-			deleteCookie("token")
+
+		if (response.status === 200) {
+			deleteCookie('token')
 			window.location.assign(`/${navigator.language}`)
 		}
 	} catch (e) {
@@ -62,24 +62,23 @@ export async function register(email, username, password, handleError) {
 			body: JSON.stringify({ email: email, username: username, password: password })
 		})
 
-
-        if(response.status === 201){
-            await fetch('/api/confirmations', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: email })
-            })
-            .catch((e) => console.log(e))
-            .finally(() => {window.location.assign(`/${navigator.language}/login`)})
-        }
-        else{
-            handleError()
-        }
-    }
-    catch(e){
-        console.log(e)
-        alert(e.message)
-    }
+		if (response.status === 201) {
+			await fetch('/api/confirmations', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ email: email })
+			})
+				.catch((e) => console.log(e))
+				.finally(() => {
+					window.location.assign(`/${navigator.language}/login`)
+				})
+		} else {
+			handleError()
+		}
+	} catch (e) {
+		console.log(e)
+		alert(e.message)
+	}
 }

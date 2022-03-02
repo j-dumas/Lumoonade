@@ -14,7 +14,7 @@ const loginLimiter = rateLimit({
 	max: 15,
 	message: 'Too many requests, slow down!',
 	standardHeaders: true,
-	legacyHeaders: false,
+	legacyHeaders: false
 })
 
 // Config for the register call.
@@ -23,9 +23,8 @@ const registerLimiter = rateLimit({
 	max: 10,
 	message: 'Too many requests, slow down!',
 	standardHeaders: true,
-	legacyHeaders: false,
+	legacyHeaders: false
 })
-
 
 /**
  * Login Request User Model

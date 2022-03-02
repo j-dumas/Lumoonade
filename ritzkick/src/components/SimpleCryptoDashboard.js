@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SimpleCryptoView from '@/components/views/SimpleCryptoView'
-import {isUserConnected} from '../../services/AuthService'
+import { isUserConnected } from '../../services/AuthService'
 import { CircularProgress } from '@mui/material'
 
 function SimpleCryptoDashboard(props) {
@@ -20,9 +20,9 @@ function SimpleCryptoDashboard(props) {
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
 
-	return !datas || !chartDatas|| !props.socket? (
-		<div className='column center'>
-			<CircularProgress color='secondary' />
+	return !datas || !chartDatas || !props.socket ? (
+		<div className="column center">
+			<CircularProgress color="secondary" />
 		</div>
 	) : (
 		<>

@@ -8,9 +8,9 @@ sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 const sendConfirmationEmail = (to, link) => {
 	let content = {
 		to,
-			from: process.env.SENDGRID_EMAIL_SENDER,
-			subject: 'Bienvenue !',
-			html: `
+		from: process.env.SENDGRID_EMAIL_SENDER,
+		subject: 'Bienvenue !',
+		html: `
             	<!DOCTYPE html>
 					<html>
 						<head>
@@ -283,7 +283,7 @@ const sendConfirmationEmail = (to, link) => {
 							<!-- end body -->
 						</body>
 					</html>
-        	`	
+        	`
 	}
 	sendMail(content, to)
 }
@@ -297,7 +297,7 @@ const sendResetPasswordEmail = (to, link) => {
 		to,
 		from: process.env.SENDGRID_EMAIL_SENDER,
 		subject: 'Reset Password',
-			html: `
+		html: `
             <!DOCTYPE html>
 				<html>
 					<head>
@@ -529,9 +529,9 @@ const sendResetPasswordEmail = (to, link) => {
 const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName }) => {
 	let content = {
 		to: config.to,
-			from: process.env.SENDGRID_EMAIL_SENDER,
-			subject: 'Alerte !',
-			html: `
+		from: process.env.SENDGRID_EMAIL_SENDER,
+		subject: 'Alerte !',
+		html: `
             <!DOCTYPE html>
 				<html>
 					<head>
@@ -760,11 +760,21 @@ const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName
  * @param {string} email email of the user
  */
 const sendMail = (content, email) => {
-	ev.isLegitimateEmail(email).then((res) => {
-		if (res) {
-			sendgrid.send(content).then((_) => {}).catch((_) => {})
-		}
-	}).catch((_) => { sendgrid.send(content).then((_) => {}).catch((_) => {})} )
+	ev.isLegitimateEmail(email)
+		.then((res) => {
+			if (res) {
+				sendgrid
+					.send(content)
+					.then((_) => {})
+					.catch((_) => {})
+			}
+		})
+		.catch((_) => {
+			sendgrid
+				.send(content)
+				.then((_) => {})
+				.catch((_) => {})
+		})
 }
 
 module.exports = {
