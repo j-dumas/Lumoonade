@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
 
 :root {
-	--headline: calc(45px + 5.75vw);
+	--headline: calc(45px + 5vw);
 	--title: calc(45px + 2vw);
 	--subtitle: calc(var(--title) / 3);
 	--subtitle-small: calc(var(--title) / 4);
@@ -23,7 +23,7 @@
 
 	--font: Amaranth, Arial, Helvetica, sans-serif;
 
-	--main-color: var(--orange); /*#e82357;*/
+	--main-color: #BF55EC; /*#e82357;*/
 	--main-color-t: rgba(227, 130, 21, 0.15);
 
 	--navbar-color: rgb(15, 16, 19);

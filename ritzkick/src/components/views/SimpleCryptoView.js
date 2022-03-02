@@ -1,44 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
 import SimpleChart from '@/components/charts/SimpleChart'
 import Icons from '@/components/Icons'
+import format from '../../../utils/formatter'
+import {isUserConnected} from '../../../services/AuthService'
+import ButtonFavorite from '../ButtonFavorite'
 
 function SimpleCryptoView(props) {
-	function format(x) {
-		return Number.parseFloat(x).toFixed(2)
-	}
-
-	const [data, setData] = useState(props.data)
-
-	const change = data.regularMarketChangePercent
-
 	return (
 		<>
-			<a href={'assets/' + data.fromCurrency} className="simple-crypto-view row space-between h-center">
+			<a href={'/asset/' + props.data.fromCurrency.toString().toLowerCase()} className="simple-crypto-view row center">
+				<div className='sub-section row space-between'>
 				<div className="simple-crypto-view-item row left h-center">
-					<Image src={`/${data.fromCurrency}.svg`} alt="" width={50} height={50} />
+					<img className="simple-crypto-view-logo" src={props.data.fromCurrency + '.svg'} alt="" />
 					<div className="column simple-crypto-names">
-						<p className="simple-crypto-name">{data.shortName.split(' ')[0]}</p>
-						<p className="simple-crypto-abbreviation">{data.fromCurrency}</p>
+						<p className="simple-crypto-name">{props.data.shortName}</p>
+						<p className="simple-crypto-abbreviation">{props.data.fromCurrency}</p>
 					</div>
 				</div>
-				<p className="simple-crypto-view-item simple-crypto-price">{data.regularMarketPrice}</p>
-				<p
-					className={
-						change > 0
-							? 'simple-crypto-view-item simple-crypto-change c-green'
-							: change == 0
-							? 'simple-crypto-view-item simple-crypto-change c-white'
-							: 'simple-crypto-view-item simple-crypto-change c-red'
+				<p className="simple-crypto-view-item simple-crypto-price">{props.data.regularMarketPrice}</p>
+					{props.data.regularMarketChange >= 0 ?
+					<p className="simple-crypto-view-item simple-crypto-change increase">
+						+{format(props.data.regularMarketChangePercent)} % &nbsp; +{format(props.data.regularMarketChange)} $
+					</p>
+					:
+					<p className="simple-crypto-view-item simple-crypto-change decrease">
+						{format(props.data.regularMarketChangePercent)} % &nbsp; {format(props.data.regularMarketChange)} $
+					</p>
 					}
-				>
-					{change} %
-				</p>
-
-				<Icons.StarEmpty />
+					{props.chartData ?
+						<SimpleChart data={props.chartData} increase={props.data.regularMarketChange > 0} />
+					: <></>}
+					{!isUserConnected()? <></> :
+						<ButtonFavorite slug={props.data.fromCurrency.toString().toLowerCase()}/>
+					}
+					</div>
 			</a>
 		</>
 	)
 }
-// <SimpleChart data={data} />
 export default SimpleCryptoView

@@ -3,20 +3,20 @@
 	"private": true,
 	"scripts": {
 		"start": "env-cmd -f ./env/.prod.env node --no-deprecation server.js",
-		"start-test": "env-cmd -f ./env/.prod.test.env node server.js",
+		"start-test": "env-cmd -f ./env/.prod.test.env node --no-deprecation server.js",
 		"dev": "env-cmd -f ./env/.local.env nodemon --no-deprecation server.js",
 		"build": "next build",
 		"analyze": "cross-env ANALYZE=true next build",
 		"postbuild": "next-sitemap",
 		"lint": "next lint",
 		"test": "env-cmd -f ./env/.test.env jest --runInBand",
-		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand ",
+		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand --silent",
 		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand",
 		"format": "prettier --config .prettierrc './**/*.js' './**/*.css' --write"
 	},
 	"jest": {
 		"testEnvironment": "node",
-		"testTimeout": 10000
+		"testTimeout": 30000
 	},
 	"dependencies": {
 		"@emotion/react": "^11.7.1",

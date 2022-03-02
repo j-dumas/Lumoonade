@@ -3,6 +3,7 @@ import Image from 'next/image'
 import SimpleChart from '@/components/charts/SimpleChart'
 import format from 'utils/formatter'
 
+// <Image src={`/${props.data.fromCurrency}.svg`} alt="" width={50} height={50} />
 function SimpleCryptoCard(props) {
 	return (
 		<>
@@ -11,7 +12,7 @@ function SimpleCryptoCard(props) {
 				className="simple-crypto-card column h-center"
 			>
 				<div className="row h-center">
-					<Image src={`/${props.data.fromCurrency}.svg`} alt="" width={50} height={50} />
+					
 					<p className="simple-crypto-name">{props.data.shortName}</p>
 					<p className="simple-crypto-abbreviation">{props.data.fromCurrency}</p>
 				</div>

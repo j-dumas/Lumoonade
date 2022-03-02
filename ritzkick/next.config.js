@@ -10,6 +10,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
   frame-src 'self' https://accounts.google.com/;
+  img-src 'self' data:;
 `
 
 const securityHeaders = [
@@ -66,6 +67,5 @@ module.exports = withBundleAnalyzer({
 		})
 
 		return config
-	},
-	swcMinify: true
+	}
 })
