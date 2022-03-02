@@ -68,44 +68,11 @@ export async function getAllAssetIds() {
 	})
 
 	return ids
-
-	return [
-		{
-			params: {
-				id: 'ada'
-			}
-		},
-		{
-			params: {
-				id: 'bnb'
-			}
-		},
-		{
-			params: {
-				id: 'btc'
-			}
-		},
-		{
-			params: {
-				id: 'doge'
-			}
-		},
-		{
-			params: {
-				id: 'eth'
-			}
-		},
-		{
-			params: {
-				id: 'btcd'
-			}
-		}
-	]
 }
 
 export async function getAssetData(id) {
 	return {
-		slug: id //d.toString().toUpperCase()
+		slug: id
 	}
 }
 

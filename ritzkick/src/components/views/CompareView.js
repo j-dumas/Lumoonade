@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Icons from '@/components/Icons'
-import Functions, {
-	GetCryptocurrencyInformationsBySlug,
-	GetTopPopularCryptocurrencies,
-	GetTopEfficientCryptocurrencies
-} from 'services/CryptoService'
+import Functions from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
+import { createSocket } from '../../../services/SocketService'
 
 const io = require('socket.io-client')
 
@@ -26,13 +23,7 @@ const CompareView = (props) => {
 
 	useEffect(() => {
 		setSocket(
-			io(`wss://${window.location.host}/`, {
-				auth: {
-					rooms: ['general', `graph-${dateRange}-${interval}`],
-					query: compareList,
-					graph: true
-				}
-			})
+			createSocket(['general', `graph-${dateRange}-${interval}`],compareList, `wss://${window.location.host}/`)
 		)
 	}, [compareList, dateRange, interval])
 
