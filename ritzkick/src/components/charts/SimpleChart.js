@@ -5,7 +5,9 @@ import Chart from 'chart.js/auto'
 function SimpleChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 
-	const [datas, setDatas] = useState({
+	const [datas, setDatas] = useState(() => {
+		console.log(props.data)
+		return {
 		labels: props.data.response[0].timestamp,
 		datasets: [
 			{
@@ -22,7 +24,7 @@ function SimpleChart(props) {
 				pointRadius: 0
 			}
 		]
-	})
+	}})
 
 	return (
 		<div className="simple-chart">

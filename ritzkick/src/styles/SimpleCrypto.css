@@ -1,5 +1,10 @@
 .simple-crypto-dashboard {
-	width: 80%;
+	width: 100%;
+	background-color: var(--background-color-2);
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
 }
 
 .simple-crypto-card {
@@ -14,6 +19,7 @@
 	border-radius: 10px;
 
 	background-color: var(--background-color-2);
+	border: 2px solid var(--background-color-2);
 
 	transition: 0.5s;
 }
@@ -24,15 +30,12 @@
 }
 
 .simple-crypto-view {
-	padding: 15px 15px 15px 15px;
 	border-bottom: solid 2px var(--background-color);
-	gap: 10px;
-
 	transition: 0.5s;
+	width: 100%;
 }
 
 .simple-crypto-view:hover {
-	border-radius: 10px;
 	background-color: var(--background-color);
 }
 
