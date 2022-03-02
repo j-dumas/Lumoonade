@@ -10,6 +10,7 @@ import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
 import DetailedMenu from '@/components/menus/DetailedMenu'
+import {createSocket} from '../../../services/SocketService'
 
 const io = require('socket.io-client')
 
@@ -23,18 +24,11 @@ function DetailedCryptoView(props) {
 
 	useEffect(async () => {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-
+		
 		setSocket(
-			io(`${window.location.protocol}//${window.location.host}`, {
-					auth: {
-						rooms: ['general', `graph-${dateRange}-${interval}`],
-						query: [slug],
-						graph: true
-					}
-				}
-			)
+			createSocket(['general', `graph-${dateRange}-${interval}`], [slug],`wss://${window.location.host}/`)
 		)
-	}, [])
+	}, [dateRange, interval, slug])
 
 	// Validation:
 	if (!props.slug || !props.currency) return <div>Impossible action.</div>

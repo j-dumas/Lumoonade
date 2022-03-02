@@ -108,7 +108,6 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 
 		let coverage = 0
 		Object.keys(result.assets).forEach((res) => {
-			
 			result.assets[res].percentInPortfolio = (result.assets[res].totalSpent / totalSpent) * 100 || 0
 			coverage += result.assets[res].percentInPortfolio
 		})

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { getFavorites, addFavorite, deleteFavorite } from 'services/UserService'
 import Icons from '@/components/Icons'
 import { isUserConnected } from 'services/AuthService'
@@ -13,23 +13,29 @@ function ButtonFavorite(props) {
 		updateFavorite()
 	}
 
-	async function isSlugInFavorites() {
-		const favList = await getFavorites()
-		let isInFav = false
-		favList.map((element) => {
-			if (AreSlugsEqual(element.slug, props.slug)) isInFav = true
-		})
-		return isInFav
-	}
+	const isSlugInFavorites = useCallback(() => {
+		async function checkFavorite() {
+			const favList = await getFavorites()
+			let isInFav = false
+			favList.map((element) => {
+				if (AreSlugsEqual(element.slug, props.slug)) isInFav = true
+			})
+			return isInFav
+		}
+		return checkFavorite()
+	}, [props.slug])
 
-	async function updateFavorite() {
-		let bool = await isSlugInFavorites()
-		setFavorite(bool)
-	}
+	const updateFavorite = useCallback(() => {
+		async function prepareFavorites() {
+			let bool = await isSlugInFavorites()
+			setFavorite(bool)
+		}
+		prepareFavorites()
+	}, [isSlugInFavorites])
 
-	useEffect(async () => {
+	useEffect(() => {
 		updateFavorite()
-	}, [])
+	}, [updateFavorite])
 
 	return !isUserConnected() ? null : (
 		<>

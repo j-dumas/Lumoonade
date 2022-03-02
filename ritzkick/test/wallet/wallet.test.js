@@ -6,12 +6,22 @@ const User = require('../../db/model/user')
 const Wallet = require('../../db/model/wallet')
 const Transaction = require('../../db/model/transaction')
 
-const validSecret = process.env.JWTSECRET
 const testId = new mongoose.Types.ObjectId()
 const otherTestId = new mongoose.Types.ObjectId()
 const testWalletId = new mongoose.Types.ObjectId()
-const testUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, validSecret)
-const otherUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, validSecret)
+
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
+
+const testUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, privateKey, jwtOptions)
+const otherUserSession = jwt.sign({ _id: new mongoose.Types.ObjectId() }, privateKey, jwtOptions)
 
 const testUser = {
 	_id: testId,
@@ -62,11 +72,11 @@ beforeEach(async () => {
 	await Wallet.deleteMany()
 	let user = await new User(dummyData)
 	await user.verified()
-	otherToken = await user.makeAuthToken()
+	otherToken = await user.makeAuthToken('localhost')
 
 	user = await new User(testUser)
 	await user.verified()
-	token = await user.makeAuthToken()
+	token = await user.makeAuthToken('localhost')
 	await new Wallet(testUserWallet).save()
 })
 

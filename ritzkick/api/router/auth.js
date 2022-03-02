@@ -86,7 +86,7 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
 			throw new Error('Please confirm your email.')
 		}
 
-		const token = await user.makeAuthToken()
+		const token = await user.makeAuthToken('localhost')
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
@@ -137,11 +137,9 @@ router.post(paths.auth.register, registerLimiter, async (req, res) => {
 	try {
 		const user = new User(req.body)
 		await user.save()
-		const token = await user.makeAuthToken()
 		const profile = await user.makeProfile()
 		res.status(201).send({
-			user: profile,
-			token
+			user: profile
 		})
 	} catch (e) {
 		res.status(400).send({

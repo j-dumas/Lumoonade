@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Icons from '@/components/Icons'
 import ButtonFavorite from '@/components/ButtonFavorite'
+import Image from 'next/image'
 
 function DetailedMenu(props) {
 	return (
 		<div className="page-menu space-between row h-center">
 			<div className="row h-center detailed-menu-info">
-				<img className="detailed-menu-logo" src={'../' + props.firstData[0].fromCurrency + '.svg'} alt="" />
+				<Image src={`/../${props.firstData[0].fromCurrency}.svg`} alt="" width={50} height={50} />
 				<h1 className="detailed-menu-title">{props.firstData[0].shortName}</h1>
 				<p className="detailed-menu-subtitle">{props.firstData[0].fromCurrency}</p>
 				<a

@@ -18,7 +18,8 @@ const sendConfirmationEmail = (to, link) => {
 		})
 		.then((res) => {
 			logger.info('Email', `Email sent to ${to}!`)
-		}).catch(_ => {})
+		})
+		.catch((_) => {})
 }
 
 /**
@@ -38,7 +39,8 @@ const sendResetPasswordEmail = (to, link) => {
 		})
 		.then((res) => {
 			logger.info('Email', `Email sent to ${to}!`)
-		}).catch(_ => {})
+		})
+		.catch((_) => {})
 }
 
 /**
@@ -60,7 +62,8 @@ const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName
 		})
 		.then((res) => {
 			logger.info('Email', `Email sent to ${config.to}!`)
-		}).catch(_ => {})
+		})
+		.catch((_) => {})
 }
 
 module.exports = {

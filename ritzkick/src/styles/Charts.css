@@ -1,3 +1,12 @@
+.pie-chart {
+	border-radius: 5px;
+	padding: 20px;
+
+	background-color: var(--background-color-2);
+	width: 360px;
+	height: fit-content;
+}
+
 .simple-chart {
 	position: relative;
 	width: 225px;
@@ -5,11 +14,13 @@
 }
 
 .detailed-chart {
+	/*width: 74%;*/
 	width: 74%;
 }
 
 .detailed-chart-chart {
-	height: 70vh;
+	height: 65vh;
+	min-height: 330px;
 }
 
 .detailed-chart-legend {
@@ -58,3 +69,4 @@
 	padding: 3px;
 	border-radius: 5px;
 }
+

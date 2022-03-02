@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Icons from '@/components/Icons'
-import Functions, {
-	GetCryptocurrencyInformationsBySlug,
-	GetTopPopularCryptocurrencies,
-	GetTopEfficientCryptocurrencies
-} from 'services/CryptoService'
+import Functions from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
+import { createSocket } from '../../../services/SocketService'
 
 const io = require('socket.io-client')
 
@@ -22,22 +19,13 @@ const CompareView = (props) => {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
-	const connectionUrl = `${process.env.NEXT_PUBLIC_SSL == 'false' ? 'ws' : 'wss'}://${
-		process.env.NEXT_PUBLIC_HTTPS
-	}:${process.env.NEXT_PUBLIC_PORT}/`
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {
 		setSocket(
-			io(connectionUrl, {
-				auth: {
-					rooms: ['general', `graph-${dateRange}-${interval}`],
-					query: compareList,
-					graph: true
-				}
-			})
+			createSocket(['general', `graph-${dateRange}-${interval}`],compareList, `wss://${window.location.host}/`)
 		)
-	}, [])
+	}, [compareList, dateRange, interval])
 
 	function getFirstCompareList() {
 		let paramsString = router.asPath.toString().split('/compare?assets=')[1]
@@ -50,10 +38,14 @@ const CompareView = (props) => {
 		return params
 	}
 
-	useEffect(async () => {
-		// TODO: Fonction à changer pour retourner plusieurs datas.
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-	}, [compareList])
+	useEffect(() => {
+		async function setData() {
+			// TODO: Fonction à changer pour retourner plusieurs datas.
+			setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
+		}
+
+		setData()
+	}, [slug])
 
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>

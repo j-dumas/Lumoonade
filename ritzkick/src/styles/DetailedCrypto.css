@@ -4,7 +4,7 @@
 }
 
 .page-menu {
-	margin: 15px 0px 15px 0px;
+	margin-top: 5px;
 }
 
 .detailed-menu-info {
@@ -48,6 +48,7 @@
 
 .detailed-informations {
 	height: fit-content;
+	width: 360px;
 }
 
 .detailed-div {
@@ -63,6 +64,12 @@
 }
 
 .detailed-div-title {
+	font-size: 16px;
+	color: var(--font-color-2);
+	margin-bottom: 15px;
+}
+
+.detailed-div-label {
 	font-size: 15px;
 	color: var(--font-color-2);
 }

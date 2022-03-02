@@ -33,7 +33,7 @@ export default function DetailedChartMenu(props) {
 			</div>
 			<div className="row detailed-chart-options left">
 				<div className="row h-center">
-					<label htmlFor="daterange" className="detailed-div-title">
+					<label htmlFor="daterange" className="detailed-div-label">
 						Date range
 					</label>
 					<select
@@ -60,7 +60,7 @@ export default function DetailedChartMenu(props) {
 					</select>
 				</div>
 				<div className="row h-center">
-					<label htmlFor="interval" className="detailed-div-title">
+					<label htmlFor="interval" className="detailed-div-label">
 						Interval
 					</label>
 					<select
