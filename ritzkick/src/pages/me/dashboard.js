@@ -8,6 +8,7 @@ import { getUserDashboardData } from '../../../services/dashboard-service'
 import { isUserConnected } from '../../../services/AuthService'
 import DetailedChart from '../../components/charts/DetailedChart'
 import {createSocket} from '../../../services/SocketService'
+import SimpleWalletAssetDashboard from '../../components/SimpleWalletAssetDashboard'
 import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
 import {SlugArrayToSymbolArray} from '../../../utils/crypto'
 
@@ -19,8 +20,10 @@ const Dashboard = () => {
 	const [slug, setSlug] = useState('btc-cad')
 	const [dateRange, setDateRange] = useState('1d')
 	const [interval, setInterval] = useState('1h')
+	const [assets, setAssets] = useState() 
 	useEffect(async () => {
 		let userData = await getUserDashboardData()
+		setAssets(userData.assets)
 		let slugs =[]
 		userData.assets.map((asset) => {
 			slugs.push(asset.name)
@@ -30,7 +33,7 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		!socket ? <></> :
+		!socket || !assets ? <></> :
 		<>
 			<section className="section column principal first center">
 				<section className="sub-section">
@@ -39,10 +42,11 @@ const Dashboard = () => {
 							<h1 className="detailed-menu-title">Portfolio</h1>
 						</div>
 					</div>
-					<div className='row'>
+					<div className='row space-between'>
 						<PieChart socket={socket}/>
 						<DetailedChart socket={socket} slug={slug} />
 					</div>
+					<SimpleWalletAssetDashboard socket={socket} assets={assets}/>
 					<SimpleCryptoDashboard socket={socket}/>
 				</section>
 				

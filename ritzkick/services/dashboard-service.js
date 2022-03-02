@@ -5,19 +5,19 @@ export async function getUserDashboardData() {
         {
             name: "eth",
             totalSpent: 1000,
-            holding: 2,
+            amount: 2,
             transactions: 1
         },
         {
             name: "btc",
             totalSpent: 3400,
-            holding: .5,
+            amount: .5,
             transactions: 1
         },
         {
             name: "ltc",
             totalSpent: 200,
-            holding: 6,
+            amount: 6,
             transactions: 1
         }
     ] }

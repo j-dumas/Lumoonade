@@ -7,6 +7,12 @@
 	margin-top: 20px;
 }
 
+.simple-crypto-dashboard-menu {
+	width: 100%;
+	padding: 5px 0px 5px 0px;
+	color: var(--font-color-2);
+}
+
 .simple-crypto-card {
 	padding: 25px 25px 25px 20px;
 
@@ -30,7 +36,9 @@
 }
 
 .simple-crypto-view {
-	border-bottom: solid 2px var(--background-color);
+	border-top: solid 2px var(--background-color-3);
+	border-bottom: solid 2px var(--background-color-2);
+	padding: 10px 0px 10px 0px;
 	transition: 0.5s;
 	width: 100%;
 }
@@ -40,12 +48,20 @@
 }
 
 .simple-crypto-view-item {
-	max-width: 150px;
+	width: 75px;
 	flex-grow: 1;
 }
-.simple-crypto-names {
-	margin-left: 15px;
+
+.simple-crypto-view-item-big {
+	max-width: 150px;
+	width: 150px;
+	flex-grow: 1;
+	gap: 5px;
 }
+
+
 .simple-crypto-abbreviation {
 	color: gray;
 }
+
+

@@ -33,25 +33,24 @@ function PieChart(props) {
 				{
 					name: "eth",
 					totalSpent: 1000,
-					holding: 0.2,
+					amount: 0.2,
 					transactions: 1
 				},
 				{
 					name: "btc",
 					totalSpent: 3400,
-					holding: 0.001,
+					amount: 0.001,
 					transactions: 1
 				},
 				{
 					name: "ltc",
 					totalSpent: 200,
-					holding: 1.3,
+					amount: 1.3,
 					transactions: 1
 				}
 			]
 		}
         setAssets(userData.assets)
-        console.log(assets)
     }, [])
 
 
@@ -73,7 +72,7 @@ function PieChart(props) {
             assets.forEach((asset) => {
                 if (asset.name.toString().toUpperCase() != datas.fromCurrency.toString().toUpperCase()) return
                 labels.push(datas.fromCurrency.toString().toUpperCase())
-                data.push(datas.regularMarketPrice*asset.holding)
+                data.push(datas.regularMarketPrice*asset.amount)
                 backgroudColors.push(GetColorBySlug(datas.fromCurrency.toString()))
             })
         })
