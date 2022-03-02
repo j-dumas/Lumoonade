@@ -16,30 +16,28 @@
 #profile-picture {
 	background-color: white;
 	border-radius: 50%;
-	width: 100px;
-	height: 100px;
+	width: 200px;
+	height: 200px;
 	object-fit: cover;
 	display: block;
 	border: 2px solid;
 	border-color: white;
-	margin-left: 2%;
 }
 
 .icon-button {
 	border: 2px solid;
-	border-color: var(--orange);
+	border-color: var(--main-color);
 	min-width: 40px;
 	min-height: 40px;
 	border-radius: 50%;
-	background-color: var(--orange);
+	background-color: var(--main-color);
 	color: white;
-	margin-right: auto;
 	font-size: 120%;
 	text-align: center;
 }
 
 .icon-button:hover {
-	color: var(--orange);
+	color: var(--main-color);
 	background-color: var(--background-color);
 	transition-duration: 0.25s;
 	cursor: pointer;
@@ -104,7 +102,7 @@ ul {
 	margin: 10px;
 	padding: 10px;
 	border: 2px solid;
-	border-color: greenyellow;
+	border-color: var(--main-color);
 }
 
 .alert-card-item {
@@ -120,8 +118,12 @@ ul {
 }
 
 .page-navbar{
-	margin-top: 10%;
+	margin-top: 60px;
+	margin-left: 10%;
+	margin-right: 10%;
 	width: 100%;
+	z-index: 1;
+	position: relative;
 }
 
 .line{
@@ -131,19 +133,21 @@ ul {
 
 .profile-nav-selected{
 	margin: 0%;
-	background-color: var(--background-color);
+	background-color: transparent;
 	border-bottom: 2px solid;
 	border-radius: 0;
-	border-color: var(--orange);
+	border-color: var(--main-color);
 	width: 40%;
+	max-width: 200px;
 }
 
 .profile-nav{
 	margin: 0%;
-	background-color: var(--background-color);
+	background-color: transparent;
 	border-radius: 0;
 	border-bottom: 2px;	
 	width: 40%;
+	max-width: 200px;
 }
 
 
@@ -153,3 +157,12 @@ ul {
 	border-color: gray;
 	border-bottom: 2px solid;
 }
+
+#purge-session{
+	max-width: 215px;
+}
+
+.no-margin{
+	margin: -21px;
+}
+

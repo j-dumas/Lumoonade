@@ -15,8 +15,8 @@ export default function SimpleCryptoView(props) {
 				<div className="simple-crypto-view-item row left h-center">
 					{
 						!imgLoaded 
-							? <img className="simple-crypto-view-logo" src={props.data.fromCurrency + '.svg'} alt="" onError={() => setImgStatus(true)}/>
-							: <img className="simple-crypto-view-logo" src="themoon-t.png"/>
+							? <img className="simple-crypto-view-logo" src={"../" + props.data.fromCurrency + '.svg'} alt="" onError={() => setImgStatus(true)}/>
+							: <img className="simple-crypto-view-logo" src="../themoon-t.png"/>
 					}
 					<div className="column simple-crypto-names">
 						<p className="simple-crypto-name">{props.data.shortName}</p>

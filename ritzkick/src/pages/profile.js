@@ -35,7 +35,7 @@ export default function profile() {
 						}
 					</div>
 					<div>
-						<div className='row'>
+						<div className='row center no-margin'>
 							<button className={ viewState ? 'profile-nav-selected' : 'profile-nav'} onClick={() => setViewState(true)}>Alertes</button>
 							<button className={ viewState ? 'profile-nav' : 'profile-nav-selected'} onClick={() => setViewState(false)}>Favoris</button>
 						</div>
@@ -46,10 +46,12 @@ export default function profile() {
 							viewState ? <ProfileAlerts /> : <ProfileFavorite />
 						}
 					</div>
+					<hr className='line'></hr>
 					<div>
 						{ (user !== undefined) && <ProfilePurge user={user} removeSession={removeUserSession} /> }
 					</div>
 				</div>
+				<div className="spacer layer4"></div>
 			</main>
 			<Footer />
 		</div>

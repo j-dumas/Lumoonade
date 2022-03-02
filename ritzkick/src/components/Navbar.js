@@ -18,14 +18,6 @@ function Navbar(props) {
 		await logout()
 	}
 
-	useEffect(() => {
-		const onScroll = () => setIsScrolled(window.scrollY > 10)
-		// clean up code
-		window.removeEventListener('scroll', onScroll)
-		window.addEventListener('scroll', onScroll, { passive: true })
-		return () => window.removeEventListener('scroll', onScroll)
-	}, [])
-
 	return (
 		<>
 			<nav className="navbar" id="nav">

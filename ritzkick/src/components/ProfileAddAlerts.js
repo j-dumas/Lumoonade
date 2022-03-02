@@ -91,7 +91,7 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	return (
-		<div>
+		<div className='row center'>
 			<button className="icon-button transform" id="rotate-button" onClick={open}>
 				<Icons.Times />
 			</button>

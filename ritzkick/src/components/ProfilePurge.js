@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Snackbar, Alert} from '@mui/material'
 
 export default function ProfilePurge(props) {
 	const [openStatus, setOpenStatus] = useState(false)
+    const [deletedSessions, setDeletedSessions] = useState(0)
 
 	function handleClose(event, reason) {
 		if (reason === 'clickaway') {
@@ -14,9 +15,14 @@ export default function ProfilePurge(props) {
 
 	async function removeUserSession(event) {
 		event.preventDefault()
-        props.removeSession()
 		setOpenStatus(true)
+        props.removeSession()
 	}
+
+    useEffect(() => {
+        console.log(props.user.sessions)
+        //setDeletedSessions(props.user.sessions - 1)
+    }, [props.user.sessions])
 
   return (
     <div className="column center">
@@ -28,7 +34,7 @@ export default function ProfilePurge(props) {
             anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         >
             <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                {props.user.sessions - 1} Session(s) éffacée(s)!
+                {deletedSessions} Session(s) éffacée(s)!
             </Alert>
         </Snackbar>
         <h2>Vous avez présentement {props.user.sessions} session(s) active(s)</h2>

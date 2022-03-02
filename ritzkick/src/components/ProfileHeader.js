@@ -38,9 +38,9 @@ export default function ProfileHeader(props) {
 
 	return (
 		<div className="profile-header" id="header">
-			<div className='center row'>
-				<div className="profile-card">
-					<ProfilePopup username={props.user.username} email={props.user.email} />
+			<div className="profile-card">
+				<ProfilePopup username={props.user.username} email={props.user.email} />
+				<div className='column center'>
 					<img id="profile-picture" src="/ETH.svg"></img>
 					<h1 id={usernameTitleId}>{props.user.username}</h1>
 					<div className="information">
