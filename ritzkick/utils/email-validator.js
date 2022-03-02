@@ -16,3 +16,7 @@ const isLegitimateEmail = async (email) => {
 		return false
 	}
 }
+
+module.exports = {
+	isLegitimateEmail
+}
