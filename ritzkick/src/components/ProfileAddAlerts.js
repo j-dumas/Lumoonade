@@ -71,7 +71,7 @@ export default function ProfileAddAlerts(props) {
 			}
 			else{
 				setMinPrice(price)
-				setMaxPrice(9999999999999999999999999)
+				setMaxPrice(Infinity)
 			}
 		}
 	}, [state])
