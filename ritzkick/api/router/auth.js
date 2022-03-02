@@ -2,9 +2,29 @@ const express = require('express')
 const User = require('../../db/model/user')
 const authentication = require('../middleware/auth')
 const router = express.Router()
+const rateLimit = require('express-rate-limit')
 require('../swagger_models')
 
 const paths = require('../routes.json')
+
+// Config for the login call.
+const loginLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 15,
+	message: 'Too many requests, slow down!',
+	standardHeaders: true,
+	legacyHeaders: false,
+})
+
+// Config for the register call.
+const registerLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 10,
+	message: 'Too many requests, slow down!',
+	standardHeaders: true,
+	legacyHeaders: false,
+})
+
 
 /**
  * Login Request User Model
@@ -57,7 +77,7 @@ const paths = require('../routes.json')
  * 	"error": "Could not login properly."
  * }
  */
-router.post(paths.auth.login, async (req, res) => {
+router.post(paths.auth.login, loginLimiter, async (req, res) => {
 	try {
 		const { email, password } = req.body
 		const user = await User.findByCredentials(email, password)
@@ -113,7 +133,7 @@ router.post(paths.auth.login, async (req, res) => {
  * 	"error": "E11000 duplicate key error collection: cryptool.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
  * }
  */
-router.post(paths.auth.register, async (req, res) => {
+router.post(paths.auth.register, registerLimiter, async (req, res) => {
 	try {
 		const user = new User(req.body)
 		await user.save()

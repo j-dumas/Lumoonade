@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"start": "env-cmd -f ./env/.prod.env node --no-deprecation server.js",
-		"start-test": "env-cmd -f ./env/.prod.test.env --no-deprecation node server.js",
+		"start-test": "env-cmd -f ./env/.prod.test.env node --no-deprecation server.js",
 		"dev": "env-cmd -f ./env/.local.env nodemon --no-deprecation server.js",
 		"build": "next build",
 		"analyze": "cross-env ANALYZE=true next build",
@@ -41,6 +41,7 @@
 		"env-cmd": "^10.1.0",
 		"express": "^4.17.2",
 		"express-jsdoc-swagger": "^1.6.7",
+		"express-rate-limit": "^6.3.0",
 		"helmet": "^5.0.2",
 		"jsonwebtoken": "^8.5.1",
 		"moment": "^2.29.1",
