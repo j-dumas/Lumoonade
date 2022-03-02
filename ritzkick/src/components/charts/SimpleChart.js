@@ -8,23 +8,24 @@ function SimpleChart(props) {
 	const [datas, setDatas] = useState(() => {
 		console.log(props.data)
 		return {
-		labels: props.data.response[0].timestamp,
-		datasets: [
-			{
-				label: 'Value',
-				fill: false,
-				lineTension: 0.25,
-				backgroundColor: 'rgb(38, 39, 40)',
-				borderColor: () => {
-					return props.increase ? 'rgb(102, 190, 84)' : 'rgb(234, 46, 73)'
-				},
-				borderWidth: 2,
-				data: props.data.response[0].indicators.quote[0].close,
-				pointStyle: 'circle',
-				pointRadius: 0
-			}
-		]
-	}})
+			labels: props.data.response[0].timestamp,
+			datasets: [
+				{
+					label: 'Value',
+					fill: false,
+					lineTension: 0.25,
+					backgroundColor: 'rgb(38, 39, 40)',
+					borderColor: () => {
+						return props.increase ? 'rgb(102, 190, 84)' : 'rgb(234, 46, 73)'
+					},
+					borderWidth: 2,
+					data: props.data.response[0].indicators.quote[0].close,
+					pointStyle: 'circle',
+					pointRadius: 0
+				}
+			]
+		}
+	})
 
 	return (
 		<div className="simple-chart">
