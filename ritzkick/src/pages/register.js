@@ -23,7 +23,7 @@ const Register = () => {
 			<main>
 				<RegisterForm />
 				<Bubbles />
-				<div className="spacer layer1"></div>
+				<div className="spacer layer2"></div>
 			</main>
 		</>
 	)

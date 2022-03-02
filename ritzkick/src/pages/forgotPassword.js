@@ -13,7 +13,7 @@ const ForgotPassword = () => {
 			<main>
 				<Bubbles />
 				<ForgotPasswordForm />
-				<div className="spacer layer1"></div>
+				<div className="spacer layer3"></div>
 			</main>
 		</>
 	)

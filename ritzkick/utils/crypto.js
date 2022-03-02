@@ -9,7 +9,6 @@ export function SlugArrayToSymbolArray(slugs, currency, upperCase = false) {
 }
 
 export function SymbolToSlug(symbol) {
-	console.log(symbol)
 	const slug = symbol.toString().split('-')[0]
 	return slug
 }

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import SimpleCryptoView from '@/components/views/SimpleCryptoView'
 import {isUserConnected} from '../../services/AuthService'
+import { CircularProgress } from '@mui/material'
 
 function SimpleCryptoDashboard(props) {
 	const [datas, setDatas] = useState([])
 	const [chartDatas, setChartDatas] = useState()
 
 	useEffect(() => {
+		console.log(props.socket)
 		if (!props.socket) return
 		props.socket.on('data', (data) => {
 			setDatas(data)
@@ -19,7 +21,9 @@ function SimpleCryptoDashboard(props) {
 	}, [])
 
 	return !datas || !chartDatas|| !props.socket? (
-		<>Loading...</>
+		<div className='column center'>
+			<CircularProgress color='secondary' />
+		</div>
 	) : (
 		<>
 			<div className="simple-crypto-dashboard v-center">
