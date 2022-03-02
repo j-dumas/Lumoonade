@@ -65,7 +65,7 @@ const populate = () => {
 							res.response[0].timestamp[index] = null
 						} else {
 							let value = res.response[0].timestamp[index]
-							res.response[0].timestamp[index] = getDateFormat(room, value * timeOffset)
+							res.response[0].timestamp[index] = value * timeOffset//getDateFormat(room, value * timeOffset)
 						}
 						return obj
 					})
@@ -127,5 +127,6 @@ const getDateFormat = (range, value) => {
 }
 
 module.exports = {
-	populate
+	populate,
+	getDateFormat
 }
