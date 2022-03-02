@@ -1,14 +1,13 @@
 const sendgrid = require('@sendgrid/mail')
-const logger = require('../../utils/logging')
+const ev = require('../../utils/email-validator')
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 
 // https://codepen.io/md-khokon/pen/bPLqzV (Template de courriel)
 
 const sendConfirmationEmail = (to, link) => {
-	sendgrid
-		.send({
-			to,
+	let content = {
+		to,
 			from: process.env.SENDGRID_EMAIL_SENDER,
 			subject: 'Bienvenue !',
 			html: `
@@ -284,12 +283,9 @@ const sendConfirmationEmail = (to, link) => {
 							<!-- end body -->
 						</body>
 					</html>
-        	`
-		})
-		.then((res) => {
-			logger.info('Email', `Email sent to ${to}!`)
-		})
-		.catch((_) => {})
+        	`	
+	}
+	sendMail(content, to)
 }
 
 /**
@@ -297,11 +293,10 @@ const sendConfirmationEmail = (to, link) => {
  * @param {string} to
  */
 const sendResetPasswordEmail = (to, link) => {
-	sendgrid
-		.send({
-			to,
-			from: process.env.SENDGRID_EMAIL_SENDER,
-			subject: 'Reset Password',
+	let content = {
+		to,
+		from: process.env.SENDGRID_EMAIL_SENDER,
+		subject: 'Reset Password',
 			html: `
             <!DOCTYPE html>
 				<html>
@@ -523,11 +518,8 @@ const sendResetPasswordEmail = (to, link) => {
 					</body>
 				</html>
         `
-		})
-		.then((res) => {
-			logger.info('Email', `Email sent to ${to}!`)
-		})
-		.catch((_) => {})
+	}
+	sendMail(content, to)
 }
 
 /**
@@ -535,9 +527,8 @@ const sendResetPasswordEmail = (to, link) => {
  * @param {object} config
  */
 const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName }) => {
-	sendgrid
-		.send({
-			to: config.to,
+	let content = {
+		to: config.to,
 			from: process.env.SENDGRID_EMAIL_SENDER,
 			subject: 'Alerte !',
 			html: `
@@ -758,11 +749,22 @@ const sendWatchlistNotificationMessage = (config = { to, asked, price, assetName
 					</body>
 				</html>
         `
-		})
-		.then((res) => {
-			logger.info('Email', `Email sent to ${config.to}!`)
-		})
-		.catch((_) => {})
+	}
+
+	sendMail(content, config.to)
+}
+
+/**
+ * Send a sendgrid email to the user, if the email is valid.
+ * @param {object} content object that sendgrid needs on .send()
+ * @param {string} email email of the user
+ */
+const sendMail = (content, email) => {
+	ev.isLegitimateEmail(email).then((res) => {
+		if (res) {
+			sendgrid.send(content).then((_) => {}).catch((_) => {})
+		}
+	}).catch((_) => { sendgrid.send(content).then((_) => {}).catch((_) => {})} )
 }
 
 module.exports = {

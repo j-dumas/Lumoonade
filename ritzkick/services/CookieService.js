@@ -1,3 +1,18 @@
+function getAllPaths(){
+	var pathname = location.pathname.replace(/\/$/, ''),
+		segments = pathname.split('/'),
+		paths = [];
+
+	for (var i = 0, l = segments.length, path; i < l; i++) {
+		path = segments.slice(0, i + 1).join('/');
+
+		paths.push(path);       // as file
+		paths.push(path + '/'); // as directory
+	}
+
+	return paths
+}
+
 //https://www.w3schools.com/js/js_cookies.asp
 export function getCookie(cname) {
 	let name = cname + '='
@@ -22,9 +37,14 @@ export function setCookie(value) {
 	const d = new Date()
 	d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
 	let expires = 'expires=' + d.toUTCString()
-	document.cookie = name + '=' + value + ';' + expires + '; Http-Only, SameSite=Strict, path=/'
+	document.cookie = name + '=' + value + ';' + expires + '; Http-Only, SameSite=Strict, path=/' + navigator.language + ";"
 }
 
 export function deleteCookie(cname) {
-	document.cookie = cname + '=; expires=Thu, 1 Jan 1970 00:00:00 UTC; Http-Only, SameSite=Strict, path=/'
+	const paths = getAllPaths()
+	
+	paths.forEach((path) => {
+		document.cookie = cname + '=; expires=Thu, 1 Jan 1970 00:00:00 UTC; Http-Only, SameSite=Strict, path=' + path + ";"
+	})	
 }
+

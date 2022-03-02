@@ -45,7 +45,13 @@
 }
 .simple-crypto-names {
 	margin-left: 15px;
+	max-width: 80px;
 }
 .simple-crypto-abbreviation {
 	color: gray;
+}
+
+.simple-crypto-view-logo{
+	width: 40px;
+	height: 40px;
 }

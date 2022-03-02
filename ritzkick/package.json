@@ -42,6 +42,7 @@
 		"express": "^4.17.2",
 		"express-jsdoc-swagger": "^1.6.7",
 		"google-auth-library": "^7.14.0",
+		"express-rate-limit": "^6.3.0",
 		"helmet": "^5.0.2",
 		"jsonwebtoken": "^8.5.1",
 		"moment": "^2.29.1",
