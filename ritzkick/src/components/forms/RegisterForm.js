@@ -36,14 +36,12 @@ const RegisterForm = () => {
 		<Container className="p-3 form">
 			<h1 className="form-title">{t('register.title')}</h1>
 			<form onSubmit={handleSubmit}>
-				{
-                    !!error && (
-                        <FormHelperText className='wrong' sx={{ m: 1 }}>
-                            Se courriel est déjà utilisé. Veuillez en entrer une autre.
-                        </FormHelperText>
-                    )
-                }
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+				{!!error && (
+					<FormHelperText className="wrong" sx={{ m: 1 }}>
+						Se courriel est déjà utilisé. Veuillez en entrer une autre.
+					</FormHelperText>
+				)}
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
 					<InputLabel htmlFor="usernameField">{t('fields.username')}</InputLabel>
 					<OutlinedInput
 						name="username"
@@ -61,7 +59,7 @@ const RegisterForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} error={error} variant="filled">
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="emailField">{t('fields.email')}</InputLabel>
 					<OutlinedInput
 						name="email"
@@ -78,7 +76,7 @@ const RegisterForm = () => {
 						autoComplete="off"
 					/>
 				</FormControl>
-				<FormControl className='inputField' sx={{ m: 1, width: '100%' }} variant="filled">
+				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
 					<InputLabel htmlFor="passwordField">{t('fields.password')}</InputLabel>
 					<OutlinedInput
 						name="password"

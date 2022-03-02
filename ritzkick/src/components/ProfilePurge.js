@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import {Snackbar, Alert} from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Snackbar, Alert } from '@mui/material'
 
 export default function ProfilePurge(props) {
 	const [openStatus, setOpenStatus] = useState(false)
@@ -9,7 +9,7 @@ export default function ProfilePurge(props) {
 		if (reason === 'clickaway') {
 			return
 		}
-		
+
 		setOpenStatus(false)
 	}
 

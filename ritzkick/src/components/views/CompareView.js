@@ -23,7 +23,7 @@ const CompareView = (props) => {
 
 	useEffect(() => {
 		setSocket(
-			createSocket(['general', `graph-${dateRange}-${interval}`],compareList, `wss://${window.location.host}/`)
+			createSocket(['general', `graph-${dateRange}-${interval}`], compareList, `wss://${window.location.host}/`)
 		)
 	}, [compareList, dateRange, interval])
 

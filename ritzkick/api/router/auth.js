@@ -4,6 +4,7 @@ const authentication = require('../middleware/auth')
 const router = express.Router()
 const rateLimit = require('express-rate-limit')
 require('../swagger_models')
+const { OAuth2Client } = require('google-auth-library')
 
 const paths = require('../routes.json')
 
@@ -13,7 +14,7 @@ const loginLimiter = rateLimit({
 	max: 15,
 	message: 'Too many requests, slow down!',
 	standardHeaders: true,
-	legacyHeaders: false,
+	legacyHeaders: false
 })
 
 // Config for the register call.
@@ -22,9 +23,8 @@ const registerLimiter = rateLimit({
 	max: 10,
 	message: 'Too many requests, slow down!',
 	standardHeaders: true,
-	legacyHeaders: false,
+	legacyHeaders: false
 })
-
 
 /**
  * Login Request User Model
@@ -195,5 +195,56 @@ router.post(paths.auth['forgot-password'], async (req, res) => {
 		res.status(500).send()
 	}
 })
+
+router.post(paths.auth.google, async (req, res) => {
+	try {
+		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+		const client = new OAuth2Client(GOOGLE_CLIENT_ID)
+		const payload = await verify(client, req.body.idToken, GOOGLE_CLIENT_ID).catch((e) => {
+			throw new Error(e.message)
+		})
+
+		let user = await User.findOne({ email: payload['email'] })
+
+		if (!user) {
+			const data = {
+				email: payload['email'],
+				username: payload['name'],
+				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`
+			}
+			user = new User(data)
+			await user.save()
+		}
+
+		let returnPayload
+
+		if (payload['email_verified']) {
+			await user.verified()
+			const token = await user.makeAuthToken('localhost')
+			const profile = await user.makeProfile()
+			returnPayload = {
+				user: profile,
+				token
+			}
+		} else {
+			const profile = await user.makeProfile()
+			returnPayload = {
+				user: profile
+			}
+		}
+
+		res.status(200).send(returnPayload)
+	} catch (e) {
+		res.status(500).send({ error: e.message })
+	}
+})
+
+async function verify(client, token, GOOGLE_CLIENT_ID) {
+	const ticket = await client.verifyIdToken({
+		idToken: token,
+		audience: GOOGLE_CLIENT_ID
+	})
+	return ticket.getPayload()
+}
 
 module.exports = router
