@@ -596,7 +596,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 		const walletHistoryDetailed = content.body.assets[0]
 		expect(walletHistoryDetailed.totalSpent).toBe(BODY.paid)
 		expect(walletHistoryDetailed.averageSpent).toBe(BODY.paid)
-		expect(walletHistoryDetailed.holding).toBe(0.5) // paid / boughtAt
+		expect(walletHistoryDetailed.amount).toBe(0.5) // paid / boughtAt
 		expect(walletHistoryDetailed.transactions).toBe(1)
 		expect(walletHistoryDetailed.percentInPortfolio).toBe(100)
 	})

@@ -101,7 +101,7 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 				name: wallet.asset,
 				totalSpent: spent,
 				averageSpent: avg || 0,
-				holding: hold,
+				amount: hold,
 				transactions: wallet.hist.length
 			})
 		})
