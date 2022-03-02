@@ -5,6 +5,14 @@
 	margin-bottom: 2%;
 }
 
+#favorites {
+	text-align: center;
+	width: 80%;
+	min-width: 400px;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
 #profile-picture {
 	background-color: white;
 	border-radius: 50%;
@@ -113,6 +121,7 @@ ul {
 
 .page-navbar{
 	margin-top: 10%;
+	width: 100%;
 }
 
 .line{
@@ -133,7 +142,7 @@ ul {
 	margin: 0%;
 	background-color: var(--background-color);
 	border-radius: 0;
-	border: none;	
+	border-bottom: 2px;	
 	width: 40%;
 }
 

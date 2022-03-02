@@ -5,13 +5,19 @@ import format from '../../../utils/formatter'
 import {isUserConnected} from '../../../services/AuthService'
 import ButtonFavorite from '../ButtonFavorite'
 
-function SimpleCryptoView(props) {
+export default function SimpleCryptoView(props) {
+	const [imgLoaded, setImgStatus] = useState(false)
+
 	return (
 		<>
 			<a href={'/asset/' + props.data.fromCurrency.toString().toLowerCase()} className="simple-crypto-view row center">
 				<div className='sub-section row space-between'>
 				<div className="simple-crypto-view-item row left h-center">
-					<img className="simple-crypto-view-logo" src={props.data.fromCurrency + '.svg'} alt="" />
+					{
+						!imgLoaded 
+							? <img className="simple-crypto-view-logo" src={props.data.fromCurrency + '.svg'} alt="" onError={() => setImgStatus(true)}/>
+							: <img className="simple-crypto-view-logo" src="themoon-t.png"/>
+					}
 					<div className="column simple-crypto-names">
 						<p className="simple-crypto-name">{props.data.shortName}</p>
 						<p className="simple-crypto-abbreviation">{props.data.fromCurrency}</p>
@@ -38,4 +44,3 @@ function SimpleCryptoView(props) {
 		</>
 	)
 }
-export default SimpleCryptoView
