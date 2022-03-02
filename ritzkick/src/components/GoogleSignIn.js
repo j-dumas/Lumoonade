@@ -8,6 +8,7 @@ export default function GoogleSignIn() {
 	const { t } = useTranslation('forms')
 
 	function onSignIn(googleUser) {
+		console.log('Test')
 		var profile = googleUser.getBasicProfile()
 		console.log('ID: ' + profile.getId())
 		console.log('Name: ' + profile.getName())
@@ -20,12 +21,18 @@ export default function GoogleSignIn() {
 		auth2.signOut()
 	}
 
+	const responseGoogle = (response) => {
+		console.log(response)
+	}
+
 	return (
 		<div id="googleSignin">
 			<GoogleLogin
-				clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}.apps.googleusercontent.com`}
+				clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
 				buttonText="Login"
-				onSuccess={onSignIn}
+				onSuccess={responseGoogle}
+				onFailure={responseGoogle}
+				cookiePolicy={'single_host_origin'}
 				strategy="lazyOnload"
 			/>
 			{/* <a href="#" onClick={signOut}>Sign out</a> */}
