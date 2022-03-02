@@ -3,7 +3,7 @@ import {Snackbar, Alert} from '@mui/material'
 
 export default function ProfilePurge(props) {
 	const [openStatus, setOpenStatus] = useState(false)
-    const [deletedSessions, setDeletedSessions] = useState(0)
+    const [deletedSessions, setDeletedSessions] = useState(props.user.sessions - 1)
 
 	function handleClose(event, reason) {
 		if (reason === 'clickaway') {
@@ -17,12 +17,8 @@ export default function ProfilePurge(props) {
 		event.preventDefault()
 		setOpenStatus(true)
         props.removeSession()
+        setDeletedSessions(props.user.sessions - 1)
 	}
-
-    useEffect(() => {
-        console.log(props.user.sessions)
-        //setDeletedSessions(props.user.sessions - 1)
-    }, [props.user.sessions])
 
   return (
     <div className="column center">
