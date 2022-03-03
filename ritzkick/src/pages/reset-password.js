@@ -1,5 +1,5 @@
 import Bubbles from '@/components/Bubbles'
-import Layout from '@/layouts/Layout'
+import LayoutNoNav from '@/layouts/Layout-no-nav'
 import ResetPasswordForm from '@/components/forms/ResetPasswordForm'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -21,14 +21,14 @@ ResetPassword.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 
 	return (
-		<Layout
+		<LayoutNoNav
 			pageMeta={{
 				title: t('pages.reset.title'),
 				description: t('pages.reset.description')
 			}}
 		>
 			{page}
-		</Layout>
+		</LayoutNoNav>
 	)
 }
 
