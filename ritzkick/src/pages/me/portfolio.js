@@ -23,13 +23,14 @@ const Dashboard = () => {
 	const [assets, setAssets] = useState() 
 	useEffect(async () => {
 		let userData = await getUserDashboardData()
+		console.log(userData.assets)
 		setAssets(userData.assets)
 		let slugs =[]
 		userData.assets.map((asset) => {
 			slugs.push(asset.name)
 		})
 		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
-		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols))
+		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
 	}, [])
 
 	return (
@@ -43,8 +44,8 @@ const Dashboard = () => {
 						</div>
 					</div>
 					<div className='row space-between'>
-						<PieChart socket={socket}/>
-						<DetailedChart socket={socket} slug={slug} />
+						<PieChart socket={socket} assets={assets}/>
+						<DetailedChart socket={socket} slug={slug} wallet={true}/>
 					</div>
 					<SimpleWalletAssetDashboard socket={socket} assets={assets}/>
 					<SimpleCryptoDashboard socket={socket}/>
@@ -53,7 +54,7 @@ const Dashboard = () => {
 		</>
 	)
 }
-//
+//<PieChart socket={socket}/>
 Dashboard.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 

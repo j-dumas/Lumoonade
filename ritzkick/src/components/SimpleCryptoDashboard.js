@@ -9,14 +9,12 @@ function SimpleCryptoDashboard(props) {
 	const [chartDatas, setChartDatas] = useState()
 
 	useEffect(() => {
-		console.log(props.socket)
 		if (!props.socket) return
 		props.socket.on('data', (data) => {
 			setDatas(data)
 		})
 		props.socket.on('graph', (data) => {
 			setChartDatas(data)
-			console.log(data)
 		})
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
@@ -61,7 +59,6 @@ function SimpleCryptoDashboard(props) {
 						asset = props.assets.find((el) => {
 							return AreSlugsEqual(el.name.toString().toUpperCase(), element.symbol.toString().toUpperCase())
 						})
-						console.log(asset)
 					}
 					
 	

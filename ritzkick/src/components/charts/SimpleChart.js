@@ -6,7 +6,6 @@ function SimpleChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 
 	const [datas, setDatas] = useState(() => {
-		console.log(props.data)
 		return {
 			labels: props.data.response[0].timestamp,
 			datasets: [

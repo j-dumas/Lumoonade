@@ -7,7 +7,6 @@ import ButtonFavorite from '../ButtonFavorite'
 import Image from 'next/image'
 
 function SimpleCryptoView(props) {
-    console.log(props.data)
 	return (
 		<>
 			<a href={'/asset/' + props.data.fromCurrency.toString().toLowerCase()} className="simple-crypto-view row center">

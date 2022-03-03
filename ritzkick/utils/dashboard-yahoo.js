@@ -3,9 +3,7 @@ const graph = require('app/socket/utils/graph')
 
 const yahooToDashBoard2 = (data = [], transactions = [], range, single = true) => {
 	if (data.length === 0 || transactions.length === 0) return []
-
 	transactions = orderByDate(transactions)
-
 	if (single) {
 		data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range))
 		let timestamps = data[0].response[0].timestamp
@@ -27,7 +25,7 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true) =
 }
 
 const fromSymbol = (symbol, transactions) => {
-	return transactions.filter((transac) => symbol.toLowerCase().includes(transac.name))
+	return transactions.filter((transac) => symbol.toLowerCase().includes(transac.asset))
 }
 
 /**
@@ -36,7 +34,7 @@ const fromSymbol = (symbol, transactions) => {
  * @param {list} transactions list of all transactions from the user.
  * @returns formated values for the dashboard
  */
-const yahooToDashBoard = async (data = [], transactions = [], range) => {
+const yahooToDashBoard = (data = [], transactions = [], range) => {
 	if (data.length === 0 || transactions.length === 0) return []
 
 	transactions = orderByDate(transactions)
@@ -51,7 +49,6 @@ const yahooToDashBoard = async (data = [], transactions = [], range) => {
 		prices[index] = prices[index] * amountOfAssetsAtDate(timestamp, transactions)
 		timestamps[index] = graph.getDateFormat(range, timestamp)
 	})
-
 	return res
 }
 

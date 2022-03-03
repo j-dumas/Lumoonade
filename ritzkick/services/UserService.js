@@ -1,6 +1,22 @@
 import { getCookie, deleteCookie } from './CookieService'
 import { isUserConnected } from './AuthService'
 
+export async function getTransactions() {
+	if (!isUserConnected()) return
+	const URI = `/api/wallets/transactions`
+
+	let response = await fetch(URI, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		}
+	})
+
+	let json = await response.json()
+	return json
+}
+
 export async function addFavorite(slug) {
 	if (!isUserConnected()) return
 	const URI = `/api/favorite`

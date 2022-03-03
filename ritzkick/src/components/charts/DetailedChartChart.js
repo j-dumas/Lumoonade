@@ -3,6 +3,9 @@ import { Line, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
 import Functions from 'services/CryptoService'
+import { isUserConnected } from 'services/AuthService'
+import { getTransactions } from 'services/UserService'
+import yahoo  from 'utils/dashboard-yahoo'
 import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
@@ -15,8 +18,11 @@ function DetailedChartChart(props) {
 
 	useEffect(async () => {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
-
+		
+		let transactionList = (props.wallet && isUserConnected()) ? await getTransactions() : null
 		props.socket.on('graph', (datas) => {
+			if (props.wallet && isUserConnected()) datas = yahoo.yahooToDashBoard2(datas, transactionList, props.dateRange, true)
+					
 			const chart = chartReference.current
 			if (!chart || isDataNull(datas)) return
 			chart.data = getRelativeChartData(datas)
