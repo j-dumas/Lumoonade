@@ -10,9 +10,11 @@ Les variables nécessaires (exemples de valeurs):
 | DB_URL                             	| mongodb://127.0.0.1:27017/cryptool           	| L'URL vers la base de données MongoDB                    	|
 | HTTPS                             	| cryptool.atgrosdino.ca                       	| L'URL vers le site en https et en prod                    |
 | HTTP                              	| test.cryptool.atgrosdino.ca                  	| L'URL vers le site en http et en test                   	|
-| SSL                                	| true                                         	| Si le site utilise HTTPS ou non                         	|
+| SSL_CERT                              | locahost                                      | Le nom du fichier `cert` pour le HTTPS                    |
+| SSL_KEY                               | locahostKey                                   | Le nom du fichier `key` pour le HTTPS                     |
 | NODE_ENV                              | production                                    | Si le site est en prod ou en dev                          |
 | JWTSECRET                          	| SECRET123                                    	| Le secret pour signer les JWTs                          	|
+| RESET_JWT_SECRET                      | SECRET123                                    	| Le secret pour valider les tokens de reset de email       |
 | YAHOO_API                          	| https://query1.finance.yahoo.com/v7/finance/ 	| L'URL de l'API Yahoo                                    	|
 | NEXT_PUBLIC_PROD                   	| true                                         	| Si l'application se lance en PROD pour Google Analytics 	|
 | NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN 	| G-TOKEN                                      	| Le jeton de Google Analytics                            	|
@@ -26,6 +28,7 @@ Pour la production, il est nécessaire de se créer un fichier `.prod.env`, fich
 | start      	| Pour lancer l'application en prod avec le fichier `.prod.env`              	|
 | start-test 	| Pour lancer l'application de tests avec le fichier `.prod.test.env`        	|
 | dev        	| Pour lancer l'application en dev avec le fichier `.local.env`              	|
+| format        | Lance `prettier` pour formatter le code                                      	|
 | build      	| Pour « build » l'application next                                          	|
 | postbuild  	| Pour générer les fichiers `sitemaps.xml` et `robots.txt`                   	|
 | lint       	| Pour « lint » le code                                                      	|

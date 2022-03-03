@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const topAssetSchema = new mongoose.Schema(
 	{
-		slug: {
+		symbol: {
 			type: String,
 			required: true,
 			trim: true,

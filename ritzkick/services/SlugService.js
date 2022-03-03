@@ -1,22 +1,20 @@
 const fs = require('fs')
 const { Asset } = require('../db/model/asset')
+const cryptocurrencies = require('../app/data/symbols.json')
 
 async function addSlugsToDB() {
 	const isEmpty = await Asset.isEmpty('assets')
 
 	if (isEmpty) {
-		const slugs = readSlugs()
-		slugs.forEach((element) => {
-			const asset = new Asset({ slug: element })
-			asset.save()
-		})
+		createAssets()
 	}
 }
 
-function readSlugs() {
-	const txt = fs.readFileSync(`${__dirname}/../application/data/slugs.txt`, 'utf-8')
-	const slugs = txt.split('\n')
-	return slugs
+function createAssets() {
+	Object.keys(cryptocurrencies).forEach((element) => {
+		const asset = new Asset({ symbol: element, name: cryptocurrencies[element] })
+		asset.save()
+	})
 }
 
 module.exports = addSlugsToDB

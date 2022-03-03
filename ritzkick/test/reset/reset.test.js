@@ -1,13 +1,22 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 const Reset = require('../../db/model/reset')
 const axios = require('axios').default
 
-const email = require('../../application/email/email')
-const validSecret = process.env.RESET_JWT_SECRET
+const email = require('../../app/email/email')
+
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
 
 jest.mock('axios')
 
@@ -28,7 +37,7 @@ beforeEach(async () => {
 		password: 'HardP@ssw0rd213',
 		sessions: [
 			{
-				session: jwt.sign({ _id: new mongoose.Types.ObjectId() }, validSecret)
+				session: jwt.sign({ _id: new mongoose.Types.ObjectId() }, privateKey, jwtOptions)
 			}
 		]
 	}
@@ -45,9 +54,9 @@ beforeEach(async () => {
 
 	await User.deleteMany()
 	await Reset.deleteMany()
-	await new User(testUser).save()
+	await new User(testUser).verified()
 	const resetFake = new Reset(testReset)
-	await resetFake.makeResetToken()
+	await resetFake.makeResetToken('localhost')
 })
 
 afterAll((done) => {
@@ -124,8 +133,7 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 	})
 
 	test(`'BAD REQUEST' if I send an invalid jwt token in the resquest (custom jwt made)`, async () => {
-		const secret = 'topsecretvalue'
-		const token = jwt.sign({ value: 'hey' }, secret)
+		const token = jwt.sign({ value: 'hey' }, privateKey, jwtOptions)
 		await request(server)
 			.get(BASE + token)
 			.send()
@@ -133,8 +141,7 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 	})
 
 	test(`'BAD REQUEST' if I send an invalid jwt token that doesn't have a valid email and secret (custom jwt made)`, async () => {
-		const secret = validSecret
-		const token = jwt.sign({ email: 'email@mail.com', secret: 'shhh' }, secret)
+		const token = jwt.sign({ email: 'email@mail.com', secret: 'shhh' }, privateKey, jwtOptions)
 		await request(server)
 			.get(BASE + token)
 			.send()
@@ -143,7 +150,6 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 
 	test(`'SUCCESS REQUEST' if I send a valid jwt token that does have a valid email and secret (custom jwt made)`, async () => {
 		let reset = await Reset.findOne({ email: resetEmail })
-		console.log(reset)
 		const attemps = reset.attemps
 		expect(attemps).toBe(0)
 
@@ -177,7 +183,7 @@ describe('Tests for the route /api/reset/redeem', () => {
 	})
 
 	test(`'BAD REQUEST' if I send any none working resetToken with matching passwords`, async () => {
-		const secret = validSecret
+		const secret = 'test'
 		redeemConfig.resetToken = jwt.sign({ email: 'email@mail.com', secret: 'shhh' }, secret)
 		redeemConfig.password = anyPassword
 		redeemConfig.confirmation = redeemConfig.password

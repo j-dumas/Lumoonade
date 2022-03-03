@@ -1,0 +1,210 @@
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes cloudFadeout {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0.3;
+	}
+}
+
+@keyframes slideInFromAbove {
+	0% {
+		transform: translateY(50%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+.form {
+	display: flex;
+	position: absolute;
+	top: 10%;
+	text-align: center;
+	animation: 0.3s ease-out 0s 1 slideInFromAbove, fadein 1s;
+	flex-direction: column;
+	z-index: 100;
+	width: 25vw;
+	min-width: 300px;
+	background-color: rgb(51, 52, 54, 0.8);
+	border-radius: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.inputField {
+	background-color: white;
+	border-radius: 4px;
+	margin-left: 0%;
+}
+
+.inputField-disabled {
+	background-color: var(--background-color-3);
+	border-radius: 4px;
+	margin-left: 0%;
+}
+
+input[type='text'],
+input[type='password'],
+input[type='email'] {
+	width: 100%;
+	height: auto;
+	padding: 12px 20px;
+	margin: 8px 0;
+	border-radius: 10px;
+}
+
+input[type='text']:valid,
+input[type='password']:valid,
+input[type='email']:valid,
+input[type='number']:valid {
+	outline-color: var(--green);
+	border: var(--green);
+}
+
+input[type='text']:invalid,
+input[type='password']:invalid,
+input[type='email']:invalid,
+input[type='number']:invalid {
+	outline-color: var(--red);
+	border: var(--red);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+input[type='submit'],
+#purge-session {
+	background-color: var(--main-color);
+	color: var(--font-color);
+	border-radius: 10px;
+	border: 2px solid;
+	border-color: var(--main-color);
+	padding: 12px;
+	width: 30%;
+	height: auto;
+	margin: 8px;
+	min-width: 110px;
+}
+
+input[type='submit']:hover,
+#purge-session:hover {
+	background-color: transparent;
+	color: var(--main-color);
+	transition-duration: 0.25s;
+	cursor: pointer;
+}
+
+.link {
+	color: var(--main-color);
+	text-decoration: underline;
+	margin: 10px;
+}
+
+.link:hover {
+	cursor: pointer;
+}
+
+#Signup {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.form-title {
+	text-align: center;
+	font-style: italic;
+	animation: fadein 3s;
+	font-size: calc(50px + 1.5vw);
+	font-family: var(--font);
+}
+
+.form-subtitle {
+	text-align: center;
+	font-style: italic;
+	animation: fadein 3s;
+	font-size: calc(20px + 1.5vw);
+	font-family: var(--font);
+}
+
+input:focus::placeholder {
+	color: transparent;
+}
+
+.line {
+	width: 50%;
+	height: 0%;
+	transform: translateY(1050%);
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.OU {
+	display: flex;
+	text-align: center;
+	color: lightgray;
+	flex-direction: row;
+	margin-top: -10px;
+	margin-bottom: -15px;
+	margin-left: 10px;
+}
+
+.longLine {
+	margin: 10px;
+}
+
+.spacer {
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	z-index: 0;
+	position: absolute;
+}
+
+.layer1 {
+	background-image: url(/peaks-1.svg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.layer2 {
+	background-image: url(/peaks-2.svg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.layer3 {
+	background-image: url(/peaks-3.svg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.layer4 {
+	background-image: url(/peaks-4.svg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+.wrong {
+	width: 100%;
+	height: auto;
+	border: 1px solid #d11534;
+	background-color: #fad1d8;
+	text-align: center;
+	border-radius: 4px;
+	color: black;
+	padding: 10px;
+}

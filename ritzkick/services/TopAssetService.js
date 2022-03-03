@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { Asset } = require('../db/model/asset')
 const { TopGainer, TopLoser } = require('../db/model/top_asset')
 const { info } = require('../utils/logging')
 
@@ -27,9 +28,10 @@ async function fetchTopAssets(option) {
 	}
 	info('DB', `${option.name} added`)
 }
+
 async function modifyTopAssets(option) {
 	const res = await axios.get(URL)
-	const data = res.data['1D'][option.api_name]
+	const data = res.data['1H'][option.api_name]
 	await option.model.deleteMany({})
 	for (const element of data) {
 		await addToDB(option.model, element)
@@ -38,8 +40,11 @@ async function modifyTopAssets(option) {
 }
 
 async function addToDB(model, element) {
-	const asset = await new model({ slug: element.symbol, percentage: element.price_change_1D_percent })
-	await asset.save()
+	const dbElement = await Asset.findOne({ symbol: element.symbol }).exec()
+	if (dbElement) {
+		const asset = await new model({ symbol: element.symbol, percentage: element.price_change_1D_percent })
+		await asset.save()
+	}
 }
 
 module.exports = { fetchTopAssets, modifyTopAssets, options }

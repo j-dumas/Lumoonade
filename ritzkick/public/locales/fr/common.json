@@ -1,12 +1,22 @@
 {
 	"pages": {
-		"index": { "title": "CRYPTOOL | ACCUEIL", "description": "Page d'accueil Cryptool" },
-		"login": { "title": "CRYPTOOL | CONNEXION", "description": "Page de connexion Cryptool" },
-		"register": { "title": "CRYPTOOL | INSCRIPTION", "description": "Page d'inscription Cryptool" },
-		"compare": { "title": "CRYPTOOL | COMPARER", "description": "Page de comparaison de cryptomonnaies Cryptool" },
-		"asset": { "title": "CRYPTOOL | ", "description": "Page des cryptomonnaies Cryptool" }
+		"index": { "title": "LUMOONADE | ACCUEIL", "description": "Page d'accueil Lumoonade" },
+		"login": { "title": "LUMOONADE | CONNEXION", "description": "Page de connexion Lumoonade" },
+		"register": { "title": "LUMOONADE | INSCRIPTION", "description": "Page d'inscription Lumoonade" },
+		"compare": {
+			"title": "LUMOONADE | COMPARER",
+			"description": "Page de comparaison de cryptomonnaies Lumoonade"
+		},
+		"asset": { "title": "LUMOONADE | ", "description": "Page de cryptomonnaie Lumoonade" },
+		"assets": { "title": "LUMOONADE | CRYPTOS", "description": "Page des cryptomonnaies Lumoonade" },
+		"reset": {
+			"title": "LUMOONADE | RÉINITIALISATION",
+			"description": "Page de réinitialisation de mot de passe Lumoonade"
+		},
+		"email": { "title": "LUMOONADE | CONFIRMATION", "description": "Page de confirmation de courriel Lumoonade" },
+		"profile": { "title": "LUMOONADE | PROFIL", "description": "Paage de profil Lumoonade" }
 	},
-	"meta": { "title": "CRYPTOOL", "description": "Cryptool pour les CryptoCurrencies", "type": "website" },
+	"meta": { "title": "Lumoonade", "description": "Lumoonade pour les CryptoCurrencies", "type": "website" },
 	"footer": { "powered": "Propulsé par " },
 	"navbar": {
 		"home": "Accueil",
@@ -15,6 +25,6 @@
 		"user": { "wallet": "Portefeuille", "profile": "Profil" },
 		"login": "Connexion",
 		"logout": "Déconnexion",
-		"register": "Incription"
+		"register": "Inscription"
 	}
 }

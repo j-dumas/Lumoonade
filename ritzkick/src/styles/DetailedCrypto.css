@@ -1,0 +1,113 @@
+.detailed-crypto-view {
+	min-height: 75vh;
+	width: 97%;
+}
+
+.page-menu {
+	margin-top: 5px;
+}
+
+.detailed-menu-info {
+	gap: 20px;
+}
+
+.detailed-menu-logo {
+	width: 30px;
+}
+
+.detailed-div-menu {
+	margin-bottom: 0px;
+}
+
+.detailed-menu-actions {
+	font-size: 20px;
+}
+.detailed-menu-actions-icon {
+	background-color: transparent;
+	color: var(--font-color-2);
+	border: 1px solid var(--background-color-3);
+	padding: 8px 11px 8px 11px;
+	border-radius: 50px;
+	transition: 0.25s;
+}
+.detailed-menu-actions-icon:hover {
+	color: var(--font-color);
+	border: 1px solid var(--font-color-2);
+}
+
+.detailed-menu-title {
+	font-size: 24px;
+	font-weight: bold;
+	margin: 0px;
+}
+.detailed-menu-subtitle {
+	font-size: 24px;
+	color: var(--font-color-2);
+	height: fit-content;
+}
+
+.detailed-informations {
+	height: fit-content;
+	width: 360px;
+}
+
+.detailed-div {
+	position: relative;
+
+	min-width: 360px;
+
+	padding: 20px;
+	gap: 5px;
+
+	border-radius: 5px;
+	background: var(--background-color-2);
+}
+
+.detailed-div-title {
+	font-size: 16px;
+	color: var(--font-color-2);
+	margin-bottom: 15px;
+}
+
+.detailed-div-label {
+	font-size: 15px;
+	color: var(--font-color-2);
+}
+
+.detailed-div-name {
+	margin-bottom: 10px;
+}
+
+.detailed-div-item {
+	width: 100%;
+	margin: 5px 0px 10px 0px;
+	gap: 5px;
+
+	color: white;
+}
+
+.detailed-div-item-label {
+	color: var(--font-color-2);
+	font-size: 14px;
+}
+
+.detailed-div-item-value {
+	font-size: 16px;
+}
+
+.detailed-change {
+	font-size: 22px;
+}
+
+.detailed-price {
+	font-size: 32px;
+}
+
+.dynamic-list-item {
+	background-color: var(--background-color-3);
+	font-size: 15px;
+	border-radius: 5px;
+	padding: 5px 9px 4px 8px;
+	transition: 0.5s;
+	cursor: default;
+}

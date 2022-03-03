@@ -2,7 +2,29 @@ const express = require('express')
 const User = require('../../db/model/user')
 const authentication = require('../middleware/auth')
 const router = express.Router()
+const rateLimit = require('express-rate-limit')
 require('../swagger_models')
+const { OAuth2Client } = require('google-auth-library')
+
+const paths = require('../routes.json')
+
+// Config for the login call.
+const loginLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 15,
+	message: { message: 'Too many requests, slow down!' },
+	standardHeaders: true,
+	legacyHeaders: false
+})
+
+// Config for the register call.
+const registerLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 10,
+	message: { message: 'Too many requests, slow down!' },
+	standardHeaders: true,
+	legacyHeaders: false
+})
 
 /**
  * Login Request User Model
@@ -55,11 +77,16 @@ require('../swagger_models')
  * 	"error": "Could not login properly."
  * }
  */
-router.post('/api/auth/login', async (req, res) => {
+router.post(paths.auth.login, loginLimiter, async (req, res) => {
 	try {
 		const { email, password } = req.body
 		const user = await User.findByCredentials(email, password)
-		const token = await user.makeAuthToken()
+
+		if (!user.validatedEmail) {
+			throw new Error('Please confirm your email.')
+		}
+
+		const token = await user.makeAuthToken('localhost')
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
@@ -106,15 +133,13 @@ router.post('/api/auth/login', async (req, res) => {
  * 	"error": "E11000 duplicate key error collection: cryptool.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
  * }
  */
-router.post('/api/auth/register', async (req, res) => {
+router.post(paths.auth.register, registerLimiter, async (req, res) => {
 	try {
 		const user = new User(req.body)
 		await user.save()
-		const token = await user.makeAuthToken()
 		const profile = await user.makeProfile()
 		res.status(201).send({
-			user: profile,
-			token
+			user: profile
 		})
 	} catch (e) {
 		res.status(400).send({
@@ -139,7 +164,7 @@ router.post('/api/auth/register', async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.post('/api/auth/logout', authentication, async (req, res) => {
+router.post(paths.auth.logout, authentication, async (req, res) => {
 	try {
 		req.user.sessions = req.user.sessions.filter((session) => session.session !== req.token)
 		await req.user.save()
@@ -159,7 +184,7 @@ router.post('/api/auth/logout', authentication, async (req, res) => {
  * @return {object} 200 - success
  * @return {string} 500 - server error
  */
-router.post('/api/auth/forgot', async (req, res) => {
+router.post(paths.auth['forgot-password'], async (req, res) => {
 	try {
 		const { email } = req.body
 		// Todo need to find a user related to the email
@@ -170,5 +195,56 @@ router.post('/api/auth/forgot', async (req, res) => {
 		res.status(500).send()
 	}
 })
+
+router.post(paths.auth.google, async (req, res) => {
+	try {
+		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+		const client = new OAuth2Client(GOOGLE_CLIENT_ID)
+		const payload = await verify(client, req.body.idToken, GOOGLE_CLIENT_ID).catch((e) => {
+			throw new Error(e.message)
+		})
+
+		let user = await User.findOne({ email: payload['email'] })
+
+		if (!user) {
+			const data = {
+				email: payload['email'],
+				username: payload['name'],
+				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`
+			}
+			user = new User(data)
+			await user.save()
+		}
+
+		let returnPayload
+
+		if (payload['email_verified']) {
+			await user.verified()
+			const token = await user.makeAuthToken('localhost')
+			const profile = await user.makeProfile()
+			returnPayload = {
+				user: profile,
+				token
+			}
+		} else {
+			const profile = await user.makeProfile()
+			returnPayload = {
+				user: profile
+			}
+		}
+
+		res.status(200).send(returnPayload)
+	} catch (e) {
+		res.status(500).send({ error: e.message })
+	}
+})
+
+async function verify(client, token, GOOGLE_CLIENT_ID) {
+	const ticket = await client.verifyIdToken({
+		idToken: token,
+		audience: GOOGLE_CLIENT_ID
+	})
+	return ticket.getPayload()
+}
 
 module.exports = router

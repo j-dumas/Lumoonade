@@ -7,6 +7,9 @@ const Favorite = require('./favorite')
 const Wallet = require('./wallet')
 const Watchlist = require('./watchlist')
 const Reset = require('./reset')
+const Confirmation = require('./confirmation')
+
+const fs = require('fs')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -24,7 +27,6 @@ const userSchema = new mongoose.Schema(
 		},
 		username: {
 			type: String,
-			unique: true,
 			trim: true,
 			minlength: 4,
 			required: true,
@@ -73,12 +75,17 @@ const userSchema = new mongoose.Schema(
 					type: mongoose.Schema.Types.ObjectId
 				}
 			}
-		]
+		],
+		validatedEmail: {
+			type: Boolean,
+			default: false
+		}
 	},
 	{
 		timestamps: true,
 		toJSON: {
 			transform: function (doc, ret) {
+				delete ret.validatedEmail
 				delete ret.password
 				delete ret.__v
 			}
@@ -113,15 +120,31 @@ userSchema.virtual('watchlist', {
 	foreignField: '_id'
 })
 
-userSchema.methods.makeAuthToken = async function () {
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth'
+}
+
+userSchema.methods.makeAuthToken = async function (host) {
 	const user = this
-	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWTSECRET)
+	const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+	const token = jwt.sign({ _id: user._id.toString() }, privateKey, {
+		...jwtOptions,
+		issuer: host,
+		audience: host
+	})
 
 	// Appending the session to the current sessions.
 	user.sessions = user.sessions.concat({ session: token })
 
 	await user.save()
 	return token
+}
+
+userSchema.methods.verified = async function () {
+	const user = this
+	user.validatedEmail = true
+	await user.save()
 }
 
 userSchema.methods.makeProfile = async function () {
@@ -219,6 +242,7 @@ userSchema.pre('remove', async function (next) {
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })
 	await Reset.deleteMany({ email: user.email })
+	await Confirmation.deleteMany({ email: user.email })
 	next()
 })
 
