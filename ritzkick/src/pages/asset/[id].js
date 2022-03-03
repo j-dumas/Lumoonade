@@ -3,7 +3,7 @@ import DomHead from '@/components/DomHead'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import DetailedCryptoView from '@/components/views/DetailedCryptoView'
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 import Functions from 'services/CryptoService'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
