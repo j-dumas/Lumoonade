@@ -32,11 +32,8 @@ const fs = require('fs')
  *  "email": "email@mail.com"
  * }
  * @return {object} 201 - created
- * @example
- * {
- * }
  * @return {string} 400 - bad request
- * @example response 400 - invalid email provided
+ * @example response - 400 - invalid email provided
  * {
  *  "message": "Please provide a valid email."
  * }
@@ -80,7 +77,7 @@ const verifyOptions = {
  * @tags Reset
  * @return {object} 200 - success
  * @return {string} 400 - bad request
- * @example response 400 - invalid email provided
+ * @example response - 400 - invalid email provided
  * {
  *  "message": "Token may be outdated. | Token is corrupted"
  * }
@@ -130,7 +127,7 @@ router.get('/api/reset/verify/:jwt', async (req, res) => {
  * }
  * @return {object} 200 - success
  * @return {string} 400 - bad request
- * @example response 400 - invalid email provided
+ * @example response - 400 - invalid email provided
  * {
  *  "message": "Error explaining the situation"
  * }
