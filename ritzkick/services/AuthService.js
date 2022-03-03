@@ -82,4 +82,22 @@ export async function register(email, username, password, handleError) {
 		console.log(e)
 		alert(e.message)
 	}
+
+export async function confirmEmail(key){
+	try {
+		const response = await fetch('/api/confirmation/verify/' + key, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+
+		if(response.status === 200){
+			setInterval(() =>{
+				window.location.assign("/login")
+			}, 4000)
+		}
+	} catch (e) {}
+} 
+
 }
