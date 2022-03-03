@@ -13,12 +13,8 @@ function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 	const [data, setData] = useState()
 
-	useEffect(() => {
-		async function prepareData() {
-			setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
-		}
-
-		prepareData()
+	useEffect(async () => {
+		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 
 		props.socket.on('graph', (datas) => {
 			const chart = chartReference.current
@@ -27,7 +23,7 @@ function DetailedChartChart(props) {
 			chart.update()
 		})
 		if (props.socket) return () => props.socket.disconnect()
-	}, [chartReference, getRelativeChartData, props])
+	}, [])
 
 	function isDataNull(datas) {
 		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
