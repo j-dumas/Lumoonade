@@ -3,10 +3,12 @@ import { getWatchList } from 'services/UserService'
 import ProfileAddAlerts from '@/components/ProfileAddAlerts'
 import ProfileAlertsComponent from '@/components/ProfileAlertsComponent'
 import { Snackbar, Alert } from '@mui/material'
+import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 
 export default function ProfileAlerts() {
-	let [data, setData] = useState([])
+	const [data, setData] = useState([])
 	const [openStatus, setOpen] = useState(false)
+	const [currentPage, setCurrentPage] = useState(1)
 
 	function deletedAlert() {
 		setOpen(true)
@@ -19,9 +21,9 @@ export default function ProfileAlerts() {
 
 		setOpen(false)
 	}
-
-	function fetchData() {
-		getWatchList()
+	function fetchData(page = currentPage) {
+		setCurrentPage(page)
+		getWatchList(page)
 			.then((res) => {
 				setData(res)
 			})
@@ -71,6 +73,31 @@ export default function ProfileAlerts() {
 					</li>
 				))}
 			</ul>
+			<div className='row center'>
+				{
+					(currentPage > 1) 
+					&&
+						<button className='alert-page-control-buttons row center' onClick={() => fetchData(currentPage - 1)}>
+							<ArrowLeft />
+							<div>
+								Previous Page
+							</div>
+						</button>
+				}
+				<div>
+					{currentPage}
+				</div>
+				{
+					(data.length === 5) 
+					&& 
+						<button className='alert-page-control-buttons row center' onClick={() => fetchData(currentPage + 1)}>
+							<div>
+								Next Page 
+							</div>
+							<ArrowRight />
+						</button>
+				}
+			</div>
 		</div>
 	)
 }

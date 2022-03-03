@@ -129,7 +129,7 @@ export default function ProfileAddAlerts(props) {
 						n&apos;est pas respectée
 					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
-						<FormControl sx={{ m: 1, width: '25%' }} className="inputField" variant="filled">
+						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled">
 							<InputLabel>Crypto</InputLabel>
 							<Select name="slug" defaultValue="" onChange={handleChange} MenuProps={MenuProps} required>
 								{parseData().map((crypt) => (

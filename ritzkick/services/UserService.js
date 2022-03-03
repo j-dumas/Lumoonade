@@ -47,9 +47,9 @@ export async function getFavorites() {
 	}
 }
 
-export async function getWatchList() {
+export async function getWatchList(page = 1) {
 	try {
-		let response = await fetch('/api/me/watchlists', {
+		let response = await fetch('/api/me/watchlists?page=' + page, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

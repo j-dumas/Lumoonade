@@ -98,8 +98,8 @@ ul {
 	min-width: 300px;
 	background-color: var(--background-color-2);
 	padding: 10px;
-	border: 1px solid;
-	border-color: transparent;
+	border-bottom: 2px solid;
+	border-color: var(--background-color);
 	align-items: center;
 }
 
@@ -182,4 +182,13 @@ ul {
 
 .no-margin {
 	margin: -21px;
+}
+
+.alert-page-control-buttons{
+	justify-content: center;
+	align-items: center;
+}
+
+.alert-page-control-buttons:hover{
+	border: none;
 }
