@@ -34,12 +34,13 @@ const graphRoom = {
 }
 
 let url = process.env.YAHOO_API + 'spark?symbols='
+let dashurl = process.env.YAHOO_API_DASH + 'spark?symbols='
 
 /**
  * This method populates the room manager with all combinaisons from 'graphRoom'
  */
 const populate = () => {
-	// Looping thru all key values
+	// populate for graphs
 	Object.keys(graphRoom).forEach((room) => {
 		graphRoom[room].forEach((interval) => {
 			// Creating the room
@@ -65,7 +66,7 @@ const populate = () => {
 							res.response[0].timestamp[index] = null
 						} else {
 							let value = res.response[0].timestamp[index]
-							res.response[0].timestamp[index] = value * timeOffset //getDateFormat(room, value * timeOffset)
+							res.response[0].timestamp[index] = getDateFormat(room, value * timeOffset)
 						}
 						return obj
 					})
@@ -85,7 +86,66 @@ const populate = () => {
 							searchTerm: 'symbol',
 							keep: client.query
 						})
-						client.socket.emit('graph', result)
+						client.socket.emit('graph', parser.sortListInSpecificOrder(result, client.query))
+					} catch (_) {}
+				})
+			})
+
+			// Appending the extra value to the url
+			r.getService().setAppendData(
+				`&range=${room}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`
+			)
+		})
+	})
+
+
+	// Populate for dashboard
+	Object.keys(graphRoom).forEach((room) => {
+		graphRoom[room].forEach((interval) => {
+			// Creating the room
+			let roomName = `dash-graph-${room}-${interval}`
+			rm.add(roomName, true)
+			let r = rm.getRoom(roomName)
+			r.setGraph(true)
+			// Binding a service to the room
+			r.setService(
+				new Service(r, dashurl, {
+					method: 'GET'
+				}, 2500)
+			)
+
+			// Binding a callback that cleans the value before sending it to the user.
+			r.getService().cleanCallback((data) => {
+				if (data.length === 0) return data
+				const timeOffset = 1000
+				data.spark.result.forEach((res) => {
+					let quotes = res.response[0].indicators.quote[0].close
+					res.response[0].indicators.quote[0].close = quotes.filter((obj, index) => {
+						if (!obj) {
+							res.response[0].timestamp[index] = null
+						} else {
+							let value = res.response[0].timestamp[index]
+							res.response[0].timestamp[index] = value * timeOffset
+						}
+						return obj
+					})
+					res.response[0].timestamp = res.response[0].timestamp.filter((x) => x)
+				})
+				return data.spark.result
+			})
+
+			// Binding a callback when a value is retrieved from the service.
+			r.getService().listenCallback((room, data) => {
+				if (!data) return
+				if (data.length === 0) return
+				if (!room.clients) return
+				room.clients.forEach((client) => {
+					try {
+						const result = parser.keepFromList(data, {
+							searchTerm: 'symbol',
+							keep: client.query
+						})
+						client.socket.emit('graph', parser.sortListInSpecificOrder(result, client.query))
 					} catch (_) {}
 				})
 			})

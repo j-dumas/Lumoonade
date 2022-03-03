@@ -1,7 +1,7 @@
 const axios = require('axios').default
 
 class Service {
-	constructor(room, url, config) {
+	constructor(room, url, config, ms = 1000) {
 		this.url = url
 		this.room = room
 		this.config = config
@@ -12,6 +12,7 @@ class Service {
 		this.callback = undefined
 		this.cleanupCallback = undefined
 		this.appendUrlData = ''
+		this.ms = ms
 	}
 
 	isRunning() {
@@ -62,7 +63,7 @@ class Service {
 				.catch((_) => {
 					this.callback(this.room, this.latestData())
 				})
-		}, 1000)
+		}, this.ms)
 	}
 
 	/**
