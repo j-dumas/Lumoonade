@@ -4,6 +4,9 @@ import ResetPasswordForm from '@/components/forms/ResetPasswordForm'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
+
+const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
 
 const ResetPassword = () => {
 	return (

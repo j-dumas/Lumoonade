@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic'
 import Layout from '@/layouts/Layout'
 
 const RegisterForm = dynamic(() => import('@/components/forms/RegisterForm'))
-const Bubbles = dynamic(() => import('@/components/Bubbles'))
+const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
 
 const Register = () => {
 	useEffect(() => {

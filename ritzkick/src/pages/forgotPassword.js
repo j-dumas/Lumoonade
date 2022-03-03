@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import Layout from '@/layouts/Layout'
 
 const ForgotPasswordForm = dynamic(() => import('@/components/forms/ForgotPasswordForm'))
-const Bubbles = dynamic(() => import('@/components/Bubbles'))
+const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
 
 const ForgotPassword = () => {
 	return (
