@@ -7,6 +7,7 @@ const User = require('../../db/model/user')
 const emailSender = require('../../app/email/email')
 const axios = require('axios').default
 const fs = require('fs')
+const rateLimit = require('express-rate-limit')
 
 /**
  * Reset Email Model
@@ -21,6 +22,15 @@ const fs = require('fs')
  * @property {string} password.required
  * @property {string} confirmation.required
  */
+
+// Config for the creation call.
+const creationLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 10,
+	message: { message: 'Too many requests, slow down!' },
+	standardHeaders: true,
+	legacyHeaders: false
+})
 
 /**
  * POST /api/reset
@@ -41,7 +51,7 @@ const fs = require('fs')
  *  "message": "Please provide a valid email."
  * }
  */
-router.post('/api/reset', async (req, res) => {
+router.post('/api/reset', creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!validator.isEmail(email)) {
