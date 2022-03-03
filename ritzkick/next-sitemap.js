@@ -6,10 +6,12 @@ module.exports = {
 			{
 				userAgent: '*',
 				disallow: '/api/',
-				disallow: '/api-docs',
-				disallow: '/forgotPassword'
+				disallow: '/api/docs',
+				disallow: '/forgotPassword',
+				disallow: '/email-confirmation',
+				disallow: '/reset-password'
 			}
 		]
 	},
-	exclude: ['/api/*', '/api-docs']
+	exclude: ['/api/*', '/api/docs']
 }

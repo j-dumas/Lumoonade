@@ -1,14 +1,15 @@
-import DomHead from '@/components/DomHead'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import ProfileHeader from '@/components/ProfileHeader'
 import ProfileAlerts from '@/components/ProfileAlerts'
 import ProfileFavorite from '@/components/ProfileFavorite'
 import { useState, useEffect } from 'react'
 import { getUser, removeSession } from 'services/UserService'
 import ProfilePurge from '@/components/ProfilePurge'
+import Layout from '@/layouts/Layout'
 
-export default function profile() {
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+
+const Profile = () => {
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
 
@@ -23,9 +24,7 @@ export default function profile() {
 	}, [])
 
 	return (
-		<div>
-			<DomHead />
-			<Header />
+		<>
 			<main>
 				<div className="column page-navbar">
 					<div className="center">{user !== undefined && <ProfileHeader user={user} />}</div>
@@ -52,7 +51,31 @@ export default function profile() {
 				</div>
 				<div className="spacer layer4"></div>
 			</main>
-			<Footer />
-		</div>
+		</>
 	)
 }
+
+Profile.getLayout = function getLayout(page) {
+	const { t } = useTranslation('common')
+
+	return (
+		<Layout
+			pageMeta={{
+				title: t('pages.profile.title'),
+				description: t('pages.profile.description')
+			}}
+		>
+			{page}
+		</Layout>
+	)
+}
+
+export async function getStaticProps({ locale }) {
+	return {
+		props: {
+			...(await serverSideTranslations(locale, ['common', 'profile']))
+		}
+	}
+}
+
+export default Profile

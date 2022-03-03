@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '../../components/Layout'
+import Layout from '../../layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import PieChart from '../../components/charts/PieChart'
@@ -26,7 +26,9 @@ const Dashboard = () => {
 			slugs.push(asset.name)
 		})
 		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
-		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols))
+		setSocket(
+			createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}/`)
+		)
 	}, [])
 
 	return !socket ? (

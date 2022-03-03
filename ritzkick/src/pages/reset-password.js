@@ -1,24 +1,43 @@
-import DomHead from '@/components/DomHead'
-import Footer from '@/components/Footer'
 import Bubbles from '@/components/Bubbles'
-import ResetPasswordForm from '@/components/ResetPasswordForm'
+import LayoutNoNav from '@/layouts/Layout-no-nav'
+import ResetPasswordForm from '@/components/forms/ResetPasswordForm'
 
-export default function ForgotPassword() {
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+
+const ResetPassword = () => {
 	return (
-		<div>
-			<DomHead
-				pageMeta={{
-					title: 'CRYPTOOL | RESET PASSWORD',
-					description: 'Cryptool reset password page'
-				}}
-			/>
+		<>
 			<main>
 				<Bubbles />
 				<ResetPasswordForm />
 				<div className="spacer layer1"></div>
 			</main>
-			<Footer />
-			<div className="cursor"></div>
-		</div>
+		</>
 	)
 }
+
+ResetPassword.getLayout = function getLayout(page) {
+	const { t } = useTranslation('common')
+
+	return (
+		<LayoutNoNav
+			pageMeta={{
+				title: t('pages.reset.title'),
+				description: t('pages.reset.description')
+			}}
+		>
+			{page}
+		</LayoutNoNav>
+	)
+}
+
+export async function getStaticProps({ locale }) {
+	return {
+		props: {
+			...(await serverSideTranslations(locale, ['common', 'forms']))
+		}
+	}
+}
+
+export default ResetPassword

@@ -1,12 +1,16 @@
 {
 	"pages": {
-		"index": { "title": "CRYPTOOL | HOME", "description": "Cryptool home page" },
-		"login": { "title": "CRYPTOOL | LOGIN", "description": "Cryptool login page" },
-		"register": { "title": "CRYPTOOL | REGISTER", "description": "Cryptool register page" },
-		"compare": { "title": "CRYPTOOL | COMPARE", "description": "Cryptool compare page" },
-		"asset": { "title": "CRYPTOOL | ", "description": "Cryptool asset page" }
+		"index": { "title": "LUMOONADE | HOME", "description": "Lumoonade home page" },
+		"login": { "title": "LUMOONADE | LOGIN", "description": "Lumoonade login page" },
+		"register": { "title": "LUMOONADE | REGISTER", "description": "Lumoonade register page" },
+		"compare": { "title": "LUMOONADE | COMPARE", "description": "Lumoonade compare page" },
+		"asset": { "title": "LUMOONADE | ", "description": "Lumoonade asset page" },
+		"assets": { "title": "LUMOONADE | CRYPTOS", "description": "Lumoonade assets page" },
+		"reset": { "title": "LUMOONADE | RESET PASSWORD", "description": "Lumoonade reset password page" },
+		"email": { "title": "LUMOONADE | EMAIL CONFIRMATION", "description": "Lumoonade email confirmation page" },
+		"profile": { "title": "LUMOONADE | PROFILE", "description": "Lumoonade profile page" }
 	},
-	"meta": { "title": "CRYPTOOL", "description": "Cryptool for CryptoCurrencies", "type": "website" },
+	"meta": { "title": "Lumoonade", "description": "Lumoonade for CryptoCurrencies", "type": "website" },
 	"footer": { "powered": "Powered by " },
 	"navbar": {
 		"home": "Home",

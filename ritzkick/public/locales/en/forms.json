@@ -19,12 +19,19 @@
 		"login": "Login",
 		"submit": "Register"
 	},
+	"reset": {
+		"title": "Connexion Problems ?",
+		"password": "Password",
+		"confirmation": "Password Confirmation",
+		"submit": "Change Password"
+	},
 	"validation": {
 		"email": "Enter a valid email",
 		"username": "Enter a valid username",
 		"password": "Enter a valid password",
 		"minimum-username": "Enter a valid username with a least 4 characters",
-		"minimum-password": "Enter a valid password with a least 8 characters"
+		"minimum-password": "Enter a valid password with a least 8 characters",
+		"reset": "Passwords are not identical"
 	},
 	"or": "or"
 }
