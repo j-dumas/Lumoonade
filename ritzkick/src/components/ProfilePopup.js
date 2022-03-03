@@ -3,7 +3,7 @@ import Icons from '@/components/Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from 'services/UserService'
 import { useForm } from '@/components/hooks/useForm'
-import { AccountCircle, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
+import { AccountCircle, EditRounded, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 
 const newUsername = 'newUsername'
@@ -87,7 +87,7 @@ export default function ProfilePopup(props) {
 	return (
 		<div>
 			<button className="icon-button" onClick={open}>
-				<Icons.Edit id="icon" />
+				<EditRounded />
 			</button>
 			<Modal>
 				<div className="edit-popup">

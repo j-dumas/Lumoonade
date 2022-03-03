@@ -14,31 +14,19 @@ import {
 	FormHelperText
 } from '@mui/material'
 import { useForm } from './hooks/useForm'
+import { CloseRounded } from '@mui/icons-material'
+import Functions from 'services/CryptoService'
 
-const data = [
-	{
-		slug: 'btc',
-		name: 'Bitcoin',
-		price: 50000
-	},
-	{
-		slug: 'eth',
-		name: 'Etherium',
-		price: 5000
-	}
-]
-
-function parseData() {
-	let parsedData = []
-	data.forEach((element) => {
-		let tempValue = {
-			label: element.name,
-			value: element.slug
-		}
-		parsedData.push(tempValue)
-	})
-	return parsedData
-}
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 export default function ProfileAddAlerts(props) {
 	const [state, handleChange, resetState] = useForm({})
@@ -50,14 +38,29 @@ export default function ProfileAddAlerts(props) {
 	const [price, setPrice] = useState(0)
 	const [minPrice, setMinPrice] = useState(0)
 	const [maxPrice, setMaxPrice] = useState(0)
+	const [data, setData] = useState(undefined)
 
-	function getPrice(slug) {
+	function getPrice(symbol) {
 		data.forEach((element) => {
-			if (element.slug === slug) {
-				console.log(element.price)
-				setPrice(element.price)
+			if (element.symbol === symbol) {
+				console.log(element.symbol)
+				setPrice(5000)
 			}
 		})
+	}
+
+	function parseData() {
+		let parsedData = []
+		if(data !== undefined){
+			data.forEach((element) => {
+				let tempValue = {
+					label: element.name,
+					value: element.symbol
+				}
+				parsedData.push(tempValue)
+			})
+		}
+		return parsedData
 	}
 
 	function handleClose(event, reason) {
@@ -67,6 +70,11 @@ export default function ProfileAddAlerts(props) {
 
 		setOpen(false)
 	}
+
+	useEffect(async () => {
+		const values = await Functions.GetAllCryptocurrencySlugs(1, 1000)
+		setData(values.assets)
+	}, [])
 
 	useEffect(() => {
 		if (state.slug !== undefined) {
@@ -99,8 +107,8 @@ export default function ProfileAddAlerts(props) {
 
 	return (
 		<div className="row center">
-			<button className="icon-button transform" id="rotate-button" onClick={open}>
-				<Icons.Times />
+			<button className="icon-button" id="rotate-button" onClick={open}>
+				<CloseRounded fontSize='medium' />
 			</button>
 			<Snackbar
 				sx={{ m: 6 }}
@@ -123,7 +131,7 @@ export default function ProfileAddAlerts(props) {
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl sx={{ m: 1, width: '25%' }} className="inputField" variant="filled">
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue="" onChange={handleChange} required>
+							<Select name="slug" defaultValue="" onChange={handleChange} MenuProps={MenuProps} required>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}

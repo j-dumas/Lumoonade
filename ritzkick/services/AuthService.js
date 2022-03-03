@@ -21,6 +21,7 @@ export async function logout() {
 
 		if (response.status === 200) {
 			deleteCookie('token')
+			deleteCookie('token')
 			window.location.assign(`/${navigator.language}`)
 		}
 	} catch (e) {

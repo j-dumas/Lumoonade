@@ -35,7 +35,7 @@ export default function ProfileAlerts() {
 	}, [])
 
 	return (
-		<div id="alerts">
+		<div id="alerts column center">
 			<div id="alerts-header" className="row">
 				<h1>Alertes</h1>
 				<ProfileAddAlerts onDataChange={fetchData} />
@@ -52,6 +52,19 @@ export default function ProfileAlerts() {
 				</Snackbar>
 			</div>
 			<ul>
+				<li>
+					<div className='row alert-card'>
+						<div>
+							Name
+						</div>
+						<div>
+							Current Price
+						</div>
+						<div>
+							Target Price
+						</div>
+					</div>
+				</li>
 				{data.map((alert) => (
 					<li key={alert._id}>
 						<ProfileAlertsComponent onDelete={deletedAlert} onDataChange={fetchData} alert={alert} />

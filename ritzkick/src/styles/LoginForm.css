@@ -181,21 +181,25 @@ input:focus::placeholder {
 	background-image: url(/peaks-1.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 .layer2 {
 	background-image: url(/peaks-2.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 .layer3 {
 	background-image: url(/peaks-3.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 .layer4 {
 	background-image: url(/peaks-4.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 
 .wrong {
