@@ -1,15 +1,11 @@
-class SocketService {
-	constructor(socket) {
-		this.socket = socket
-	}
+const io = require('socket.io-client')
 
-	setSocket(socket) {
-		this.socket = socket
-	}
-
-	getSocket() {
-		return this.socket
-	}
+export function createSocket(rooms, queries, url) {
+	const webSocket = io(url, {
+		auth: {
+			rooms: rooms,
+			query: queries
+		}
+	})
+	return webSocket
 }
-
-export default SocketService

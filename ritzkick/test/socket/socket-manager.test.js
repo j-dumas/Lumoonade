@@ -1,6 +1,6 @@
 const http = require('http')
-const sm = require('../../application/socket/socket-manager')
-const rm = require('../../application/socket/room-manager')
+const sm = require('../../app/socket/socket-manager')
+const rm = require('../../app/socket/room-manager')
 const Client = require('socket.io-client')
 
 describe('Tests for Socket-Manager', () => {

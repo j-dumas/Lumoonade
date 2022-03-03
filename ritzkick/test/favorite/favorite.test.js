@@ -1,12 +1,22 @@
 const request = require('supertest')
 const mongoose = require('mongoose')
-const server = require('../../application/app')
+const server = require('../../app/app')
 const User = require('../../db/model/user')
 const Favorite = require('../../db/model/favorite')
 const jwt = require('jsonwebtoken')
 
 const testId = new mongoose.Types.ObjectId()
 const testFavId = new mongoose.Types.ObjectId()
+
+const fs = require('fs')
+const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
+
+const jwtOptions = {
+	algorithm: 'ES256',
+	subject: 'Lumoonade Auth',
+	issuer: 'localhost',
+	audience: 'localhost'
+}
 
 const testUser = {
 	_id: testId,
@@ -15,7 +25,7 @@ const testUser = {
 	password: 'HardP@ssw0rd213',
 	sessions: [
 		{
-			session: jwt.sign({ _id: testId }, process.env.JWTSECRET)
+			session: jwt.sign({ _id: testId }, privateKey, jwtOptions)
 		}
 	],
 	favorite_list: [
@@ -43,12 +53,12 @@ beforeEach(async () => {
 	await User.deleteMany()
 	await Favorite.deleteMany()
 	let user = await new User(testUser)
-	await user.save()
-	token = await user.makeAuthToken()
+	await user.verified()
+	token = await user.makeAuthToken('localhost')
 
 	user = await new User(dummy)
-	await user.save()
-	otherToken = await user.makeAuthToken()
+	await user.verified()
+	otherToken = await user.makeAuthToken('localhost')
 
 	await new Favorite(testFavorite).save()
 })

@@ -1,6 +1,36 @@
-import { getCookie } from '../services/CookieService'
+import { getCookie, deleteCookie } from './CookieService'
+import { isUserConnected } from './AuthService'
+
+export async function addFavorite(slug) {
+	if (!isUserConnected()) return
+	const URI = `/api/favorite`
+
+	let response = await fetch(URI, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({ slug: slug })
+	})
+}
+
+export async function deleteFavorite(slug) {
+	if (!isUserConnected()) return
+	const URI = `/api/favorite`
+
+	let response = await fetch(URI, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({ slug: slug })
+	})
+}
 
 export async function getFavorites() {
+	if (!isUserConnected()) return []
 	try {
 		let response = await fetch('/api/me/favorites', {
 			method: 'GET',
@@ -36,7 +66,7 @@ export async function getWatchList() {
 
 export async function deleteWatch(alertId) {
 	try {
-		let response = await fetch('/api/alerts/delete', {
+		await fetch('/api/alerts/delete', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -44,9 +74,6 @@ export async function deleteWatch(alertId) {
 			},
 			body: JSON.stringify({ id: alertId })
 		})
-
-		let json = await response.json()
-		console.log(json)
 	} catch (e) {
 		console.log(e)
 	}
@@ -54,7 +81,7 @@ export async function deleteWatch(alertId) {
 
 export async function addWatch(alert) {
 	try {
-		let response = await fetch('/api/alerts', {
+		await fetch('/api/alerts', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -62,9 +89,6 @@ export async function addWatch(alert) {
 			},
 			body: JSON.stringify({ slug: alert.slug, target: alert.target, parameter: alert.parameter })
 		})
-
-		let json = await response.json()
-		console.log(json)
 	} catch (e) {
 		console.log(e)
 	}
@@ -72,7 +96,7 @@ export async function addWatch(alert) {
 
 export async function deleteUser() {
 	try {
-		let response = await fetch('/api/me/delete', {
+		await fetch('/api/me/delete', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -80,11 +104,8 @@ export async function deleteUser() {
 			}
 		})
 
-		let json = await response.json()
-		console.log(json)
-
-		document.cookie = 'token=; expires=Thu, 1 Jan 1970 00:00:00 UTC, Secure, Http-Only, SameSite=Strict'
-		window.location.assign('/')
+		deleteCookie('token')
+		window.location.assign(`/${navigator.language}`)
 	} catch (e) {
 		console.log(e)
 	}
@@ -101,7 +122,8 @@ export async function getUser() {
 		})
 
 		if (response.status === 401) {
-			window.location.assign('/login')
+			deleteCookie('token')
+			window.location.assign(`/${navigator.language}/login`)
 		} else {
 			let json = await response.json()
 			return json
@@ -122,7 +144,7 @@ export async function removeSession() {
 		})
 
 		let json = await response.json()
-		console.log(json)
+		return json.purged
 	} catch (e) {
 		console.log(e)
 	}
@@ -171,7 +193,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 200) {
 				alert('Profil modifié avec succès')
-				window.location.assign('/profile')
+				window.location.assign(`/${navigator.language}/profile`)
 			} else if (response.status === 400) {
 				document.getElementById('wrong-password').style.display = 'block'
 			} else {
@@ -196,7 +218,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 200) {
 				alert('Profil modifié avec succès')
-				window.location.assign('/profile')
+				window.location.assign(`/${navigator.language}/profile`)
 			} else if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
 			} else {
@@ -221,7 +243,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 200) {
 				alert('Profil modifié avec succès')
-				window.location.assign('/profile')
+				window.location.assign(`/${navigator.language}/profile`)
 			} else if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
 				document.getElementById('wrong-password').style.display = 'block'
