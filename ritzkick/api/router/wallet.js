@@ -67,6 +67,31 @@ router.get('/api/wallet/:name/content', auth, async (req, res) => {
 	}
 })
 
+router.get('/api/wallets/transactions', auth, async (req, res) => {
+	try {
+		const wallets = await Wallet.find({ owner: req.user._id })
+		if (wallets.length === 0) {
+			throw new Error(`You don't have any wallet.`)
+		}
+		for (let i = 0; i < wallets.length; i++) {
+			await wallets[i].populate({
+				path: 'hist'
+			})
+		}
+
+		let transactions = []
+		wallets.forEach(wallet => {
+			transactions.push(wallet.hist)
+		})
+
+		res.send(transactions.flat())
+	} catch (e) {
+		res.status(400).send({
+			message: e.message
+		})
+	} 
+})
+
 router.get('/api/wallets/detailed', auth, async (req, res) => {
 	try {
 		const wallets = await Wallet.find({ owner: req.user._id })
