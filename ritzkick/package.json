@@ -9,6 +9,7 @@
 		"analyze": "cross-env ANALYZE=true next build",
 		"postbuild": "next-sitemap",
 		"lint": "next lint",
+		"lint:fix": "next lint --fix",
 		"test": "env-cmd -f ./env/.test.env jest --runInBand",
 		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand --silent",
 		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand",

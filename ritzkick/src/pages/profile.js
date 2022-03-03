@@ -1,7 +1,7 @@
 import ProfileHeader from '@/components/ProfileHeader'
 import ProfileAlerts from '@/components/ProfileAlerts'
 import ProfileFavorite from '@/components/ProfileFavorite'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getUser, removeSession } from 'services/UserService'
 import ProfilePurge from '@/components/ProfilePurge'
 import Layout from '@/layouts/Layout'

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SimpleChart from '@/components/charts/SimpleChart'
 import Icons from '@/components/Icons'
 import format from '../../../utils/formatter'

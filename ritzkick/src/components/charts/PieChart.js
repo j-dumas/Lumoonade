@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Line, Doughnut, Pie, Chart as Charts } from 'react-chartjs-2'
+import React, { useEffect, useState } from 'react'
+import { Chart as Charts, Doughnut, Line, Pie } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from '../../../utils/color'
 import { getUserDashboardData } from '../../../services/dashboard-service'

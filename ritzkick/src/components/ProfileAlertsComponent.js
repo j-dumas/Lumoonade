@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Icons from '@/components/Icons'
 import { deleteWatch } from 'services/UserService'
-import { Snackbar, Alert } from '@mui/material'
+import { Alert, Snackbar } from '@mui/material'
 
 export default function ProfileAlertsComponent(props) {
 	function getSign(parameter) {

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Icons from '@/components/Icons'
 import Functions, {
 	GetCryptocurrencyInformationsBySlug,
-	GetTopPopularCryptocurrencies,
-	GetTopEfficientCryptocurrencies
+	GetTopEfficientCryptocurrencies,
+	GetTopPopularCryptocurrencies
 } from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'

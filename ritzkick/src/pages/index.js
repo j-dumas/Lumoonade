@@ -1,6 +1,6 @@
 import BottomArrow from '@/components/BottomArrow'
 import SimpleCryptoDashboard from '@/components/SimpleCryptoDashboard'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'

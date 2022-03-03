@@ -4,14 +4,14 @@ import Icons from './Icons'
 import { addWatch } from '../../services/UserService'
 import {
 	Alert,
-	Snackbar,
 	FormControl,
+	FormHelperText,
 	InputAdornment,
 	InputLabel,
+	MenuItem,
 	OutlinedInput,
 	Select,
-	MenuItem,
-	FormHelperText
+	Snackbar
 } from '@mui/material'
 import { useForm } from './hooks/useForm'
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ButtonLegend from '@/components/ButtonLegend'
 
 export default function DetailedChartMenu(props) {

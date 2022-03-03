@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Layout from '../../layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'

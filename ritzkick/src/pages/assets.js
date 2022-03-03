@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
 import Functions from 'services/CryptoService'
 import { getFavorites } from 'services/UserService'

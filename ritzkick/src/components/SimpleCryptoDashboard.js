@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SimpleCryptoView from '@/components/views/SimpleCryptoView'
 import { isUserConnected } from '../../services/AuthService'
 import { CircularProgress } from '@mui/material'

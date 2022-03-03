@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Line, Chart as Charts } from 'react-chartjs-2'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Chart as Charts, Line } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
 import Functions from 'services/CryptoService'

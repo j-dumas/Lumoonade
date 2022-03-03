@@ -4,6 +4,7 @@
 	"rules": {
 		"no-console": 1, // Means warning
 		"prettier/prettier": 2, // Means error
-		"react-hooks/rules-of-hooks": "off"
+		"react-hooks/rules-of-hooks": "off",
+		"sort-imports": "error"
 	}
 }

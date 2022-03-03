@@ -7,8 +7,8 @@ import { register } from 'services/AuthService'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { useForm } from '@/components/hooks/useForm'
-import { Email, Lock, Visibility, VisibilityOff, AccountCircle } from '@mui/icons-material'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText } from '@mui/material'
+import { AccountCircle, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
+import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 
 const RegisterForm = () => {
 	const { t } = useTranslation('forms')

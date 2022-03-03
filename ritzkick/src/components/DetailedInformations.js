@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Functions from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import format from 'utils/formatter'

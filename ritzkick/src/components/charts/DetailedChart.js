@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Functions, {
 	GetCryptocurrencyInformationsBySlug,
-	GetTopPopularCryptocurrencies,
-	GetTopEfficientCryptocurrencies
+	GetTopEfficientCryptocurrencies,
+	GetTopPopularCryptocurrencies
 } from 'services/CryptoService'
 import dynamic from 'next/dynamic'
 import DetailedChartMenu from '@/components/menus/DetailedChartMenu'
