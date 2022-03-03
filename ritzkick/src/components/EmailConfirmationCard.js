@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
+import { useTranslation } from 'next-i18next'
+
 export default function EmailConfirmationCard() {
+	const { t } = useTranslation('email')
+
 	const router = useRouter()
 	const { key } = router.query
 
@@ -27,10 +31,10 @@ export default function EmailConfirmationCard() {
 
 	return (
 		<div className="form">
-			<h1 className="form-title">Confirmation de courriel</h1>
-			<h3>Votre courriel est maintenant confirmé!</h3>
+			<h1 className="form-title">{t('title')}</h1>
+			<h3>{t('message')}</h3>
 			<Link href="/login">
-				<a className="link">Connectez-vous</a>
+				<a className="link">{t('login')}</a>
 			</Link>
 		</div>
 	)

@@ -12,7 +12,8 @@
 		"reset": {
 			"title": "Lumoonade | RÉINITIALISATION",
 			"description": "Page de réinitialisation de mot de passe Lumoonade"
-		}
+		},
+		"email": { "title": "Lumoonade | CONFIRMATION", "description": "Page de confirmation de courriel Lumoonade" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade pour les CryptoCurrencies", "type": "website" },
 	"footer": { "powered": "Propulsé par " },

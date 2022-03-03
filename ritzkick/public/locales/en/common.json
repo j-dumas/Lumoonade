@@ -6,7 +6,8 @@
 		"compare": { "title": "Lumoonade | COMPARE", "description": "Lumoonade compare page" },
 		"asset": { "title": "Lumoonade | ", "description": "Lumoonade asset page" },
 		"assets": { "title": "Lumoonade | CRYPTOS", "description": "Lumoonade assets page" },
-		"reset": { "title": "Lumoonade | RESET PASSWORD", "description": "Lumoonade reset password page" }
+		"reset": { "title": "Lumoonade | RESET PASSWORD", "description": "Lumoonade reset password page" },
+		"email": { "title": "Lumoonade | EMAIL CONFIRMATION", "description": "Lumoonade email confirmation page" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade for CryptoCurrencies", "type": "website" },
 	"footer": { "powered": "Powered by " },
