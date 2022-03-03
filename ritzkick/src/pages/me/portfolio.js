@@ -10,7 +10,9 @@ import DetailedChart from '../../components/charts/DetailedChart'
 import {createSocket} from '../../../services/SocketService'
 import SimpleWalletAssetDashboard from '../../components/SimpleWalletAssetDashboard'
 import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
-import { SlugArrayToSymbolArray } from '../../../utils/crypto'
+import { SlugArrayToSymbolArray, AreSlugsEqual } from '../../../utils/crypto'
+import Icons from '../../components/Icons'
+import format from '../../../utils/formatter'
 
 const CURRENCY = 'usd'
 
@@ -20,7 +22,9 @@ const Dashboard = () => {
 	const [slug, setSlug] = useState('btc-cad')
 	const [dateRange, setDateRange] = useState('1d')
 	const [interval, setInterval] = useState('1h')
-	const [assets, setAssets] = useState() 
+	const [assets, setAssets] = useState()
+	const [portfolioValue, setPortfolioValue] = useState(0)
+	const [portfolioChange, setPortfolioChange] = useState(0)
 	useEffect(async () => {
 		let userData = await getUserDashboardData()
 		console.log(userData.assets)
@@ -33,16 +37,57 @@ const Dashboard = () => {
 		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
 	}, [])
 
+	useEffect(() => {
+		if (!socket || !assets) return
+		socket.on('data', (datas) => {
+			
+			let value = 0
+			let change = 0
+			datas.forEach((data) => {
+				assets.forEach((asset) => {
+					if (AreSlugsEqual(data.fromCurrency, asset.name)) {
+						value += (data.regularMarketPrice*asset.amount)
+						change += (data.regularMarketChangePercent)
+					}
+				})
+			})
+			setPortfolioChange(format(change/assets.length))
+			setPortfolioValue(format(value))
+		})
+	}, [socket, assets])
+
+	
+
 	return (
 		!socket || !assets ? <></> :
 		<>
 			<section className="section column principal first center">
-				<section className="sub-section">
+				<section className="sub-section column">
+
 					<div className="page-menu space-between row h-center">
 						<div className="row h-center detailed-menu-info">
 							<h1 className="detailed-menu-title">Portfolio</h1>
+							<p className="detailed-menu-subtitle">${portfolioValue}</p>
+							{portfolioChange>=0?
+								<p className="detailed-menu-subtitle increase">+{portfolioChange}% <span className='small-p'>(24h)</span></p>
+								:
+								<p className="detailed-menu-subtitle decrease">{portfolioChange}% <span className='small-p'>(24h)</span></p>
+							}
+							
+						</div>
+						<div className="detailed-menu-actions row h-center">
+							<a href="" className="detailed-menu-actions-icon">
+								<Icons.ArrowUp />
+							</a>
+							<a href="" className="detailed-menu-actions-icon">
+								<Icons.ArrowDown />
+							</a>
+							<a href="" className="detailed-menu-actions-icon">
+								<Icons.Exange />
+							</a>
 						</div>
 					</div>
+
 					<div className='row space-between'>
 						<PieChart socket={socket} assets={assets}/>
 						<DetailedChart socket={socket} slug={slug} wallet={true}/>

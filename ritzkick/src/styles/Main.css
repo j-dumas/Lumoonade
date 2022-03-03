@@ -207,15 +207,20 @@ button:hover {
 	border: 1px solid white;
 }
 
+.small-p {
+	color: var(--font-color-2);
+	font-size: 14px;
+}
+
 .max-width {
 	max-width: 360px;
 }
 
 .increase {
-	color: var(--good-color);
+	color: var(--good-color) !important;
 }
 .decrease {
-	color: var(--bad-color);
+	color: var(--bad-color) !important;
 }
 
 .icon {
