@@ -3,13 +3,13 @@ import Icons from '@/components/Icons'
 
 function BottomArrow() {
 	const scrollDown = () => {
-		/*document.getElementById('about').scrollIntoView({
+		/* document.getElementById('about').scrollIntoView({
             behavior: 'smooth'
         });*/
 	}
 
 	useEffect(() => {
-		//return () => //window.removeEventListener('scroll', onScroll);
+		// return () => //window.removeEventListener('scroll', onScroll);
 	}, [])
 
 	return (

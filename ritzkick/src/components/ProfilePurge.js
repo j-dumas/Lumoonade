@@ -21,7 +21,7 @@ export default function ProfilePurge(props) {
 
 	useEffect(() => {
 		console.log(props.user.sessions)
-		//setDeletedSessions(props.user.sessions - 1)
+		// setDeletedSessions(props.user.sessions - 1)
 	}, [props.user.sessions])
 
 	return (

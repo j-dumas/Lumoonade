@@ -63,7 +63,7 @@ function DetailedChartChart(props) {
 			borderColor: color,
 			borderWidth: 2.5,
 			borderCapStyle: 'butt',
-			//borderDash: [5, 5],
+			// borderDash: [5, 5],
 			hoverBorderColor: 'white',
 			pointStyle: 'circle',
 			pointRadius: 0
@@ -124,12 +124,12 @@ function DetailedChartChart(props) {
 				pan: {
 					enabled: true,
 					mode: 'x',
-					//overScaleMode:'y',
+					// overScaleMode:'y',
 					threshold: 0 // default:10
 				},
 				limits: {
-					//y: {min: -1000, max: props.data[0].maxValue+1000},
-					//x: {min: 500} //DATE_RANGE * INTERVAL * 24
+					// y: {min: -1000, max: props.data[0].maxValue+1000},
+					// x: {min: 500} //DATE_RANGE * INTERVAL * 24
 				}
 			}
 		}
@@ -138,7 +138,7 @@ function DetailedChartChart(props) {
 	function getChartOptionsScales(datas) {
 		return {
 			x: {
-				//min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,
+				// min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,
 				grid: {
 					display: true,
 					drawBorder: true,

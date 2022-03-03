@@ -6,7 +6,7 @@ import { getUserDashboardData } from '../../../services/dashboard-service'
 
 function PieChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
-	//if (!props.data || props.data.length == 0) return (<></>)
+	// if (!props.data || props.data.length == 0) return (<></>)
 
 	const [data, setData] = useState({
 		maintainAspectRatio: false,
@@ -27,7 +27,7 @@ function PieChart(props) {
 	})
 
 	useEffect(async () => {
-		//let userData = await getUserDashboardData()
+		// let userData = await getUserDashboardData()
 		let userData = {
 			assets: [
 				{
@@ -151,5 +151,5 @@ function PieChart(props) {
 		</div>
 	)
 }
-//ref={input => {chartInstance = input}}
+// ref={input => {chartInstance = input}}
 export default PieChart

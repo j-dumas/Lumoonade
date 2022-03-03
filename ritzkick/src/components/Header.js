@@ -13,7 +13,7 @@ function Header() {
 	}, [])
 
 	const connection = () => {
-		//todo: validation on token
+		// todo: validation on token
 		if (getCookie('token') != undefined) setConnection(true)
 		else setConnection(false)
 	}

@@ -13,7 +13,7 @@ export default function EmailConfirmationCard() {
 	useEffect(() => {
 		async function getConfirmation() {
 			if (key !== undefined) {
-				//Api call
+				// Api call
 
 				try {
 					const response = await fetch('/api/confirmation/verify/' + key, {
