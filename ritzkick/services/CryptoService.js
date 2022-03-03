@@ -19,8 +19,10 @@ const Functions = {
 	async GetSCryptocurrencySlugsBySeach(keyword, page = 0, limit = 16) {
 		const URI = `/api/assets/search/${keyword}?page${page}&limit=${limit}`
 
-		var reponse = await fetch(URI)
-		var json = reponse.json()
+		let response = await fetch(URI)
+
+		let json = await response.json()
+		if (json.assets) json.assets.map((el) => el.symbol = el.symbol.toString().toUpperCase())
 
 		if (!json || json == undefined) json = []
 		return json

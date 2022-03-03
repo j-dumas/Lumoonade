@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Functions from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import format from 'utils/formatter'
+import Image from 'next/image'
 
 import { useTranslation } from 'next-i18next'
 
@@ -13,7 +14,7 @@ const DetailedInformations = (props) => {
 			<div className="column detailed-informations detailed-div">
 				{props.name ? (
 					<div className="detailed-div-name row space-between h-center">
-						<img className="detailed-menu-logo" src={'../' + props.data.fromCurrency + '.svg'} alt="" />
+						<Image src={'/' + props.data.fromCurrency + '.svg'} width={30} height={30}/>
 						<h1 className="detailed-menu-title">{props.data.shortName}</h1>
 						<p className="detailed-menu-subtitle">{props.data.fromCurrency}</p>
 					</div>

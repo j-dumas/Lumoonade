@@ -13,27 +13,6 @@
 	color: var(--font-color-2);
 }
 
-.simple-crypto-card {
-	padding: 25px 25px 25px 20px;
-
-	min-width: 350px;
-
-	text-align: center;
-	justify-content: space-around !important;
-	gap: 20px;
-
-	border-radius: 10px;
-
-	background-color: var(--background-color-2);
-	border: 2px solid var(--background-color-2);
-
-	transition: 0.5s;
-}
-
-.simple-crypto-card:hover {
-	background-color: var(--background-color);
-	border: 2px solid var(--main-color);
-}
 
 .simple-crypto-view {
 	border-top: solid 2px var(--background-color-3);
@@ -60,6 +39,44 @@
 }
 
 
-.simple-crypto-abbreviation {
-	color: gray;
+
+.simple-crypto-card {
+	padding: 25px 25px 25px 20px;
+
+	min-width: 350px;
+
+	text-align: center;
+	justify-content: space-around !important;
+	gap: 20px;
+
+	border-radius: 10px;
+
+	background-color: var(--background-color-2);
+	border: 2px solid var(--background-color-2);
+
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.simple-crypto-card:hover {
+	background-color: var(--background-color);
+	border: 2px solid var(--main-color);
+}
+
+.card-row {
+	width: 100%;
+}
+
+.card-title {
+	font-size: 17px;
+	font-weight: bolder;
+	letter-spacing: .75px;
+}
+
+.card-slug{
+	color: var(--font-color-2);
+}
+
+.card-price {
+	font-size: 16px;
 }

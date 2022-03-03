@@ -3,6 +3,7 @@ import { getFavorites, addFavorite, deleteFavorite } from 'services/UserService'
 import Icons from '@/components/Icons'
 import { isUserConnected } from 'services/AuthService'
 import { AreSlugsEqual } from 'utils/crypto'
+import { DriveEtaOutlined } from '@mui/icons-material'
 
 function ButtonFavorite(props) {
 	const [favorite, setFavorite] = useState(false)
@@ -37,13 +38,17 @@ function ButtonFavorite(props) {
 		updateFavorite()
 	}, [updateFavorite])
 
+	const handleClick = async event => {
+		event.stopPropagation();
+		console.log("clicked");
+		await handleFavorite()
+	}
+
 	return !isUserConnected() ? null : (
 		<>
-			<div className="">
+			<div className="fav-button">
 				<div
-					onClick={async () => {
-						await handleFavorite()
-					}}
+					onClick={handleClick}
 				>
 					{favorite ? <Icons.StarFulled /> : <Icons.StarEmpty />}
 				</div>
