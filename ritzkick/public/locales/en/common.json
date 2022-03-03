@@ -1,13 +1,14 @@
 {
 	"pages": {
-		"index": { "title": "Lumoonade | HOME", "description": "Lumoonade home page" },
-		"login": { "title": "Lumoonade | LOGIN", "description": "Lumoonade login page" },
-		"register": { "title": "Lumoonade | REGISTER", "description": "Lumoonade register page" },
-		"compare": { "title": "Lumoonade | COMPARE", "description": "Lumoonade compare page" },
-		"asset": { "title": "Lumoonade | ", "description": "Lumoonade asset page" },
-		"assets": { "title": "Lumoonade | CRYPTOS", "description": "Lumoonade assets page" },
-		"reset": { "title": "Lumoonade | RESET PASSWORD", "description": "Lumoonade reset password page" },
-		"email": { "title": "Lumoonade | EMAIL CONFIRMATION", "description": "Lumoonade email confirmation page" }
+		"index": { "title": "LUMOONADE | HOME", "description": "Lumoonade home page" },
+		"login": { "title": "LUMOONADE | LOGIN", "description": "Lumoonade login page" },
+		"register": { "title": "LUMOONADE | REGISTER", "description": "Lumoonade register page" },
+		"compare": { "title": "LUMOONADE | COMPARE", "description": "Lumoonade compare page" },
+		"asset": { "title": "LUMOONADE | ", "description": "Lumoonade asset page" },
+		"assets": { "title": "LUMOONADE | CRYPTOS", "description": "Lumoonade assets page" },
+		"reset": { "title": "LUMOONADE | RESET PASSWORD", "description": "Lumoonade reset password page" },
+		"email": { "title": "LUMOONADE | EMAIL CONFIRMATION", "description": "Lumoonade email confirmation page" },
+		"profile": { "title": "LUMOONADE | PROFILE", "description": "Lumoonade profile page" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade for CryptoCurrencies", "type": "website" },
 	"footer": { "powered": "Powered by " },

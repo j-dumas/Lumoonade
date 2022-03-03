@@ -1,19 +1,20 @@
 {
 	"pages": {
-		"index": { "title": "Lumoonade | ACCUEIL", "description": "Page d'accueil Lumoonade" },
-		"login": { "title": "Lumoonade | CONNEXION", "description": "Page de connexion Lumoonade" },
-		"register": { "title": "Lumoonade | INSCRIPTION", "description": "Page d'inscription Lumoonade" },
+		"index": { "title": "LUMOONADE | ACCUEIL", "description": "Page d'accueil Lumoonade" },
+		"login": { "title": "LUMOONADE | CONNEXION", "description": "Page de connexion Lumoonade" },
+		"register": { "title": "LUMOONADE | INSCRIPTION", "description": "Page d'inscription Lumoonade" },
 		"compare": {
-			"title": "Lumoonade | COMPARER",
+			"title": "LUMOONADE | COMPARER",
 			"description": "Page de comparaison de cryptomonnaies Lumoonade"
 		},
-		"asset": { "title": "Lumoonade | ", "description": "Page de cryptomonnaie Lumoonade" },
-		"assets": { "title": "Lumoonade | CRYPTOS", "description": "Page des cryptomonnaies Lumoonade" },
+		"asset": { "title": "LUMOONADE | ", "description": "Page de cryptomonnaie Lumoonade" },
+		"assets": { "title": "LUMOONADE | CRYPTOS", "description": "Page des cryptomonnaies Lumoonade" },
 		"reset": {
-			"title": "Lumoonade | RÉINITIALISATION",
+			"title": "LUMOONADE | RÉINITIALISATION",
 			"description": "Page de réinitialisation de mot de passe Lumoonade"
 		},
-		"email": { "title": "Lumoonade | CONFIRMATION", "description": "Page de confirmation de courriel Lumoonade" }
+		"email": { "title": "LUMOONADE | CONFIRMATION", "description": "Page de confirmation de courriel Lumoonade" },
+		"profile": { "title": "LUMOONADE | PROFIL", "description": "Paage de profil Lumoonade" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade pour les CryptoCurrencies", "type": "website" },
 	"footer": { "powered": "Propulsé par " },
