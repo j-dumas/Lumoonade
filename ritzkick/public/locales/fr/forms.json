@@ -19,12 +19,19 @@
 		"login": "Connectez-vous",
 		"submit": "S'inscrire"
 	},
+	"reset": {
+		"title": "Problèmes de connexion ?",
+		"password": "Mot de passe",
+		"confirmation": "Confirmation du mot de passe",
+		"submit": "Modifier le mot de passe"
+	},
 	"validation": {
 		"email": "Entrez un courriel valide",
 		"username": "Entrez un nom d'utilisateur valide",
 		"password": "Entrez un mot de passe valide",
 		"minimum-username": "Entrez un nom d'utilisateur avec au minimum 4 caractères",
-		"minimum-password": "Entrez un mot de passe avec au minimum 8 caractères"
+		"minimum-password": "Entrez un mot de passe avec au minimum 8 caractères",
+		"reset": "Les mots de passe ne sont pas identiques"
 	},
 	"or": "ou"
 }

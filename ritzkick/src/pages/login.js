@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 
 import { useEffect } from 'react'
 import { getCookie } from 'services/CookieService'

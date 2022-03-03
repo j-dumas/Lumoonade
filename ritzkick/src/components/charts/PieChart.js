@@ -30,6 +30,7 @@ function PieChart(props) {
 	}, [])
 
     function generateData(dataArr, assets) {
+		if (assets == undefined) return
         let labels = []
         let data = []
         let backgroudColors = []

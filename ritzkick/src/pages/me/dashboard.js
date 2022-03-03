@@ -1,68 +1,58 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '@/Layouts/Layout'
+import Layout from '../../layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import PieChart from '../../components/charts/PieChart'
 import { getUserDashboardData } from '../../../services/dashboard-service'
 import { isUserConnected } from '../../../services/AuthService'
 import DetailedChart from '../../components/charts/DetailedChart'
-import {createSocket} from '../../../services/SocketService'
-import SimpleWalletAssetDashboard from '../../components/SimpleWalletAssetDashboard'
+import { createSocket } from '../../../services/SocketService'
 import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
 import { SlugArrayToSymbolArray } from '../../../utils/crypto'
-import Icons from '../../components/Icons'
-import PortfolioMenu from '../../components/menus/PortfolioMenu'
 
 const CURRENCY = 'usd'
 
 const Dashboard = () => {
 	const router = useRouter()
 	const [socket, setSocket] = useState()
-	const [portfolioSocket, setPortfolioSocket] = useState()
-	const [slug, setSlug] = useState('eth-cad')
+	const [slug, setSlug] = useState('btc-cad')
 	const [dateRange, setDateRange] = useState('1d')
 	const [interval, setInterval] = useState('1h')
-	const [assets, setAssets] = useState()
-
 	useEffect(async () => {
-		if (!isUserConnected()) {
-			router.push(`/login`)
-			return
-		}
 		let userData = await getUserDashboardData()
-		console.log(userData.assets)
-		setAssets(userData.assets)
-		let slugs =[]
+		let slugs = []
 		userData.assets.map((asset) => {
 			slugs.push(asset.name)
 		})
 		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
-		console.log(symbols)
-		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
-		setPortfolioSocket(createSocket([`dash-graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
+		setSocket(
+			createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}/`)
+		)
 	}, [])
 
-	return (
-		!socket || !portfolioSocket || !assets || assets == undefined? <></> :
+	return !socket ? (
+		<></>
+	) : (
 		<>
 			<section className="section column principal first center">
-				<section className="sub-section column">
-
-				<PortfolioMenu socket={socket} assets={assets}/>
-
-					<div className='row space-between'>
-						<PieChart socket={socket} assets={assets}/>
-						<DetailedChart socket={portfolioSocket} slug={slug} wallet={true}/>
+				<section className="sub-section">
+					<div className="page-menu space-between row h-center">
+						<div className="row h-center detailed-menu-info">
+							<h1 className="detailed-menu-title">Portfolio</h1>
+						</div>
 					</div>
-					<SimpleWalletAssetDashboard socket={socket} assets={assets}/>
-					<SimpleCryptoDashboard socket={socket}/>
+					<div className="row">
+						<PieChart socket={socket} />
+						<DetailedChart socket={socket} slug={slug} />
+					</div>
+					<SimpleCryptoDashboard socket={socket} />
 				</section>
 			</section>
 		</>
 	)
 }
-//<PieChart socket={socket}/>
+//
 Dashboard.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 

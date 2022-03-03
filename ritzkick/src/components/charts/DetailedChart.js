@@ -15,6 +15,7 @@ const DetailedChartChart = dynamic(
 )
 
 function DetailedChart(props) {
+	console.log('TEST2')
 	const [showPrice, setShowPrice] = useState(true)
 	const [showChange, setShowChange] = useState(false)
 	const [showVolume, setShowVolume] = useState(false)
@@ -22,8 +23,9 @@ function DetailedChart(props) {
 	const [interval, setInterval] = useState('15m')
 
 	useEffect(() => {
-		if (props.socket.id)
+		if (props.socket.id) {
 			props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
+		}
 	}, [dateRange, interval, props.socket])
 
 	return (

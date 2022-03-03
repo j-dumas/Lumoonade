@@ -4,8 +4,11 @@ const Confirmation = require('../../db/model/confirmation')
 const User = require('../../db/model/user')
 const emailSender = require('../../app/email/email')
 const validator = require('validator').default
+const axios = require('axios').default
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const rateLimit = require('express-rate-limit')
+const https = require('https')
 
 const verifyOptions = {
 	algorithm: 'ES256',
@@ -14,7 +17,16 @@ const verifyOptions = {
 	subject: 'Lumoonade Auth'
 }
 
-router.post('/api/confirmations', async (req, res) => {
+// Config for the creation call.
+const creationLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 10,
+	message: { message: 'Too many requests, slow down!' },
+	standardHeaders: true,
+	legacyHeaders: false
+})
+
+router.post('/api/confirmations', creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!email) {
@@ -35,7 +47,19 @@ router.post('/api/confirmations', async (req, res) => {
 		await confirmation.save()
 		let token = await confirmation.makeConfirmationToken(req.host.toString().split(':')[0])
 		let link = `https://${process.env.URL}:${process.env.PORT}/email-confirmation?key=${token}`
-		emailSender.sendConfirmationEmail(email, link)
+		let response = await axios({
+			url: `https://${process.env.URL}:${process.env.PORT}/api/redirects`,
+			method: 'POST',
+			httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			data: JSON.stringify({
+				url: link,
+				destroyable: true
+			})
+		}).catch(_ => { return { data: { url: link } } } )
+		emailSender.sendConfirmationEmail(email, response.data.url)
 		res.status(201).send()
 	} catch (e) {
 		res.status(400).send({

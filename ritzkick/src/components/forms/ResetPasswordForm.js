@@ -14,7 +14,10 @@ import {
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
+import { useTranslation } from 'next-i18next'
+
 export default function ResetPasswordForm() {
+	const { t } = useTranslation('forms')
 	const router = useRouter()
 	const { key } = router.query
 
@@ -54,10 +57,10 @@ export default function ResetPasswordForm() {
 
 	return (
 		<Container className="p-3 form">
-			<h1 className="form-title">Problème de connexion?</h1>
+			<h1 className="form-title">{t('reset.title')}</h1>
 			<form method="POST" onSubmit={(event) => handleSubmit(event)}>
 				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
-					<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+					<InputLabel htmlFor="outlined-adornment-password">{t('reset.password')}</InputLabel>
 					<OutlinedInput
 						name="password"
 						id="outlined-adornment-password"
@@ -82,11 +85,13 @@ export default function ResetPasswordForm() {
 				</FormControl>
 				{!!error && (
 					<FormHelperText error id="error-input" sx={{ textAlign: 'center' }}>
-						Les mots de passe ne sont pas identiques
+						{t('validation.reset')}
 					</FormHelperText>
 				)}
 				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
-					<InputLabel htmlFor="outlined-adornment-password-confirmation">Password Confirmation</InputLabel>
+					<InputLabel htmlFor="outlined-adornment-password-confirmation">
+						{t('reset.confirmation')}
+					</InputLabel>
 					<OutlinedInput
 						name="passwordConfirmation"
 						id="outlined-adornment-password-confirmation"
@@ -108,7 +113,7 @@ export default function ResetPasswordForm() {
 						inputProps={{ minLength: 8 }}
 					/>
 				</FormControl>
-				<input type="submit" value="Modifier"></input>
+				<input type="submit" value={t('reset.submit')}></input>
 			</form>
 		</Container>
 	)

@@ -21,8 +21,9 @@ function DetailedChartChart(props) {
 		
 		let transactionList = (props.wallet && isUserConnected()) ? await getTransactions() : null
 		props.socket.on('graph', (datas) => {
-			if (props.wallet && isUserConnected()) datas = yahoo.yahooToDashBoard2(datas, transactionList, props.dateRange, true)
-					
+			if (props.wallet && isUserConnected()) {
+				datas = yahoo.yahooToDashBoard2(datas, transactionList, props.dateRange, true)
+			}
 			const chart = chartReference.current
 			if (!chart || isDataNull(datas)) return
 			chart.data = getRelativeChartData(datas)

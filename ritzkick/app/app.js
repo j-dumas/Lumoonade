@@ -14,6 +14,7 @@ const assetRouter = require('../api/router/asset')
 const alertRouter = require('../api/router/alert')
 const authRouter = require('../api/router/auth')
 const resetRouter = require('../api/router/reset')
+const shortcutRouter = require('../api/router/shortcut')
 const confirmationRouter = require('../api/router/confirmation')
 
 const { default: helmet } = require('helmet')
@@ -27,6 +28,7 @@ server.use(helmet(helmetOptions))
 setRouters()
 
 function setRouters() {
+	server.use(shortcutRouter)
 	server.use(resetRouter)
 	server.use(authRouter)
 	server.use(assetRouter)
