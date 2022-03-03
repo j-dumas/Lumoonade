@@ -9,8 +9,6 @@ export default function EmailConfirmationCard() {
 	useEffect(() => {
 		async function getConfirmation() {
 			if (key !== undefined) {
-				//Api call
-
 				try {
 					const response = await fetch('/api/confirmation/verify/' + key, {
 						method: 'GET',
@@ -18,6 +16,12 @@ export default function EmailConfirmationCard() {
 							'Content-Type': 'application/json'
 						}
 					})
+
+					if(response.status === 200){
+						setInterval(() =>{
+							window.location.assign("/login")
+						}, 4000)
+					}
 				} catch (e) {}
 			}
 		}
@@ -29,9 +33,7 @@ export default function EmailConfirmationCard() {
 		<div className="form">
 			<h1 className="form-title">Confirmation de courriel</h1>
 			<h3>Votre courriel est maintenant confirmé!</h3>
-			<Link href="/login">
-				<a className="link">Connectez-vous</a>
-			</Link>
+			<h3>Vous allez être redirigé sous peu</h3>
 		</div>
 	)
 }

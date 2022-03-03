@@ -157,9 +157,6 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				if (newPass === newPassConfirmation) {
 					event.preventDefault()
 					await updateUsernameAndPassword(newUsername, oldPass, newPass)
-				} else {
-					document.getElementById('wrong-name').style.display = 'block'
-					event.preventDefault()
 				}
 			} else {
 				event.preventDefault()
