@@ -26,7 +26,7 @@ const Dashboard = () => {
 			slugs.push(asset.name)
 		})
 		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
-		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols))
+		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}/`))
 	}, [])
 
 	return !socket ? (
