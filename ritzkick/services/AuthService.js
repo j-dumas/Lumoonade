@@ -82,6 +82,8 @@ export async function register(email, username, password, handleError) {
 		console.log(e)
 		alert(e.message)
 	}
+}
+
 
 export async function confirmEmail(key){
 	try {
@@ -99,5 +101,3 @@ export async function confirmEmail(key){
 		}
 	} catch (e) {}
 } 
-
-}

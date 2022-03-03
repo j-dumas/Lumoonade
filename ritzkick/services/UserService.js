@@ -150,29 +150,25 @@ export async function removeSession() {
 	}
 }
 
-export async function updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation) {
+export async function updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation, setError) {
+	event.preventDefault()
 	if (oldUsername !== undefined) {
 		if (newUsername !== oldUsername && newUsername !== undefined) {
 			if (newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined) {
 				if (newPass === newPassConfirmation) {
-					event.preventDefault()
 					await updateUsernameAndPassword(newUsername, oldPass, newPass)
 				}
 			} else {
-				event.preventDefault()
 				await updateUsername(newUsername)
 			}
 		} else if (newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined) {
 			if (newPass === newPassConfirmation) {
-				event.preventDefault()
 				await updatePassword(oldPass, newPass)
 			} else {
-				document.getElementById('wrong-password').style.display = 'block'
-				event.preventDefault()
+				setError(true)
 			}
 		} else if (newPass === undefined || newPassConfirmation === undefined || oldPass === undefined) {
-			document.getElementById('wrong-password').style.display = 'block'
-			event.preventDefault()
+			setError(true)
 		}
 	}
 
