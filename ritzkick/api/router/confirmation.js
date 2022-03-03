@@ -7,6 +7,7 @@ const validator = require('validator').default
 const axios = require('axios').default
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const rateLimit = require('express-rate-limit')
 const https = require('https')
 
 const verifyOptions = {
@@ -16,7 +17,16 @@ const verifyOptions = {
 	subject: 'Lumoonade Auth'
 }
 
-router.post('/api/confirmations', async (req, res) => {
+// Config for the creation call.
+const creationLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 10,
+	message: { message: 'Too many requests, slow down!' },
+	standardHeaders: true,
+	legacyHeaders: false
+})
+
+router.post('/api/confirmations', creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!email) {

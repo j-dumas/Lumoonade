@@ -12,7 +12,7 @@ const paths = require('../routes.json')
 const loginLimiter = rateLimit({
 	windowMs: 1 * 60 * 1000,
 	max: 15,
-	message: 'Too many requests, slow down!',
+	message: { message: 'Too many requests, slow down!' },
 	standardHeaders: true,
 	legacyHeaders: false
 })
@@ -21,7 +21,7 @@ const loginLimiter = rateLimit({
 const registerLimiter = rateLimit({
 	windowMs: 1 * 60 * 1000,
 	max: 10,
-	message: 'Too many requests, slow down!',
+	message: { message: 'Too many requests, slow down!' },
 	standardHeaders: true,
 	legacyHeaders: false
 })
