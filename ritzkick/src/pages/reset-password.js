@@ -1,5 +1,5 @@
 import Bubbles from '@/components/Bubbles'
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 import ResetPasswordForm from '@/components/forms/ResetPasswordForm'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'

@@ -5,7 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import dynamic from 'next/dynamic'
 
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 
 const RegisterForm = dynamic(() => import('@/components/forms/RegisterForm'))
 const Bubbles = dynamic(() => import('@/components/Bubbles'))

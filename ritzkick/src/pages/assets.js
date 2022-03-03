@@ -5,7 +5,7 @@ import { getFavorites } from 'services/UserService'
 import { isUserConnected } from 'services/AuthService'
 import { SlugArrayToSymbolArray } from 'utils/crypto'
 import { createSocket } from 'services/SocketService'
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
