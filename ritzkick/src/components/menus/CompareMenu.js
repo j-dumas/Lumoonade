@@ -20,11 +20,8 @@ function CompareMenu(props) {
 		props.socket.on('data', (data) => {
 			setDatas(data)
 		})
-		if (props.socket) return () => {
-			props.socket.disconnect()
-			console.log('d')
-		}
-	})
+		if (props.socket) return () => props.socket.disconnect()
+	}, [])
 
 	function changeURI() {
 		let assets = ''
