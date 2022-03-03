@@ -1,3 +1,7 @@
+import { appWithTranslation } from 'next-i18next'
+
+import Script from 'next/script'
+
 import '@/styles/globals.css'
 import '@/styles/Main.css'
 import '@/styles/Navbar.css'
@@ -15,15 +19,13 @@ import '@/styles/SimpleCrypto.css'
 import '@/styles/Profile.css'
 import '@/styles/DetailedCrypto.css'
 
-import Script from 'next/script'
-import { appWithTranslation } from 'next-i18next'
-
+/* eslint-disable sort-imports, import/first */
 // The following import prevents a Font Awesome icon server-side rendering bug,
 // where the icons flash from a very large icon down to a properly sized one:
 import '@fortawesome/fontawesome-svg-core/styles.css'
 // Prevent fontawesome from adding its CSS since we did it manually above:
 import { config } from '@fortawesome/fontawesome-svg-core'
-config.autoAddCss = false /* eslint-disable import/first */
+config.autoAddCss = false
 
 // TODO: Change for SVGR/Webpack: https://github.com/gregberge/svgr/tree/main/packages/webpack
 

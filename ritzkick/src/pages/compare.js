@@ -6,8 +6,6 @@ import { useTranslation } from 'next-i18next'
 
 // Exemple d'URL:/compare?assets=ETH-BNB
 const Compare = () => {
-	const [data, setData] = useState()
-
 	return (
 		<>
 			<section className="section column principal first center">

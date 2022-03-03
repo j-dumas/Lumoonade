@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
+
+import { createSocket } from 'services/SocketService'
 import Functions from 'services/CryptoService'
 import { getFavorites } from 'services/UserService'
 import { isUserConnected } from 'services/AuthService'
-import { SlugArrayToSymbolArray } from 'utils/crypto'
-import { createSocket } from 'services/SocketService'
 import Layout from '@/layouts/Layout'
+import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
+import { SlugArrayToSymbolArray } from 'utils/crypto'
 
+/* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 

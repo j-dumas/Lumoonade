@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import DetailedCryptoView from '@/components/views/DetailedCryptoView'
-import Layout from '@/layouts/Layout'
+import dynamic from 'next/dynamic'
 import Functions from 'services/CryptoService'
+import Layout from '@/layouts/Layout'
+import React from 'react'
+import { useRouter } from 'next/router'
 
+/* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 
-const DetailedCryptoView = dynamic(() => import('../../components/views/DetailedCryptoView'), {
+const DetailedCryptoView = dynamic(() => import('@/components/views/DetailedCryptoView'), {
 	ssr: true,
 	loading: () => <div>Loading...</div>
 })
