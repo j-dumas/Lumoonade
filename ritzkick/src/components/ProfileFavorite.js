@@ -20,7 +20,7 @@ export default function ProfileFavorite() {
 			slugs.push(favorite.slug)
 		})
 		const symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
-		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols))
+		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}/`))
 	}, [])
 
 	return !socket ? (
