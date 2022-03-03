@@ -7,7 +7,8 @@
 			"title": "Lumoonade | COMPARER",
 			"description": "Page de comparaison de cryptomonnaies Lumoonade"
 		},
-		"asset": { "title": "Lumoonade | ", "description": "Page des cryptomonnaies Lumoonade" },
+		"asset": { "title": "Lumoonade | ", "description": "Page de cryptomonnaie Lumoonade" },
+		"assets": { "title": "Lumoonade | CRYPTOS", "description": "Page des cryptomonnaies Lumoonade" },
 		"reset": {
 			"title": "Lumoonade | RÉINITIALISATION",
 			"description": "Page de réinitialisation de mot de passe Lumoonade"

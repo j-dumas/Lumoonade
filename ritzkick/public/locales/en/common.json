@@ -5,6 +5,7 @@
 		"register": { "title": "Lumoonade | REGISTER", "description": "Lumoonade register page" },
 		"compare": { "title": "Lumoonade | COMPARE", "description": "Lumoonade compare page" },
 		"asset": { "title": "Lumoonade | ", "description": "Lumoonade asset page" },
+		"assets": { "title": "Lumoonade | CRYPTOS", "description": "Lumoonade assets page" },
 		"reset": { "title": "Lumoonade | RESET PASSWORD", "description": "Lumoonade reset password page" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade for CryptoCurrencies", "type": "website" },
