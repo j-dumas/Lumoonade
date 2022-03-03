@@ -19,13 +19,19 @@ const CURRENCY = 'usd'
 const Dashboard = () => {
 	const router = useRouter()
 	const [socket, setSocket] = useState()
+	const [portfolioSocket, setPortfolioSocket] = useState()
 	const [slug, setSlug] = useState('btc-cad')
 	const [dateRange, setDateRange] = useState('1d')
 	const [interval, setInterval] = useState('1h')
 	const [assets, setAssets] = useState()
 	const [portfolioValue, setPortfolioValue] = useState(0)
-	const [portfolioChange, setPortfolioChange] = useState(0)
+	const [portfolioChange, setPortfolioChange] = useState([0,0])
+
 	useEffect(async () => {
+		if (!isUserConnected()) {
+			router.push(`/login`)
+			return
+		}
 		let userData = await getUserDashboardData()
 		console.log(userData.assets)
 		setAssets(userData.assets)
@@ -35,12 +41,12 @@ const Dashboard = () => {
 		})
 		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
 		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
+		setPortfolioSocket(createSocket([`graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
 	}, [])
 
 	useEffect(() => {
 		if (!socket || !assets) return
 		socket.on('data', (datas) => {
-			
 			let value = 0
 			let change = 0
 			datas.forEach((data) => {
@@ -51,15 +57,14 @@ const Dashboard = () => {
 					}
 				})
 			})
-			setPortfolioChange(format(change/assets.length))
+			let c = (value*(change/assets.length/100<0)? -1*value*(change/assets.length/100):value*(change/assets.length/100))
+			setPortfolioChange([format(change/assets.length), format(c)])
 			setPortfolioValue(format(value))
 		})
 	}, [socket, assets])
 
-	
-
 	return (
-		!socket || !assets ? <></> :
+		!socket || !portfolioSocket || !assets ? <></> :
 		<>
 			<section className="section column principal first center">
 				<section className="sub-section column">
@@ -69,9 +74,9 @@ const Dashboard = () => {
 							<h1 className="detailed-menu-title">Portfolio</h1>
 							<p className="detailed-menu-subtitle">${portfolioValue}</p>
 							{portfolioChange>=0?
-								<p className="detailed-menu-subtitle increase">+{portfolioChange}% <span className='small-p'>(24h)</span></p>
+								<p className="detailed-menu-subtitle increase">+{portfolioChange[0]}% &nbsp; +${portfolioChange[1]}<span className='small-p'> (24h)</span></p>
 								:
-								<p className="detailed-menu-subtitle decrease">{portfolioChange}% <span className='small-p'>(24h)</span></p>
+								<p className="detailed-menu-subtitle decrease">{portfolioChange[0]}% &nbsp; -${(portfolioChange[1])}<span className='small-p'> (24h)</span></p>
 							}
 							
 						</div>
@@ -90,7 +95,7 @@ const Dashboard = () => {
 
 					<div className='row space-between'>
 						<PieChart socket={socket} assets={assets}/>
-						<DetailedChart socket={socket} slug={slug} wallet={true}/>
+						<DetailedChart socket={portfolioSocket} slug={slug} wallet={true}/>
 					</div>
 					<SimpleWalletAssetDashboard socket={socket} assets={assets}/>
 					<SimpleCryptoDashboard socket={socket}/>
