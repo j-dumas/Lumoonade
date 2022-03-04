@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ButtonLegend from '@/components/ButtonLegend'
 
 export default function DetailedChartMenu(props) {
 	const [showPrice, setShowPrice] = useState(true)
-	const [showChange, setShowChange] = useState(false)
-	const [showVolume, setShowVolume] = useState(false)
+	// const [showChange, setShowChange] = useState(false)
+	// const [showVolume, setShowVolume] = useState(false)
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange))
@@ -12,12 +12,12 @@ export default function DetailedChartMenu(props) {
 	function getShowPrice(value) {
 		setShowPrice(value)
 	}
-	function getShowChange(value) {
-		setShowChange(value)
-	}
-	function getShowVolume(value) {
-		setShowVolume(value)
-	}
+	// function getShowChange(value) {
+	// 	setShowChange(value)
+	// }
+	// function getShowVolume(value) {
+	// 	setShowVolume(value)
+	// }
 
 	return (
 		<div className="detailed-div-menu row h-center space-between">

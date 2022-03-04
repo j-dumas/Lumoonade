@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import GetColorBySlug from 'utils/color'
 import Icons from '@/components/Icons'
 import format from 'utils/formatter'

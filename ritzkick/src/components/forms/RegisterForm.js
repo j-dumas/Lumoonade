@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import GoogleSignIn from '@/components/GoogleSignIn'
 import AndSeparator from '@/components/AndSeparator'
@@ -17,7 +17,7 @@ const RegisterForm = () => {
 	const [passShow, setPassShow] = useState(false)
 	const [error, setError] = useState(false)
 
-	const handleClickShowPassword = (event) => {
+	const handleClickShowPassword = () => {
 		setPassShow(!passShow)
 	}
 

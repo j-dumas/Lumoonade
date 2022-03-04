@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SimpleCryptoDashboard from '@/components/SimpleCryptoDashboard'
 import { getFavorites } from 'services/UserService'
-import ButtonFavorite from './ButtonFavorite'
+// import ButtonFavorite from './ButtonFavorite'
 import { SlugArrayToSymbolArray } from 'utils/crypto'
 import { createSocket } from 'services/SocketService'
 import { CircularProgress } from '@mui/material'
@@ -10,8 +10,10 @@ const CURRENCY = 'usd'
 
 export default function ProfileFavorite() {
 	const [socket, setSocket] = useState()
-	const [dateRange, setDateRange] = useState('1d')
-	const [interval, setInterval] = useState('1h')
+	// const [dateRange, setDateRange] = useState('1d')
+	const dateRange = '1d'
+	// const [interval, setInterval] = useState('1h')
+	const interval = '1h'
 
 	useEffect(async () => {
 		const data = await getFavorites()

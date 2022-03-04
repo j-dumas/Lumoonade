@@ -13,7 +13,7 @@ export default function ForgotPasswordForm() {
 	async function handleSubmit(event) {
 		event.preventDefault()
 		try {
-			let response = await fetch('/api/reset', {
+			await fetch('/api/reset', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Icons from '@/components/Icons'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import Image from 'next/image'

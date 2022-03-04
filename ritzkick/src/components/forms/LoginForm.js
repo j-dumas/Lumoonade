@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import AndSeparator from '@/components/AndSeparator'
 import Separator from '@/components/Separator'
@@ -19,7 +19,7 @@ const LoginForm = () => {
 	const [passShow, setPassShow] = useState(false)
 	const [error, setError] = useState(false)
 
-	const handleClickShowPassword = (event) => {
+	const handleClickShowPassword = () => {
 		setPassShow(!passShow)
 	}
 

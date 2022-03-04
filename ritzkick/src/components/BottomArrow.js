@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Icons from '@/components/Icons'
 
 function BottomArrow() {

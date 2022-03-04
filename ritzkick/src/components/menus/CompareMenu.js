@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Functions from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
+// import ButtonFavorite from '@/components/ButtonFavorite'
 import SimplestItemView from '@/components/views/SimplestItemView'
 import { useRouter } from 'next/router'
 
@@ -138,7 +138,7 @@ function CompareMenu(props) {
 					<p></p>
 				)}
 				<div className="column detailed-div-item">
-					{props.compareList.map((element, i) => {
+					{props.compareList.map((element) => {
 						let data = {}
 						datas.map((crypto) => {
 							if (crypto.fromCurrency.toString() + '-' + props.currency == element) {

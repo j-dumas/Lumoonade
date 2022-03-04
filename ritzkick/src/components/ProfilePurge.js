@@ -3,7 +3,8 @@ import { Alert, Snackbar } from '@mui/material'
 
 export default function ProfilePurge(props) {
 	const [openStatus, setOpenStatus] = useState(false)
-	const [deletedSessions, setDeletedSessions] = useState(0)
+	// const [deletedSessions, setDeletedSessions] = useState(0)
+	const deletedSessions = 0
 
 	function handleClose(event, reason) {
 		if (reason === 'clickaway') {

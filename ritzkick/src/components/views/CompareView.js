@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import Icons from '@/components/Icons'
+// import Image from 'next/image'
+// import Icons from '@/components/Icons'
 import Functions from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
+// import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
 import { createSocket } from '../../../services/SocketService'
 
-const io = require('socket.io-client')
+// const io = require('socket.io-client')
 
 const CompareView = (props) => {
 	const router = useRouter()
-	const [slug, setSlug] = useState('BTC' + '-' + props.currency)
+	// const [slug, setSlug] = useState('BTC' + '-' + props.currency)
+	const slug = 'BTC' + '-' + props.currency
 	const [firstData, setFirstData] = useState()
 	const [compareList, setCompareList] = useState(getFirstCompareList())
 
-	const [dateRange, setDateRange] = useState('5d')
-	const [interval, setInterval] = useState('15m')
+	// const [dateRange, setDateRange] = useState('5d')
+	const dateRange = '5d'
+	// const [interval, setInterval] = useState('15m')
+	const interval = '15m'
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {

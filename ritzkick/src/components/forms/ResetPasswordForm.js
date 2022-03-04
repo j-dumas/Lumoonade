@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import { useForm } from '@/components/hooks/useForm'
 import {
@@ -8,8 +8,8 @@ import {
 	IconButton,
 	InputAdornment,
 	InputLabel,
-	OutlinedInput,
-	styled
+	OutlinedInput
+	// styled
 } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -30,7 +30,7 @@ export default function ResetPasswordForm() {
 		event.preventDefault()
 		if (state.password === state.passwordConfirmation) {
 			try {
-				let response = await fetch('/api/reset/redeem', {
+				await fetch('/api/reset/redeem', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'

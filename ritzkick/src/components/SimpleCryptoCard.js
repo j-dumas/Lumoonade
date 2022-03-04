@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
+import React from 'react'
+// import Image from 'next/image'
 import SimpleChart from '@/components/charts/SimpleChart'
 import format from 'utils/formatter'
 

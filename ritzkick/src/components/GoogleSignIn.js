@@ -1,7 +1,5 @@
-import Script from 'next/script'
-import React, { useEffect } from 'react'
-import Head from 'next/head'
-import GoogleLogin, { GoogleLogout } from 'react-google-login'
+import React from 'react'
+import GoogleLogin from 'react-google-login'
 import { useTranslation } from 'next-i18next'
 
 export default function GoogleSignIn() {
@@ -16,10 +14,10 @@ export default function GoogleSignIn() {
 		console.log('Email: ' + profile.getEmail())
 	}
 
-	function signOut() {
-		var auth2 = gapi.auth2.getAuthInstance()
-		auth2.signOut()
-	}
+	// function signOut() {
+	// 	var auth2 = gapi.auth2.getAuthInstance()
+	// 	auth2.signOut()
+	// }
 
 	return (
 		<div id="googleSignin">

@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import Icons from '@/components/Icons'
+// import Image from 'next/image'
+// import Icons from '@/components/Icons'
 import Functions, {
-	GetCryptocurrencyInformationsBySlug,
-	GetTopEfficientCryptocurrencies,
-	GetTopPopularCryptocurrencies
+	// GetCryptocurrencyInformationsBySlug,
+	// GetTopEfficientCryptocurrencies,
+	// GetTopPopularCryptocurrencies
 } from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
+// import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
 import DetailedMenu from '@/components/menus/DetailedMenu'
 import {createSocket} from '../../../services/SocketService'
 
-const io = require('socket.io-client')
+// const io = require('socket.io-client')
 
 function DetailedCryptoView(props) {
-	const [slug, setSlug] = useState(props.slug + '-' + props.currency)
+	// const [slug, setSlug] = useState(props.slug + '-' + props.currency)
+	const slug = props.slug + '-' + props.currency
 	const [firstData, setFirstData] = useState()
 	const [socket, setSocket] = useState()
 
-	const [dateRange, setDateRange] = useState('5d')
-	const [interval, setInterval] = useState('15m')
+	// const [dateRange, setDateRange] = useState('5d')
+	const dateRange = '5d'
+	// const [interval, setInterval] = useState('15m')
+	const interval = '15m'
 
 	useEffect(async () => {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Chart as Charts, Line } from 'react-chartjs-2'
+import { Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
 import Functions from 'services/CryptoService'
@@ -7,10 +7,11 @@ import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
-const NB_DATA_DISPLAYED_1ST_VIEW = 24
+// const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
-	const [chartReference, setCR] = useState(React.createRef())
+	// const [chartReference, setCR] = useState(React.createRef())
+	const chartReference = React.createRef()
 	const [data, setData] = useState()
 
 	useEffect(async () => {
@@ -135,7 +136,7 @@ function DetailedChartChart(props) {
 		}
 	}
 
-	function getChartOptionsScales(datas) {
+	function getChartOptionsScales() {
 		return {
 			x: {
 				// min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,

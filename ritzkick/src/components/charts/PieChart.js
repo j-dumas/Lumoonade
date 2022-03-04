@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { Chart as Charts, Doughnut, Line, Pie } from 'react-chartjs-2'
-import Chart from 'chart.js/auto'
+import { Pie } from 'react-chartjs-2'
+// import Chart from 'chart.js/auto'
 import GetColorBySlug from '../../../utils/color'
 import { getUserDashboardData } from '../../../services/dashboard-service'
 
 function PieChart(props) {
-	const [chartReference, setCR] = useState(React.createRef())
+	// const [chartReference, setCR] = useState(React.createRef())
+	const chartReference = React.createRef()
 	// if (!props.data || props.data.length == 0) return (<></>)
 
-	const [data, setData] = useState({
+	// const [data, setData] = useState({
+	// 	maintainAspectRatio: false,
+	// 	responsive: false,
+	// 	labels: [0],
+	// 	datasets: [
+	// 		{
+	// 			data: [0],
+	// 			backgroundColor: ['gray']
+	// 		}
+	// 	]
+	// })
+
+	const data = {
 		maintainAspectRatio: false,
 		responsive: false,
 		labels: [0],
@@ -18,7 +31,7 @@ function PieChart(props) {
 				backgroundColor: ['gray']
 			}
 		]
-	})
+	}
 
 	const [assets, setAssets] = useState(async (el) => {
 		console.log(el)
@@ -141,7 +154,7 @@ function PieChart(props) {
 		}
 	}
 
-	let chartInstance = null
+	// let chartInstance = null
 	return !data ? (
 		<></>
 	) : (

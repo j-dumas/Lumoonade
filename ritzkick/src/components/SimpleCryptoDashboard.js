@@ -41,7 +41,7 @@ function SimpleCryptoDashboard(props) {
 						{!isUserConnected() ? <></> : <div className="icon" />}
 					</div>
 				</div>
-				{datas.map((element, i) => {
+				{datas.map((element) => {
 					let chartData = chartDatas.find((chartElement) => {
 						return chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()
 					})

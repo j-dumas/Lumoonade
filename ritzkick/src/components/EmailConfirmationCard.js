@@ -16,7 +16,7 @@ export default function EmailConfirmationCard() {
 				// Api call
 
 				try {
-					const response = await fetch('/api/confirmation/verify/' + key, {
+					await fetch('/api/confirmation/verify/' + key, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json'

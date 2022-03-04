@@ -6,16 +6,16 @@ import {
 	faBars,
 	faBell,
 	faChartLine,
-	faCheckSquare,
+	// faCheckSquare,
 	faChevronDown,
 	faCoins,
 	faDoorClosed,
 	faDoorOpen,
 	faEdit,
 	faExchangeAlt,
-	faFarStar,
+	// faFarStar,
 	faGlobe,
-	faHandsHelping,
+	// faHandsHelping,
 	faHome,
 	faInfoCircle,
 	faMedal,
@@ -84,12 +84,6 @@ const Icons = {
 	},
 	StarFulled: () => {
 		return <FontAwesomeIcon className="icon" icon={faStar} />
-	},
-	Edit: () => {
-		return <FontAwesomeIcon className="icon" icon={faEdit} />
-	},
-	Edit: () => {
-		return <FontAwesomeIcon className="icon" icon={faEdit} />
 	},
 	Edit: () => {
 		return <FontAwesomeIcon className="icon" icon={faEdit} />

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Functions, {
-	GetCryptocurrencyInformationsBySlug,
-	GetTopEfficientCryptocurrencies,
-	GetTopPopularCryptocurrencies
-} from 'services/CryptoService'
+// import Functions, {
+// 	GetCryptocurrencyInformationsBySlug,
+// 	GetTopEfficientCryptocurrencies,
+// 	GetTopPopularCryptocurrencies
+// } from 'services/CryptoService'
 import dynamic from 'next/dynamic'
 import DetailedChartMenu from '@/components/menus/DetailedChartMenu'
 
@@ -15,9 +15,9 @@ const DetailedChartChart = dynamic(
 )
 
 function DetailedChart(props) {
-	const [showPrice, setShowPrice] = useState(true)
-	const [showChange, setShowChange] = useState(false)
-	const [showVolume, setShowVolume] = useState(false)
+	// const [showPrice, setShowPrice] = useState(true)
+	// const [showChange, setShowChange] = useState(false)
+	// const [showVolume, setShowVolume] = useState(false)
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
 
