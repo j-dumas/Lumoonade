@@ -1,3 +1,5 @@
+cd $(dirname $0)
+
 docker stop ritzkick
 docker stop ritzkick-test
 
