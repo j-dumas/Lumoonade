@@ -66,7 +66,7 @@ const populate = () => {
 							res.response[0].timestamp[index] = null
 						} else {
 							let value = res.response[0].timestamp[index]
-							res.response[0].timestamp[index] = getDateFormat(room, value * timeOffset)
+							res.response[0].timestamp[index] = value * timeOffset// getDateFormat(room, value * timeOffset)
 						}
 						return obj
 					})
@@ -145,9 +145,7 @@ const populate = () => {
 							searchTerm: 'symbol',
 							keep: client.query
 						})
-
-						//parser.sortListInSpecificOrder(result, client.query)
-						client.socket.emit('graph', result)
+						client.socket.emit('graph', parser.sortListInSpecificOrder(result, client.query))
 					} catch (_) {}
 				})
 			})
