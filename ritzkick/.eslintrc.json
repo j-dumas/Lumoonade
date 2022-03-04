@@ -5,14 +5,16 @@
 		"no-console": 1, // Means warning
 		"prettier/prettier": 2, // Means error
 		"react-hooks/rules-of-hooks": "off",
-		"sort-imports": [
-			"error",
-			{
-				"ignoreCase": true,
-				"memberSyntaxSortOrder": ["all", "multiple", "single", "none"]
-			}
-		],
-		"no-duplicate-imports": "error",
-		"spaced-comment": "error"
+		// "sort-imports": [
+		// 	"error",
+		// 	{
+		// 		"ignoreCase": true,
+		// 		"memberSyntaxSortOrder": ["all", "multiple", "single", "none"]
+		// 	}
+		// ],
+		// "no-duplicate-imports": "error",
+		// "spaced-comment": "error",
+		"no-unused-vars": "off",
+		"no-empty": "off"
 	}
 }

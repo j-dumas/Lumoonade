@@ -25,7 +25,7 @@ const DetailedInformationsDashboard = (props) => {
 			b = parser.rebuild(b)
 			setData(b === undefined ? undefined : b)
 		})
-		if (props.socket) return () => socket.disconnect()
+		if (props.socket) return () => props.socket.disconnect()
 	}, [])
 
 	// Validation:

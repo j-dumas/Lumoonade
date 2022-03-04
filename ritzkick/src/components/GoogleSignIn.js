@@ -16,10 +16,10 @@ export default function GoogleSignIn() {
 		console.log('Email: ' + profile.getEmail())
 	}
 
-	function signOut() {
-		var auth2 = gapi.auth2.getAuthInstance()
-		auth2.signOut()
-	}
+	// function signOut() {
+	// 	var auth2 = gapi.auth2.getAuthInstance()
+	// 	auth2.signOut()
+	// }
 
 	return (
 		<div id="googleSignin">

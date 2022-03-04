@@ -88,12 +88,6 @@ const Icons = {
 	Edit: () => {
 		return <FontAwesomeIcon className="icon" icon={faEdit} />
 	},
-	Edit: () => {
-		return <FontAwesomeIcon className="icon" icon={faEdit} />
-	},
-	Edit: () => {
-		return <FontAwesomeIcon className="icon" icon={faEdit} />
-	},
 	ArrowDown: () => {
 		return <FontAwesomeIcon className="icon" icon={faArrowDown} />
 	},
