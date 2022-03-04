@@ -1,13 +1,11 @@
 import BottomArrow from '@/components/BottomArrow'
-import SimpleCryptoDashboard from '@/components/SimpleCryptoDashboard'
-import React, { useEffect, useState } from 'react'
 import Layout from '@/layouts/Layout'
+import React from 'react'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 const Home = () => {
-	const [data, setData] = useState([{}])
 	const { t } = useTranslation('index')
 
 	return (
