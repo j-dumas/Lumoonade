@@ -7,6 +7,8 @@ import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
+const graph = require('app/socket/utils/graph')
+
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
@@ -16,6 +18,8 @@ function DetailedChartChart(props) {
 	useEffect(async () => {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 		props.socket.on('graph', (datas) => {
+			datas = graph.adjustDateMiddleware(datas, props.dateRange)
+			console.log(datas)
 			const chart = chartReference.current
 			if (!chart || isDataNull(datas)) return
 			chart.data = getRelativeChartData(datas)

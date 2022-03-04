@@ -130,7 +130,7 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
  * }
  * @example response - 400 - example existing user error response
  * {
- * 	"error": "E11000 duplicate key error collection: cryptool.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
+ * 	"error": "E11000 duplicate key error collection: lumoonade.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
  * }
  */
 router.post(paths.auth.register, registerLimiter, async (req, res) => {

@@ -1,9 +1,8 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const Favorite = require('../../db/model/favorite')
 const authentification = require('../middleware/auth')
 const router = express.Router()
-const { NotFoundHttpError, ConflictHttpError, sendError } = require('../../utils/http_errors')
+const { ConflictHttpError, sendError } = require('../../utils/http_errors')
 require('../swagger_models')
 
 const paths = require('../routes.json')

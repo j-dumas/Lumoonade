@@ -7,7 +7,7 @@ const url = process.env.DB_URL
 
 mongoose
 	.connect(url, { autoIndex: true })
-	.then(async (res) => {
+	.then(async (_) => {
 		log.info('DB', 'Connected to the database')
 		await addSlugsToDB()
 		log.info('DB', 'Assets filled')

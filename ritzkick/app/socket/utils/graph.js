@@ -57,22 +57,24 @@ const populate = () => {
 
 			// Binding a callback that cleans the value before sending it to the user.
 			r.getService().cleanCallback((data) => {
-				if (data.length === 0) return data
-				const timeOffset = 1000
-				data.spark.result.forEach((res) => {
-					let quotes = res.response[0].indicators.quote[0].close
-					res.response[0].indicators.quote[0].close = quotes.filter((obj, index) => {
-						if (!obj) {
-							res.response[0].timestamp[index] = null
-						} else {
-							let value = res.response[0].timestamp[index]
-							res.response[0].timestamp[index] = getDateFormat(room, value * timeOffset)
-						}
-						return obj
+				try {
+					if (data.length === 0) return data
+					const timeOffset = 1000
+					data.spark.result.forEach((res) => {
+						let quotes = res.response[0].indicators.quote[0].close
+						res.response[0].indicators.quote[0].close = quotes.filter((obj, index) => {
+							if (!obj) {
+								res.response[0].timestamp[index] = null
+							} else {
+								let value = res.response[0].timestamp[index]
+								res.response[0].timestamp[index] = value * timeOffset //getDateFormat(room, value * timeOffset)
+							}
+							return obj
+						})
+						res.response[0].timestamp = res.response[0].timestamp.filter((x) => x)
 					})
-					res.response[0].timestamp = res.response[0].timestamp.filter((x) => x)
-				})
-				return data.spark.result
+					return data.spark.result
+				} catch (_) { }
 			})
 
 			// Binding a callback when a value is retrieved from the service.
@@ -116,22 +118,24 @@ const populate = () => {
 
 			// Binding a callback that cleans the value before sending it to the user.
 			r.getService().cleanCallback((data) => {
-				if (data.length === 0) return data
-				const timeOffset = 1000
-				data.spark.result.forEach((res) => {
-					let quotes = res.response[0].indicators.quote[0].close
-					res.response[0].indicators.quote[0].close = quotes.filter((obj, index) => {
-						if (!obj) {
-							res.response[0].timestamp[index] = null
-						} else {
-							let value = res.response[0].timestamp[index]
-							res.response[0].timestamp[index] = value * timeOffset
-						}
-						return obj
+				try {
+					if (data.length === 0) return data
+					const timeOffset = 1000
+					data.spark.result.forEach((res) => {
+						let quotes = res.response[0].indicators.quote[0].close
+						res.response[0].indicators.quote[0].close = quotes.filter((obj, index) => {
+							if (!obj) {
+								res.response[0].timestamp[index] = null
+							} else {
+								let value = res.response[0].timestamp[index]
+								res.response[0].timestamp[index] = value * timeOffset
+							}
+							return obj
+						})
+						res.response[0].timestamp = res.response[0].timestamp.filter((x) => x)
 					})
-					res.response[0].timestamp = res.response[0].timestamp.filter((x) => x)
-				})
-				return data.spark.result
+					return data.spark.result
+				} catch (_) { }
 			})
 
 			// Binding a callback when a value is retrieved from the service.
@@ -164,7 +168,7 @@ const populate = () => {
  * @param {number} value
  * @returns the formated time for any graph channel
  */
-const getDateFormat = (range, value) => {
+const getDateFormat = (range = '1d', value = new Date().getTime()) => {
 	switch (range.toLowerCase()) {
 		case '1d':
 			return moment(value).format('DD kk:mm')
@@ -179,14 +183,23 @@ const getDateFormat = (range, value) => {
 			return moment(value).format('YY-MM-DD kk')
 		case '5y':
 			return moment(value).format('YY-MM-DD')
-		case 'max':
-			return moment(value).format('YY-MM-DD kk:mm')
 		default:
-			throw new Error('Range doesnt exist')
+			return moment(value).format('YY-MM-DD kk:mm')
 	}
+}
+
+const adjustDateMiddleware = (data = [], range) => {
+	if (data.length === 0) return
+	try {
+		data[0].response[0].timestamp.forEach((time, index) => {
+			data[0].response[0].timestamp[index] = getDateFormat(range, time) 
+		})
+		return data
+	} catch (_) { console.log('Error', _) }
 }
 
 module.exports = {
 	populate,
-	getDateFormat
+	getDateFormat,
+	adjustDateMiddleware
 }
