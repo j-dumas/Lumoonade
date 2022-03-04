@@ -17,8 +17,9 @@ function DetailedChartChart(props) {
 
 	useEffect(async () => {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
+		let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 		props.socket.on('graph', (datas) => {
-			datas = graph.adjustDateMiddleware(datas, props.dateRange)
+			datas = graph.adjustDateMiddleware(datas, props.dateRange, timeZone)
 			try {
 				const chart = chartReference.current
 				if (!chart || isDataNull(datas)) return

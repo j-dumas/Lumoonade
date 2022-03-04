@@ -2,6 +2,7 @@ const rm = require('../room-manager')
 const Service = require('../service')
 const parser = require('./parser')
 const moment = require('moment')
+const momentTimeZone = require('moment-timezone')
 
 // This is all the possible values available on finance.yahoo.com.
 let combinaisons = ['1m', '2m', '5m', '15m', '30m', '1h', '1d', '1wk', '1mo', '3mo']
@@ -168,31 +169,32 @@ const populate = () => {
  * @param {number} value
  * @returns the formated time for any graph channel
  */
-const getDateFormat = (range = '1d', value = new Date().getTime()) => {
+const getDateFormat = (range = '1d', value = new Date().getTime(), timezone = 'America/Toronto') => {
+	let formatted = momentTimeZone.tz(new Date(value), timezone)
 	switch (range.toLowerCase()) {
 		case '1d':
-			return moment(value).format('DD kk:mm')
+			return formatted.format('DD kk:mm')
 		case '5d':
 		case '1mo':
-			return moment(value).format('MM-DD kk:mm')
+			return formatted.format('MM-DD kk:mm')
 		case '3mo':
 		case '6mo':
-			return moment(value).format('MM-DD kk')
+			return formatted.format('MM-DD kk')
 		case '1y':
 		case '2y':
-			return moment(value).format('YY-MM-DD kk')
+			return formatted.format('YY-MM-DD kk')
 		case '5y':
-			return moment(value).format('YY-MM-DD')
+			return formatted.format('YY-MM-DD')
 		default:
-			return moment(value).format('YY-MM-DD kk:mm')
+			return formatted.format('YY-MM-DD kk:mm')
 	}
 }
 
-const adjustDateMiddleware = (data = [], range) => {
+const adjustDateMiddleware = (data = [], range, timezone) => {
 	if (data.length === 0) return
 	try {
 		data[0].response[0].timestamp.forEach((time, index) => {
-			data[0].response[0].timestamp[index] = getDateFormat(range, time) 
+			data[0].response[0].timestamp[index] = getDateFormat(range, time, timezone) 
 		})
 		return data
 	} catch (_) { console.log('Error', _) }
