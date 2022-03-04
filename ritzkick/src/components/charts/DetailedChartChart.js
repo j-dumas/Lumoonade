@@ -19,11 +19,12 @@ function DetailedChartChart(props) {
 		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
 		props.socket.on('graph', (datas) => {
 			datas = graph.adjustDateMiddleware(datas, props.dateRange)
-			console.log(datas)
-			const chart = chartReference.current
-			if (!chart || isDataNull(datas)) return
-			chart.data = getRelativeChartData(datas)
-			chart.update()
+			try {
+				const chart = chartReference.current
+				if (!chart || isDataNull(datas)) return
+				chart.data = getRelativeChartData(datas)
+				chart.update()
+			} catch (_) { }
 		})
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])

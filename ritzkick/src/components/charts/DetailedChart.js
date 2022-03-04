@@ -23,6 +23,7 @@ function DetailedChart(props) {
 
 	useEffect(() => {
 		if (props.socket.id) {
+			console.log(dateRange, interval)
 			props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
 		}
 	}, [dateRange, interval, props.socket])

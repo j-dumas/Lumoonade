@@ -7,6 +7,7 @@ export default function DetailedChartMenu(props) {
 	const [showVolume, setShowVolume] = useState(false)
 
 	const [dateRange, setDateRange] = useState('5d')
+	const [currentInterval, setCurrentInterval] = useState('15m')
 	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange))
 
 	function getShowPrice(value) {
@@ -38,8 +39,15 @@ export default function DetailedChartMenu(props) {
 					</label>
 					<select
 						onChange={(e) => {
+							console.log('onChangeDateRange', e)
 							props.sendDateRange(e.target.value)
-							props.sendInterval(getIntervalOptionsByDateRange(e.target.value)[0])
+							console.log(getIntervalOptionsByDateRange(e.target.value))
+							let availableIntervals = getIntervalOptionsByDateRange(e.target.value) 
+							if (!availableIntervals.find(inter => inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase()))) {
+								let value = getIntervalOptionsByDateRange(e.target.value)[0]
+								props.sendInterval(value)
+								setCurrentInterval(value)
+							}
 							setDateRange(e.target.value)
 							setIntervals(getIntervalOptionsByDateRange(e.target.value))
 						}}
@@ -65,7 +73,9 @@ export default function DetailedChartMenu(props) {
 					</label>
 					<select
 						onChange={(e) => {
+							console.log('onChangeInterval', e)
 							props.sendInterval(e.target.value)
+							setCurrentInterval(e.target.value)
 						}}
 						defaultValue="15m"
 						className="detailed-chart-options-select"
