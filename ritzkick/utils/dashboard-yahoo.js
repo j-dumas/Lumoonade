@@ -1,7 +1,7 @@
 const moment = require('moment')
 const graph = require('app/socket/utils/graph')
 
-const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, timezone) => {
+const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, timezone = 'America/Toronto') => {
 	if (data.length === 0 || transactions.length === 0) return []
 
 	transactions = orderByDate(transactions)
@@ -21,13 +21,11 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, t
 		return [data[0]]
 	}
 
-	data.forEach((entry) => {
-		yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone)
-	})
+	data.forEach(entry => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
 }
 
 const fromSymbol = (symbol, transactions) => {
-	return transactions.filter((transac) => symbol.toLowerCase().includes(transac.name))
+	return transactions.filter((transac) => symbol.toLowerCase().includes(transac.asset))
 }
 
 /**
@@ -81,6 +79,5 @@ const orderByDate = (transactions = []) => {
 }
 
 module.exports = {
-	yahooToDashBoard,
 	yahooToDashBoard2
 }
