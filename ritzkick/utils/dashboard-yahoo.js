@@ -17,7 +17,7 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, t
 			})
 			data[0].response[0].indicators.quote[0].close[index] = priceSum
 		})
-		data[0].symbol = 'dashboard'
+		data[0].symbol = 'value'
 		return [data[0]]
 	}
 
