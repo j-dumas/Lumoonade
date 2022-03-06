@@ -14,6 +14,7 @@ import { SlugArrayToSymbolArray } from '../../../utils/crypto'
 import Icons from '../../components/Icons'
 import PortfolioMenu from '../../components/menus/PortfolioMenu'
 
+
 const CURRENCY = 'usd'
 
 const Dashboard = () => {
@@ -49,7 +50,7 @@ const Dashboard = () => {
 			<section className="section column principal first center">
 				<section className="sub-section column">
 
-				<PortfolioMenu socket={socket} assets={assets}/>
+					<PortfolioMenu socket={socket} assets={assets}/>
 
 					<div className='row space-between'>
 						<PieChart socket={socket} assets={assets}/>

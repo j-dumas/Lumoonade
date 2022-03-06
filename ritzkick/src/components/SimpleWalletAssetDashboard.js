@@ -27,9 +27,8 @@ function SimpleWalletAssetDashboard(props) {
                         <p className="simple-crypto-view-item">Market price</p>
                         <p className="simple-crypto-view-item">Amount</p>
                         <p className="simple-crypto-view-item">Total spent</p>
-                        <p className="simple-crypto-view-item simple-crypto-change">Change</p>
-                        <p className="simple-crypto-view-item">Value</p>
-						{!isUserConnected()? <></> :<div className='icon'/>}
+                        <p className="simple-crypto-view-item-big simple-crypto-change">Change</p>
+                        <p className="simple-crypto-view-item-big">Value</p>
 					</div>
 				</div>
 				{datas.map((element, i) => {

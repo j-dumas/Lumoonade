@@ -6,6 +6,7 @@ export const useForm = (initialValues) => {
 	return [
 		values,
 		(e) => {
+			if (!e.target || e.target == undefined) return
 			setValues({
 				...values,
 				[e.target.name]: e.target.value

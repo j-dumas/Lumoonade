@@ -5,9 +5,20 @@ import Image from 'next/image'
 import { AreSlugsEqual } from '../../../utils/crypto'
 import format from '../../../utils/formatter'
 
+import WalletDeposit from '../../components/wallet/deposit'
+import WalletWithdraw from '../../components/wallet/withdraw'
+
 function PortfolioMenu(props) {
 	const [portfolioValue, setPortfolioValue] = useState(0)
 	const [portfolioChange, setPortfolioChange] = useState([0,0])
+
+	const [withdraw, setWithdraw] = useState(false)
+	const openWithdraw = () => setWithdraw(true)
+	const closeWithdraw = () => setWithdraw(false)
+
+	const [deposit, setDeposit] = useState(false)
+	const openDeposit = () => setDeposit(true)
+	const closeDeposit = () => setDeposit(false)
 
 	useEffect(() => {
 		if (!props.socket || !props.assets) return
@@ -41,15 +52,18 @@ function PortfolioMenu(props) {
 				
 			</div>
 			<div className="detailed-menu-actions row h-center">
-				<a href="" className="detailed-menu-actions-icon">
+				<div onClick={openWithdraw} className="detailed-menu-actions-icon">
 					<Icons.ArrowUp />
-				</a>
-				<a href="" className="detailed-menu-actions-icon">
+				</div>
+				<WalletWithdraw isOpen={withdraw} close={closeWithdraw}/>
+				<div onClick={openDeposit} className="detailed-menu-actions-icon">
 					<Icons.ArrowDown />
-				</a>
-				<a href="" className="detailed-menu-actions-icon">
+				</div>
+				<WalletDeposit isOpen={deposit} close={closeDeposit}/>
+				
+				<div className="detailed-menu-actions-icon">
 					<Icons.Exange />
-				</a>
+				</div>
 			</div>
 		</div>
 	)

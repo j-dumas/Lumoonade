@@ -22,12 +22,7 @@ const transactionSchema = new mongoose.Schema(
 		},
 		paid: {
 			type: Number,
-			required: true,
-			validate(amount) {
-				if (amount < 0) {
-					throw new Error('Unable to set an amount under 0.')
-				}
-			}
+			required: true
 		},
 		boughtAt: {
 			type: Number,

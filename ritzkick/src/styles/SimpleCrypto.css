@@ -26,14 +26,14 @@
 }
 
 .simple-crypto-view-item {
-	width: 75px;
-	flex-grow: 1;
+	width: 100px;
+	
 }
 
 .simple-crypto-view-item-big {
 	max-width: 150px;
 	width: 150px;
-	flex-grow: 1;
+	
 	gap: 5px;
 }
 
@@ -78,4 +78,8 @@
 
 .card-price {
 	font-size: 16px;
+}
+
+.simple-chart-label {
+	width: 225px;
 }

@@ -26,27 +26,15 @@ function SimpleCryptoDashboard(props) {
 	) : (
 		<>
 			<div className="simple-crypto-dashboard v-center">
-				<div className="simple-crypto-view row center">
+				<div className="simple-crypto-dashboard-menu row center">
 					<div className="sub-section row space-between">
-						<div className="simple-crypto-view-item row left h-center">
-							<div className="simple-crypto-view-logo"/>
-							<div className="column simple-crypto-names">
-								<p className="simple-crypto-name">Asset</p>
-							</div>
+						<div className="simple-crypto-view-item-big row left h-center">
+                            <p>Asset</p>
 						</div>
-
-						{!props.assets?<></>:
-						<>
-							<p className="simple-crypto-view-item">Amount</p>
-							<p className="simple-crypto-view-item">Total spent</p>
-							<p className="simple-crypto-view-item">Value</p>
-							<p className="simple-crypto-view-item simple-crypto-change">Wallet change</p>
-						</>
-						}
-
-						<p className="simple-crypto-view-item simple-crypto-price">Price</p>
-						<p className="simple-crypto-view-item simple-crypto-change c-white">24h Change</p>
-						<p className="simple-chart"></p>
+						<p className="simple-crypto-view-item">Slug</p>
+						<p className="simple-crypto-view-item">Price</p>
+						<p className="simple-crypto-view-item-big simple-crypto-change">24h Change</p>
+						<p className="simple-chart-label"></p>
 						{!isUserConnected() ? <></> : <div className="icon" />}
 					</div>
 				</div>
