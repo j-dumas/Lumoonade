@@ -127,12 +127,13 @@ ul {
 }
 
 .line {
-	margin: 0%;
+	margin: 0;
 	width: 100%;
+	height: 0px;
 }
 
 .profile-nav-selected {
-	margin: 0%;
+	margin: 0;
 	background-color: transparent;
 	border-bottom: 2px solid;
 	border-radius: 0;
@@ -142,7 +143,7 @@ ul {
 }
 
 .profile-nav {
-	margin: 0%;
+	margin: 0;
 	background-color: transparent;
 	border-radius: 0;
 	border-bottom: 2px;

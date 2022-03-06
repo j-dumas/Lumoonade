@@ -35,7 +35,7 @@ const LoginForm = () => {
 	}
 
 	return (
-		<Container className="p-3 form">
+		<Container className="column p-3 form">
 			<h1 className="form-title">{t('login.title')}</h1>
 			<form onSubmit={handleSubmit}>
 				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
@@ -89,16 +89,15 @@ const LoginForm = () => {
 					/>
 				</FormControl>
 				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('login.submit')} />
+				<Link href="/forgotPassword"><div className='link'>{t('login.forgot-password')}</div></Link>
 			</form>
 			<AndSeparator />
 			<GoogleSignIn />
-			<Link href="/forgotPassword">
-				<a className="link">{t('login.forgot-password')}</a>
-			</Link>
+
 			<div>
 				<Separator />
 				<div id="Signup">
-					<h4>{t('login.no-account')}</h4>
+					<p>{t('login.no-account')}</p>
 					<Link href="/register">
 						<a className="link">{t('login.register')}</a>
 					</Link>

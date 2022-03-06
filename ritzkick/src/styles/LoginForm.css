@@ -33,11 +33,10 @@
 	flex-direction: column;
 	z-index: 100;
 	width: 25vw;
-	min-width: 300px;
+	min-width: 360px;
 	background-color: rgb(51, 52, 54, 0.8);
-	border-radius: 10px;
-	padding-left: 20px;
-	padding-right: 20px;
+	border-radius: 5px;
+	padding: 20px;
 }
 
 .inputField {
@@ -128,7 +127,6 @@ input[type='submit']:hover,
 
 .form-title {
 	text-align: center;
-	font-style: italic;
 	animation: fadein 3s;
 	font-size: calc(50px + 1.5vw);
 	font-family: var(--font);
@@ -146,14 +144,6 @@ input:focus::placeholder {
 	color: transparent;
 }
 
-.line {
-	width: 50%;
-	height: 0%;
-	transform: translateY(1050%);
-	margin-left: 10px;
-	margin-right: 10px;
-}
-
 .OU {
 	display: flex;
 	text-align: center;
@@ -163,11 +153,6 @@ input:focus::placeholder {
 	margin-bottom: -15px;
 	margin-left: 10px;
 }
-
-.longLine {
-	margin: 10px;
-}
-
 .spacer {
 	width: 100%;
 	height: 100%;
