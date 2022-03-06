@@ -16,7 +16,7 @@ function CompareMenu(props) {
 
 	useEffect(() => {
 		props.socket.emit('update', props.socket.id, props.compareList)
-	})
+	}, [searchList])
 
 	useEffect(() => {
 		props.socket.on('data', (data) => {

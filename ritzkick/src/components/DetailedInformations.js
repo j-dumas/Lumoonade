@@ -27,7 +27,7 @@ const DetailedInformations = (props) => {
 				</div>
 				<div className="row space-between detailed-div-item">
 					<p className="detailed-div-item-label">{t('detailed.price')}</p>
-					<p className="detailed-price">{props.data.regularMarketPrice}</p>
+					<p className="detailed-price">{format(props.data.regularMarketPrice)}</p>
 				</div>
 				<div className="row space-between detailed-div-item">
 					<p className="detailed-div-item-label">{t('detailed.change')}</p>

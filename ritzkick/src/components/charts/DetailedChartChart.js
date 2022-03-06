@@ -13,12 +13,10 @@ Chart.register(zoomPlugin)
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
-	const [chartReference, setCR] = useState(React.createRef())
-	const [data, setData] = useState()
+	const [chartReference] = useState(React.createRef())
+	const [data] = useState(Functions.GetDummyChartData(props.slug))
 
 	useEffect(async () => {
-		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
-		
 		let transactionList = (props.wallet && isUserConnected()) ? await getTransactions() : null
 		props.socket.on('graph', (datas) => {
 			console.log(props.dateRange)

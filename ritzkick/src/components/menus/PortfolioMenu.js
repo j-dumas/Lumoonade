@@ -60,10 +60,6 @@ function PortfolioMenu(props) {
 					<Icons.ArrowDown />
 				</div>
 				<WalletDeposit isOpen={deposit} close={closeDeposit}/>
-				
-				<div className="detailed-menu-actions-icon">
-					<Icons.Exange />
-				</div>
 			</div>
 		</div>
 	)

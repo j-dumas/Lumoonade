@@ -15,10 +15,6 @@ const DetailedChartChart = dynamic(
 )
 
 function DetailedChart(props) {
-	console.log('TEST2')
-	const [showPrice, setShowPrice] = useState(true)
-	const [showChange, setShowChange] = useState(false)
-	const [showVolume, setShowVolume] = useState(false)
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
 
