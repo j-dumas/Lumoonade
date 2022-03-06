@@ -142,7 +142,9 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 			// Over here.
 			wallet.hist.forEach((history) => {
 				totalSpent += history.paid
-				spent += history.paid
+				if (history.paid >= 0) {
+					spent += history.paid
+				}
 				hold += history.amount
 				avg++
 			})
