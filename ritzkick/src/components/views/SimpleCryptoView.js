@@ -5,12 +5,14 @@ import format from '../../../utils/formatter'
 import { isUserConnected } from '../../../services/AuthService'
 import ButtonFavorite from '../ButtonFavorite'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function SimpleCryptoView(props) {
 	const [imgLoaded, setImgStatus] = useState(false)
 
 	return (
-		<a href={'/asset/' + props.data.fromCurrency.toString().toLowerCase()} className="simple-crypto-view row center">
+		<Link href={'/asset/' + props.data.fromCurrency.toString().toLowerCase()}>
+			<div className="simple-crypto-view row center">
 			<div className='sub-section row space-between h-center'>
 				<div className="simple-crypto-view-item-big row left h-center">
                     <Image src={'/'+props.data.fromCurrency + '.svg'} width={25} height={25}></Image>
@@ -36,6 +38,7 @@ export default function SimpleCryptoView(props) {
 				{!isUserConnected()? <></> :
 				<ButtonFavorite slug={props.data.fromCurrency.toString().toLowerCase()}/>}
 			</div>
-		</a>
+			</div>
+		</Link>
 	)
 }

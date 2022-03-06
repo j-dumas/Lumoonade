@@ -213,7 +213,7 @@ function DetailedChartChart(props) {
 	return isDataNull(data) ? (
 		<div>Loading...</div>
 	) : (
-		<div className="detailed-chart-chart">
+		<div className={props.wallet?"detailed-chart-chart-2":"detailed-chart-chart"}>
 			<Charts ref={chartReference} data={getRelativeChartData(data)} options={getChartOptions(data)} />
 		</div>
 	)

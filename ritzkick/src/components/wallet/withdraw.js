@@ -9,12 +9,13 @@ function WalletWithdraw(props) {
     const [state, handleChange] = useForm()
 
     async function handleSubmit(e) {
-        await addTransaction(state.asset, state.boughtAt, state.price, state.date)
+        await addTransaction(state.asset.toLowerCase(), state.boughtAt,  state.price*-1, state.date)
+        window.location.reload()
     }
 
 	return (
 		<div className={props.isOpen?'wallet':'no-display'}>
-            <form className='wallet-form column' onSubmit={handleSubmit} method="POST">
+            <div className='wallet-form column' onSubmit={handleSubmit} method="POST">
                 <div className='row space-between'>
 					<p>Withdraw</p>
 					<div onClick={props.close}><Icons.Times/></div>
@@ -34,7 +35,7 @@ function WalletWithdraw(props) {
                 <label htmlFor="date">Date</label>
                 <input name='date' onChange={handleChange} className='wallet-input' type="date" required/>
                 <button type="submit" value="Submit">Withdraw</button>
-            </form>
+            </div>
 		</div>
 	)
 }
