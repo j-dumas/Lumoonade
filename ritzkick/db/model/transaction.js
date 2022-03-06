@@ -15,7 +15,8 @@ const transactionSchema = new mongoose.Schema(
 		asset: {
 			type: String,
 			required: true,
-			trim: true
+			trim: true,
+			lowercase: true
 		},
 		when: {
 			type: String
