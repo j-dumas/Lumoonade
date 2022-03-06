@@ -1,14 +1,10 @@
 const express = require('express')
-const mongoose = require('mongoose')
-const { Asset, Popular } = require('../../db/model/asset')
-const crypto = require('../../app/crypto/crypto')
-
+const { Asset } = require('../../db/model/asset')
 const pagination = require('../middleware/pagination')
 
-const { parser, refactorSymbolData, fetchSymbol, fetchMarketData } = require('../../utils/yahoo')
+const { parser, fetchSymbol, fetchMarketData } = require('../../utils/yahoo')
 const { fetchTopAssets, modifyTopAssets, options } = require('../../services/TopAssetService')
 const { TopGainer, TopLoser } = require('../../db/model/top_asset')
-const { fetchPopularAssets, modifyPopularAssets } = require('../../services/PopularAssetService')
 const router = express.Router()
 
 const paths = require('../routes.json')
