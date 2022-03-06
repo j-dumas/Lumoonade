@@ -7,35 +7,31 @@ const CURRENCY = 'usd'
 
 function WalletWithdraw(props) {
     const [state, handleChange] = useForm()
-
+    const [date] = useState(new Date().toISOString().slice(0, 10))
+    
     async function handleSubmit(e) {
+        e.preventDefault();
         await addTransaction(state.asset.toLowerCase(), state.boughtAt,  state.price*-1, state.date)
         window.location.reload()
     }
 
 	return (
 		<div className={props.isOpen?'wallet':'no-display'}>
-            <div className='wallet-form column' onSubmit={handleSubmit} method="POST">
+            <form className='wallet-form column' onSubmit={handleSubmit}>
                 <div className='row space-between'>
 					<p>Withdraw</p>
 					<div onClick={props.close}><Icons.Times/></div>
 				</div>
                 <label htmlFor="asset">Asset</label>
                 <input name='asset' onChange={handleChange} className='wallet-input' type="text" required/>
-                <div className='row space-between'>
-                    <div className='column'>
-                        <label htmlFor="boughtAt">Withdraw at</label>
-                        <input name='boughtAt' onChange={handleChange} className='wallet-input' type="number" required/>
-                    </div>                            
-                    <div className='column'>
-                        <label htmlFor="price">Amount (price)</label>
-                        <input name='price' onChange={handleChange} className='wallet-input' type="number" required/>
-                    </div>
-                </div>
+                <label htmlFor="boughtAt">Withdraw at</label>
+                <input name='boughtAt' onChange={handleChange} className='wallet-input' type="number" required/>
+                <label htmlFor="price">Amount (price)</label>
+                <input name='price' onChange={handleChange} className='wallet-input' type="number" required/>
                 <label htmlFor="date">Date</label>
-                <input name='date' onChange={handleChange} className='wallet-input' type="date" required/>
+                <input name='date' max={date} value={date} onChange={handleChange} className='wallet-input' type="date" required/>
                 <button type="submit" value="Submit">Withdraw</button>
-            </div>
+            </form>
 		</div>
 	)
 }

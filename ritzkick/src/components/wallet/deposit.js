@@ -7,15 +7,17 @@ const CURRENCY = 'usd'
 
 function WalletDeposit(props) {
     const [state, handleChange] = useForm()
+	const [date] = useState(new Date().toISOString().slice(0, 10))
 
-    async function handleSubmit() {
+    async function handleSubmit(e) {
+		e.preventDefault();
         await addTransaction(state.asset.toLowerCase(), state.boughtAt, state.price, state.date)
 		window.location.reload()
     }
 
 	return (
 		<div className={props.isOpen?'wallet':'no-display'}>
-			<div className='wallet-form column'>
+			<form className='wallet-form column'>
 				<div className='row space-between'>
 					<p>Deposit</p>
 					<div onClick={props.close}><Icons.Times/></div>
@@ -28,9 +30,9 @@ function WalletDeposit(props) {
 				<label htmlFor="price">Amount (price)</label>
 				<input name='price' onChange={handleChange} className='wallet-input' type="number" required/>
 				<label htmlFor="date">Date</label>
-				<input name='date' onChange={handleChange} className='wallet-input' type="date" required/>
+				<input name='date' max={date} value={date} onChange={handleChange} className='wallet-input' type="date" required/>
 				<button onClick={handleSubmit}>Deposit</button>
-			</div>
+			</form>
 		</div>
 	)
 }
