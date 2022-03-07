@@ -38,14 +38,10 @@ export function setCookie(value) {
 	d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
 	let expires = 'expires=' + d.toUTCString()
 	document.cookie =
-		name + '=' + value + ';' + expires + '; Http-Only, SameSite=Strict, path=/' + navigator.language + ';'
+		name + '=' + value + ';' + expires + '; Http-Only, SameSite=Strict, path=/;'
 }
 
 export function deleteCookie(cname) {
-	const paths = getAllPaths()
-
-	paths.forEach((path) => {
-		document.cookie =
-			cname + '=; expires=Thu, 1 Jan 1970 00:00:00 UTC; Http-Only, SameSite=Strict, path=' + path + ';'
-	})
+	document.cookie =
+		cname + '=; expires=Thu, 1 Jan 1970 00:00:00 UTC; Http-Only, SameSite=Strict, path=/;'
 }

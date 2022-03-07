@@ -105,7 +105,6 @@ export async function deleteUser() {
 		})
 
 		deleteCookie('token')
-		window.location.assign(`/${navigator.language}`)
 	} catch (e) {
 		console.log(e)
 	}
@@ -123,7 +122,6 @@ export async function getUser() {
 
 		if (response.status === 401) {
 			deleteCookie('token')
-			window.location.assign(`/${navigator.language}/login`)
 		} else {
 			let json = await response.json()
 			return json

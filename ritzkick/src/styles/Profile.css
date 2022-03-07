@@ -191,4 +191,5 @@ ul {
 
 .alert-page-control-buttons:hover{
 	border: none;
+	background-color: var(--background-color-2);
 }
