@@ -8,10 +8,7 @@ import Layout from '@/layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
-// Exemple d'URL:/compare?assets=ETH-BNB
 const Compare = () => {
-	const [data, setData] = useState()
-
 	return (
 		<>
 			<section className="section column principal first center">

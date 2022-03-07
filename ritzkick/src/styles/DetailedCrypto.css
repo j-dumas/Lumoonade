@@ -48,7 +48,8 @@
 
 .detailed-informations {
 	height: fit-content;
-	width: 360px;
+	max-width: 360px;
+	flex-grow: 1;
 }
 
 .detailed-div {

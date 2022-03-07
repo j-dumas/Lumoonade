@@ -15,19 +15,15 @@ const transactionSchema = new mongoose.Schema(
 		asset: {
 			type: String,
 			required: true,
-			trim: true
+			trim: true,
+			lowercase: true
 		},
 		when: {
 			type: String
 		},
 		paid: {
 			type: Number,
-			required: true,
-			validate(amount) {
-				if (amount < 0) {
-					throw new Error('Unable to set an amount under 0.')
-				}
-			}
+			required: true
 		},
 		boughtAt: {
 			type: Number,

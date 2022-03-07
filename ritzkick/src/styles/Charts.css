@@ -19,9 +19,15 @@
 }
 
 .detailed-chart-chart {
-	height: 65vh;
+	height: 65vh; /*height: 330px;*/
 	min-height: 330px;
 }
+
+.detailed-chart-chart-2 {
+	height: 330px;
+	min-height: 330px;
+}
+
 
 .detailed-chart-legend {
 }

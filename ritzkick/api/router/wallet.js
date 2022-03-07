@@ -4,6 +4,31 @@ const Transaction = require('../../db/model/transaction')
 const auth = require('../middleware/auth')
 const router = express.Router()
 
+router.get('/api/wallets/transactions', auth, async (req, res) => {
+    try {
+        const wallets = await Wallet.find({ owner: req.user._id })
+        if (wallets.length === 0) {
+            throw new Error(`You don't have any wallet.`)
+        }
+        for (let i = 0; i < wallets.length; i++) {
+            await wallets[i].populate({
+                path: 'hist'
+            })
+        }
+
+        let aaasd = []
+        wallets.forEach(wallet => {
+            aaasd.push(wallet.hist)
+        })
+
+        res.send(aaasd.flat())
+    } catch (e) {
+        res.status(400).send({
+            message: e.message
+        })
+    } 
+})
+
 router.post('/api/wallet/:name/add', auth, async (req, res) => {
 	try {
 		const asset = req.params.name
@@ -117,7 +142,9 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
 			// Over here.
 			wallet.hist.forEach((history) => {
 				totalSpent += history.paid
-				spent += history.paid
+				if (history.paid >= 0) {
+					spent += history.paid
+				}
 				hold += history.amount
 				avg++
 			})
