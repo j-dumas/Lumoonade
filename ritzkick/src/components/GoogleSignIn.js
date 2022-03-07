@@ -8,7 +8,7 @@ import { googleLogin } from 'services/AuthService'
 export default function GoogleSignIn() {
 	const { t } = useTranslation('forms')
 
-	function onSignIn(googleUser) {
+	async function onSignIn(googleUser) {
 		const id_token = googleUser.getAuthResponse().id_token
 		if (id_token !== undefined) {
 			await googleLogin(id_token).then((res) => {
