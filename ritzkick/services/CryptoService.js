@@ -16,8 +16,8 @@ const Functions = {
 		return slugs
 	},
 
-	async GetSCryptocurrencySlugsBySeach(keyword, page = 0, limit = 16) {
-		const URI = `/api/assets/search/${keyword}?page${page}&limit=${limit}`
+	async GetSCryptocurrencySlugsBySeach(keyword, page = 1, limit = 16) {
+		const URI = `/api/assets/search/${keyword}?page=${page}&limit=${limit}`
 
 		let response = await fetch(URI)
 
