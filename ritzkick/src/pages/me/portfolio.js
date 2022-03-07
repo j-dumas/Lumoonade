@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '@/Layouts/Layout'
+import Layout from '@/layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 //import PortfolioMenu from '../../components/menus/PortfolioMenu'
