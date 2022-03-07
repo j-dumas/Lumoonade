@@ -71,8 +71,7 @@ export async function register(email, username, password, handleError) {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ email: email })
-			})
-				.catch((e) => console.log(e))
+			}).catch((e) => console.log(e))
 		} else {
 			handleError()
 		}
@@ -82,8 +81,7 @@ export async function register(email, username, password, handleError) {
 	}
 }
 
-
-export async function confirmEmail(key){
+export async function confirmEmail(key) {
 	try {
 		const response = await fetch('/api/confirmation/verify/' + key, {
 			method: 'GET',
@@ -92,4 +90,4 @@ export async function confirmEmail(key){
 			}
 		})
 	} catch (e) {}
-} 
+}

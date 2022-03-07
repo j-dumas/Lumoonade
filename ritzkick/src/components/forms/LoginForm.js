@@ -32,13 +32,18 @@ const LoginForm = () => {
 	const handleSubmit = async (event) => {
 		if (state.email !== undefined && state.password !== undefined) {
 			event.preventDefault()
-			await login(state.email, state.password, handleError)
-					.then((res) => {if(res === 200){router.push("/profile")}})
+			await login(state.email, state.password, handleError).then((res) => {
+				if (res === 200) {
+					router.push('/profile')
+				}
+			})
 		}
 	}
 
 	useEffect(() => {
-		return () => {alert(getCookie("token"))}
+		return () => {
+			alert(getCookie('token'))
+		}
 	}, [])
 
 	return (
