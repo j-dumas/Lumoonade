@@ -133,6 +133,36 @@ const updateHelper = async (body, user) => {
 	return response
 }
 
+/**
+ * PATCH /api/me/update
+ * @summary Update the user's profile
+ * @tags Me
+ * @param {object} request.body.required - User info
+ * @example request - example payload
+ * {
+ *  "oldPassword": "12345mdp,
+ *  "newPassword": "123456mdp"
+ * }
+ * @return {UserSummaryResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *   "message": "Account updated!",
+ * 	 "profile": {
+ * 	 	... 
+ *    }
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @return {string} 400 - bad request
+ * @example response - 400 - example of an error message
+ * {
+ * 	"message": "Please provide informations to be modified | Cannot implicitly set a new password without proper validations | Invalid password. Cannot modify current password | Cannot assign an empty password | One or more properties are not supported"
+ * }
+ * @security BearerAuth
+ */
 router.patch(paths.user.update, authentification, async (req, res) => {
 	try {
 		let updates = Object.keys(req.body)
@@ -180,6 +210,26 @@ router.patch(paths.user.update, authentification, async (req, res) => {
 	}
 })
 
+/**
+ * DELETE /api/me/delete
+ * @summary Get all wallets from the user
+ * @tags Me
+ * @return {UserSummaryResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *   "message": "Removing account",
+ * 	 "account": {
+ * 	 	... 
+ *    }
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @return {string} 500 - server error
+ * @security BearerAuth
+ */
 router.delete(paths.user.delete, authentification, async (req, res) => {
 	try {
 		await req.user.remove()
@@ -192,6 +242,40 @@ router.delete(paths.user.delete, authentification, async (req, res) => {
 	}
 })
 
+/**
+ * GET /api/me/wallets
+ * @summary Get all wallets from the user
+ * @tags Me
+ * @return {UserSummaryResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *   "wallets": [
+ *       {
+ *           "_id": "62263541b4d46876e9313238",
+ *           "owner": "622634deb4d46876e931322f",
+ *           "asset": "btc",
+ *           "amount": 22,
+ *           "history": [
+ *               {
+ *                   "transaction": "62263562b4d46876e9313241",
+ *                   "_id": "62263562b4d46876e9313243"
+ *               }
+ *           ],
+ *           "createdAt": "2022-03-07T16:39:29.385Z",
+ *           "updatedAt": "2022-03-07T16:40:02.419Z",
+ *           "__v": 1
+ *       }
+ *   ],
+ *   "page": 1,
+ *   "count": 1
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @security BearerAuth
+ */
 router.get('/api/me/wallets', [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'wallet',
@@ -203,6 +287,30 @@ router.get('/api/me/wallets', [authentification, pagination], async (req, res) =
 	res.send({ wallets: req.user.wallet, page: req.page, count: req.user.wallet.length })
 })
 
+/**
+ * GET /api/me/favorites
+ * @summary Get all of the favorite assets from the user
+ * @tags Me
+ * @return {UserSummaryResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *   "favorites": [
+ *       {
+ *           "_id": "622655ba179310aac5ce1599",
+ *           "owner": "622634deb4d46876e931322f",
+ *           "slug": "ada"
+ *       }
+ *   ],
+ *   "page": 1,
+ *   "count": 1
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @security BearerAuth
+ */
 router.get(paths.favorites.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'favorite',
@@ -214,6 +322,35 @@ router.get(paths.favorites.all, [authentification, pagination], async (req, res)
 	res.send({ favorites: req.user.favorite, page: req.page, count: req.user.favorite.length })
 })
 
+/**
+ * GET /api/me/watchlists
+ * @summary Get all of the user's alerts
+ * @tags Me
+ * @return {UserSummaryResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *   "watchlists": [
+ *       {
+ *           "_id": "622655ba179310aac5ce1599",
+ *           "owner": "622634deb4d46876e931322f",
+ *           "slug": "ada-cad",
+ *           "parameter": "gte",
+ *           "target": 2000,
+ *           "createdAt": "2022-03-07T18:58:02.422Z",
+ *           "updatedAt": "2022-03-07T18:58:02.422Z",
+ *           "__v": 0
+ *       }
+ *   ],
+ *   "page": 1,
+ *   "count": 1
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @security BearerAuth
+ */
 router.get(paths.alerts.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'watchlist',
@@ -225,6 +362,24 @@ router.get(paths.alerts.all, [authentification, pagination], async (req, res) =>
 	res.send({ watchlists: req.user.watchlist, page: req.page, count: req.user.watchlist.length })
 })
 
+/**
+ * PATCH /api/me/sessions/purge
+ * @summary Purge all other sessions
+ * @tags Me
+ * @return {UserSummaryResponse} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *	"message": "Successfully purged all other sessions!",
+ * 	"purged": 1
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @return {string} 500 - server error
+ * @security BearerAuth
+ */
 router.patch('/api/me/sessions/purge', authentification, async (req, res) => {
 	try {
 		let activeSessions = req.user.sessions.length
