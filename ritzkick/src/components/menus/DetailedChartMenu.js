@@ -40,8 +40,12 @@ export default function DetailedChartMenu(props) {
 					<select
 						onChange={(e) => {
 							props.sendDateRange(e.target.value)
-							let availableIntervals = getIntervalOptionsByDateRange(e.target.value) 
-							if (!availableIntervals.find(inter => inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase()))) {
+							let availableIntervals = getIntervalOptionsByDateRange(e.target.value)
+							if (
+								!availableIntervals.find((inter) =>
+									inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase())
+								)
+							) {
 								let value = getIntervalOptionsByDateRange(e.target.value)[0]
 								props.sendInterval(value)
 								setCurrentInterval(value)

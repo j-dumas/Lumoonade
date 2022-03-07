@@ -63,8 +63,8 @@ const slapToLowerCase = (list) => {
 
 const sortListInSpecificOrder = (list = [], order = []) => {
 	let res = []
-	list.forEach(item => {
-		let index = order.findIndex(od => item.symbol.toLowerCase().includes(od.toLowerCase()))
+	list.forEach((item) => {
+		let index = order.findIndex((od) => item.symbol.toLowerCase().includes(od.toLowerCase()))
 		res.splice(index, 0, item)
 	})
 	return res

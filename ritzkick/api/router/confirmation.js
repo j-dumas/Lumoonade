@@ -58,7 +58,9 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
 				url: link,
 				destroyable: true
 			})
-		}).catch(_ => { return { data: { url: link } } } )
+		}).catch((_) => {
+			return { data: { url: link } }
+		})
 		emailSender.sendConfirmationEmail(email, response.data.url)
 		res.status(201).send()
 	} catch (e) {

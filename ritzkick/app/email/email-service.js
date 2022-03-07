@@ -45,8 +45,7 @@ const create = async () => {
 	client.on('data', (data) => {
 		if (!data) return
 		data.forEach((d) => {
-			if (d.symbol && d.regularMarketPrice)
-				tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
+			if (d.symbol && d.regularMarketPrice) tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
 		})
 	})
 }

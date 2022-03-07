@@ -25,7 +25,7 @@ function DetailedChartChart(props) {
 				if (!chart || isDataNull(datas)) return
 				chart.data = getRelativeChartData(datas)
 				chart.update()
-			} catch (_) { }
+			} catch (_) {}
 		})
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
