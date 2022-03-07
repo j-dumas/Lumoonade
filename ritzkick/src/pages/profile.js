@@ -22,6 +22,10 @@ const Profile = () => {
 		setUser(data)
 	}
 
+	async function updateUser(){
+		getUser().then((res) => setUser(res))
+	}
+
 	useEffect(() => {
 		if(getCookie("token") === undefined){
 			router.push("/")
@@ -34,9 +38,9 @@ const Profile = () => {
 		<>
 			<main>
 				<div className="column page-navbar">
-					<div className="center">{user !== undefined && <ProfileHeader user={user} />}</div>
+					<div className="center">{user !== undefined && <ProfileHeader user={user} updateUser={updateUser} />}</div>
 					<div>
-						<div className="row center no-margin">
+						<div className="row center">
 							<button
 								className={viewState ? 'profile-nav-selected' : 'profile-nav'}
 								onClick={() => setViewState(true)}

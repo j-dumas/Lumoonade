@@ -5,6 +5,7 @@ import { deleteUser, updateUser } from 'services/UserService'
 import { useForm } from '@/components/hooks/useForm'
 import { AccountCircle, EditRounded, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
+import { useRouter } from 'next/router'
 
 const newUsername = 'newUsername'
 const oldPass = 'oldPass'
@@ -22,8 +23,8 @@ export default function ProfilePopup(props) {
 		newPassShow: false,
 		newPassConfirmationShow: false
 	})
-
 	const [error, setError] = useState(false)
+	const router = useRouter()
 
 	function eraseFieldValue() {
 		resetValues()
@@ -67,7 +68,7 @@ export default function ProfilePopup(props) {
 				close()
 			} else {
 				if (confirm('Êtes-vous sur de vouloir modifier votre profile?')) {
-					updateUser(
+					await updateUser(
 						event,
 						props.username,
 						values.newUsername,
@@ -76,6 +77,8 @@ export default function ProfilePopup(props) {
 						values.newPassConfirmation,
 						setError
 					)
+					await props.updateUser()
+					alert('Profil modifié avec succès')
 				}
 			}
 		}

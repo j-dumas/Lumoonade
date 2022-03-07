@@ -240,12 +240,9 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if (response.status === 200) {
-				alert('Profil modifié avec succès')
-				window.location.assign(`/${navigator.language}/profile`)
-			} else if (response.status === 400) {
+			if (response.status === 400) {
 				document.getElementById('wrong-password').style.display = 'block'
-			} else {
+			} else if(response.status === 500) {
 				alert('Something went wrong')
 			}
 		} catch (e) {
@@ -265,12 +262,9 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername })
 			})
 
-			if (response.status === 200) {
-				alert('Profil modifié avec succès')
-				window.location.assign(`/${navigator.language}/profile`)
-			} else if (response.status === 400) {
+			if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
-			} else {
+			} else if(response.status === 500){
 				alert('Something went wrong')
 			}
 		} catch (e) {
@@ -290,13 +284,10 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername, oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if (response.status === 200) {
-				alert('Profil modifié avec succès')
-				window.location.assign(`/${navigator.language}/profile`)
-			} else if (response.status === 400) {
+			if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
 				document.getElementById('wrong-password').style.display = 'block'
-			} else {
+			} else if(response.status === 500){
 				alert('Something went wrong')
 			}
 		} catch (e) {
