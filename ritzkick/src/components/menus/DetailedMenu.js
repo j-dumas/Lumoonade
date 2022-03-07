@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Icons from '@/components/Icons'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import Image from 'next/image'
+import {isUserConnected} from '../../../services/AuthService'
 
 function DetailedMenu(props) {
 	return (
 		<div className="page-menu space-between row h-center">
 			<div className="row h-center detailed-menu-info">
-				<Image src={`/../${props.firstData[0].fromCurrency}.svg`} alt="" width={50} height={50} />
+				<Image src={`/../${props.firstData[0].fromCurrency}.svg`} alt="" width={40} height={40} />
 				<h1 className="detailed-menu-title">{props.firstData[0].shortName}</h1>
 				<p className="detailed-menu-subtitle">{props.firstData[0].fromCurrency}</p>
 				<a
@@ -17,6 +18,8 @@ function DetailedMenu(props) {
 					Compare
 				</a>
 			</div>
+
+			{!isUserConnected()?<></>:
 			<div className="detailed-menu-actions row h-center">
 				<ButtonFavorite slug={props.slug} />
 				<a href="" className="">
@@ -32,6 +35,7 @@ function DetailedMenu(props) {
 					<Icons.Exange />
 				</a>
 			</div>
+			}
 		</div>
 	)
 }

@@ -2,7 +2,7 @@
 
 :root {
 	--headline: calc(45px + 5vw);
-	--title: calc(45px + 2vw);
+	--title: calc(30px + 2vw);
 	--subtitle: calc(var(--title) / 3);
 	--subtitle-small: calc(var(--title) / 4);
 	--text: 14px;
@@ -97,9 +97,11 @@ h5,
 h6,
 p {
 	font-weight: normal;
+	margin: 0;
 }
 p {
 	font-size: var(--text);
+	line-height: 25px;
 }
 
 .item {
@@ -188,10 +190,9 @@ input {
 	outline: none;
 	background-color: var(--background-color-3);
 	color: white;
-	font-size: 15px;
+	font-size: 14px;
 }
 button {
-	margin-left: 5px;
 	padding: 5px;
 	border: none;
 	border-radius: 5px;
@@ -206,15 +207,20 @@ button:hover {
 	border: 1px solid white;
 }
 
+.small-p {
+	color: var(--font-color-2);
+	font-size: 14px;
+}
+
 .max-width {
 	max-width: 360px;
 }
 
 .increase {
-	color: var(--good-color);
+	color: var(--good-color) !important;
 }
 .decrease {
-	color: var(--bad-color);
+	color: var(--bad-color) !important;
 }
 
 .icon {
@@ -226,6 +232,31 @@ button:hover {
 	width: 10px;
 	height: 10px;
 	background-color: white;
+}
+
+label {
+	font-size: 14px;
+}
+
+.no-display {
+	display: none;
+}
+.display {
+	display: block;
+}
+.wallet {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 100;
+
+	background-color: rgba(255, 255, 255, .15);  
+ 	backdrop-filter: blur(5px);
 }
 
 /* width */

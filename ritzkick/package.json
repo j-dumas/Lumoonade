@@ -5,7 +5,7 @@
 		"start": "env-cmd -f ./env/.prod.env node --no-deprecation server.js",
 		"start-test": "env-cmd -f ./env/.prod.test.env node --no-deprecation server.js",
 		"dev": "env-cmd -f ./env/.local.env nodemon --no-deprecation server.js",
-		"build": "next build",
+		"build": "env-cmd -f ./env/.prod.env next build",
 		"analyze": "cross-env ANALYZE=true next build",
 		"postbuild": "next-sitemap",
 		"lint": "next lint",
