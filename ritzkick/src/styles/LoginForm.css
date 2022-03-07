@@ -190,3 +190,13 @@ input:focus::placeholder {
 	color: black;
 	padding: 10px;
 }
+
+#resend-email-button{
+	margin-left: 10px;
+	background-color: var(--background-color-3);
+}
+
+#resend-email-button:hover{
+	border: none;
+	background-color: var(--background-color);
+}
