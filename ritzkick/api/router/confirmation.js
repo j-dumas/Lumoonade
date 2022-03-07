@@ -26,6 +26,28 @@ const creationLimiter = rateLimit({
 	legacyHeaders: false
 })
 
+/**
+ * Confirmation Request Model
+ * @typedef {object} ConfirmationRequest
+ * @property {string} email.required - Email to send it to
+ */
+
+/**
+ * POST /api/confirmations
+ * @summary Creating a confirmation email
+ * @tags Confirmation
+ * @param {ConfirmationRequest} request.body.required - Confirmation info
+ * @example request - example payload
+ * {
+ * 	"email": "foo@bar.foo"
+ * }
+ * @return 201 - created
+ * @return {string} 400 - bad request
+ * @example response - 400 - example of a possible error message
+ * {
+ * 	"message": "Please provide a valid email format | Please provide an email in the body | You can't confirm twice the email"
+ * }
+ */
 router.post('/api/confirmations', creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
@@ -70,7 +92,24 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
 	}
 })
 
-router.get('/api/confirmation/verify/:jwt', async (req, res) => {
+/**
+ * Confirmation Verify Request Model
+ * @typedef {object} ConfirmationVerifyRequest
+ * @property {string} jwt.required - jwt for decoding purposes 
+ */
+
+/**
+ * GET /api/confirmations/{token}
+ * @summary Verifies if the token is valid.
+ * @tags Confirmation
+ * @return 200 - valid
+ * @return {string} 400 - bad request
+ * @example response - 400 - example of a possible error message
+ * {
+ * 	"message": "Token may be outdated | Token is corrupted"
+ * }
+ */
+router.get('/api/confirmation/verify/:jwt', creationLimiter, async (req, res) => {
 	try {
 		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 		const token = req.params.jwt

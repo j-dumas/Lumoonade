@@ -14,6 +14,7 @@
  * @typedef {object} Wallet
  * @property {string} owner - ID of the Owner (User)
  * @property {string} slug - Slug of the Asset
+ * @property {list} history - Histories of all transactions
  * @property {number} amount - Amount of Asset in the Wallet
  */
 

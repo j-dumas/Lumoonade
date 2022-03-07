@@ -11,7 +11,8 @@ const walletSchema = new mongoose.Schema(
 		asset: {
 			type: String,
 			required: true,
-			trim: true
+			trim: true,
+			lowercase: true,
 		},
 		history: [
 			{
