@@ -25,12 +25,12 @@ export default function GoogleSignIn() {
 		<div id="googleSignin">
 			<GoogleLogin
 				clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-				buttonText="Login"
+				buttonText={t('login.google')}
 				onSuccess={onSignIn}
 				cookiePolicy={'single_host_origin'}
 				strategy="lazyOnload"
 			/>
-			<h4>{t('login.google')}</h4>
+			{/* <a href="#" onClick={signOut}>Sign out</a> */}
 		</div>
 	)
 }

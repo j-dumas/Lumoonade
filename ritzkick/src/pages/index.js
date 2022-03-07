@@ -8,10 +8,24 @@ import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import { deleteCookie, getCookie } from 'services/CookieService'
 
 const Home = () => {
 	const [data, setData] = useState([{}])
 	const { t } = useTranslation('index')
+	const router = useRouter()
+	const { logout } = router.query
+
+	useEffect(() => {
+		console.log(router.query)
+		console.log(logout)
+		if(logout){
+			console.log("called")
+			deleteCookie("token")
+			console.log(getCookie("token"))
+		}
+	}, [])
 
 	return (
 		<>

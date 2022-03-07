@@ -1,3 +1,5 @@
+import React from 'react'
+import { useRouter } from 'next/router'
 import { getCookie, setCookie, deleteCookie } from './CookieService'
 
 export function isUserConnected() {
@@ -8,7 +10,7 @@ export function isUserConnected() {
 	return true
 }
 
-export async function logout() {
+export async function logout(setConnection) {
 	try {
 		const token = getCookie('token')
 		const response = await fetch('/api/auth/logout', {
@@ -21,7 +23,7 @@ export async function logout() {
 
 		if (response.status === 200) {
 			deleteCookie('token')
-			window.location.assign(`/${navigator.language}`)
+			setConnection(false)
 		}
 	} catch (e) {
 		console.log(e)
@@ -41,7 +43,7 @@ export async function login(email, password, handleError) {
 		if (response.status == 200) {
 			let json = await response.json()
 			setCookie(json.token)
-			window.location.assign(`/${navigator.language}/profile`)
+			return response.status
 		} else if (response.status == 400) {
 			handleError()
 		} else {
@@ -71,9 +73,6 @@ export async function register(email, username, password, handleError) {
 				body: JSON.stringify({ email: email })
 			})
 				.catch((e) => console.log(e))
-				.finally(() => {
-					window.location.assign(`/${navigator.language}/login`)
-				})
 		} else {
 			handleError()
 		}
@@ -82,3 +81,15 @@ export async function register(email, username, password, handleError) {
 		alert(e.message)
 	}
 }
+
+
+export async function confirmEmail(key){
+	try {
+		const response = await fetch('/api/confirmation/verify/' + key, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+	} catch (e) {}
+} 
