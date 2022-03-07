@@ -7,12 +7,14 @@ import Functions, {
 	GetTopPopularCryptocurrencies
 } from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
-import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
-import DetailedChart from '@/components/charts/DetailedChart'
-import DetailedMenu from '@/components/menus/DetailedMenu'
-import {createSocket} from '../../../services/SocketService'
+import { createSocket } from 'services/SocketService'
+import dynamic from 'next/dynamic'
 
 const io = require('socket.io-client')
+
+const DetailedInformationsDashboard = dynamic(() => import('@/components/DetailedInformationsDashboard'))
+const DetailedChart = dynamic(() => import('@/components/charts/DetailedChart'))
+const DetailedMenu = dynamic(() => import('@/components/menus/DetailedMenu'))
 
 function DetailedCryptoView(props) {
 	const [slug, setSlug] = useState(props.slug + '-' + props.currency)

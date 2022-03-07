@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 
+import dynamic from 'next/dynamic'
 import { createSocket } from 'services/SocketService'
 import Functions from 'services/CryptoService'
 import { getFavorites } from 'services/UserService'
 import { isUserConnected } from 'services/AuthService'
 import Layout from '@/layouts/Layout'
-import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
 import { SlugArrayToSymbolArray } from 'utils/crypto'
 
 /* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+
+const SimpleCryptoCardDashboard = dynamic(() => import('@/components/SimpleCryptoCardDashboard'))
 
 const CURRENCY = 'usd'
 
