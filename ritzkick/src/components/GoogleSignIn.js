@@ -3,17 +3,20 @@ import React, { useEffect } from 'react'
 import Head from 'next/head'
 import GoogleLogin, { GoogleLogout } from 'react-google-login'
 import { useTranslation } from 'next-i18next'
+import { googleLogin } from 'services/AuthService'
 
 export default function GoogleSignIn() {
 	const { t } = useTranslation('forms')
 
 	function onSignIn(googleUser) {
-		console.log('Test')
-		var profile = googleUser.getBasicProfile()
-		console.log('ID: ' + profile.getId())
-		console.log('Name: ' + profile.getName())
-		console.log('Image URL: ' + profile.getImageUrl())
-		console.log('Email: ' + profile.getEmail())
+		const id_token = googleUser.getAuthResponse().id_token
+		if (id_token !== undefined) {
+			await googleLogin(id_token).then((res) => {
+				if (res === 200) {
+					router.push('/profile')
+				}
+			})
+		}
 	}
 
 	function signOut() {

@@ -11,6 +11,7 @@ import { useForm } from '@/components/hooks/useForm'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { getCookie } from 'services/CookieService'
+
 const GoogleSignIn = dynamic(() => import('@/components/GoogleSignIn'))
 
 const LoginForm = () => {
@@ -32,13 +33,18 @@ const LoginForm = () => {
 	const handleSubmit = async (event) => {
 		if (state.email !== undefined && state.password !== undefined) {
 			event.preventDefault()
-			await login(state.email, state.password, handleError)
-					.then((res) => {if(res === 200){router.push("/profile")}})
+			await login(state.email, state.password, handleError).then((res) => {
+				if (res === 200) {
+					router.push('/profile')
+				}
+			})
 		}
 	}
 
 	useEffect(() => {
-		return () => {alert(getCookie("token"))}
+		return () => {
+			alert(getCookie('token'))
+		}
 	}, [])
 
 	return (
@@ -70,7 +76,7 @@ const LoginForm = () => {
 				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="outlined-adornment-password">{t('fields.password')}</InputLabel>
 					<OutlinedInput
-						className='test'
+						className="test"
 						name="password"
 						id="outlined-adornment-password"
 						type={passShow ? 'text' : 'password'}
@@ -97,14 +103,16 @@ const LoginForm = () => {
 					/>
 				</FormControl>
 				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('login.submit')} />
-				<Link href="/forgotPassword"><div className='link'>{t('login.forgot-password')}</div></Link>
+				<Link href="/forgotPassword">
+					<div className="link">{t('login.forgot-password')}</div>
+				</Link>
 			</form>
 			<AndSeparator />
 			<GoogleSignIn />
 
 			<div>
 				<Separator />
-				<div className='row'>
+				<div className="row">
 					<p>{t('login.no-account')}</p>
 					<Link href="/register">
 						<div className="link">{t('login.register')}</div>
