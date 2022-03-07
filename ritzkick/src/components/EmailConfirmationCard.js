@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { confirmEmail } from 'services/AuthService'
 
 import { useTranslation } from 'next-i18next'
 
@@ -13,16 +13,7 @@ export default function EmailConfirmationCard() {
 	useEffect(() => {
 		async function getConfirmation() {
 			if (key !== undefined) {
-				//Api call
-
-				try {
-					const response = await fetch('/api/confirmation/verify/' + key, {
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json'
-						}
-					})
-				} catch (e) {}
+				confirmEmail(key)
 			}
 		}
 
@@ -33,9 +24,7 @@ export default function EmailConfirmationCard() {
 		<div className="form">
 			<h1 className="form-title">{t('title')}</h1>
 			<h3>{t('message')}</h3>
-			<Link href="/login">
-				<a className="link">{t('login')}</a>
-			</Link>
+			<h3>Vous allez être redirigé sous peu</h3>
 		</div>
 	)
 }

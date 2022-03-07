@@ -82,13 +82,13 @@ const cleanupCallback = (data) => {
 			let quotes = res.response[0].indicators.quote[0].close
 			let timestamps = res.response[0].timestamp
 			res.response[0].indicators.quote[0].close = quotes.filter((obj, index) => {
-				timestamps[index] = !obj ? null : timestamps[index] * 1000  
+				timestamps[index] = !obj ? null : timestamps[index] * 1000
 				return obj
 			})
-			res.response[0].timestamp = timestamps.filter(_ => _)
+			res.response[0].timestamp = timestamps.filter((_) => _)
 		})
 		return data.spark.result
-	} catch (_) { }
+	} catch (_) {}
 }
 
 const listenCallback = (room, data = []) => {
@@ -101,9 +101,9 @@ const listenCallback = (room, data = []) => {
 					keep: client.query
 				})
 				client.socket.emit('graph', parser.sortListInSpecificOrder(result, client.query))
-			} catch (_) { }
+			} catch (_) {}
 		})
-	} catch (_) { }
+	} catch (_) {}
 }
 
 /**
@@ -137,10 +137,12 @@ const adjustDateMiddleware = (data = [], range, timezone) => {
 	if (data.length === 0) return
 	try {
 		data[0].response[0].timestamp.forEach((time, index) => {
-			data[0].response[0].timestamp[index] = getDateFormat(range, time, timezone) 
+			data[0].response[0].timestamp[index] = getDateFormat(range, time, timezone)
 		})
 		return data
-	} catch (_) { console.log('Error', _) }
+	} catch (_) {
+		console.log('Error', _)
+	}
 }
 
 module.exports = {

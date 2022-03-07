@@ -9,7 +9,8 @@ import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText } from '@mui/material'
 import { useForm } from '@/components/hooks/useForm'
 import dynamic from 'next/dynamic'
-
+import { useRouter } from 'next/router'
+import { getCookie } from 'services/CookieService'
 const GoogleSignIn = dynamic(() => import('@/components/GoogleSignIn'))
 
 const LoginForm = () => {
@@ -18,6 +19,7 @@ const LoginForm = () => {
 	const [state, handleChange] = useForm({})
 	const [passShow, setPassShow] = useState(false)
 	const [error, setError] = useState(false)
+	const router = useRouter()
 
 	const handleClickShowPassword = (event) => {
 		setPassShow(!passShow)
@@ -31,8 +33,13 @@ const LoginForm = () => {
 		if (state.email !== undefined && state.password !== undefined) {
 			event.preventDefault()
 			await login(state.email, state.password, handleError)
+					.then((res) => {if(res === 200){router.push("/profile")}})
 		}
 	}
+
+	useEffect(() => {
+		return () => {alert(getCookie("token"))}
+	}, [])
 
 	return (
 		<Container className="column p-3 form">

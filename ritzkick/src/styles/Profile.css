@@ -31,9 +31,7 @@
 	min-height: 40px;
 	border-radius: 50%;
 	background-color: var(--main-color);
-	color: white;
-	font-size: 120%;
-	text-align: center;
+	padding: 0px;
 }
 
 .icon-button:hover {
@@ -94,19 +92,39 @@ ul {
 }
 
 .alert-card {
-	display: grid;
-	grid-template-columns: auto auto auto auto auto;
+	display: flex;
+	justify-content: space-evenly;
 	width: 500px;
-	background-color: var(--background-color);
-	border-radius: 10px;
-	margin: 10px;
+	min-width: 300px;
+	background-color: var(--background-color-2);
 	padding: 10px;
-	border: 2px solid;
-	border-color: var(--main-color);
+	border-bottom: 2px solid;
+	border-color: var(--background-color);
+	align-items: center;
+}
+
+.alert-card:hover {
+	background-color: var(--background-color);
+	transition: 0.5s;
 }
 
 .alert-card-item {
 	width: 30px;
+	margin-left: 10px;
+	margin-right: 10px
+}
+
+#delete-alert-button{
+	text-align: center;
+	width: 8%;
+	height: 8%;
+}
+
+#delete-alert-button:hover{
+	border: none;
+	width: 10%;
+	height: 10%;
+	background-color: red;
 }
 
 .selector {
@@ -165,4 +183,14 @@ ul {
 
 .no-margin {
 	margin: -21px;
+}
+
+.alert-page-control-buttons{
+	justify-content: center;
+	align-items: center;
+}
+
+.alert-page-control-buttons:hover{
+	border: none;
+	background-color: var(--background-color-2);
 }

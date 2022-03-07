@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Functions, {
-	GetCryptocurrencyInformationsBySlug,
-	GetTopPopularCryptocurrencies,
-	GetTopEfficientCryptocurrencies
-} from 'services/CryptoService'
-import dynamic from 'next/dynamic'
 import DetailedChartMenu from '@/components/menus/DetailedChartMenu'
+import dynamic from 'next/dynamic'
+
 
 const DetailedChartChart = dynamic(
 	() => {

@@ -3,17 +3,25 @@ import { useRouter } from 'next/router'
 import Layout from '@/Layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+//import PortfolioMenu from '../../components/menus/PortfolioMenu'
 import PieChart from '../../components/charts/PieChart'
+import DetailedChart from '../../components/charts/DetailedChart'
+
 import { getUserDashboardData } from '../../../services/dashboard-service'
 import { isUserConnected } from '../../../services/AuthService'
-import DetailedChart from '../../components/charts/DetailedChart'
 import {createSocket} from '../../../services/SocketService'
 import SimpleWalletAssetDashboard from '../../components/SimpleWalletAssetDashboard'
 import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
 import { SlugArrayToSymbolArray } from '../../../utils/crypto'
-import Icons from '../../components/Icons'
-import PortfolioMenu from '../../components/menus/PortfolioMenu'
+import dynamic from 'next/dynamic'
 
+
+const PortfolioMenu = dynamic(
+	() => {
+		return import('../../components/menus/PortfolioMenu')
+	},
+	{ ssr: false }
+)
 
 const CURRENCY = 'usd'
 
@@ -50,7 +58,7 @@ const Dashboard = () => {
 			<section className="section column principal first center">
 				<section className="sub-section column">
 
-					<PortfolioMenu socket={socket} assets={assets}/>
+				<PortfolioMenu socket={socket} assets={assets}/>
 
 					<div className='row space-between'>
 						<PieChart socket={socket} assets={assets}/>
@@ -59,11 +67,12 @@ const Dashboard = () => {
 					<SimpleWalletAssetDashboard socket={socket} assets={assets}/>
 					<SimpleCryptoDashboard socket={socket}/>
 				</section>
+				
 			</section>
 		</>
 	)
 }
-//<PieChart socket={socket}/>
+// <PieChart socket={socket} assets={assets}/> import PieChart from '../../components/charts/PieChart'
 Dashboard.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 

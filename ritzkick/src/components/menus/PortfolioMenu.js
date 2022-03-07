@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Icons from '@/components/Icons'
-import ButtonFavorite from '@/components/ButtonFavorite'
-import Image from 'next/image'
 import { AreSlugsEqual } from '../../../utils/crypto'
 import format from '../../../utils/formatter'
 

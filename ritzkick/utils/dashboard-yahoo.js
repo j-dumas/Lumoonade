@@ -19,7 +19,7 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, t
 		return [data[0]]
 	}
 
-	data.forEach(entry => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
+	data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
 }
 
 const fromSymbol = (symbol, transactions) => {

@@ -3,7 +3,7 @@ import Icons from '@/components/Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from 'services/UserService'
 import { useForm } from '@/components/hooks/useForm'
-import { AccountCircle, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
+import { AccountCircle, EditRounded, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 
 const newUsername = 'newUsername'
@@ -22,6 +22,8 @@ export default function ProfilePopup(props) {
 		newPassShow: false,
 		newPassConfirmationShow: false
 	})
+
+	const [error, setError] = useState(false)
 
 	function eraseFieldValue() {
 		resetValues()
@@ -71,7 +73,8 @@ export default function ProfilePopup(props) {
 						values.newUsername,
 						values.oldPass,
 						values.newPass,
-						values.newPassConfirmation
+						values.newPassConfirmation,
+						setError
 					)
 				}
 			}
@@ -87,7 +90,7 @@ export default function ProfilePopup(props) {
 	return (
 		<div>
 			<button className="icon-button" onClick={open}>
-				<Icons.Edit id="icon" />
+				<EditRounded />
 			</button>
 			<Modal>
 				<div className="edit-popup">
@@ -98,9 +101,6 @@ export default function ProfilePopup(props) {
 						}}
 					>
 						<h1>Modification de profile</h1>
-						<div className="wrong" id="wrong-name">
-							Le nom que vous désirez entrer est déjà utilisé
-						</div>
 						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-username">Nom d&apos;utilisateur</InputLabel>
 							<OutlinedInput
@@ -141,10 +141,15 @@ export default function ProfilePopup(props) {
 						</FormControl>
 						<hr className="form-separator"></hr>
 						<label>Entrez votre ancien mot de passe ainsi que le nouveau</label>
-						<div className="wrong" id="wrong-password">
-							Veuillez vérifier si tous les champs ci dessous concorde bien
-						</div>
-						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
+
+						{
+							error 
+							  && 
+								<div className="wrong">
+									Veuillez vérifier si tous les champs ci dessous concorde bien
+								</div>
+						}
+						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
 							<OutlinedInput
 								name={oldPass}
@@ -171,7 +176,7 @@ export default function ProfilePopup(props) {
 								inputProps={{ minLength: 8 }}
 							/>
 						</FormControl>
-						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
+						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-new-password">Nouveau mot de passe</InputLabel>
 							<OutlinedInput
 								name={newPass}
@@ -198,7 +203,7 @@ export default function ProfilePopup(props) {
 								inputProps={{ minLength: 8 }}
 							/>
 						</FormControl>
-						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
+						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-new-confirmation-password">
 								Confirmation nouveau mot de passe
 							</InputLabel>

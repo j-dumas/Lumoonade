@@ -105,7 +105,7 @@ router.get('/api/wallets/transactions', auth, async (req, res) => {
 		}
 
 		let transactions = []
-		wallets.forEach(wallet => {
+		wallets.forEach((wallet) => {
 			transactions.push(wallet.hist)
 		})
 
@@ -114,7 +114,7 @@ router.get('/api/wallets/transactions', auth, async (req, res) => {
 		res.status(400).send({
 			message: e.message
 		})
-	} 
+	}
 })
 
 router.get('/api/wallets/detailed', auth, async (req, res) => {
