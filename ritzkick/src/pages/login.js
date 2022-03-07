@@ -6,15 +6,18 @@ import { getCookie } from 'services/CookieService'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 
 const LoginForm = dynamic(() => import('@/components/forms/LoginForm'))
 const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
 
 const Login = () => {
+	const router = useRouter()
+
 	useEffect(() => {
 		const token = getCookie('token')
 		if (token !== undefined) {
-			window.location.href = '/'
+			router.push("/")
 		}
 	}, [])
 

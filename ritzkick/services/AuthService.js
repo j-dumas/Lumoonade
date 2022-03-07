@@ -93,3 +93,22 @@ export async function confirmEmail(key){
 		})
 	} catch (e) {}
 } 
+
+export async function resetPassword(key, password, passwordConfirmation){
+	try {
+		let response = await fetch('/api/reset/redeem', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				resetToken: key,
+				password: password,
+				confirmation: passwordConfirmation
+			})
+
+		})
+		
+		return response.status
+	} catch (e) {}
+}
