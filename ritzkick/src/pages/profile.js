@@ -11,6 +11,8 @@ import { useTranslation } from 'next-i18next'
 import { deleteCookie, getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
 
+const CURRENCY = 'USD'
+
 const Profile = () => {
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
@@ -52,7 +54,7 @@ const Profile = () => {
 						</div>
 						<hr className="line"></hr>
 					</div>
-					<div className="column center">{viewState ? <ProfileAlerts /> : <ProfileFavorite />}</div>
+					<div className="column center">{viewState ? <ProfileAlerts currency={CURRENCY}/> : <ProfileFavorite />}</div>
 					<hr className="line"></hr>
 					<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
 				</div>

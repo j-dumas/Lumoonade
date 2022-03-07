@@ -25,8 +25,7 @@ export default function ProfileAlertsComponent(props) {
 					{props.alert.slug}
 				</div>
 				<div className="alert-card-item">
-					{50000}&#36;{' '}
-					{/* RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPPPPPHY WEEEEEB SOOOOOOCKET ON VEUT LE PRIX */}
+					{props.price}&#36;{' '}
 				</div>
 				<div className="alert-card-item">{getSign(props.alert.parameter)}</div>
 				<div id="alert-target" className="alert-card-item">
