@@ -58,7 +58,6 @@
 		"react-google-login": "^5.2.2",
 		"react-hooks-use-modal": "^2.1.0",
 		"sass": "^1.49.0",
-		"sendgrid": "^5.2.3",
 		"sharp": "^0.30.1",
 		"socket.io": "^4.4.1",
 		"socket.io-client": "^4.4.1",
