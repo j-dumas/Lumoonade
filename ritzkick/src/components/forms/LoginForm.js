@@ -63,6 +63,7 @@ const LoginForm = () => {
 				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 					<InputLabel htmlFor="outlined-adornment-password">{t('fields.password')}</InputLabel>
 					<OutlinedInput
+						className='test'
 						name="password"
 						id="outlined-adornment-password"
 						type={passShow ? 'text' : 'password'}
@@ -96,10 +97,10 @@ const LoginForm = () => {
 
 			<div>
 				<Separator />
-				<div id="Signup">
+				<div className='row'>
 					<p>{t('login.no-account')}</p>
 					<Link href="/register">
-						<a className="link">{t('login.register')}</a>
+						<div className="link">{t('login.register')}</div>
 					</Link>
 				</div>
 			</div>

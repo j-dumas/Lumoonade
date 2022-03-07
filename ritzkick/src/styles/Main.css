@@ -2,7 +2,7 @@
 
 :root {
 	--headline: calc(45px + 5vw);
-	--title: calc(45px + 2vw);
+	--title: calc(30px + 2vw);
 	--subtitle: calc(var(--title) / 3);
 	--subtitle-small: calc(var(--title) / 4);
 	--text: 14px;

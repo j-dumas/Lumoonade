@@ -41,14 +41,14 @@
 
 .inputField {
 	background-color: white;
-	border-radius: 4px;
-	margin-left: 0%;
+	border-radius: 5px;
+	margin-left: 0px;
 }
 
 .inputField-disabled {
 	background-color: var(--background-color-3);
 	border-radius: 4px;
-	margin-left: 0%;
+	margin-left: 0px;
 }
 
 input[type='text'],
@@ -57,7 +57,7 @@ input[type='email'] {
 	width: 100%;
 	height: auto;
 	padding: 12px 20px;
-	margin: 0;
+	margin: 0px;
 	border-radius: 5px;
 }
 
@@ -80,7 +80,7 @@ input[type='number']:invalid {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
-	margin: 0;
+	margin: 0px;
 }
 
 input[type='number'] {
@@ -112,23 +112,16 @@ input[type='submit']:hover,
 .link {
 	color: var(--main-color);
 	text-decoration: underline;
-	margin: 10px;
 }
 
 .link:hover {
 	cursor: pointer;
 }
 
-#Signup {
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-}
-
 .form-title {
 	text-align: center;
 	animation: fadein 3s;
-	font-size: calc(50px + 1.5vw);
+	font-size: var(--title);
 	font-family: var(--font);
 }
 
