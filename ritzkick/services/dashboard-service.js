@@ -1,5 +1,5 @@
 import { isUserConnected } from '../services/AuthService'
-import {getCookie} from '../services/CookieService'
+import { getCookie } from '../services/CookieService'
 
 export async function getUserDashboardData() {
 	/*return { assets: [
@@ -28,13 +28,13 @@ export async function getUserDashboardData() {
 
 	let response = await fetch(URI, {
 		method: 'GET',
-		headers: { 
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + getCookie('token')
-        }
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		}
 	})
 
 	let json = await response.json()
-    console.log(json)
+	console.log(json)
 	return json
 }

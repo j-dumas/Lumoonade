@@ -31,7 +31,6 @@ if (nodeEnv !== 'test') {
 		log.error('SERVER', 'Launch error', ex.stack)
 		process.exit(1)
 	})
-} else {
 }
 
 /**********************

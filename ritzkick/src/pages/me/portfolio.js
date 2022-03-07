@@ -9,12 +9,11 @@ import DetailedChart from '../../components/charts/DetailedChart'
 
 import { getUserDashboardData } from '../../../services/dashboard-service'
 import { isUserConnected } from '../../../services/AuthService'
-import {createSocket} from '../../../services/SocketService'
+import { createSocket } from '../../../services/SocketService'
 import SimpleWalletAssetDashboard from '../../components/SimpleWalletAssetDashboard'
 import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
 import { SlugArrayToSymbolArray } from '../../../utils/crypto'
 import dynamic from 'next/dynamic'
-
 
 const PortfolioMenu = dynamic(
 	() => {
@@ -42,32 +41,33 @@ const Dashboard = () => {
 		let userData = await getUserDashboardData()
 		console.log(userData.assets)
 		setAssets(userData.assets)
-		let slugs =[]
+		let slugs = []
 		userData.assets.map((asset) => {
 			slugs.push(asset.name)
 		})
 		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
 		console.log(symbols)
 		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
-		setPortfolioSocket(createSocket([`dash-graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
+		setPortfolioSocket(
+			createSocket([`dash-graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`)
+		)
 	}, [])
 
-	return (
-		!socket || !portfolioSocket || !assets || assets == undefined? <></> :
+	return !socket || !portfolioSocket || !assets || assets == undefined ? (
+		<></>
+	) : (
 		<>
 			<section className="section column principal first center">
 				<section className="sub-section column">
+					<PortfolioMenu socket={socket} assets={assets} />
 
-				<PortfolioMenu socket={socket} assets={assets}/>
-
-					<div className='row space-between'>
-						<PieChart socket={socket} assets={assets}/>
-						<DetailedChart socket={portfolioSocket} slug={slug} wallet={true}/>
+					<div className="row space-between">
+						<PieChart socket={socket} assets={assets} />
+						<DetailedChart socket={portfolioSocket} slug={slug} wallet={true} />
 					</div>
-					<SimpleWalletAssetDashboard socket={socket} assets={assets}/>
-					<SimpleCryptoDashboard socket={socket}/>
+					<SimpleWalletAssetDashboard socket={socket} assets={assets} />
+					<SimpleCryptoDashboard socket={socket} />
 				</section>
-				
 			</section>
 		</>
 	)

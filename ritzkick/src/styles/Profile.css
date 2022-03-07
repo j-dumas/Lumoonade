@@ -111,16 +111,16 @@ ul {
 .alert-card-item {
 	width: 30px;
 	margin-left: 10px;
-	margin-right: 10px
+	margin-right: 10px;
 }
 
-#delete-alert-button{
+#delete-alert-button {
 	text-align: center;
 	width: 8%;
 	height: 8%;
 }
 
-#delete-alert-button:hover{
+#delete-alert-button:hover {
 	border: none;
 	width: 10%;
 	height: 10%;
@@ -185,12 +185,12 @@ ul {
 	margin: -21px;
 }
 
-.alert-page-control-buttons{
+.alert-page-control-buttons {
 	justify-content: center;
 	align-items: center;
 }
 
-.alert-page-control-buttons:hover{
+.alert-page-control-buttons:hover {
 	border: none;
 	background-color: var(--background-color-2);
 }

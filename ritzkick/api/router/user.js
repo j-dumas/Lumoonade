@@ -148,7 +148,7 @@ const updateHelper = async (body, user) => {
  * {
  *   "message": "Account updated!",
  * 	 "profile": {
- * 	 	... 
+ * 	 	...
  *    }
  * }
  * @return {string} 401 - unauthorized
@@ -219,7 +219,7 @@ router.patch(paths.user.update, authentification, async (req, res) => {
  * {
  *   "message": "Removing account",
  * 	 "account": {
- * 	 	... 
+ * 	 	...
  *    }
  * }
  * @return {string} 401 - unauthorized

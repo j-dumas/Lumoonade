@@ -22,7 +22,7 @@ const Functions = {
 		let response = await fetch(URI)
 
 		let json = await response.json()
-		if (json.assets) json.assets.map((el) => el.symbol = el.symbol.toString().toUpperCase())
+		if (json.assets) json.assets.map((el) => (el.symbol = el.symbol.toString().toUpperCase()))
 
 		if (!json || json == undefined) json = []
 		return json
@@ -83,7 +83,7 @@ const Functions = {
 							currency: 'USD',
 							symbol: `${slug}-USD`,
 							exchangeName: 'CCC',
-							instrumentType: 'CRYPTOCURRENCY',
+							instrumentType: 'CRYPTOCURRENCY'
 						},
 						timestamp: [0],
 						indicators: {

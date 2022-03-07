@@ -95,7 +95,7 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
 /**
  * Confirmation Verify Request Model
  * @typedef {object} ConfirmationVerifyRequest
- * @property {string} jwt.required - jwt for decoding purposes 
+ * @property {string} jwt.required - jwt for decoding purposes
  */
 
 /**

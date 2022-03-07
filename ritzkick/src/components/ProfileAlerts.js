@@ -53,59 +53,49 @@ export default function ProfileAlerts() {
 					</Alert>
 				</Snackbar>
 			</div>
-			{
-				(data !== undefined) 
-					&&
-					<div>
-						<ul>
-							<li>
-								<div className='row alert-card'>
-									<div>
-										Name
-									</div>
-									<div>
-										Current Price
-									</div>
-									<div>
-										Target Price
-									</div>
-								</div>
-							</li>
-							{
-								data.map((alert) => (
-									<li key={alert._id}>
-										<ProfileAlertsComponent onDelete={deletedAlert} onDataChange={fetchData} alert={alert} />
-									</li>
-								))
-							}
-						</ul>
-						<div className='row center'>
-							{
-								(currentPage > 1) 
-								&&
-									<button className='alert-page-control-buttons row center' onClick={() => fetchData(currentPage - 1)}>
-										<ArrowLeft />
-										<div>
-											Previous Page
-										</div>
-									</button>
-							}
-							<div>
-								{currentPage}
+			{data !== undefined && (
+				<div>
+					<ul>
+						<li>
+							<div className="row alert-card">
+								<div>Name</div>
+								<div>Current Price</div>
+								<div>Target Price</div>
 							</div>
-							{
-								(data.length === 5) 
-								&& 
-									<button className='alert-page-control-buttons row center' onClick={() => fetchData(currentPage + 1)}>
-										<div>
-											Next Page 
-										</div>
-										<ArrowRight />
-									</button>
-							}
-						</div>
+						</li>
+						{data.map((alert) => (
+							<li key={alert._id}>
+								<ProfileAlertsComponent
+									onDelete={deletedAlert}
+									onDataChange={fetchData}
+									alert={alert}
+								/>
+							</li>
+						))}
+					</ul>
+					<div className="row center">
+						{currentPage > 1 && (
+							<button
+								className="alert-page-control-buttons row center"
+								onClick={() => fetchData(currentPage - 1)}
+							>
+								<ArrowLeft />
+								<div>Previous Page</div>
+							</button>
+						)}
+						<div>{currentPage}</div>
+						{data.length === 5 && (
+							<button
+								className="alert-page-control-buttons row center"
+								onClick={() => fetchData(currentPage + 1)}
+							>
+								<div>Next Page</div>
+								<ArrowRight />
+							</button>
+						)}
 					</div>
-			}
+				</div>
+			)}
 		</div>
 	)
 }

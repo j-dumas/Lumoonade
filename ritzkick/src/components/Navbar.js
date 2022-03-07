@@ -23,7 +23,7 @@ function Navbar(props) {
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout(setConnection()).then(() => router.push({pathname: "/", query: { logout: true}}))
+		await logout(setConnection()).then(() => router.push({ pathname: '/', query: { logout: true } }))
 	}
 
 	useEffect(() => {

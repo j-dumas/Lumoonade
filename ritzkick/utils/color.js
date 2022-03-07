@@ -181,6 +181,6 @@ export default function GetColorBySlug(slug) {
 		case 'LTC':
 			return 'rgb(211,211,211)'
 		default:
-			return getComputedStyle(document.documentElement).getPropertyValue('--main-color');
+			return getComputedStyle(document.documentElement).getPropertyValue('--main-color')
 	}
 }

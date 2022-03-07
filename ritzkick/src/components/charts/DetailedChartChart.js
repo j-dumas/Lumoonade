@@ -5,7 +5,7 @@ import GetColorBySlug from 'utils/color'
 import Functions from 'services/CryptoService'
 import { isUserConnected } from 'services/AuthService'
 import { getTransactions } from 'services/UserService'
-import yahoo  from 'utils/dashboard-yahoo'
+import yahoo from 'utils/dashboard-yahoo'
 import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
@@ -19,13 +19,12 @@ function DetailedChartChart(props) {
 	const [data] = useState(Functions.GetDummyChartData(props.slug))
 
 	useEffect(async () => {
-		let transactionList = (props.wallet && isUserConnected()) ? await getTransactions() : null
+		let transactionList = props.wallet && isUserConnected() ? await getTransactions() : null
 		let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 		props.socket.on('graph', (datas) => {
 			if (props.wallet && isUserConnected()) {
 				datas = yahoo.yahooToDashBoard2(datas, transactionList, props.dateRange, true, timeZone)
-			}
-			else if (!props.wallet) {
+			} else if (!props.wallet) {
 				datas = graph.adjustDateMiddleware(datas, props.dateRange, timeZone)
 			}
 			try {
@@ -218,7 +217,7 @@ function DetailedChartChart(props) {
 	return isDataNull(data) ? (
 		<div>Loading...</div>
 	) : (
-		<div className={props.wallet?"detailed-chart-chart-2":"detailed-chart-chart"}>
+		<div className={props.wallet ? 'detailed-chart-chart-2' : 'detailed-chart-chart'}>
 			<Charts ref={chartReference} data={getRelativeChartData(data)} options={getChartOptions(data)} />
 		</div>
 	)

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import SimpleCryptoView from '@/components/views/SimpleCryptoView'
-import {isUserConnected} from '../../services/AuthService'
-import {AreSlugsEqual} from '../../utils/crypto'
-import {CircularProgress} from '@mui/material'
+import { isUserConnected } from '../../services/AuthService'
+import { AreSlugsEqual } from '../../utils/crypto'
+import { CircularProgress } from '@mui/material'
 
 function SimpleCryptoDashboard(props) {
 	const [datas, setDatas] = useState([])
@@ -29,7 +29,7 @@ function SimpleCryptoDashboard(props) {
 				<div className="simple-crypto-dashboard-menu row center">
 					<div className="sub-section row space-between">
 						<div className="simple-crypto-view-item-big row left h-center">
-                            <p>Asset</p>
+							<p>Asset</p>
 						</div>
 						<p className="simple-crypto-view-item">Slug</p>
 						<p className="simple-crypto-view-item">Price</p>
@@ -45,12 +45,14 @@ function SimpleCryptoDashboard(props) {
 					let asset = null
 					if (props.assets) {
 						asset = props.assets.find((el) => {
-							return AreSlugsEqual(el.name.toString().toUpperCase(), element.symbol.toString().toUpperCase())
+							return AreSlugsEqual(
+								el.name.toString().toUpperCase(),
+								element.symbol.toString().toUpperCase()
+							)
 						})
 					}
-					
-	
-					return <SimpleCryptoView data={element} chartData={chartData} key={element.fromCurrency}/>
+
+					return <SimpleCryptoView data={element} chartData={chartData} key={element.fromCurrency} />
 				})}
 			</div>
 		</>
