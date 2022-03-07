@@ -6,6 +6,7 @@ import { isUserConnected } from 'services/AuthService'
 import { SlugArrayToSymbolArray } from 'utils/crypto'
 import { createSocket } from 'services/SocketService'
 import Layout from '@/layouts/Layout'
+import Icons from '../components/Icons'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
@@ -93,11 +94,17 @@ const Assets = () => {
 					<>
 						{favSocket && searchList.length == 0 ? (
 							<>
-								<h1>{t('favorites')}</h1>
+								<div className='row start'>
+									<Icons.StarFulled/>
+									<h1>{t('favorites')}</h1>
+								</div>
 								<SimpleCryptoCardDashboard socket={favSocket} />
 							</>
 						) : null}
-						<h1>{t('assets')}</h1>
+						<div className='row start'>
+							<Icons.List/>
+							<h1>{t('assets')}</h1>
+						</div>
 						<SimpleCryptoCardDashboard socket={socket}/>
 						{searchList.length > 0 && currentPage[1] > 1 ? (
 							<div className='row center'>

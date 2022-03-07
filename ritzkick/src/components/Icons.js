@@ -26,7 +26,9 @@ import {
 	faArrowUp,
 	faExchangeAlt,
 	faBell,
-	faTrash
+	faTrash,
+	faList,
+	faMagnifyingGlass
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
@@ -108,7 +110,13 @@ const Icons = {
 	},
 	Trash: () => {
 		return <FontAwesomeIcon className="icon" icon={faTrash} />
-	}
+	},
+	List: () => {
+		return <FontAwesomeIcon className="icon" icon={faList} />
+	},
+	MagnifyingGlass: () => {
+		return <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
+	},
 }
 
 export default Icons
