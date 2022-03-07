@@ -4,7 +4,7 @@ import Footer from '@/components/Footer'
 import BottomArrow from '@/components/BottomArrow'
 import SimpleCryptoDashboard from '@/components/SimpleCryptoDashboard'
 import React, { useState, useEffect } from 'react'
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
@@ -34,9 +34,7 @@ const Home = () => {
 					d="M0,128L205.7,192L411.4,128L617.1,192L822.9,32L1028.6,64L1234.3,192L1440,96L1440,320L1234.3,320L1028.6,320L822.9,320L617.1,320L411.4,320L205.7,320L0,320Z"
 				></path>
 			</svg>
-			{/* <section className="section row second">
-				<SimpleCryptoDashboard />
-			</section> */}
+			<section className="section row second"></section>
 		</>
 	)
 }

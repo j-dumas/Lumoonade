@@ -7,27 +7,28 @@ import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
+const graph = require('app/socket/utils/graph')
+
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 	const [data, setData] = useState()
 
-	useEffect(() => {
-		async function prepareData() {
-			setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
-		}
-
-		prepareData()
-
+	useEffect(async () => {
+		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
+		let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 		props.socket.on('graph', (datas) => {
-			const chart = chartReference.current
-			if (!chart || isDataNull(datas)) return
-			chart.data = getRelativeChartData(datas)
-			chart.update()
+			datas = graph.adjustDateMiddleware(datas, props.dateRange, timeZone)
+			try {
+				const chart = chartReference.current
+				if (!chart || isDataNull(datas)) return
+				chart.data = getRelativeChartData(datas)
+				chart.update()
+			} catch (_) {}
 		})
 		if (props.socket) return () => props.socket.disconnect()
-	}, [chartReference, getRelativeChartData, props])
+	}, [])
 
 	function isDataNull(datas) {
 		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
@@ -59,7 +60,7 @@ function DetailedChartChart(props) {
 		const color = GetColorBySlug(name)
 		return {
 			type: 'line',
-			label: name,
+			label: name.toUpperCase(),
 			data: data,
 
 			fill: false,

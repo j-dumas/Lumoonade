@@ -11,7 +11,7 @@ export function isUserConnected() {
 export async function logout() {
 	try {
 		const token = getCookie('token')
-		await fetch('/api/auth/logout', {
+		const response = await fetch('/api/auth/logout', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -19,8 +19,10 @@ export async function logout() {
 			}
 		})
 
-		deleteCookie('token')
-		window.location.assign('/')
+		if (response.status === 200) {
+			deleteCookie('token')
+			window.location.assign(`/${navigator.language}`)
+		}
 	} catch (e) {
 		console.log(e)
 	}
@@ -39,7 +41,7 @@ export async function login(email, password, handleError) {
 		if (response.status == 200) {
 			let json = await response.json()
 			setCookie(json.token)
-			window.location.assign('/profile')
+			window.location.assign(`/${navigator.language}/profile`)
 		} else if (response.status == 400) {
 			handleError()
 		} else {
@@ -60,13 +62,7 @@ export async function register(email, username, password, handleError) {
 			body: JSON.stringify({ email: email, username: username, password: password })
 		})
 
-		console.log(response.status)
-
 		if (response.status === 201) {
-			//let json = await response.json()
-			//setCookie(json.token)
-
-			//Confirmation
 			await fetch('/api/confirmations', {
 				method: 'POST',
 				headers: {
@@ -76,7 +72,7 @@ export async function register(email, username, password, handleError) {
 			})
 				.catch((e) => console.log(e))
 				.finally(() => {
-					window.location.assign('/login')
+					window.location.assign(`/${navigator.language}/login`)
 				})
 		} else {
 			handleError()

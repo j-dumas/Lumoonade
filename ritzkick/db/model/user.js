@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema(
 			trim: true,
 			minlength: 4,
 			required: true,
+			maxlength: 20,
 			validate(username) {
 				if (validator.isEmpty(username)) {
 					throw new Error('Please provide a username.')

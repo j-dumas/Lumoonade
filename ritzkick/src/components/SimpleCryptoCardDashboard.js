@@ -10,9 +10,9 @@ function SimpleCryptoCardDashboard(props) {
 		props.socket.on('graph', (data) => setChartDatas(data))
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
-
+	//  row center start
 	return (
-		<section className="section row center start principal">
+		<section className="dashboard">
 			{datas.map((element, i) => {
 				let chartData = chartDatas.find((chartElement) => {
 					return chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()

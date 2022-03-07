@@ -21,7 +21,7 @@ function CompareMenu(props) {
 			setDatas(data)
 		})
 		if (props.socket) return () => props.socket.disconnect()
-	})
+	}, [])
 
 	function changeURI() {
 		let assets = ''

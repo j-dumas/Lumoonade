@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import dynamic from 'next/dynamic'
 
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 
 const ForgotPasswordForm = dynamic(() => import('@/components/forms/ForgotPasswordForm'))
 const Bubbles = dynamic(() => import('@/components/Bubbles'))
@@ -13,7 +13,7 @@ const ForgotPassword = () => {
 			<main>
 				<Bubbles />
 				<ForgotPasswordForm />
-				<div className="spacer layer1"></div>
+				<div className="spacer layer3"></div>
 			</main>
 		</>
 	)

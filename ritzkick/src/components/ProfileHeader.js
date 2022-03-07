@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ProfilePopup from '@/components/ProfilePopup'
-import { removeSession, getUser } from 'services/UserService'
 
 const usernameTitleId = 'username'
 const memberSinceId = 'memberSince'
 
-export default function ProfileHeader() {
-	const [state, setState] = useState({ user: {} })
-
-	async function removeUserSession(event) {
-		await removeSession()
-		const data = await getUser()
-		setState({ user: data })
-	}
-
+export default function ProfileHeader(props) {
 	function getMonth(monthNumber) {
 		const month = [
 			'janvier',
@@ -44,36 +35,17 @@ export default function ProfileHeader() {
 		}
 	}
 
-	useEffect(() => {
-		getUser().then((res) => setState({ user: res }))
-	}, [])
-
 	return (
-		<div>
-			<div className="profile-header" id="header">
-				<div className="row">
-					<div className="column profile-card">
-						<ProfilePopup username={state.user.username} email={state.user.email} />
-						<div className="row h-center">
-							<img id="profile-picture" src="/ETH.svg" alt=""></img>
-							<h1 id={usernameTitleId}>{state.user.username}</h1>
+		<div className="profile-header" id="header">
+			<div className="profile-card">
+				<ProfilePopup username={props.user.username} email={props.user.email} />
+				<div className="column center">
+					<img id="profile-picture" src="/ETH.svg"></img>
+					<h1 id={usernameTitleId}>{props.user.username}</h1>
+					<div className="information">
+						<div>
+							<h3 id={memberSinceId}>{parseTime(props.user.createdAt)}</h3>
 						</div>
-						<div className="row information">
-							<div>
-								<h3 id={memberSinceId}>{parseTime(state.user.createdAt)}</h3>
-							</div>
-						</div>
-					</div>
-					<div className="profile-card center">
-						<h2>Vous avez présentement {state.user.sessions} session(s) active(s)</h2>
-						<button
-							id="purge-session"
-							onClick={(event) => {
-								removeUserSession(event)
-							}}
-						>
-							Effacer les sessions inutiles
-						</button>
 					</div>
 				</div>
 			</div>

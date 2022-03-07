@@ -3,7 +3,7 @@ import DomHead from '@/components/DomHead'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import DetailedCryptoView from '@/components/views/DetailedCryptoView'
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 import Functions from 'services/CryptoService'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -68,44 +68,11 @@ export async function getAllAssetIds() {
 	})
 
 	return ids
-
-	return [
-		{
-			params: {
-				id: 'ada'
-			}
-		},
-		{
-			params: {
-				id: 'bnb'
-			}
-		},
-		{
-			params: {
-				id: 'btc'
-			}
-		},
-		{
-			params: {
-				id: 'doge'
-			}
-		},
-		{
-			params: {
-				id: 'eth'
-			}
-		},
-		{
-			params: {
-				id: 'btcd'
-			}
-		}
-	]
 }
 
 export async function getAssetData(id) {
 	return {
-		slug: id //d.toString().toUpperCase()
+		slug: id
 	}
 }
 

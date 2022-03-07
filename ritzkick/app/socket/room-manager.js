@@ -14,6 +14,10 @@ const add = (room, graph = false) => {
 	rooms.push(new Room(room, graph))
 }
 
+const total = () => {
+	return rooms.length
+}
+
 /**
  * Remove the socket from his rooms
  * @param {socket} socket
@@ -66,6 +70,7 @@ const getRoom = (name) => {
 module.exports = {
 	initialization,
 	add,
+	total,
 	disconnectFromRoom,
 	getClientsFromRoom,
 	getRoom,

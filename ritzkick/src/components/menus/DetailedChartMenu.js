@@ -7,6 +7,7 @@ export default function DetailedChartMenu(props) {
 	const [showVolume, setShowVolume] = useState(false)
 
 	const [dateRange, setDateRange] = useState('5d')
+	const [currentInterval, setCurrentInterval] = useState('15m')
 	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange))
 
 	function getShowPrice(value) {
@@ -33,13 +34,22 @@ export default function DetailedChartMenu(props) {
 			</div>
 			<div className="row detailed-chart-options left">
 				<div className="row h-center">
-					<label htmlFor="daterange" className="detailed-div-title">
+					<label htmlFor="daterange" className="detailed-div-label">
 						Date range
 					</label>
 					<select
 						onChange={(e) => {
 							props.sendDateRange(e.target.value)
-							props.sendInterval(getIntervalOptionsByDateRange(e.target.value)[0])
+							let availableIntervals = getIntervalOptionsByDateRange(e.target.value)
+							if (
+								!availableIntervals.find((inter) =>
+									inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase())
+								)
+							) {
+								let value = getIntervalOptionsByDateRange(e.target.value)[0]
+								props.sendInterval(value)
+								setCurrentInterval(value)
+							}
 							setDateRange(e.target.value)
 							setIntervals(getIntervalOptionsByDateRange(e.target.value))
 						}}
@@ -60,12 +70,13 @@ export default function DetailedChartMenu(props) {
 					</select>
 				</div>
 				<div className="row h-center">
-					<label htmlFor="interval" className="detailed-div-title">
+					<label htmlFor="interval" className="detailed-div-label">
 						Interval
 					</label>
 					<select
 						onChange={(e) => {
 							props.sendInterval(e.target.value)
+							setCurrentInterval(e.target.value)
 						}}
 						defaultValue="15m"
 						className="detailed-chart-options-select"
@@ -105,7 +116,7 @@ export function getIntervalOptionsByDateRange(dateRange) {
 			return ['1h', '1d', '1wk', '1mo', '3mo']
 		case '5y':
 			return ['1d', '1wk', '1mo', '3mo']
-		case 'max':
+		default:
 			return ['1m', '2m', '5m', '15m', '30m', '1h', '1d', '1wk', '1mo', '3mo']
 	}
 }

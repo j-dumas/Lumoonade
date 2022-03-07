@@ -60,6 +60,8 @@ const initialize = (server) => {
 		})
 	})
 
+	console.log(rm.total(), 'rooms created!')
+
 	serverSocket.on('connection', (socket) => {
 		// ---------------------------------------
 		// Verify if the incoming socket is valid.

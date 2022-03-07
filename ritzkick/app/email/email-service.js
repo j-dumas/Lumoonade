@@ -25,7 +25,7 @@ const create = async () => {
 	log(SERVICE_NAME, 'Found ' + watchlists.length + ' lists with ' + listen.length + ' unique search.')
 
 	// This will change in the future.
-	const connectionUrl = `https://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/`
+	const connectionUrl = `https://${process.env.URL}:${process.env.PORT}/`
 	client = new Client(connectionUrl, {
 		auth: {
 			rooms: ['general'],
@@ -43,8 +43,9 @@ const create = async () => {
 	})
 
 	client.on('data', (data) => {
+		if (!data) return
 		data.forEach((d) => {
-			tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
+			if (d.symbol && d.regularMarketPrice) tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
 		})
 	})
 }
@@ -66,7 +67,7 @@ const tracker = async (slug, price) => {
  * @param {list} list list of people that must be notified
  * @param {number} price current price of the asset
  */
-const handleTracker = (list, price) => {
+const handleTracker = (list = [], price) => {
 	list.forEach((client) => {
 		setTimeout(() => {
 			User.findById(client.owner).then(async (user) => {
