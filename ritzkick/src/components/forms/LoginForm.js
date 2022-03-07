@@ -33,13 +33,9 @@ const LoginForm = () => {
 		if (state.email !== undefined && state.password !== undefined) {
 			event.preventDefault()
 			await login(state.email, state.password, handleError)
-					.then((res) => {if(res === 200){router.push("/profile")}})
+					.then((res) => {if(res === 200){router.push({pathname: "/profile", query: {login: true}})}})
 		}
 	}
-
-	useEffect(() => {
-		return () => {alert(getCookie("token"))}
-	}, [])
 
 	return (
 		<Container className="p-3 form">

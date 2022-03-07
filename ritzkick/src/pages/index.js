@@ -18,8 +18,6 @@ const Home = () => {
 	const { logout } = router.query
 
 	useEffect(() => {
-		console.log(router.query)
-		console.log(logout)
 		if(logout){
 			console.log("called")
 			deleteCookie("token")
