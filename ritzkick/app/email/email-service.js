@@ -43,8 +43,9 @@ const create = async () => {
 	})
 
 	client.on('data', (data) => {
+		if (!data) return
 		data.forEach((d) => {
-			tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
+			if (d.symbol && d.regularMarketPrice) tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
 		})
 	})
 }
@@ -66,7 +67,7 @@ const tracker = async (slug, price) => {
  * @param {list} list list of people that must be notified
  * @param {number} price current price of the asset
  */
-const handleTracker = (list, price) => {
+const handleTracker = (list = [], price) => {
 	list.forEach((client) => {
 		setTimeout(() => {
 			User.findById(client.owner).then(async (user) => {

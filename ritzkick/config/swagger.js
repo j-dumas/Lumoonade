@@ -1,8 +1,8 @@
 module.exports = {
 	info: {
 		version: '1.0.0',
-		title: 'Cryptool',
-		description: 'Cryptool API'
+		title: 'Lumoonade',
+		description: 'Lumoonade API'
 	},
 	security: {
 		BearerAuth: {

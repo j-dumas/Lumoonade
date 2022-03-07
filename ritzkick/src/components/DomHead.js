@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'next-i18next'
 
-const WEBSITE_NAME = 'Cryptool'
+const WEBSITE_NAME = 'Lumoonade'
 
 function DomHead({ pageMeta }) {
 	const { t } = useTranslation('common')
