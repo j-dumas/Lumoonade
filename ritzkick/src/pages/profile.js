@@ -10,6 +10,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { deleteCookie, getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
+import { CircularProgress } from '@mui/material'
 
 const Profile = () => {
 	const [viewState, setViewState] = useState(true)
@@ -37,29 +38,37 @@ const Profile = () => {
 	return (
 		<>
 			<main>
-				<div className="column page-navbar">
-					<div className="center">{user !== undefined && <ProfileHeader user={user} updateUser={updateUser} />}</div>
-					<div>
-						<div className="row center">
-							<button
-								className={viewState ? 'profile-nav-selected' : 'profile-nav'}
-								onClick={() => setViewState(true)}
-							>
-								Alertes
-							</button>
-							<button
-								className={viewState ? 'profile-nav' : 'profile-nav-selected'}
-								onClick={() => setViewState(false)}
-							>
-								Favoris
-							</button>
-						</div>
-						<hr className="line"></hr>
-					</div>
-					<div className="column center">{viewState ? <ProfileAlerts /> : <ProfileFavorite />}</div>
-					<hr className="line"></hr>
-					<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
-				</div>
+				 {
+					(user === undefined) 
+						?
+							<div className="column center page-navbar">
+								<CircularProgress color="secondary" size={100} />
+							</div>
+						:
+							<div className="column page-navbar">
+								<div className="center">{user !== undefined && <ProfileHeader user={user} updateUser={updateUser} />}</div>
+								<div>
+									<div className="row center">
+										<button
+											className={viewState ? 'profile-nav-selected' : 'profile-nav'}
+											onClick={() => setViewState(true)}
+										>
+											Alertes
+										</button>
+										<button
+											className={viewState ? 'profile-nav' : 'profile-nav-selected'}
+											onClick={() => setViewState(false)}
+										>
+											Favoris
+										</button>
+									</div>
+									<hr className="line"></hr>
+								</div>
+								<div className="column center">{viewState ? <ProfileAlerts /> : <ProfileFavorite />}</div>
+								<hr className="line"></hr>
+								<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
+							</div>
+				 }
 				<div className="spacer layer4"></div>
 			</main>
 		</>

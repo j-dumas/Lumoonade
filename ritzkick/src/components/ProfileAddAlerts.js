@@ -72,6 +72,8 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	useEffect(async () => {
+		console.log(props.slug)
+		console.log(props.provenance)
 		const values = await Functions.GetAllCryptocurrencySlugs(1, 1000)
 		setData(values.assets)
 	}, [])
@@ -107,9 +109,17 @@ export default function ProfileAddAlerts(props) {
 
 	return (
 		<div className="row center">
-			<button className="icon-button" id="rotate-button" onClick={open}>
-				<CloseRounded fontSize='medium' />
-			</button>
+			{
+				props.provenance 
+					?
+						<a href='' onClick={open}>
+							<Icons.Bell />
+						</a>
+					:
+						<button className="icon-button" id="rotate-button" onClick={open}>
+							<CloseRounded fontSize='medium' />
+						</button>
+			}
 			<Snackbar
 				sx={{ m: 6 }}
 				open={openStatus}
@@ -164,22 +174,24 @@ export default function ProfileAddAlerts(props) {
 								}}
 							/>
 						</FormControl>
-						<div className="column">
-							{state.parameter !== undefined &&
-								state.slug !== undefined &&
-								(state.parameter === 'lte' ? (
-									<div>
-										Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
-									</div>
-								) : (
-									<div>Veuillez entrer une valeur minimal {minPrice}$</div>
-								))}
-						</div>
-						<div className="row">
-							<input type="submit" value="Ajouter"></input>
-							<button type="button" onClick={close} id="cancel-edit">
-								Annuler
-							</button>
+						<div>
+							<div className="column">
+								{state.parameter !== undefined &&
+									state.slug !== undefined &&
+									(state.parameter === 'lte' ? (
+										<div>
+											Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
+										</div>
+									) : (
+										<div>Veuillez entrer une valeur minimal {minPrice}$</div>
+									))}
+							</div>
+							<div className="row">
+								<input type="submit" value="Ajouter"></input>
+								<button type="button" onClick={close} id="cancel-edit">
+									Annuler
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>

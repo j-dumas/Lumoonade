@@ -3,6 +3,7 @@ import Icons from '@/components/Icons'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import Image from 'next/image'
 import {isUserConnected} from '../../../services/AuthService'
+import ProfileAddAlerts from '../ProfileAddAlerts'
 
 function DetailedMenu(props) {
 	return (
@@ -20,11 +21,10 @@ function DetailedMenu(props) {
 			</div>
 
 			{!isUserConnected()?<></>:
-			<div className="detailed-menu-actions row h-center">
+			<div id="alerts-header" className="detailed-menu-actions row h-center">
 				<ButtonFavorite slug={props.slug} />
-				<a href="" className="">
-					<Icons.Bell />
-				</a>
+				{/* <Icons.Bell /> */}
+				<ProfileAddAlerts slug={props.slug} provenance={true} />
 				<a href="" className="detailed-menu-actions-icon">
 					<Icons.ArrowUp />
 				</a>

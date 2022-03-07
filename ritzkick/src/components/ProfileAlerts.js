@@ -59,7 +59,7 @@ export default function ProfileAlerts() {
 					<div>
 						<ul>
 							<li>
-								<div className='row alert-card'>
+								<div className='row alert-card alert-title-card'>
 									<div>
 										Name
 									</div>
