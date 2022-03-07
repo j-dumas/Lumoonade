@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
 	const getLayout = Component.getLayout || ((page) => page)
 
 	let app
-	if (process.env.NEXT_PUBLIC_PROD == 'true') {
+	if (process.env.NODE_ENV === 'production') {
 		app = (
 			<div>
 				<Script
