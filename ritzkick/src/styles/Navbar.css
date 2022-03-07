@@ -70,6 +70,7 @@
 	width: 150px;
 
 	transition: 0.25s;
+	cursor: pointer;
 }
 .nav-item:hover {
 	color: gray;

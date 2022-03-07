@@ -14,6 +14,7 @@ import '@/styles/Charts.css'
 import '@/styles/SimpleCrypto.css'
 import '@/styles/Profile.css'
 import '@/styles/DetailedCrypto.css'
+import '@/styles/Form.css'
 
 import Script from 'next/script'
 import { appWithTranslation } from 'next-i18next'
@@ -31,7 +32,7 @@ function MyApp({ Component, pageProps }) {
 	const getLayout = Component.getLayout || ((page) => page)
 
 	let app
-	if (process.env.NEXT_PUBLIC_PROD == 'true') {
+	if (process.env.NODE_ENV === 'production') {
 		app = (
 			<div>
 				<Script

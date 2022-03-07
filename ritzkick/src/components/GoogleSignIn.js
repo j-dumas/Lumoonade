@@ -30,7 +30,6 @@ export default function GoogleSignIn() {
 				cookiePolicy={'single_host_origin'}
 				strategy="lazyOnload"
 			/>
-			{/* <a href="#" onClick={signOut}>Sign out</a> */}
 		</div>
 	)
 }

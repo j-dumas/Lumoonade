@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'next-i18next'
 
+const MAX_COMPARE = 4
+
 function CompareMenu(props) {
 	const { t } = useTranslation('compare')
 	const router = useRouter()
@@ -14,7 +16,7 @@ function CompareMenu(props) {
 
 	useEffect(() => {
 		props.socket.emit('update', props.socket.id, props.compareList)
-	})
+	}, [searchList])
 
 	useEffect(() => {
 		props.socket.on('data', (data) => {
@@ -48,13 +50,14 @@ function CompareMenu(props) {
 		let search = event.target[0].value
 		if (!search) search = '0'
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 8)
+		
 		setSearchList(list.assets)
 	}
 
 	function addToCompareList(event) {
 		event.preventDefault()
 
-		if (props.compareList.length >= 5) return
+		if (props.compareList.length >= MAX_COMPARE) return
 		const elementToAdd = (event.target.value + '-' + props.currency).toUpperCase()
 
 		let isDoubled = false

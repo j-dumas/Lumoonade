@@ -1,6 +1,64 @@
 import { getCookie, deleteCookie } from './CookieService'
 import { isUserConnected } from './AuthService'
 
+export async function addTransaction(asset, boughtAt, paid, when) {
+	if (!isUserConnected()) return
+	const URI = `/api/wallet/${asset}/add`
+	console.log('test')
+	let response = await fetch(URI, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer '+getCookie('token')
+		},
+		body: JSON.stringify({
+			boughtAt: boughtAt,
+			paid: paid,
+			when: when
+		})
+	})
+	if (response.status === 400) {
+		let res = await createWallet(asset)
+		console.log(res.status)
+		if (res.status === 201) addTransaction(asset, boughtAt, paid, when)
+	}
+}
+
+export async function createWallet(asset) {
+	if (!isUserConnected()) return
+	const URI = `/api/wallets`
+
+	let response = await fetch(URI, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({
+			asset: asset,
+			amount: 0
+		})
+	})
+
+	return response
+}
+
+export async function getTransactions() {
+	if (!isUserConnected()) return
+	const URI = `/api/wallets/transactions`
+
+	let response = await fetch(URI, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		}
+	})
+
+	let json = await response.json()
+	return json
+}
+
 export async function addFavorite(slug) {
 	if (!isUserConnected()) return
 	const URI = `/api/favorite`

@@ -7,7 +7,7 @@ const AndSeparator = () => {
 	return (
 		<div className="OU">
 			<hr className="line"></hr>
-			<h4>{t('or')}</h4>
+			<p>{t('or')}</p>
 			<hr className="line"></hr>
 		</div>
 	)

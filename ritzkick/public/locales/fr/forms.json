@@ -6,7 +6,7 @@
 	},
 	"login": {
 		"title": "Connexion",
-		"forgot-password": "J'ai oublié mon mot de passe",
+		"forgot-password": "Mot de passe oublié?",
 		"no-account": "Aucun compte ?",
 		"register": "S'inscrire",
 		"submit": "Se connecter",

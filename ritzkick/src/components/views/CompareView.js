@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Icons from '@/components/Icons'
 import Functions from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
@@ -13,7 +10,7 @@ const io = require('socket.io-client')
 
 const CompareView = (props) => {
 	const router = useRouter()
-	const [slug, setSlug] = useState('BTC' + '-' + props.currency)
+	const [slug] = useState('Dummy' + '-' + props.currency)
 	const [firstData, setFirstData] = useState()
 	const [compareList, setCompareList] = useState(getFirstCompareList())
 

@@ -2,10 +2,10 @@
 	"detailed": {
 		"title": "Informations détaillées",
 		"price": "Prix ($)",
-		"change": "Changement en 24h",
+		"change": "Changement 24h",
 		"market-cap": "Market Cap",
 		"volume": {
-			"24h": "Volume en 24h",
+			"24h": "Volume 24h",
 			"regular": "Volume"
 		}
 	}

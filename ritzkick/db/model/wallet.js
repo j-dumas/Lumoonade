@@ -12,7 +12,7 @@ const walletSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			trim: true,
-			lowercase: true,
+			lowercase: true
 		},
 		history: [
 			{

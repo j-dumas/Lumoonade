@@ -1,9 +1,13 @@
+cd $(dirname $0)
+
 docker stop ritzkick
 docker stop ritzkick-test
 
 docker container prune -f
 
 docker image prune -f
+
+docker system prune -af
 
 docker build -t  img_ritzkick -f ./docker/Dockerfile .
 docker build -t  img_ritzkick_test -f ./docker/DockerfileTest .
