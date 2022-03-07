@@ -32,7 +32,7 @@
 	animation: 0.3s ease-out 0s 1 slideInFromAbove, fadein 1s;
 	flex-direction: column;
 	z-index: 100;
-	width: 25vw;
+	width: calc(300px + 10vw);
 	min-width: 300px;
 	background-color: rgb(51, 52, 54, 0.8);
 	border-radius: 10px;
@@ -130,7 +130,7 @@ input[type='submit']:hover,
 	text-align: center;
 	font-style: italic;
 	animation: fadein 3s;
-	font-size: calc(50px + 1.5vw);
+	font-size: calc(40px + 1.5vw);
 	font-family: var(--font);
 }
 
@@ -181,21 +181,25 @@ input:focus::placeholder {
 	background-image: url(/peaks-1.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 .layer2 {
 	background-image: url(/peaks-2.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 .layer3 {
 	background-image: url(/peaks-3.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 .layer4 {
 	background-image: url(/peaks-4.svg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-size: cover;
 }
 
 .wrong {

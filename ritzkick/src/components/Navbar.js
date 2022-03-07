@@ -4,6 +4,7 @@ import Icons from './Icons'
 import { logout } from 'services/AuthService'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
+import { getCookie } from 'services/CookieService'
 
 function Navbar(props) {
 	const { t } = useTranslation('common')
@@ -12,11 +13,22 @@ function Navbar(props) {
 	const [click, setClick] = useState(false)
 	const handleClick = () => setClick(!click)
 	const closeMobileMenu = () => setClick(false)
+	const [isConnected, setConnection] = useState(false)
+
+	const connection = () => {
+		//todo: validation on token
+		if (getCookie('token') !== undefined) setConnection(true)
+		else setConnection(false)
+	}
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout()
+		await logout(setConnection()).then(() => router.push({pathname: "/", query: { logout: true}}))
 	}
+
+	useEffect(() => {
+		connection()
+	}, [])
 
 	return (
 		<>
@@ -64,7 +76,7 @@ function Navbar(props) {
 						</li>
 					</ul>
 					<ul className={props.mobile ? 'nav-menu-mobile' : 'nav-menu'}>
-						{props.connected ? (
+						{isConnected ? (
 							<>
 								<li className={router.pathname == '/wallet' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.Wallet />

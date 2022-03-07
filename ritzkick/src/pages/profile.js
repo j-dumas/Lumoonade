@@ -8,10 +8,13 @@ import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { deleteCookie, getCookie } from 'services/CookieService'
+import { useRouter } from 'next/router'
 
 const Profile = () => {
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
+	const router = useRouter()
 
 	async function removeUserSession() {
 		await removeSession()
@@ -20,7 +23,11 @@ const Profile = () => {
 	}
 
 	useEffect(() => {
-		getUser().then((res) => setUser(res))
+		if(getCookie("token") === undefined){
+			router.push("/")
+		}else {
+			getUser().then((res) => setUser(res))
+		}
 	}, [])
 
 	return (

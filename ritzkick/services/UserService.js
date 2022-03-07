@@ -47,9 +47,9 @@ export async function getFavorites() {
 	}
 }
 
-export async function getWatchList() {
+export async function getWatchList(page = 1) {
 	try {
-		let response = await fetch('/api/me/watchlists', {
+		let response = await fetch('/api/me/watchlists?page=' + page, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -105,7 +105,6 @@ export async function deleteUser() {
 		})
 
 		deleteCookie('token')
-		window.location.assign(`/${navigator.language}`)
 	} catch (e) {
 		console.log(e)
 	}
@@ -123,7 +122,6 @@ export async function getUser() {
 
 		if (response.status === 401) {
 			deleteCookie('token')
-			window.location.assign(`/${navigator.language}/login`)
 		} else {
 			let json = await response.json()
 			return json
@@ -150,32 +148,25 @@ export async function removeSession() {
 	}
 }
 
-export async function updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation) {
+export async function updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation, setError) {
+	event.preventDefault()
 	if (oldUsername !== undefined) {
 		if (newUsername !== oldUsername && newUsername !== undefined) {
 			if (newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined) {
 				if (newPass === newPassConfirmation) {
-					event.preventDefault()
 					await updateUsernameAndPassword(newUsername, oldPass, newPass)
-				} else {
-					document.getElementById('wrong-name').style.display = 'block'
-					event.preventDefault()
 				}
 			} else {
-				event.preventDefault()
 				await updateUsername(newUsername)
 			}
 		} else if (newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined) {
 			if (newPass === newPassConfirmation) {
-				event.preventDefault()
 				await updatePassword(oldPass, newPass)
 			} else {
-				document.getElementById('wrong-password').style.display = 'block'
-				event.preventDefault()
+				setError(true)
 			}
 		} else if (newPass === undefined || newPassConfirmation === undefined || oldPass === undefined) {
-			document.getElementById('wrong-password').style.display = 'block'
-			event.preventDefault()
+			setError(true)
 		}
 	}
 

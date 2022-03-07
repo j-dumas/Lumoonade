@@ -82,6 +82,10 @@
 	margin-left: 15px;
 }
 
+.nav-links:hover{
+	cursor: pointer;
+}
+
 .active-link {
 	color: var(--main-color);
 }
