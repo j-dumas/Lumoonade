@@ -45,7 +45,7 @@ export default function ProfileAlerts(props) {
 			symbols.push(SlugToSymbol(alert.slug, props.currency))
 		})
 		setSocket(createSocket(['general'], symbols, `wss://${window.location.host}`))
-	}, [!alerts, alerts.length == 0])
+	}, [alerts, alerts.length == 0, currentPage])
 
 	useEffect(() => {
 		if (!socket) return
@@ -57,7 +57,11 @@ export default function ProfileAlerts(props) {
 		<div id="alerts column center">
 			<div id="alerts-header" className="row">
 				<h1>Alertes</h1>
-				<ProfileAddAlerts alerts={alerts} onDataChange={fetchAssets} />
+				{
+					(data.length >= 0)
+						&&
+							<ProfileAddAlerts data={data} onDataChange={fetchAssets} />
+				}
 				<Snackbar
 					sx={{ m: 6 }}
 					open={openStatus}

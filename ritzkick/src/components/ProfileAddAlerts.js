@@ -43,10 +43,9 @@ export default function ProfileAddAlerts(props) {
 	const [data, setData] = useState(undefined)
 
 	function getPrice(symbol) {
-		data.forEach((element) => {
-			if (element.symbol === symbol) {
-				console.log(element.symbol)
-				setPrice(5000)
+		props.data.forEach((element) => {
+			if (AreSlugsEqual(symbol, element.fromCurrency)) {
+				setPrice(element.regularMarketPrice)
 			}
 		})
 	}
@@ -174,8 +173,8 @@ export default function ProfileAddAlerts(props) {
 								required
 								autoComplete="off"
 								inputProps={{
-									inputMode: 'numeric',
-									pattern: '[0-9]*',
+									pattern: '[0-9]+([\.,][0-9]+)?',
+									step: "0.0000000001",
 									min: minPrice.toString(),
 									max: maxPrice.toString()
 								}}
