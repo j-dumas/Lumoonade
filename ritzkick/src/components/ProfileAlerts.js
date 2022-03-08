@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import { createSocket } from '../../services/SocketService'
 import {SlugToSymbol, AreSlugsEqual} from '../../utils/crypto'
 import format from '../../utils/formatter'
+import { CircularProgress } from '@mui/material'
 
 export default function ProfileAlerts(props) {
 	const [socket, setSocket] = useState()
@@ -70,8 +71,12 @@ export default function ProfileAlerts(props) {
 				</Snackbar>
 			</div>
 			{
-				(alerts !== undefined) 
-					&&
+				(alerts === undefined) 
+					?
+						<div className='column center'>
+							<CircularProgress color="secondary" />
+						</div>
+					:
 					<div>
 						<ul>
 							<li>
