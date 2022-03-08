@@ -22,13 +22,11 @@ const Register = () => {
 	}, [])
 
 	return (
-		<>
-			<main>
-				<RegisterForm />
-				<Bubbles />
-				<div className="spacer layer2"></div>
-			</main>
-		</>
+		<section className='column center principal first'>
+			<RegisterForm />
+			<Bubbles />
+			<div className="spacer layer2"></div>
+		</section>
 	)
 }
 

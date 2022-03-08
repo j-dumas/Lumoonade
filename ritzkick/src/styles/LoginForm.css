@@ -26,17 +26,15 @@
 
 .form {
 	display: flex;
-	position: absolute;
-	top: 10%;
 	text-align: center;
 	animation: 0.3s ease-out 0s 1 slideInFromAbove, fadein 1s;
 	flex-direction: column;
-	z-index: 100;
 	width: 25vw;
 	min-width: 360px;
 	background-color: rgb(51, 52, 54, 0.8);
 	border-radius: 5px;
 	padding: 20px;
+	z-index: 1;
 }
 
 .inputField {

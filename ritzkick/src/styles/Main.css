@@ -276,6 +276,7 @@ label {
 	justify-content: center;
 	align-items: center;
 	flex-grow: 1;
+	z-index: 5;
 }
 
 

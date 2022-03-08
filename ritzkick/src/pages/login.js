@@ -22,13 +22,11 @@ const Login = () => {
 	}, [])
 
 	return (
-		<>
-			<main>
-				<LoginForm />
-				<Bubbles />
-				<div className="spacer layer1"></div>
-			</main>
-		</>
+		<section className='column center principal first'>
+			<LoginForm />
+			<Bubbles />
+			<div className="spacer layer1"></div>
+		</section>
 	)
 }
 
