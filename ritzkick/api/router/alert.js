@@ -7,6 +7,32 @@ const es = require('../../app/email/email-service')
 
 const paths = require('../routes.json')
 
+/**
+ * POST /api/alerts
+ * @summary Creates an alert
+ * @tags Alerts
+ * @param {object} request.body.required - Alert info
+ * @example request - example payload
+ * {
+ *  "slug": "eth",
+ *  "parameter": "lte",
+ * 	"target": 2000
+ * }
+ * @return {object} 201 - success
+ * @example response - 201 - example success response
+ * {
+ *  "owner": "abce25112123ac2135",
+ * 	"slug": "eth",
+ * 	"parameter": "lte",
+ * 	"target": 2000
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"error": "Please authenticate first."
+ * }
+ * @security BearerAuth
+ */
 router.post(paths.alerts.create, auth, async (req, res) => {
 	try {
 		const user = req.user
@@ -27,6 +53,37 @@ router.post(paths.alerts.create, auth, async (req, res) => {
 	}
 })
 
+/**
+ * PUT /api/alerts/update
+ * @summary Updates an alert
+ * @tags Alerts
+ * @param {object} request.body.required - Alert info
+ * @example request - example payload
+ * {
+ *  "id": "ab3612b3b6cb126301",
+ *  "parameter": "gte",
+ * 	"target": 2000
+ * }
+ * @return {object} 200 - success
+ * @example response - 200 - example success response
+ * {
+ *  "owner": "ab3612b3b6cb126301",
+ * 	"slug": "eth",
+ * 	"parameter": "gte",
+ * 	"target": 2000
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"message": "Please authenticate first."
+ * }
+ * @return {string} 400 - bad request
+ * @example response - 400 - example of a bad request
+ * {
+ * 	"message": "Please provide informations to modify | One or more properties are not supported"
+ * }
+ * @security BearerAuth
+ */
 router.put(paths.alerts.update, auth, async (req, res) => {
 	try {
 		let updates = Object.keys(req.body)
@@ -70,6 +127,38 @@ router.put(paths.alerts.update, auth, async (req, res) => {
 	}
 })
 
+/**
+ * DELETE /api/alerts/delete
+ * @summary Deletes an alert
+ * @tags Alerts
+ * @param {object} request.body.required - Alert info
+ * @example request - example payload
+ * {
+ *  "id": "ab3612b3b6cb126301"
+ * }
+ * @return {object} 200 - success
+ * @example response - 200 - example success response
+ * {
+ * 	"message": "Alert successfully removed.",
+ * 	"alert": {
+*	  "owner": "ab3612b3b6cb126301",
+* 	  "slug": "eth",
+* 	  "parameter": "gte",
+* 	  "target": 2000
+ * 	}
+ * }
+ * @return {string} 401 - unauthorized
+ * @example response - 401 - example unauthenticated user error response
+ * {
+ * 	"message": "Please authenticate first."
+ * }
+ * @return {string} 404 - bad request
+ * @example response - 404 - example of a bad request
+ * {
+ * 	"message": "Could not find the alert | The alert seems to be already removed"
+ * }
+ * @security BearerAuth
+ */
 router.delete(paths.alerts.delete, auth, async (req, res) => {
 	try {
 		await req.user.populate({

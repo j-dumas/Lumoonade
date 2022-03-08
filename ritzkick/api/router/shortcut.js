@@ -17,6 +17,32 @@ router.get('/redirect/:id', async (req, res) => {
 	}
 })
 
+/**
+ * POST /api/redirects
+ * @summary Creates a shorturl
+ * @tags Redirect
+ * @param {object} request.body.required - Shortcut info
+ * @example request - example payload
+ * {
+ *  "url": "https://www.youtube.com/",
+ *  "destroyable": "true"
+ * }
+ * @return {object} 200 - success
+ * @example response - 200 - example success response (if there's a match)
+ * {
+ *  "url": "https://www.lumoonade.com/redirects/abc26197acdea7623"
+ * }
+ * @return {object} 201 - success
+ * @example response - 201 - example success response
+ * {
+ *  "url": "https://www.lumoonade.com/redirects/abc26197acdea7623"
+ * }
+ * @return {string} 409 - Conflict
+ * @example response - 409 - example error response
+ * {
+ * 	"error": "You cannot set visits"
+ * }
+ */
 router.post('/api/redirects', async (req, res) => {
 	try {
 		if (Object.keys(req.body).length === 0) {
@@ -46,6 +72,10 @@ router.post('/api/redirects', async (req, res) => {
 	}
 })
 
+/**
+ * Remove or update the shortcut depending on how it was defined.
+ * @param {Shortcut} shortcut 
+ */
 const handleShortcuts = async (shortcut) => {
 	shortcut.visits = parseInt(shortcut.visits) + 1
 	if (shortcut.destroyable && shortcut.maxUse <= shortcut.visits) {
