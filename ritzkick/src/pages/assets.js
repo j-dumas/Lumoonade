@@ -14,6 +14,7 @@ import { useTranslation } from 'next-i18next'
 const CURRENCY = 'usd'
 
 const Assets = () => {
+	
 	const { t } = useTranslation('assets')
 
 	const [keyword, setKeyword] = useState()
@@ -72,6 +73,7 @@ const Assets = () => {
 		let symbols = []
 		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
 		setSearchList(symbols)
+		console.log(favSocket)
 	}
 
 	return (
@@ -94,13 +96,14 @@ const Assets = () => {
 			<section className="sub-section column">
 				{socket ? (
 					<>
-						{favSocket && searchList.length == 0 ? (
+					{favSocket && searchList.length == 0 ? (
 					<>
 						<div className='row start'>
 							<Icons.StarFulled/>
 							<h1>{t('favorites')}</h1>
 						</div>
-						<SimpleCryptoCardDashboard socket={favSocket} />
+						{favSocket.auth.query.length == 0 ? <></> :
+						<SimpleCryptoCardDashboard socket={favSocket} />}
 					</>
 						) : null}
 						<div className='row start'>

@@ -38,7 +38,7 @@ const Profile = () => {
 	}, [])
 
 	return (
-		<div className="column first transparent layer4">
+		<div className="column principal first layer4">
 			<div className="center">{user !== undefined && <ProfileHeader user={user} />}</div>
 			<div>
 				<div className="row center">
