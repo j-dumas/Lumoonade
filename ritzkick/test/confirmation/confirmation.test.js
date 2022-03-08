@@ -53,7 +53,7 @@ describe(`Creation confirmation test cases for /api/confirmations`, () => {
 		expect(confirmations.length).toBe(0)
 		const user = await User.findOne({ email: tempUser.email })
 		await user.verified()
-		await request(server).post(URL).send({ email: tempUser.email }).expect(400)
+		await request(server).post(URL).send({ email: tempUser.email }).expect(409)
 		confirmations = await Confirmation.find({})
 		expect(confirmations.length).toBe(0)
 	})
@@ -75,7 +75,7 @@ describe(`Validation test cases for /api/confirmation/verify/:jwt`, () => {
 		await request(server)
 			.get(URL + customJWT)
 			.send()
-			.expect(400)
+			.expect(409)
 	})
 
 	test(`'VALIDATED REQUEST' you can validate the token if it exists.`, async () => {

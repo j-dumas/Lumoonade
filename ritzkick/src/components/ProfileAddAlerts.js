@@ -17,16 +17,16 @@ import { useForm } from './hooks/useForm'
 import { CloseRounded } from '@mui/icons-material'
 import Functions from 'services/CryptoService'
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
 const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+	PaperProps: {
+		style: {
+			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			width: 250
+		}
+	}
+}
 
 export default function ProfileAddAlerts(props) {
 	const [state, handleChange, resetState] = useForm({})
@@ -52,7 +52,7 @@ export default function ProfileAddAlerts(props) {
 
 	function parseData() {
 		let parsedData = []
-		if(data !== undefined){
+		if (data !== undefined) {
 			data.forEach((element) => {
 				let tempValue = {
 					label: element.name,

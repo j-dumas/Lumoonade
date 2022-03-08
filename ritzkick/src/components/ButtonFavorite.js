@@ -38,20 +38,16 @@ function ButtonFavorite(props) {
 		updateFavorite()
 	}, [updateFavorite])
 
-	const handleClick = async event => {
-		event.stopPropagation();
-		console.log("clicked");
+	const handleClick = async (event) => {
+		event.stopPropagation()
+		console.log('clicked')
 		await handleFavorite()
 	}
 
 	return !isUserConnected() ? null : (
 		<>
 			<div className="fav-button">
-				<div
-					onClick={handleClick}
-				>
-					{favorite ? <Icons.StarFulled /> : <Icons.StarEmpty />}
-				</div>
+				<div onClick={handleClick}>{favorite ? <Icons.StarFulled /> : <Icons.StarEmpty />}</div>
 			</div>
 		</>
 	)

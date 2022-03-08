@@ -3,6 +3,7 @@ import Functions from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import SimplestItemView from '@/components/views/SimplestItemView'
 import { useRouter } from 'next/router'
+import Icons from '../../components/Icons'
 
 import { useTranslation } from 'next-i18next'
 
@@ -49,7 +50,7 @@ function CompareMenu(props) {
 		event.preventDefault()
 		let search = event.target[0].value
 		if (!search) search = '0'
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 0, 8)
+		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 1, 8)
 		
 		setSearchList(list.assets)
 	}
@@ -87,79 +88,78 @@ function CompareMenu(props) {
 	}
 
 	return (
-		<>
-			<div className="column detailed-informations detailed-div max-width">
-				<div className="detailed-div-menu row space-between">
-					<label className="detailed-div-title">{t('menu.comparing')}</label>
-					<div>
-						<select name="" id="" className="detailed-chart-options-select">
-							<option value="price">{t('menu.options.price')}</option>
-							<option value="efficiency">{t('menu.options.efficiency')}</option>
-							<option value="volume">{t('menu.options.volume')}</option>
-							<option value="marketCap">{t('menu.options.market-cap')}</option>
-						</select>
-						<p className="detailed-div-title">{'$ = ' + props.currency + '$'}</p>
-					</div>
-				</div>
-				<div className="row space-between detailed-div-item">
-					<p className="detailed-div-item-label">{t('menu.with')}</p>
-					<form action="" onSubmit={updateSearchList}>
-						<input type="search" />
-						<button type="submit" value="Submit">
-							{t('menu.search')}
-						</button>
-					</form>
-				</div>
-				<form className="row detailed-div-item start">
-					{searchList.map((element) => {
-						return (
-							<button
-								onClick={addToCompareList}
-								key={element.symbol}
-								value={element.symbol}
-								className="dynamic-list-item"
-							>
-								{element.symbol}
-							</button>
-						)
-					})}
-				</form>
-				{props.compareList.length > 0 ? (
-					<div className="row">
-						<div className="row">
-							<p></p>
-							<p className="detailed-div-title">{t('menu.table.asset')}</p>
-						</div>
-						<p className="detailed-div-title">{t('menu.table.price')}</p>
-						<div className="row">
-							<p className="detailed-div-title">{t('menu.table.change')}</p>
-							<p className="detailed-div-title"></p>
-						</div>
-						<p></p>
-					</div>
-				) : (
-					<p></p>
-				)}
-				<div className="column detailed-div-item">
-					{props.compareList.map((element, i) => {
-						let data = {}
-						datas.map((crypto) => {
-							if (crypto.fromCurrency.toString() + '-' + props.currency == element) {
-								data = crypto
-							}
-						})
-						return (
-							<SimplestItemView
-								command={removeFromCompareList}
-								slug={element}
-								data={data}
-								key={element}
-							/>
-						)
-					})}
+		!searchList? <></> :
+		<div className="column detailed-informations detailed-div max-width">
+			<div className="detailed-div-menu row space-between">
+				<label className="detailed-div-title">{t('menu.comparing')}</label>
+				<div>
+					<select name="" id="" className="detailed-chart-options-select">
+						<option value="price">{t('menu.options.price')}</option>
+						<option value="efficiency">{t('menu.options.efficiency')}</option>
+						<option value="volume">{t('menu.options.volume')}</option>
+						<option value="marketCap">{t('menu.options.market-cap')}</option>
+					</select>
+					<p className="detailed-div-title">{'$ = ' + props.currency + '$'}</p>
 				</div>
 			</div>
-		</>
+			<div className="row space-between detailed-div-item">
+				<p className="detailed-div-item-label">{t('menu.with')}</p>
+				<form className='row' action="" onSubmit={updateSearchList}>
+					<input type="search" />
+					<button type="submit" value="Submit">
+						<Icons.Search/>
+					</button>
+				</form>
+			</div>
+			<form className="row detailed-div-item start">
+				{searchList.map((element) => {
+					return (
+						<button
+							onClick={addToCompareList}
+							key={element.symbol}
+							value={element.symbol}
+							className="dynamic-list-item"
+						>
+							{element.symbol}
+						</button>
+					)
+				})}
+			</form>
+			{props.compareList.length > 0 ? (
+				<div className="row">
+					<div className="row">
+						<p></p>
+						<p className="detailed-div-title">{t('menu.table.asset')}</p>
+					</div>
+					<p className="detailed-div-title">{t('menu.table.price')}</p>
+					<div className="row">
+						<p className="detailed-div-title">{t('menu.table.change')}</p>
+						<p className="detailed-div-title"></p>
+					</div>
+					<p></p>
+				</div>
+			) : (
+				<p></p>
+			)}
+			<div className="column detailed-div-item">
+				{props.compareList.map((element, i) => {
+					let data = {}
+					datas.map((crypto) => {
+						if (crypto.fromCurrency.toString() + '-' + props.currency == element) {
+							data = crypto
+						}
+					})
+					return (
+						<SimplestItemView
+							command={removeFromCompareList}
+							slug={element}
+							data={data}
+							key={element}
+						/>
+					)
+				})}
+			</div>
+		</div>
 	)
 }
 

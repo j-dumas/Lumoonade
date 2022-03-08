@@ -53,14 +53,14 @@ class ServerError extends HttpError {
 	}
 }
 
-async function sendError(res, e) {
+function sendError(res, e) {
 	if (e.status)
 		res.status(e.status).send({
-			error: e.message
+			message: e.message
 		})
 	else
 		res.status(500).send({
-			error: e.message
+			message: e.message
 		})
 }
 

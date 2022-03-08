@@ -88,7 +88,7 @@ describe(`Testing creation cases 'POST' (/api/redirects)`, () => {
 
 	test(`should throw an error if you provide a number of visits in the body`, async () => {
 		config.visits = 1000
-		await request(server).post(URL).send(config).expect(400)
+		await request(server).post(URL).send(config).expect(409)
 	})
 
 	test(`should create a shortcut url if we provide all params required`, async () => {

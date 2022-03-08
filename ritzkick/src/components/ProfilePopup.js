@@ -145,13 +145,9 @@ export default function ProfilePopup(props) {
 						<hr className="form-separator"></hr>
 						<label>Entrez votre ancien mot de passe ainsi que le nouveau</label>
 
-						{
-							error 
-							  && 
-								<div className="wrong">
-									Veuillez vérifier si tous les champs ci dessous concorde bien
-								</div>
-						}
+						{error && (
+							<div className="wrong">Veuillez vérifier si tous les champs ci dessous concorde bien</div>
+						)}
 						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
 							<OutlinedInput

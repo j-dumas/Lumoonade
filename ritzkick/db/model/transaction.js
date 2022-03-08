@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { BadRequestHttpError } = require('../../utils/http_errors')
 
 const transactionSchema = new mongoose.Schema(
 	{
@@ -30,7 +31,7 @@ const transactionSchema = new mongoose.Schema(
 			required: true,
 			validate(amount) {
 				if (amount < 0) {
-					throw new Error('Unable to set an amount under 0.')
+					throw new BadRequestHttpError('Unable to set an amount under 0.')
 				}
 			}
 		},
@@ -38,7 +39,7 @@ const transactionSchema = new mongoose.Schema(
 			type: Number,
 			validate(amount) {
 				if (amount < 0) {
-					throw new Error('Unable to set an amount under 0.')
+					throw new BadRequestHttpError('Unable to set an amount under 0.')
 				}
 			}
 		}

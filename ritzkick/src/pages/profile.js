@@ -12,6 +12,8 @@ import { deleteCookie, getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 
+const CURRENCY = 'USD'
+
 const Profile = () => {
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
@@ -28,9 +30,9 @@ const Profile = () => {
 	}
 
 	useEffect(() => {
-		if(getCookie("token") === undefined){
-			router.push("/")
-		}else {
+		if (getCookie('token') === undefined) {
+			router.push('/')
+		} else {
 			getUser().then((res) => setUser(res))
 		}
 	}, [])

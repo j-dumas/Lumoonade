@@ -16,13 +16,13 @@ const Functions = {
 		return slugs
 	},
 
-	async GetSCryptocurrencySlugsBySeach(keyword, page = 0, limit = 16) {
-		const URI = `/api/assets/search/${keyword}?page${page}&limit=${limit}`
+	async GetSCryptocurrencySlugsBySeach(keyword, page = 1, limit = 16) {
+		const URI = `/api/assets/search/${keyword}?page=${page}&limit=${limit}`
 
 		let response = await fetch(URI)
 
 		let json = await response.json()
-		if (json.assets) json.assets.map((el) => el.symbol = el.symbol.toString().toUpperCase())
+		if (json.assets) json.assets.map((el) => (el.symbol = el.symbol.toString().toUpperCase()))
 
 		if (!json || json == undefined) json = []
 		return json
@@ -83,7 +83,7 @@ const Functions = {
 							currency: 'USD',
 							symbol: `${slug}-USD`,
 							exchangeName: 'CCC',
-							instrumentType: 'CRYPTOCURRENCY',
+							instrumentType: 'CRYPTOCURRENCY'
 						},
 						timestamp: [0],
 						indicators: {

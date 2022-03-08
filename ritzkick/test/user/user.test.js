@@ -322,7 +322,6 @@ test(`I want to purge all the active session except mine, should get 0 purged be
 // 	const body = res.body
 
 // 	expect(body.purged).toBe(1)
-// 	console.log(testUserTwo.sessions)
 // 	expect(testUserTwo.sessions[0].session).toBe(tokenForUserTwoTwo)
 // })
 
@@ -349,7 +348,7 @@ test(`I cannot set an empty password as the new one`, async () => {
 		.patch('/api/me/update')
 		.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 		.send(JSON.stringify({ oldPassword: CURRENT_PASSWORD, newPassword: '' }))
-		.expect(400)
+		.expect(409)
 })
 
 test(`I cannot set an empty password (with alot of spaces) as the new one`, async () => {
@@ -367,7 +366,7 @@ test(`I cannot implicitly set a new password without providing the oldPassword a
 		.patch('/api/me/update')
 		.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 		.send(JSON.stringify({ password: CURRENT_PASSWORD }))
-		.expect(400)
+		.expect(409)
 })
 
 test(`I want to modify my username when I'm authenticated`, async () => {
@@ -402,13 +401,13 @@ test(`I can modify my whole profile in one request (username, oldPass, newPass)`
 	expect(user.password).not.toBe(CURRENT_PASSWORD)
 })
 
-test(`I want to modify my username when I'm authenticated`, async () => {
+test(`I want to modify my email when I'm authenticated`, async () => {
 	const CURRENT_EMAIL = testUserTwo.email
 	await request(server)
 		.patch('/api/me/update')
 		.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 		.send(JSON.stringify({ email: 'someemail@mail.com' }))
-		.expect(400)
+		.expect(409)
 	const user = await User.findOne({ _id: testUserTwo._id })
 	expect(user.email).toBe(CURRENT_EMAIL)
 })

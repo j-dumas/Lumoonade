@@ -29,19 +29,19 @@ function PieChart(props) {
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
 
-    function generateData(dataArr, assets) {
+	function generateData(dataArr, assets) {
 		if (assets == undefined) return
-        let labels = []
-        let data = []
-        let backgroudColors = []
-        dataArr.forEach((datas) => {
-            assets.forEach((asset) => {
-                if (asset.name.toString().toUpperCase() != datas.fromCurrency.toString().toUpperCase()) return
-                labels.push(datas.fromCurrency.toString().toUpperCase())
-                data.push(datas.regularMarketPrice*asset.amount)
-                backgroudColors.push(GetColorBySlug(datas.fromCurrency.toString()))
-            })
-        })
+		let labels = []
+		let data = []
+		let backgroudColors = []
+		dataArr.forEach((datas) => {
+			assets.forEach((asset) => {
+				if (asset.name.toString().toUpperCase() != datas.fromCurrency.toString().toUpperCase()) return
+				labels.push(datas.fromCurrency.toString().toUpperCase())
+				data.push(datas.regularMarketPrice * asset.amount)
+				backgroudColors.push(GetColorBySlug(datas.fromCurrency.toString()))
+			})
+		})
 
 		const pieData = {
 			maintainAspectRatio: false,
