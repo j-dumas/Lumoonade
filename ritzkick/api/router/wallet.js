@@ -4,6 +4,7 @@ const Transaction = require('../../db/model/transaction')
 const auth = require('../middleware/auth')
 const { NotFoundHttpError, ConflictHttpError, BadRequestHttpError, sendError } = require('../../utils/http_errors')
 const router = express.Router()
+const { Asset } = require('../../db/model/asset')
 require('../swagger_models')
 
 /**
@@ -319,6 +320,12 @@ router.post('/api/wallets', auth, async (req, res) => {
 		if (exists) {
 			throw new ConflictHttpError('This wallet is already defined.')
 		}
+
+		const asset = await Asset.findOne({ symbol: req.body.asset })
+		if (!asset) {
+			throw new Error('Cannot create a wallet with an invalid asset name')
+		}
+
 		const wallet = new Wallet(body)
 		try {
 			await wallet.save()
