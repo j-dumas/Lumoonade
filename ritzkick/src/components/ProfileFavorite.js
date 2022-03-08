@@ -12,11 +12,13 @@ export default function ProfileFavorite() {
 	const [socket, setSocket] = useState()
 	const [dateRange, setDateRange] = useState('1d')
 	const [interval, setInterval] = useState('1h')
+	const [data, setData] = useState([])
 
 	useEffect(async () => {
-		const data = await getFavorites()
+		const favorites = await getFavorites()
+		setData(favorites)
 		let slugs = []
-		data.map((favorite) => {
+		favorites.map((favorite) => {
 			slugs.push(favorite.slug)
 		})
 		const symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
@@ -29,8 +31,16 @@ export default function ProfileFavorite() {
 		</div>
 	) : (
 		<div id="favorites">
-			<h1>Favoris</h1>
-			<SimpleCryptoDashboard socket={socket} />
+			{
+				(data.length !== 0) 
+					? 
+						<div>
+							<h1>Favoris</h1>
+							<SimpleCryptoDashboard socket={socket} /> 
+						</div>
+					: 
+						<h1>Aucun favoris</h1>
+			}
 		</div>
 	)
 }

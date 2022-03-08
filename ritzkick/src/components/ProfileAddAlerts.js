@@ -39,6 +39,7 @@ export default function ProfileAddAlerts(props) {
 	const [minPrice, setMinPrice] = useState(0)
 	const [maxPrice, setMaxPrice] = useState(0)
 	const [data, setData] = useState(undefined)
+	const [slug, setSlug] = useState(undefined)
 
 	function getPrice(symbol) {
 		data.forEach((element) => {
@@ -72,8 +73,12 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	useEffect(async () => {
-		console.log(props.slug)
-		console.log(props.provenance)
+		if(props.provenance){
+			let tempValue = props.slug.split('-')
+			setSlug(tempValue[0])
+			// const tempSlug = {target: {name: "slug", value: tempValue[0]}}
+			// handleChange(tempSlug)
+		}
 		const values = await Functions.GetAllCryptocurrencySlugs(1, 1000)
 		setData(values.assets)
 	}, [])
@@ -101,8 +106,13 @@ export default function ProfileAddAlerts(props) {
 
 	async function handleSubmit(event) {
 		event.preventDefault()
+		const tempSlug = {target: {name: "slug", value: slug}}
+		handleChange(tempSlug)
+
 		await addWatch(state)
-		props.onDataChange()
+		if(!props.provenance){
+			props.onDataChange()
+		}
 		close()
 		setOpen(true)
 	}
@@ -139,9 +149,9 @@ export default function ProfileAddAlerts(props) {
 						n&apos;est pas respectée
 					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
-						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled">
+						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled" disabled={props.provenance}>
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue="" onChange={handleChange} MenuProps={MenuProps} required>
+							<Select name="slug" defaultValue={props.provenance ? slug : ""} value={slug} onChange={handleChange} MenuProps={MenuProps} required>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}

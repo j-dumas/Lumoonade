@@ -33,7 +33,7 @@ const LoginForm = () => {
 		if (state.email !== undefined && state.password !== undefined) {
 			event.preventDefault()
 			await login(state.email, state.password, handleError)
-					.then((res) => {if(res === 200){router.push({pathname: "/profile", query: {login: true}})}})
+					.then((res) => {if(res === 200){router.push("/profile")}})
 		}
 	}
 
@@ -48,7 +48,7 @@ const LoginForm = () => {
 						id="outlined-adornment-courriel"
 						type="email"
 						onChange={handleChange}
-						startAdornment={
+						endAdornment={
 							<InputAdornment position="end">
 								<Email />
 							</InputAdornment>
@@ -71,13 +71,8 @@ const LoginForm = () => {
 						id="outlined-adornment-password"
 						type={passShow ? 'text' : 'password'}
 						onChange={handleChange}
-						startAdornment={
-							<InputAdornment position="end">
-								<Lock />
-							</InputAdornment>
-						}
 						endAdornment={
-							<InputAdornment position="end">
+							<InputAdornment position='end'>
 								<IconButton
 									onMouseDown={handleClickShowPassword}
 									onMouseUp={handleClickShowPassword}
