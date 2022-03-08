@@ -22,10 +22,9 @@ const Login = () => {
 	}, [])
 
 	return (
-		<section className='column center principal first'>
+		<section className='column center principal first layer1'>
 			<LoginForm />
 			<Bubbles />
-			<div className="spacer layer1"></div>
 		</section>
 	)
 }
