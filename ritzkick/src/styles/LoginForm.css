@@ -156,8 +156,9 @@ input:focus::placeholder {
 	height: 100%;
 	background-repeat: no-repeat;
 	background-position: center;
-	z-index: 0;
+	z-index: -1;
 	position: absolute;
+	top: 0;
 }
 
 .layer1 {
