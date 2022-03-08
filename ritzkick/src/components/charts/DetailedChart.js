@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import DetailedChartMenu from '@/components/menus/DetailedChartMenu'
 import dynamic from 'next/dynamic'
 
-
 const DetailedChartChart = dynamic(
 	() => {
 		return import('./DetailedChartChart')
@@ -15,6 +14,7 @@ function DetailedChart(props) {
 	const [interval, setInterval] = useState('15m')
 
 	useEffect(() => {
+		console.log(dateRange)
 		if (props.socket.id) {
 			props.socket.emit('switch', props.socket.id, ['general', `graph-${dateRange}-${interval}`], true)
 		}

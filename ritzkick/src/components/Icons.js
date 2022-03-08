@@ -28,7 +28,7 @@ import {
 	faBell,
 	faTrash,
 	faList,
-	faMagnifyingGlass
+	faSearch
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
@@ -114,8 +114,8 @@ const Icons = {
 	List: () => {
 		return <FontAwesomeIcon className="icon" icon={faList} />
 	},
-	MagnifyingGlass: () => {
-		return <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
+	Search: () => {
+		return <FontAwesomeIcon className="icon" icon={faSearch} />
 	},
 }
 

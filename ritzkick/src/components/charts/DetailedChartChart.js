@@ -15,13 +15,17 @@ const graph = require('app/socket/utils/graph')
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
+	
 	const [chartReference] = useState(React.createRef())
 	const [data] = useState(Functions.GetDummyChartData(props.slug))
 
 	useEffect(async () => {
 		let transactionList = (props.wallet && isUserConnected()) ? await getTransactions() : null
 		let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+		if (props.socket._callbacks.$graph) props.socket._callbacks.$graph.length = 0
 		props.socket.on('graph', (datas) => {
+			console.log(props.dateRange)
 			if (props.wallet && isUserConnected()) {
 				datas = yahoo.yahooToDashBoard2(datas, transactionList, props.dateRange, true, timeZone)
 			}
@@ -36,7 +40,7 @@ function DetailedChartChart(props) {
 			} catch (_) {}
 		})
 		if (props.socket) return () => props.socket.disconnect()
-	}, [])
+	}, [props.dateRange])
 
 	function isDataNull(datas) {
 		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {

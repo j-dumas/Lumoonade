@@ -79,13 +79,13 @@ const Assets = () => {
 					<div className="row h-center detailed-menu-info">
 						<h1 className="detailed-menu-title">{t('markets')}</h1>
 					</div>
-					<form action="" onSubmit={updateSearchList}>
+					<form className='row' action="" onSubmit={updateSearchList}>
 						<input type="search" />
 						<button type="submit" value="Submit">
-							{t('search')}
+							<Icons.Search/>
 						</button>
 					</form>
-					<div className="detailed-menu-actions row h-center"></div>
+
 				</div>
 			</section>
 
@@ -93,13 +93,13 @@ const Assets = () => {
 				{socket ? (
 					<>
 						{favSocket && searchList.length == 0 ? (
-							<>
-								<div className='row start'>
-									<Icons.StarFulled/>
-									<h1>{t('favorites')}</h1>
-								</div>
-								<SimpleCryptoCardDashboard socket={favSocket} />
-							</>
+					<>
+						<div className='row start'>
+							<Icons.StarFulled/>
+							<h1>{t('favorites')}</h1>
+						</div>
+						<SimpleCryptoCardDashboard socket={favSocket} />
+					</>
 						) : null}
 						<div className='row start'>
 							<Icons.List/>
