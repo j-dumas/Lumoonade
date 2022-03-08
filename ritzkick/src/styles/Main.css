@@ -312,3 +312,7 @@ label {
 	background-color: var(--background-color);
 	overflow-x: hidden;
 }
+
+.transparent {
+	background: transparent !important;
+}

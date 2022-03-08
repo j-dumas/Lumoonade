@@ -20,17 +20,19 @@ const Assets = () => {
 	const [searchList, setSearchList] = useState([])
 	const [socket, setSocket] = useState()
 	const [favSocket, setFavSocket] = useState()
-	const [currentPage, setCurrentPage] = useState([1,1]) // Page#, #Pages
+	const [pagination, setPagination] = useState([1,1]) // Page#, #Pages
 	const decrementPage = async () => {
-		if (currentPage[0] > 1) {
-			setCurrentPage(currentPage[0]-1)
-			await searchAsset(keyword, currentPage[0]-1)
+		const currentP = pagination[0]
+		if (currentP > 1) {
+			setPagination(currentP-1, pagination[1])
+			await searchAsset(keyword, currentP-1)
 		}
 	}
 	const incrementPage = async () => {
-		if (currentPage[0] < currentPage[1]) {
-			setCurrentPage(currentPage[0]+1)
-			await searchAsset(keyword, currentPage[0]+1)
+		const currentP = pagination[0]
+		if (currentP < pagination[1]) {
+			setPagination(currentP+1, pagination[1])
+			await searchAsset(keyword, currentP+1)
 		}
 	}
 
@@ -66,14 +68,14 @@ const Assets = () => {
 	async function searchAsset(keyword, page) 
 	{
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 8)
-		setCurrentPage([page, 6]) // TODO: LIST.MAX
+		setPagination([page, list.max_page])
 		let symbols = []
 		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
 		setSearchList(symbols)
 	}
 
 	return (
-		<section className="section column center principal first">
+		<section className="section column h-center principal first">
 			<section className="sub-section">
 				<div className="page-menu space-between row h-center">
 					<div className="row h-center detailed-menu-info">
@@ -106,9 +108,9 @@ const Assets = () => {
 							<h1>{t('assets')}</h1>
 						</div>
 						<SimpleCryptoCardDashboard socket={socket}/>
-						{searchList.length > 0 && currentPage[1] > 1 ? (
+						{searchList.length > 0 && pagination[1] > 1 ? (
 							<div className='row center'>
-								<button onClick={decrementPage}>{'<'}</button><p>{currentPage[0]}</p><button  onClick={incrementPage}>{'>'}</button>
+								<button onClick={decrementPage}>{'<'}</button><p>{pagination[0]} / {pagination[1]}</p><button  onClick={incrementPage}>{'>'}</button>
 							</div>
 						): <></>}
 					</>
