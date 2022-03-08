@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
 
 :root {
-	--headline: calc(45px + 5vw);
+	--headline: calc(35px + 4vw);
 	--title: calc(30px + 2vw);
 	--subtitle: calc(var(--title) / 3);
 	--subtitle-small: calc(var(--title) / 4);
@@ -104,10 +104,6 @@ p {
 	line-height: 25px;
 }
 
-.item {
-	width: 90%;
-}
-
 .website-title {
 	font-size: var(--headline);
 	margin: 0;
@@ -115,20 +111,13 @@ p {
 	text-align: left;
 }
 
-main {
-	min-width: 100%;
-	width: 100%;
 
-	display: flex;
-	justify-content: space-around;
-}
 
 .title,
 .subtitle,
 .subtitle-small {
 	font-weight: normal;
 	text-align: left;
-	margin: 10px;
 }
 
 .title {
@@ -138,7 +127,6 @@ main {
 
 .subtitle {
 	font-size: var(--subtitle);
-	margin-top: 0px;
 }
 
 .subtitle-small {
@@ -281,7 +269,6 @@ label {
 }
 
 .footer {
-	margin-top: 50px;
 	display: flex;
 	flex: 1;
 	padding: 2rem 0;
@@ -318,4 +305,10 @@ label {
 
 .footer .sub-section {
 	gap: 50px;
+}
+
+.main {
+	font-family: var(--font);
+	background-color: var(--background-color);
+	overflow-x: hidden;
 }
