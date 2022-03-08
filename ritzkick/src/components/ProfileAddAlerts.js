@@ -16,6 +16,8 @@ import {
 import { useForm } from './hooks/useForm'
 import { CloseRounded } from '@mui/icons-material'
 import Functions from 'services/CryptoService'
+import {SlugToSymbol, AreSlugsEqual} from '../../utils/crypto'
+
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -29,7 +31,7 @@ const MenuProps = {
 }
 
 export default function ProfileAddAlerts(props) {
-	const [state, handleChange, resetState] = useForm({})
+	const [state, handleChange, resetState, setSlug] = useForm({})
 	const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,
 		closeOnOverlayClick: true
@@ -39,7 +41,6 @@ export default function ProfileAddAlerts(props) {
 	const [minPrice, setMinPrice] = useState(0)
 	const [maxPrice, setMaxPrice] = useState(0)
 	const [data, setData] = useState(undefined)
-	const [slug, setSlug] = useState(undefined)
 
 	function getPrice(symbol) {
 		data.forEach((element) => {
@@ -76,14 +77,13 @@ export default function ProfileAddAlerts(props) {
 		if(props.provenance){
 			let tempValue = props.slug.split('-')
 			setSlug(tempValue[0])
-			// const tempSlug = {target: {name: "slug", value: tempValue[0]}}
-			// handleChange(tempSlug)
 		}
 		const values = await Functions.GetAllCryptocurrencySlugs(1, 1000)
 		setData(values.assets)
 	}, [])
 
 	useEffect(() => {
+		console.log(state)
 		if (state.slug !== undefined) {
 			getPrice(state.slug)
 		}
@@ -106,9 +106,6 @@ export default function ProfileAddAlerts(props) {
 
 	async function handleSubmit(event) {
 		event.preventDefault()
-		const tempSlug = {target: {name: "slug", value: slug}}
-		handleChange(tempSlug)
-
 		await addWatch(state)
 		if(!props.provenance){
 			props.onDataChange()
@@ -151,7 +148,7 @@ export default function ProfileAddAlerts(props) {
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled" disabled={props.provenance}>
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue={props.provenance ? slug : ""} value={slug} onChange={handleChange} MenuProps={MenuProps} required>
+							<Select name="slug" defaultValue={props.provenance ? state.slug : ""} onChange={handleChange} MenuProps={MenuProps} required>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}

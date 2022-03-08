@@ -56,7 +56,7 @@ export default function ProfileAlerts(props) {
 		<div id="alerts column center">
 			<div id="alerts-header" className="row">
 				<h1>Alertes</h1>
-				<ProfileAddAlerts onDataChange={fetchAssets} />
+				<ProfileAddAlerts alerts={alerts} onDataChange={fetchAssets} />
 				<Snackbar
 					sx={{ m: 6 }}
 					open={openStatus}
@@ -115,7 +115,7 @@ export default function ProfileAlerts(props) {
 								{currentPage}
 							</div>
 							{
-								(data.length === 5) 
+								(alerts.length === 5) 
 								&& 
 									<button className='alert-page-control-buttons row center' onClick={() => fetchAssets(currentPage + 1)}>
 										<div>
