@@ -54,7 +54,6 @@ main {
 	height: 100vh;
 	font-family: var(--font);
 	background-color: var(--background-color);
-	overflow-x: hidden;
 }
 
 html {
@@ -276,6 +275,7 @@ label {
 	justify-content: center;
 	align-items: center;
 	flex-grow: 1;
+	z-index: 5;
 }
 
 
@@ -310,7 +310,6 @@ label {
 .main {
 	font-family: var(--font);
 	background-color: var(--background-color);
-	overflow-x: hidden;
 }
 
 .transparent {

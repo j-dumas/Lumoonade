@@ -49,7 +49,7 @@ export default function ResetPasswordForm() {
 	}
 
 	return (
-		<Container className="p-3 form">
+		<Container className="form">
 			<h1 className="form-title">{t('reset.title')}</h1>
 			<form method="POST" onSubmit={(event) => handleSubmit(event)}>
 				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
