@@ -10,6 +10,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { deleteCookie, getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
+import { CircularProgress } from '@mui/material'
 
 const CURRENCY = 'USD'
 
@@ -22,6 +23,10 @@ const Profile = () => {
 		await removeSession()
 		const data = await getUser()
 		setUser(data)
+	}
+
+	async function updateUser(){
+		getUser().then((res) => setUser(res))
 	}
 
 	useEffect(() => {

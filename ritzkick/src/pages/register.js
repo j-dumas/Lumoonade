@@ -6,15 +6,18 @@ import { useTranslation } from 'next-i18next'
 import dynamic from 'next/dynamic'
 
 import Layout from '@/layouts/Layout'
+import { useRouter } from 'next/router'
 
 const RegisterForm = dynamic(() => import('@/components/forms/RegisterForm'))
 const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const Register = () => {
+	const router = useRouter()
+
 	useEffect(() => {
 		const token = getCookie('token')
 		if (token !== undefined) {
-			window.location.href = '/'
+			router.push("/")
 		}
 	}, [])
 
