@@ -18,28 +18,24 @@ const Home = () => {
 	const { logout } = router.query
 
 	useEffect(() => {
-		console.log(router.query)
-		console.log(logout)
-		if (logout) {
-			console.log('called')
-			deleteCookie('token')
-			console.log(getCookie('token'))
+		if(logout){
+			console.log("called")
+			deleteCookie("token")
+			console.log(getCookie("token"))
 		}
 	}, [])
 
 	return (
 		<>
-			<main className="column">
-				<section className="section row principal center">
+			<section className="column first principal center">
 					<div className="column center">
 						<div className="column center">
 							<h1 className="website-title item">{t('title')}</h1>
 							<h2 className="subtitle item">{t('description')}</h2>
 						</div>
 					</div>
-				</section>
-				<BottomArrow />
-			</main>
+					<BottomArrow/>
+			</section>
 
 			<svg className="svg svg-transit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
 				<path
