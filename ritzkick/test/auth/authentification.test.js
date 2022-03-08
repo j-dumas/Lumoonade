@@ -65,7 +65,7 @@ test('Should not be able to log in if the user does not exist', async () => {
 		email: dummyData.email,
 		password: dummyData.password
 	}
-	await request(server).post('/api/auth/login').send(credentials).expect(400)
+	await request(server).post('/api/auth/login').send(credentials).expect(404)
 })
 
 test('Should be able to log in if the user exists with a validate email', async () => {
@@ -85,7 +85,7 @@ test('Should not be able to log in if the user exists with a not validated email
 		email: testUser.email,
 		password: testUser.password
 	}
-	await request(server).post('/api/auth/login').send(credentials).expect(400)
+	await request(server).post('/api/auth/login').send(credentials).expect(409)
 })
 
 test('Should not be able to logout if the user is not logged in.', async () => {

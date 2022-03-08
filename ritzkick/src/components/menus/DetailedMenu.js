@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Icons from '@/components/Icons'
 import ButtonFavorite from '@/components/ButtonFavorite'
 import Image from 'next/image'
-import {isUserConnected} from '../../../services/AuthService'
+import { isUserConnected } from '../../../services/AuthService'
 
 function DetailedMenu(props) {
 	return (
@@ -19,23 +19,25 @@ function DetailedMenu(props) {
 				</a>
 			</div>
 
-			{!isUserConnected()?<></>:
-			<div className="detailed-menu-actions row h-center">
-				<ButtonFavorite slug={props.slug} />
-				<a href="" className="">
-					<Icons.Bell />
-				</a>
-				<a href="" className="detailed-menu-actions-icon">
-					<Icons.ArrowUp />
-				</a>
-				<a href="" className="detailed-menu-actions-icon">
-					<Icons.ArrowDown />
-				</a>
-				<a href="" className="detailed-menu-actions-icon">
-					<Icons.Exange />
-				</a>
-			</div>
-			}
+			{!isUserConnected() ? (
+				<></>
+			) : (
+				<div className="detailed-menu-actions row h-center">
+					<ButtonFavorite slug={props.slug} />
+					<a href="" className="">
+						<Icons.Bell />
+					</a>
+					<a href="" className="detailed-menu-actions-icon">
+						<Icons.ArrowUp />
+					</a>
+					<a href="" className="detailed-menu-actions-icon">
+						<Icons.ArrowDown />
+					</a>
+					<a href="" className="detailed-menu-actions-icon">
+						<Icons.Exange />
+					</a>
+				</div>
+			)}
 		</div>
 	)
 }

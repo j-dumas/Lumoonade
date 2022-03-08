@@ -7,6 +7,7 @@ require('../swagger_models')
 const { OAuth2Client } = require('google-auth-library')
 
 const paths = require('../routes.json')
+const { ConflictHttpError, ServerError, sendError } = require('../../utils/http_errors')
 
 // Config for the login call.
 const loginLimiter = rateLimit({
@@ -83,7 +84,7 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
 		const user = await User.findByCredentials(email, password)
 
 		if (!user.validatedEmail) {
-			throw new Error('Please confirm your email.')
+			throw new ConflictHttpError('Please confirm your email.')
 		}
 
 		const token = await user.makeAuthToken('localhost')
@@ -93,9 +94,7 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
 			token
 		})
 	} catch (e) {
-		res.status(400).send({
-			error: e.message
-		})
+		sendError(res, e)
 	}
 })
 
@@ -201,7 +200,7 @@ router.post(paths.auth.google, async (req, res) => {
 		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 		const client = new OAuth2Client(GOOGLE_CLIENT_ID)
 		const payload = await verify(client, req.body.idToken, GOOGLE_CLIENT_ID).catch((e) => {
-			throw new Error(e.message)
+			throw new ServerError(e.message)
 		})
 
 		let user = await User.findOne({ email: payload['email'] })
@@ -235,7 +234,7 @@ router.post(paths.auth.google, async (req, res) => {
 
 		res.status(200).send(returnPayload)
 	} catch (e) {
-		res.status(500).send({ error: e.message })
+		sendError(res, e)
 	}
 })
 

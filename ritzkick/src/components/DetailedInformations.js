@@ -14,7 +14,7 @@ const DetailedInformations = (props) => {
 			<div className="column detailed-informations detailed-div">
 				{props.name ? (
 					<div className="detailed-div-name row space-between h-center">
-						<Image src={'/' + props.data.fromCurrency + '.svg'} width={30} height={30}/>
+						<Image src={'/' + props.data.fromCurrency + '.svg'} width={30} height={30} />
 						<h1 className="detailed-menu-title">{props.data.shortName}</h1>
 						<p className="detailed-menu-subtitle">{props.data.fromCurrency}</p>
 					</div>

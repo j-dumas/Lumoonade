@@ -124,7 +124,7 @@ test(`I can't modify someone else's alert`, async () => {
 		.send({
 			id: someoneAlertId
 		})
-		.expect(400)
+		.expect(404)
 })
 
 test(`I can modify my own alert (target)`, async () => {

@@ -11,6 +11,7 @@ const otherTestId = new mongoose.Types.ObjectId()
 const testWalletId = new mongoose.Types.ObjectId()
 
 const fs = require('fs')
+const { Asset } = require('../../db/model/asset')
 const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
 
 const jwtOptions = {
@@ -70,6 +71,12 @@ beforeEach(async () => {
 	await Transaction.deleteMany()
 	await User.deleteMany()
 	await Wallet.deleteMany()
+	await Asset.deleteMany()
+
+	await new Asset({ symbol: 'eth', name: 'ethereum' }).save()
+	await new Asset({ symbol: 'ada', name: 'adada' }).save()
+	await new Asset({ symbol: 'btc', name: 'bitcoin' }).save()
+
 	let user = await new User(dummyData)
 	await user.verified()
 	otherToken = await user.makeAuthToken('localhost')
@@ -123,7 +130,7 @@ describe('Creation cases (/api/wallet/:name/add)', () => {
 			.post(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
 			.send()
-			.expect(400)
+			.expect(404)
 		const transactions = await Transaction.find({})
 		expect(transactions.length).toBe(0)
 	})
@@ -167,7 +174,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 			.delete(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
 			.send()
-			.expect(400)
+			.expect(404)
 	})
 
 	test(`'BAD REQUEST' you can't remove content from your wallet if you don't provide the requirement`, async () => {
@@ -178,7 +185,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' you can't remove a wallet if you provide the an invalid id`, async () => {
+	test(`'BAD REQUEST' you can't remove a wallet if you provide an invalid id`, async () => {
 		const body = {
 			boughtAt: 40,
 			paid: 20
@@ -239,7 +246,7 @@ describe('Get cases (/api/wallet/:name/content)', () => {
 			.get(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
 			.send()
-			.expect(400)
+			.expect(404)
 	})
 
 	test(`'SUCCESS REQUEST' you can see the content of your wallet even if you don't have any informations in.`, async () => {
@@ -301,7 +308,7 @@ describe('Creation cases (/api/wallets)', () => {
 				Authorization: `Bearer ${token}`
 			})
 			.send(walletData)
-			.expect(400)
+			.expect(409)
 
 		// Checking if it didnt add the new wallet
 		user = await User.findById(testId)
@@ -426,7 +433,7 @@ describe('Modification cases /api/wallets/update', () => {
 			.put(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
 			.send(configUpdate)
-			.expect(400)
+			.expect(404)
 	})
 
 	test(`'MODIFY REQUEST' you can modify the wallet with the proper modification's field.`, async () => {
@@ -466,7 +473,7 @@ describe(`Delete cases /api/wallets/delete`, () => {
 			.send({
 				asset: 'eth'
 			})
-			.expect(400)
+			.expect(404)
 
 		// Quick verification
 		wallets = await Wallet.find({})
@@ -499,7 +506,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.get(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
 			.send()
-			.expect(400)
+			.expect(404)
 	})
 
 	test(`'SUCCESS REQUEST' if you have one wallet, you should get a detailed response.`, async () => {
@@ -525,12 +532,6 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 				amount: 0
 			})
 			.expect(201)
-
-		// const body = {
-		//     boughtAt: 1000,
-		//     paid: 500
-		// }
-		// await request(server).post(`/api/wallet/${newAsset}/add`).set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
 
 		const content = await request(server)
 			.get(URL)

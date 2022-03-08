@@ -23,7 +23,13 @@ function DetailedChart(props) {
 	return (
 		<div className="detailed-chart detailed-div">
 			<DetailedChartMenu socket={props.socket} sendDateRange={setDateRange} sendInterval={setInterval} />
-			<DetailedChartChart socket={props.socket} slug={props.slug} dateRange={dateRange} interval={interval} wallet={props.wallet}/>
+			<DetailedChartChart
+				socket={props.socket}
+				slug={props.slug}
+				dateRange={dateRange}
+				interval={interval}
+				wallet={props.wallet}
+			/>
 		</div>
 	)
 }

@@ -25,9 +25,9 @@ const Profile = () => {
 	}
 
 	useEffect(() => {
-		if(getCookie("token") === undefined){
-			router.push("/")
-		}else {
+		if (getCookie('token') === undefined) {
+			router.push('/')
+		} else {
 			getUser().then((res) => setUser(res))
 		}
 	}, [])

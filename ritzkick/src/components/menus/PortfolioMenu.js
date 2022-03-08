@@ -8,7 +8,7 @@ import WalletWithdraw from '../../components/wallet/withdraw'
 
 function PortfolioMenu(props) {
 	const [portfolioValue, setPortfolioValue] = useState(0)
-	const [portfolioChange, setPortfolioChange] = useState([0,0])
+	const [portfolioChange, setPortfolioChange] = useState([0, 0])
 
 	const [withdraw, setWithdraw] = useState(false)
 	const openWithdraw = () => setWithdraw(true)
@@ -26,13 +26,16 @@ function PortfolioMenu(props) {
 			datas.forEach((data) => {
 				props.assets.forEach((asset) => {
 					if (AreSlugsEqual(data.fromCurrency, asset.name)) {
-						value += (data.regularMarketPrice*asset.amount)
-						change += (data.regularMarketChangePercent)
+						value += data.regularMarketPrice * asset.amount
+						change += data.regularMarketChangePercent
 					}
 				})
 			})
-			let c = (value*(change/props.assets.length/100<0)? -1*value*(change/props.assets.length/100):value*(change/props.assets.length/100))
-			setPortfolioChange([format(change/props.assets.length), format(c)])
+			let c =
+				value * (change / props.assets.length / 100 < 0)
+					? -1 * value * (change / props.assets.length / 100)
+					: value * (change / props.assets.length / 100)
+			setPortfolioChange([format(change / props.assets.length), format(c)])
 			setPortfolioValue(format(value))
 		})
 	}, [])
@@ -42,22 +45,27 @@ function PortfolioMenu(props) {
 			<div className="row h-center detailed-menu-info">
 				<h1 className="detailed-menu-title">Portfolio</h1>
 				<p className="detailed-menu-subtitle">${portfolioValue}</p>
-				{portfolioChange>=0?
-					<p className="detailed-menu-subtitle increase">+{portfolioChange[0]}% &nbsp; +${portfolioChange[1]}<span className='small-p'> (24h)</span></p>
-					:
-					<p className="detailed-menu-subtitle decrease">{portfolioChange[0]}% &nbsp; -${(portfolioChange[1])}<span className='small-p'> (24h)</span></p>
-				}
-				
+				{portfolioChange >= 0 ? (
+					<p className="detailed-menu-subtitle increase">
+						+{portfolioChange[0]}% &nbsp; +${portfolioChange[1]}
+						<span className="small-p"> (24h)</span>
+					</p>
+				) : (
+					<p className="detailed-menu-subtitle decrease">
+						{portfolioChange[0]}% &nbsp; -${portfolioChange[1]}
+						<span className="small-p"> (24h)</span>
+					</p>
+				)}
 			</div>
 			<div className="detailed-menu-actions row h-center">
 				<div onClick={openWithdraw} className="detailed-menu-actions-icon">
 					<Icons.ArrowUp />
 				</div>
-				<WalletWithdraw isOpen={withdraw} close={closeWithdraw}/>
+				<WalletWithdraw isOpen={withdraw} close={closeWithdraw} />
 				<div onClick={openDeposit} className="detailed-menu-actions-icon">
 					<Icons.ArrowDown />
 				</div>
-				<WalletDeposit isOpen={deposit} close={closeDeposit}/>
+				<WalletDeposit isOpen={deposit} close={closeDeposit} />
 			</div>
 		</div>
 	)

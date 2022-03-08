@@ -32,7 +32,7 @@ export default function ProfileAlertsComponent(props) {
 					{props.alert.target}&#36;
 				</div>
 				<button id="delete-alert-button" className="alert-card-item" onClick={(event) => handleDelete(event)}>
-					<Delete fontSize='medium' />
+					<Delete fontSize="medium" />
 				</button>
 			</div>
 		</div>

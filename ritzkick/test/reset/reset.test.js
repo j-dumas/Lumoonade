@@ -132,12 +132,12 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' if I send an invalid jwt token in the resquest (custom jwt made)`, async () => {
+	test(`'BAD REQUEST' if I send an invalid jwt token in the request (custom jwt made)`, async () => {
 		const token = jwt.sign({ value: 'hey' }, privateKey, jwtOptions)
 		await request(server)
 			.get(BASE + token)
 			.send()
-			.expect(400)
+			.expect(409)
 	})
 
 	test(`'BAD REQUEST' if I send an invalid jwt token that doesn't have a valid email and secret (custom jwt made)`, async () => {
@@ -145,7 +145,7 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 		await request(server)
 			.get(BASE + token)
 			.send()
-			.expect(400)
+			.expect(409)
 	})
 
 	test(`'SUCCESS REQUEST' if I send a valid jwt token that does have a valid email and secret (custom jwt made)`, async () => {
@@ -204,7 +204,7 @@ describe('Tests for the route /api/reset/redeem', () => {
 		axios.get.mockResolvedValueOnce({})
 
 		// The route is using /api/reset/verify to make sure the token is valid
-		await request(server).post(BASE).send(redeemConfig).expect(400)
+		await request(server).post(BASE).send(redeemConfig).expect(404)
 	})
 
 	test(`'SUCCESS REQUEST' if I use an invalid jwt token (no user bind to the reset token)`, async () => {

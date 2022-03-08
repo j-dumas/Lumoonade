@@ -53,7 +53,7 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
 		await req.user.addFavoriteAndSave(favorite._id)
 		res.status(201).send(favorite)
 	} catch (e) {
-		await sendError(res, e)
+		sendError(res, e)
 	}
 })
 

@@ -44,6 +44,28 @@ export async function login(email, password, handleError) {
 			let json = await response.json()
 			setCookie(json.token)
 			return response.status
+		} else {
+			alert('Something went wrong')
+		}
+	} catch (e) {
+		console.log(e.message)
+	}
+}
+
+export async function googleLogin(idToken) {
+	try {
+		let response = await fetch('/api/auth/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ idToken: idToken })
+		})
+
+		if (response.status == 200) {
+			let json = await response.json()
+			setCookie(json.token)
+			return response.status
 		} else if (response.status == 400) {
 			handleError()
 		} else {
@@ -71,8 +93,7 @@ export async function register(email, username, password, handleError) {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ email: email })
-			})
-				.catch((e) => console.log(e))
+			}).catch((e) => console.log(e))
 		} else {
 			handleError()
 		}
@@ -82,8 +103,7 @@ export async function register(email, username, password, handleError) {
 	}
 }
 
-
-export async function confirmEmail(key){
+export async function confirmEmail(key) {
 	try {
 		const response = await fetch('/api/confirmation/verify/' + key, {
 			method: 'GET',
@@ -92,4 +112,4 @@ export async function confirmEmail(key){
 			}
 		})
 	} catch (e) {}
-} 
+}
