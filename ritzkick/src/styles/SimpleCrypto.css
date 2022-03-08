@@ -38,7 +38,8 @@
 .simple-crypto-card {
 	padding: 25px 25px 25px 20px;
 
-	min-width: 350px;
+	width: 350px;
+	height: 190px;
 
 	text-align: center;
 	justify-content: space-around !important;
@@ -65,7 +66,12 @@
 .card-title {
 	font-size: 17px;
 	font-weight: bolder;
-	letter-spacing: 0.75px;
+	letter-spacing: .75px;
+	max-width: 165px;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .card-slug {
@@ -73,7 +79,7 @@
 }
 
 .card-price {
-	font-size: 16px;
+	font-size: 18px;
 }
 
 .simple-chart-label {

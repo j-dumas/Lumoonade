@@ -16,7 +16,7 @@ export async function addTransaction(asset, boughtAt, paid, when) {
 			when: when
 		})
 	})
-	if (response.status === 400) {
+	if (response.status != 201 && paid > 0) {
 		let res = await createWallet(asset)
 		if (res.status === 201) addTransaction(asset, boughtAt, paid, when)
 	}

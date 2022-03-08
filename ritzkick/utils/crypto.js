@@ -15,8 +15,8 @@ export function SymbolToSlug(symbol) {
 	return slug
 }
 
-export function SlugToSymbol(slug) {
-	const symbol = slug.toString().split('-')[1]
+export function SlugToSymbol(slug, currency) {
+	const symbol = SymbolToSlug(slug.toString())+'-'+currency
 	return symbol
 }
 

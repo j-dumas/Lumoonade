@@ -28,7 +28,7 @@ const Dashboard = () => {
 	const router = useRouter()
 	const [socket, setSocket] = useState()
 	const [portfolioSocket, setPortfolioSocket] = useState()
-	const [slug, setSlug] = useState('eth-cad')
+	const [slug] = useState('Value')
 	const [dateRange, setDateRange] = useState('1d')
 	const [interval, setInterval] = useState('1h')
 	const [assets, setAssets] = useState()
