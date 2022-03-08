@@ -175,26 +175,6 @@ router.post(paths.auth.logout, authentication, async (req, res) => {
 	}
 })
 
-/**
- * POST /api/auth/forgot
- * @summary "Forgot password" default endpoint - NOT READY
- * @tags Authentification
- * @param {string} email.query.deprecated Work in progress
- * @return {object} 200 - success
- * @return {string} 500 - server error
- */
-router.post(paths.auth['forgot-password'], async (req, res) => {
-	try {
-		const { email } = req.body
-		// Todo need to find a user related to the email
-		res.send({
-			message: `Notification sent to ${email}`
-		})
-	} catch (e) {
-		res.status(500).send()
-	}
-})
-
 router.post(paths.auth.google, async (req, res) => {
 	try {
 		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID

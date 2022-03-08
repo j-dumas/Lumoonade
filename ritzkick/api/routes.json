@@ -22,7 +22,6 @@
 		"login": "/api/auth/login",
 		"logout": "/api/auth/logout",
 		"register": "/api/auth/register",
-		"forgot-password": "/api/auth/forgot",
 		"google": "/api/auth/google"
 	},
 	"favorites": {

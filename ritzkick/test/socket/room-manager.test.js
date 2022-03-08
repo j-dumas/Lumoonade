@@ -20,7 +20,7 @@ beforeEach(() => {
 describe(`All tests related to the room manager`, () => {
 	const CHANNEL_NAME = 'general'
 
-	test(`You can create a room called 'general'`, () => {
+	test(`I should be able to create a room called 'general'`, () => {
 		let room = roomManager.getRoom(CHANNEL_NAME)
 		expect(room).toBeUndefined()
 
@@ -30,7 +30,7 @@ describe(`All tests related to the room manager`, () => {
 		expect(room.name).toBe(CHANNEL_NAME)
 	})
 
-	test(`You can create a room called 'general' with a graph property`, () => {
+	test(`I should be able to create a room called 'general' with a graph property`, () => {
 		let room = roomManager.getRoom(CHANNEL_NAME)
 		expect(room).toBeUndefined()
 
@@ -41,7 +41,7 @@ describe(`All tests related to the room manager`, () => {
 		expect(room.graph).toBeTruthy()
 	})
 
-	test(`If you have multiple rooms with the same name, getRoom will return the first one created.`, () => {
+	test(`It should return the first room created if I have multiple rooms with the same name`, () => {
 		let room = roomManager.getRoom(CHANNEL_NAME)
 		expect(room).toBeUndefined()
 		// first one added contains a graph call
@@ -57,7 +57,7 @@ describe(`All tests related to the room manager`, () => {
 		expect(room.graph).toBeTruthy()
 	})
 
-	test(`If you don't have a client connected to a specific room, you should not remove him`, () => {
+	test(`I should not be able to remove a client connected to a specific room if I don't have it`, () => {
 		let room = roomManager.getRoom(CHANNEL_NAME)
 		expect(room).toBeUndefined()
 		roomManager.add(CHANNEL_NAME)
@@ -73,7 +73,7 @@ describe(`All tests related to the room manager`, () => {
 		expect(onLeftRoomCalled).toBeFalsy()
 	})
 
-	test(`If you have a client connected to a specific room, you should be able to remove him`, () => {
+	test(`I should be able to remove a client connected to a specific room`, () => {
 		let room = roomManager.getRoom(CHANNEL_NAME)
 		expect(room).toBeUndefined()
 		roomManager.add(CHANNEL_NAME)
