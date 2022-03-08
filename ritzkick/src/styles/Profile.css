@@ -135,15 +135,6 @@ ul {
 	color: white;
 }
 
-.page-navbar {
-	margin-top: 60px;
-	margin-left: 10%;
-	margin-right: 10%;
-	width: 100%;
-	z-index: 1;
-	position: relative;
-}
-
 .line {
 	margin: 0;
 	width: 100%;
@@ -179,10 +170,6 @@ ul {
 
 #purge-session {
 	max-width: 215px;
-}
-
-.no-margin {
-	margin: -21px;
 }
 
 .alert-page-control-buttons {

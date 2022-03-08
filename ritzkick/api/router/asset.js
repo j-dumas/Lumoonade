@@ -82,7 +82,7 @@ router.get(`${paths.assets.search.db}:value`, pagination, async (req, res) => {
 			assets: assets,
 			page: req.page,
 			count: assets.length,
-			max_page: Math.ceil(count / assets.length)
+			max_page: Math.ceil(count / req.limit)
 		})
 	} catch (e) {
 		sendError(res, e)
@@ -156,7 +156,7 @@ router.get(`${paths.assets.search.yahoo}:slug`, async (req, res) => {
 })
 
 /**
- * GET /api/assets/all
+ * GET /api/assets
  * @summary All of the assets in the database default endpoint
  * @tags Asset
  * @param {number} page.query - The page number to show (defaults to 1)
@@ -200,7 +200,7 @@ router.get(paths.assets.all, pagination, async (req, res) => {
 			assets: assets,
 			page: req.page,
 			count: assets.length,
-			max_page: Math.ceil(count / assets.length)
+			max_page: Math.ceil(count / req.limit)
 		})
 	} catch (e) {
 		sendError(res, e)
@@ -252,7 +252,7 @@ router.get(paths.assets.top.gainers, pagination, async (req, res) => {
 			assets: assets,
 			page: req.page,
 			count: assets.length,
-			max_page: Math.ceil(count / assets.length)
+			max_page: Math.ceil(count / req.limit)
 		})
 	} catch (e) {
 		sendError(res, e)
@@ -304,7 +304,7 @@ router.get(paths.assets.top.loser, pagination, async (req, res) => {
 			assets: assets,
 			page: req.page,
 			count: assets.length,
-			max_page: Math.ceil(count / assets.length)
+			max_page: Math.ceil(count / req.limit)
 		})
 	} catch (e) {
 		sendError(res, e)
@@ -356,7 +356,7 @@ router.get(paths.assets.populars, pagination, async (req, res) => {
 			assets: assets,
 			page: req.page,
 			count: assets.length,
-			max_page: Math.ceil(count / assets.length)
+			max_page: Math.ceil(count / req.limit)
 		})
 	} catch (e) {
 		sendError(res, e)
