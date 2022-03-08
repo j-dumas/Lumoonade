@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const rateLimit = require('express-rate-limit')
 const https = require('https')
+const { sendError, BadRequestHttpError, ConflictHttpError, ServerError } = require('../../utils/http_errors')
 
 const verifyOptions = {
 	algorithm: 'ES256',
@@ -52,16 +53,16 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!email) {
-			throw new Error('Please provide an email in the body.')
+			throw new BadRequestHttpError('Please provide an email in the body.')
 		}
 
 		if (!validator.isEmail(email)) {
-			throw new Error('Please provide a valid email format.')
+			throw new BadRequestHttpError('Please provide a valid email format.')
 		}
 
 		const user = await User.findOne({ email })
 		if (user && user.validatedEmail) {
-			throw new Error(`You can't confirm twice the email.`)
+			throw new ConflictHttpError(`You can't confirm twice the email.`)
 		}
 
 		const _ = await dropIfExist(email)
@@ -86,9 +87,7 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
 		emailSender.sendConfirmationEmail(email, response.data.url)
 		res.status(201).send()
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 
@@ -117,7 +116,7 @@ router.get('/api/confirmation/verify/:jwt', creationLimiter, async (req, res) =>
 		const { email, secret } = decoded
 		const confirmation = await Confirmation.findOne({ email, secret })
 		if (!confirmation) {
-			throw new Error('Token may be outdated.')
+			throw new ConflictHttpError('Token may be outdated.')
 		}
 
 		const decodedTokenStored = jwt.verify(confirmation.confirmationToken, publicKey, verifyOptions)
@@ -127,7 +126,7 @@ router.get('/api/confirmation/verify/:jwt', creationLimiter, async (req, res) =>
 		})
 
 		if (modified) {
-			throw new Error('Token is corrupted')
+			throw new ConflictHttpError('Token is corrupted')
 		}
 
 		await Confirmation.findOneAndDelete({ email, secret })
@@ -135,9 +134,7 @@ router.get('/api/confirmation/verify/:jwt', creationLimiter, async (req, res) =>
 		await user.verified()
 		res.send()
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 

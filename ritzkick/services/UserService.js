@@ -4,7 +4,6 @@ import { isUserConnected } from './AuthService'
 export async function addTransaction(asset, boughtAt, paid, when) {
 	if (!isUserConnected()) return
 	const URI = `/api/wallet/${asset}/add`
-	console.log('test')
 	let response = await fetch(URI, {
 		method: 'POST',
 		headers: {
@@ -19,7 +18,6 @@ export async function addTransaction(asset, boughtAt, paid, when) {
 	})
 	if (response.status === 400) {
 		let res = await createWallet(asset)
-		console.log(res.status)
 		if (res.status === 201) addTransaction(asset, boughtAt, paid, when)
 	}
 }

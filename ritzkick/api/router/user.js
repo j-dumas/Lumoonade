@@ -1,4 +1,5 @@
 const express = require('express')
+const { BadRequestHttpError, ServerError, ConflictHttpError, sendError } = require('../../utils/http_errors')
 const authentification = require('../middleware/auth')
 const pagination = require('../middleware/pagination')
 const validator = require('validator').default
@@ -109,7 +110,7 @@ router.get(paths.user.summary, authentification, async (req, res) => {
  */
 const updateHelper = async (body, user) => {
 	if (body.length === 0) {
-		throw new Error({ message: 'Please provide informations to be modified' })
+		throw new BadRequestHttpError({ message: 'Please provide informations to be modified' })
 	}
 
 	// what we want to keep for password modification
@@ -117,7 +118,7 @@ const updateHelper = async (body, user) => {
 	let response = {}
 
 	if (password) {
-		throw new Error('Cannot implicitly set a new password without proper validations')
+		throw new ConflictHttpError('Cannot implicitly set a new password without proper validations')
 	}
 
 	if (oldPassword && newPassword) {
@@ -125,7 +126,7 @@ const updateHelper = async (body, user) => {
 		if (isOldPassword) {
 			response.password = newPassword
 		} else {
-			throw new Error('Invalid password. Cannot modify current password.')
+			throw new ConflictHttpError('Invalid password. Cannot modify current password.')
 		}
 	}
 
@@ -166,24 +167,24 @@ const updateHelper = async (body, user) => {
 router.patch(paths.user.update, authentification, async (req, res) => {
 	try {
 		let updates = Object.keys(req.body)
-		if (updates.length === 0) throw new Error('Please provide informations to be modified')
+		if (updates.length === 0) throw new BadRequestHttpError('Please provide informations to be modified')
 
 		const user = req.user
 		const { oldPassword, newPassword, password } = req.body
 
 		if (password) {
-			throw new Error('Cannot implicitly set a new password without proper validations')
+			throw new ConflictHttpError('Cannot implicitly set a new password without proper validations')
 		}
 
 		// validation if the old and new password are provided in the request body
 		if (oldPassword && newPassword) {
 			const isOldPassword = await user.isOldPassword(oldPassword)
 			if (!isOldPassword) {
-				throw new Error('Invalid password. Cannot modify current password.')
+				throw new ConflictHttpError('Invalid password. Cannot modify current password.')
 			}
 
 			if (validator.isEmpty(newPassword.trim())) {
-				throw new Error('Cannot assign an empty password')
+				throw new BadRequestHttpError('Cannot assign an empty password')
 			}
 			delete req.body.oldPassword
 			delete req.body.newPassword
@@ -194,7 +195,7 @@ router.patch(paths.user.update, authentification, async (req, res) => {
 		const allowed = ['username', 'password']
 		const isValidPatch = updates.every((update) => allowed.includes(update))
 
-		if (!isValidPatch) throw new Error('One or more properties are not supported.')
+		if (!isValidPatch) throw new ConflictHttpError('One or more properties are not supported.')
 
 		updates.forEach((update) => (user[update] = req.body[update]))
 		await user.save()
@@ -204,9 +205,7 @@ router.patch(paths.user.update, authentification, async (req, res) => {
 			message: 'Account updated!'
 		})
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 

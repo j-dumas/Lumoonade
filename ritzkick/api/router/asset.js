@@ -8,7 +8,7 @@ const { TopGainer, TopLoser } = require('../../db/model/top_asset')
 const router = express.Router()
 
 const paths = require('../routes.json')
-const { sendError, ServerError } = require('../../utils/http_errors')
+const { sendError, ServerError, NotFoundHttpError } = require('../../utils/http_errors')
 
 /**
  * Asset Response Model
@@ -246,7 +246,7 @@ router.get(paths.assets.top.gainers, pagination, async (req, res) => {
 		const assets = await TopGainer.find().sort({ percentage: -1 }).limit(req.limit).skip(req.skipIndex).exec()
 		const count = await TopGainer.countDocuments().exec()
 		if (!assets || assets.length === 0) {
-			throw new Error('Unable to fetch assets')
+			throw new NotFoundHttpError('Unable to fetch assets')
 		}
 		res.status(200).send({
 			assets: assets,
@@ -255,7 +255,7 @@ router.get(paths.assets.top.gainers, pagination, async (req, res) => {
 			max_page: Math.ceil(count / assets.length)
 		})
 	} catch (e) {
-		res.status(500).send({ error: e.message })
+		sendError(res, e)
 	}
 })
 
@@ -298,7 +298,7 @@ router.get(paths.assets.top.loser, pagination, async (req, res) => {
 		const assets = await TopLoser.find().sort({ percentage: 1 }).limit(req.limit).skip(req.skipIndex).exec()
 		const count = await TopLoser.countDocuments().exec()
 		if (!assets || assets.length === 0) {
-			throw new Error('Unable to fetch assets')
+			throw new NotFoundHttpError('Unable to fetch assets')
 		}
 		res.status(200).send({
 			assets: assets,
@@ -307,7 +307,7 @@ router.get(paths.assets.top.loser, pagination, async (req, res) => {
 			max_page: Math.ceil(count / assets.length)
 		})
 	} catch (e) {
-		res.status(500).send({ error: e.message })
+		sendError(res, e)
 	}
 })
 

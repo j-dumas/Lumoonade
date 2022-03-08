@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const fs = require('fs')
+const { BadRequestHttpError } = require('../../utils/http_errors')
 
 const MAX_ATTEMPS_PER_RESET = 5
 
@@ -22,11 +23,11 @@ const resetSchema = new mongoose.Schema({
 		default: 0,
 		validate(value) {
 			if (value < 0) {
-				throw new Error('Cannot set attemps to a negative value')
+				throw new BadRequestHttpError('Cannot set attemps to a negative value')
 			}
 
 			if (value > MAX_ATTEMPS_PER_RESET) {
-				throw new Error('Too many attemps')
+				throw new BadRequestHttpError('Too many attemps')
 			}
 		}
 	},
