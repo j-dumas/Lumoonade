@@ -112,7 +112,6 @@ export async function confirmEmail(key) {
 			}
 		})
 	} catch (e) {}
-<<<<<<< HEAD
 } 
 
 export async function resetPassword(key, password, passwordConfirmation){
@@ -146,6 +145,4 @@ export async function sendForgotPassword(email) {
 
 		return response.status
 	} catch (e) {}
-=======
->>>>>>> develop
 }
