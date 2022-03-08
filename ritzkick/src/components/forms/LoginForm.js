@@ -41,12 +41,6 @@ const LoginForm = () => {
 		}
 	}
 
-	useEffect(() => {
-		return () => {
-			alert(getCookie('token'))
-		}
-	}, [])
-
 	return (
 		<Container className="column p-3 form">
 			<h1 className="form-title">{t('login.title')}</h1>
@@ -58,7 +52,7 @@ const LoginForm = () => {
 						id="outlined-adornment-courriel"
 						type="email"
 						onChange={handleChange}
-						startAdornment={
+						endAdornment={
 							<InputAdornment position="end">
 								<Email />
 							</InputAdornment>
@@ -81,13 +75,8 @@ const LoginForm = () => {
 						id="outlined-adornment-password"
 						type={passShow ? 'text' : 'password'}
 						onChange={handleChange}
-						startAdornment={
-							<InputAdornment position="end">
-								<Lock />
-							</InputAdornment>
-						}
 						endAdornment={
-							<InputAdornment position="end">
+							<InputAdornment position='end'>
 								<IconButton
 									onMouseDown={handleClickShowPassword}
 									onMouseUp={handleClickShowPassword}

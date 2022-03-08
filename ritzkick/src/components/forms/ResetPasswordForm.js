@@ -15,6 +15,7 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 import { useTranslation } from 'next-i18next'
+import { resetPassword } from 'services/AuthService'
 
 export default function ResetPasswordForm() {
 	const { t } = useTranslation('forms')
@@ -29,20 +30,12 @@ export default function ResetPasswordForm() {
 	async function handleSubmit(event) {
 		event.preventDefault()
 		if (state.password === state.passwordConfirmation) {
-			try {
-				let response = await fetch('/api/reset/redeem', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						resetToken: key,
-						password: state.password,
-						confirmation: state.passwordConfirmation
-					})
+				resetPassword(key, state.password, state.passwordConfirmation)
+				.then((status) => {
+					if(status === 200){
+						router.push("/login")
+					}
 				})
-				window.location.assign('/login')
-			} catch (e) {}
 		} else {
 			setError(true)
 		}
