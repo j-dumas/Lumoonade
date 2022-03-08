@@ -16,12 +16,12 @@ module.exports = {
 	swaggerUIPath: '/api/docs',
 	servers: [
 		{
-			url: 'https://localhost:3000',
-			description: 'Dev server'
-		},
-		{
 			url: 'https://lumoonade.com:4000',
 			description: 'Test server'
+		},
+		{
+			url: 'https://localhost:3000',
+			description: 'Dev server'
 		}
 	]
 }
