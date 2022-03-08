@@ -279,3 +279,43 @@ label {
 ::-webkit-scrollbar-thumb:active {
 	background: var(--background-color-3);
 }
+
+.footer {
+	margin-top: 50px;
+	display: flex;
+	flex: 1;
+	padding: 2rem 0;
+	border-top: 1px solid var(--background-color-3);
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+}
+
+
+.footer .footer-title {
+	text-transform: uppercase;
+	letter-spacing: 6px;
+	font-weight: bold;
+	font-size: 16px;
+	border-bottom: 1px solid white;
+}
+
+.footer p {
+	font-size: 15px;
+}
+
+.footer a {
+	text-decoration: underline;
+	transition: .1s;
+}
+.footer a:hover {
+	color: var(--font-color-2);
+}
+
+.footer-div {
+	width: 250px;
+}
+
+.footer .sub-section {
+	gap: 50px;
+}
