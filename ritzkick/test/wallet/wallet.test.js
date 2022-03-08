@@ -125,7 +125,7 @@ describe('Not authenticated cases', () => {
 describe('Creation cases (/api/wallet/:name/add)', () => {
 	const URL = '/api/wallet/' + testUserWallet.asset + '/add'
 
-	test(`'BAD REQUEST' you cannot add content to your wallet if you don't have one`, async () => {
+	test(`I should not be able to add content to my wallet if I don't have one`, async () => {
 		await request(server)
 			.post(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
@@ -135,7 +135,7 @@ describe('Creation cases (/api/wallet/:name/add)', () => {
 		expect(transactions.length).toBe(0)
 	})
 
-	test(`'BAD REQUEST' you can't add content to your wallet if you don't provide the requirement`, async () => {
+	test(`I should not be able to add content to my wallet if I don't provide the requirement`, async () => {
 		await request(server)
 			.post(URL)
 			.set({ Authorization: `Bearer ${token}` })
@@ -147,7 +147,7 @@ describe('Creation cases (/api/wallet/:name/add)', () => {
 		expect(wallet.history.length).toBe(0)
 	})
 
-	test(`'CREATE REQUEST' you can add content to your wallet if you provide the requirements and you have a wallet`, async () => {
+	test(`I should be able to add content to my wallet if I provide the requirements and I have a wallet`, async () => {
 		const body = {
 			boughtAt: 40,
 			paid: 20
@@ -169,7 +169,7 @@ describe('Creation cases (/api/wallet/:name/add)', () => {
 describe('Remove cases (/api/wallet/:name/remove)', () => {
 	const URL = '/api/wallet/' + testUserWallet.asset + '/remove'
 
-	test(`'BAD REQUEST' you cannot remove content from your wallet if you don't have one`, async () => {
+	test(`I should not be able to remove content from my wallet if I don't have one`, async () => {
 		await request(server)
 			.delete(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
@@ -177,7 +177,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 			.expect(404)
 	})
 
-	test(`'BAD REQUEST' you can't remove content from your wallet if you don't provide the requirement`, async () => {
+	test(`I should not be able to remove content from my wallet if I don't provide the requirement`, async () => {
 		await request(server)
 			.delete(URL)
 			.set({ Authorization: `Bearer ${token}` })
@@ -185,7 +185,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' you can't remove a wallet if you provide an invalid id`, async () => {
+	test(`I should not be able to remove a wallet if I provide an invalid id`, async () => {
 		const body = {
 			boughtAt: 40,
 			paid: 20
@@ -211,7 +211,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 		expect(transactions.length).toBe(1)
 	})
 
-	test(`'REMOVE REQUEST' you can remove content from your wallet if you provide the requirements and you have a wallet`, async () => {
+	test(`I should be able to remove content from my wallet if I provide the requirements and I have a wallet`, async () => {
 		const body = {
 			boughtAt: 40,
 			paid: 20
@@ -241,7 +241,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 describe('Get cases (/api/wallet/:name/content)', () => {
 	const URL = '/api/wallet/' + testUserWallet.asset + '/content'
 
-	test(`'BAD REQUEST' you can't display the content of your wallet if you don't have one`, async () => {
+	test(`I should not be able to see the content of my wallet if I don't have one`, async () => {
 		await request(server)
 			.get(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
@@ -249,7 +249,7 @@ describe('Get cases (/api/wallet/:name/content)', () => {
 			.expect(404)
 	})
 
-	test(`'SUCCESS REQUEST' you can see the content of your wallet even if you don't have any informations in.`, async () => {
+	test(`I should be able to see the content of my wallet even if I don't have any informations in.`, async () => {
 		const content = await request(server)
 			.get(URL)
 			.set({ Authorization: `Bearer ${token}` })
@@ -259,7 +259,7 @@ describe('Get cases (/api/wallet/:name/content)', () => {
 		expect(content.body.length).toBe(0)
 	})
 
-	test(`'SUCCESS REQUEST' you can see the content of your wallet and all of the informations in.`, async () => {
+	test(`I should be able to see the content of my wallet and all of the informations in.`, async () => {
 		const body = {
 			boughtAt: 40,
 			paid: 20
@@ -287,7 +287,7 @@ describe('Get cases (/api/wallet/:name/content)', () => {
 describe('Creation cases (/api/wallets)', () => {
 	const URL = '/api/wallets'
 
-	test(`'BAD REQUEST' you cannot create a duplicate wallet`, async () => {
+	test(`I should not be able to create a duplicate wallet`, async () => {
 		const walletData = {
 			asset: 'eth',
 			amount: 11
@@ -321,7 +321,7 @@ describe('Creation cases (/api/wallets)', () => {
 		expect(walletAmountInDB).toBe(1)
 	})
 
-	test(`'BAD REQUEST' you cannot set a negative amount for a wallet`, async () => {
+	test(`I should not be able to set a negative amount for a wallet`, async () => {
 		const walletData = {
 			asset: 'btc',
 			amount: -1
@@ -355,7 +355,7 @@ describe('Creation cases (/api/wallets)', () => {
 		expect(walletAmountInDB).toBe(1)
 	})
 
-	test(`'CREATE REQUEST' you can add a wallet that does not exist with a positive amount`, async () => {
+	test(`I should be able to add a wallet that does not exist with a positive amount`, async () => {
 		const walletData = {
 			asset: 'btc',
 			amount: 40
@@ -393,7 +393,7 @@ describe('Creation cases (/api/wallets)', () => {
 describe('Modification cases /api/wallets/update', () => {
 	const URL = '/api/wallets/update'
 
-	test(`'BAD REQUEST' cannot provide an empty body for modification`, async () => {
+	test(`I should not be able to provide an empty body for modification`, async () => {
 		await request(server)
 			.put(URL)
 			.set({ Authorization: `Bearer ${token}` })
@@ -401,7 +401,7 @@ describe('Modification cases /api/wallets/update', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' cannot provide only the asset name in the body for modification`, async () => {
+	test(`I should not be able to provide only the asset name in the body for modification`, async () => {
 		delete configUpdate.amount
 		await request(server)
 			.put(URL)
@@ -410,7 +410,7 @@ describe('Modification cases /api/wallets/update', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' cannot provide only the amount in the body for modification`, async () => {
+	test(`I should not be able to provide only the amount in the body for modification`, async () => {
 		delete configUpdate.asset
 		await request(server)
 			.put(URL)
@@ -419,7 +419,7 @@ describe('Modification cases /api/wallets/update', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' cannot provide random informations other than the amount and the asset name in the body for modification`, async () => {
+	test(`I should not be able to provide random informations other than the amount and the asset name in the body for modification`, async () => {
 		configUpdate.random = true
 		await request(server)
 			.put(URL)
@@ -428,7 +428,7 @@ describe('Modification cases /api/wallets/update', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' by providing the right informations, if the user does not have any wallet, it should not be able to modify it`, async () => {
+	test(`I should not be able to modify a wallet by providing the right informations if I don't have any wallet`, async () => {
 		await request(server)
 			.put(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
@@ -436,7 +436,7 @@ describe('Modification cases /api/wallets/update', () => {
 			.expect(404)
 	})
 
-	test(`'MODIFY REQUEST' you can modify the wallet with the proper modification's field.`, async () => {
+	test(`I should be able to modify the wallet with the proper modification's field.`, async () => {
 		let wallet = await Wallet.findById(testWalletId)
 		const currentAmount = wallet.amount
 		const currentAsset = wallet.asset
@@ -456,7 +456,7 @@ describe('Modification cases /api/wallets/update', () => {
 describe(`Delete cases /api/wallets/delete`, () => {
 	const URL = '/api/wallets/delete'
 
-	test(`'BAD REQUEST' you cannot provide an empty asset`, async () => {
+	test(`I should not be able to provide an empty asset`, async () => {
 		await request(server)
 			.delete(URL)
 			.set({ Authorization: `Bearer ${token}` })
@@ -464,7 +464,7 @@ describe(`Delete cases /api/wallets/delete`, () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' you can't delete a wallet if you don't have one`, async () => {
+	test(`I should not be able to delete a wallet if I don't have one`, async () => {
 		let wallets = await Wallet.find({})
 		let amount = wallets.length
 		await request(server)
@@ -480,7 +480,7 @@ describe(`Delete cases /api/wallets/delete`, () => {
 		expect(amount).toBe(wallets.length)
 	})
 
-	test(`'DELETE REQUEST' you can't delete a wallet if you don't have one`, async () => {
+	test(`I should be able to delete a wallet`, async () => {
 		let wallets = await Wallet.find({})
 		let amount = wallets.length
 		await request(server)
@@ -501,7 +501,7 @@ describe(`Delete cases /api/wallets/delete`, () => {
 describe(`Detailed cases (/api/wallets/detailed)`, () => {
 	const URL = '/api/wallets/detailed'
 
-	test(`'BAD REQUEST' you can't see detailed informations about your wallets if you don't have one`, async () => {
+	test(`I should not be able to see detailed informations about my wallets if I don't have one`, async () => {
 		await request(server)
 			.get(URL)
 			.set({ Authorization: `Bearer ${otherToken}` })
@@ -509,7 +509,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 			.expect(404)
 	})
 
-	test(`'SUCCESS REQUEST' if you have one wallet, you should get a detailed response.`, async () => {
+	test(`I should get a detailed response if I have one wallet`, async () => {
 		const content = await request(server)
 			.get(URL)
 			.set({ Authorization: `Bearer ${token}` })
@@ -519,7 +519,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 		expect(content.body.assets[0]).toBeDefined()
 	})
 
-	test(`'SUCCESS REQUEST' if you have two wallets, you should get a detailed response for both.`, async () => {
+	test(`I should get a detailed response for both wallets if I have two wallets`, async () => {
 		const newAsset = 'ada'
 
 		await request(server)
@@ -548,7 +548,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 		paid: 500
 	}
 
-	test(`'SUCCESS REQUEST' if you add details to an asset, the coverage should be 100%`, async () => {
+	test(`The coverage should be 100% if I add details to an asset`, async () => {
 		await request(server)
 			.post(`/api/wallet/${testUserWallet.asset}/add`)
 			.set({ Authorization: `Bearer ${token}` })
@@ -564,7 +564,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 		expect(content.body.coverage).toBe(100)
 	})
 
-	test(`'SUCCESS REQUEST' if you add details to an asset, and you have only one asset, the totalSpent should be equal to the amount spent`, async () => {
+	test(`The totalSpent should be equal to the amount spent if I add details to an asset and I have only one asset`, async () => {
 		await request(server)
 			.post(`/api/wallet/${testUserWallet.asset}/add`)
 			.set({ Authorization: `Bearer ${token}` })
@@ -580,7 +580,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 		expect(content.body.totalSpent).toBe(BODY.paid)
 	})
 
-	test(`'SUCCESS REQUEST' if you add details to an asset, and you have only one asset, you should be able to see small informations about the asset`, async () => {
+	test(`I should be able to see small informations about the asset if I add details to an asset and I have only one asset`, async () => {
 		await request(server)
 			.post(`/api/wallet/${testUserWallet.asset}/add`)
 			.set({ Authorization: `Bearer ${token}` })

@@ -23,7 +23,7 @@ afterAll((done) => {
 describe('Testing all redirections "GET" (/redirect/:id)', () => {
 	const URL = '/redirect/'
 
-	test(`should redirect to home page if the shortcut id doesn't exist`, async () => {
+	test(`I should be redirected to home page if the shortcut id doesn't exist`, async () => {
 		const randomID = new mongoose.Types.ObjectId()
 		await request(server)
 			.get(URL + randomID)
@@ -32,7 +32,7 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 			.expect('Location', '/')
 	})
 
-	test(`should redirect to the page if the shortcut id does exist`, async () => {
+	test(`I should be redirected to the page if the shortcut id does exist`, async () => {
 		let response = await request(server).post('/api/redirects').send(config).expect(201)
 		await request(server)
 			.get(response.body.url.split(domainURL)[1])
@@ -41,7 +41,7 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 			.expect('Location', config.url)
 	})
 
-	test(`should redirect to the page if the shortcut id does exist and deletes it if we set it to destroyable`, async () => {
+	test(`I should be redirected to the page if the shortcut id does exist and deletes it if we set it to destroyable`, async () => {
 		config.destroyable = true
 		let response = await request(server).post('/api/redirects').send(config).expect(201)
 		let shortcuts = await Shortcut.find({})
@@ -55,7 +55,7 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 		expect(shortcuts.length).toBe(0)
 	})
 
-	test(`should redirect to the page if the shortcut id does exist and deletes it if we set it to destroyable and we use it 'maxUse' times`, async () => {
+	test(`I should be redirected to the page if the shortcut id does exist and deletes it if we set it to destroyable and we use it 'maxUse' times`, async () => {
 		config.destroyable = true
 		config.maxUse = 2
 		let response = await request(server).post('/api/redirects').send(config).expect(201)
@@ -82,16 +82,16 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 describe(`Testing creation cases 'POST' (/api/redirects)`, () => {
 	const URL = '/api/redirects'
 
-	test(`should throw an error if you provide nothing in the body`, async () => {
+	test(`It should throw an error if I provide nothing in the body`, async () => {
 		await request(server).post(URL).send().expect(400)
 	})
 
-	test(`should throw an error if you provide a number of visits in the body`, async () => {
+	test(`It should throw an error if I provide a number of visits in the body`, async () => {
 		config.visits = 1000
 		await request(server).post(URL).send(config).expect(409)
 	})
 
-	test(`should create a shortcut url if we provide all params required`, async () => {
+	test(`It should create a shortcut url if I provide all params required`, async () => {
 		let shortcuts = await Shortcut.find({})
 		expect(shortcuts.length).toBe(0)
 		await request(server).post(URL).send(config).expect(201)
@@ -103,7 +103,7 @@ describe(`Testing creation cases 'POST' (/api/redirects)`, () => {
 		expect(shortcuts[0].visits).toBe(0)
 	})
 
-	test(`should give a shortcut url if the shortcut with the same url already exists`, async () => {
+	test(`It should return a shortcut url if the shortcut with the same url already exists`, async () => {
 		let shortcuts = await Shortcut.find({})
 		expect(shortcuts.length).toBe(0)
 		let response = await request(server).post(URL).send(config).expect(201)
