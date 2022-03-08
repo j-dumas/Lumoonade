@@ -11,6 +11,7 @@ const otherTestId = new mongoose.Types.ObjectId()
 const testWalletId = new mongoose.Types.ObjectId()
 
 const fs = require('fs')
+const { Asset } = require('../../db/model/asset')
 const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
 
 const jwtOptions = {
@@ -70,6 +71,12 @@ beforeEach(async () => {
 	await Transaction.deleteMany()
 	await User.deleteMany()
 	await Wallet.deleteMany()
+	await Asset.deleteMany()
+
+	await new Asset({ symbol: 'eth', name: 'ethereum' }).save()
+	await new Asset({ symbol: 'ada', name: 'adada' }).save()
+	await new Asset({ symbol: 'btc', name: 'bitcoin' }).save()
+
 	let user = await new User(dummyData)
 	await user.verified()
 	otherToken = await user.makeAuthToken('localhost')
@@ -525,12 +532,6 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 				amount: 0
 			})
 			.expect(201)
-
-		// const body = {
-		//     boughtAt: 1000,
-		//     paid: 500
-		// }
-		// await request(server).post(`/api/wallet/${newAsset}/add`).set({ Authorization: `Bearer ${token}` }).send(body).expect(201)
 
 		const content = await request(server)
 			.get(URL)
