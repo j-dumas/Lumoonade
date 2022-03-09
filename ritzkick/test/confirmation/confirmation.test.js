@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const server = require('../../app/app')
 const request = require('supertest')
 
+const paths = require('../../api/routes.json')
+
 const fs = require('fs')
 const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
 
@@ -33,8 +35,8 @@ afterAll((done) => {
 	done()
 })
 
-describe(`Creation confirmation test cases for /api/confirmations`, () => {
-	const URL = '/api/confirmations'
+describe(`Creation confirmation test cases for ${paths.confirmation.default}`, () => {
+	const URL = paths.confirmation.default
 
 	test(`I should not be able to send an empty body for the confirmation creation process.`, async () => {
 		await request(server).post(URL).send().expect(400)
@@ -67,8 +69,8 @@ describe(`Creation confirmation test cases for /api/confirmations`, () => {
 	})
 })
 
-describe(`Validation test cases for /api/confirmation/verify/:jwt`, () => {
-	const URL = '/api/confirmation/verify/'
+describe(`Validation test cases for ${paths.confirmation.verify}:jwt`, () => {
+	const URL = paths.confirmation.verify
 
 	test(`I should not be able to verify if the token doesn't match any confirmation`, async () => {
 		const customJWT = jwt.sign({ email: 'any@email.com', secret: 123123123 }, privateKey, jwtOptions)
@@ -84,7 +86,7 @@ describe(`Validation test cases for /api/confirmation/verify/:jwt`, () => {
 		let user = await User.findOne({ email: tempUser.email })
 		expect(user.validatedEmail).toBeFalsy()
 
-		await request(server).post('/api/confirmations').send({ email: tempUser.email }).expect(201)
+		await request(server).post(paths.confirmation.default).send({ email: tempUser.email }).expect(201)
 		confirmations = await Confirmation.find({})
 		expect(confirmations.length).toBe(1)
 

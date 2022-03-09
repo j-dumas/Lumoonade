@@ -17,7 +17,7 @@ const Functions = {
 	},
 
 	async GetSCryptocurrencySlugsBySeach(keyword, page = 1, limit = 16) {
-		const URI = `/api/assets/search/${keyword}?page=${page}&limit=${limit}`
+		const URI = `${paths.assets.search.db}${keyword}?page=${page}&limit=${limit}`
 
 		let response = await fetch(URI)
 
@@ -29,7 +29,7 @@ const Functions = {
 	},
 
 	async GetAllCryptocurrencySlugs(page = 0, limit = 16) {
-		const URI = `/api/assets/all?page${page}&limit=${limit}`
+		const URI = `${paths.assets.all}?page${page}&limit=${limit}`
 
 		var reponse = await fetch(URI)
 		var json = reponse.json()
@@ -47,7 +47,7 @@ const Functions = {
 	},
 
 	async GetTopPopularCryptocurrencies(page = 0, limit = 8) {
-		const URI = `/api/assets/popular?page${page}&limit=${limit}`
+		const URI = `${paths.assets.populars}?page${page}&limit=${limit}`
 
 		var reponse = await fetch(URI)
 		var json = reponse.json()
@@ -56,7 +56,7 @@ const Functions = {
 	},
 
 	async GetTopGainersCryptocurrencies(top = 3) {
-		const URI = `/api/assets/top/gainers?page1&limit=${top}`
+		const URI = `${paths.assets.top.gainers}?page1&limit=${top}`
 
 		var reponse = await fetch(URI)
 		var json = reponse.json()

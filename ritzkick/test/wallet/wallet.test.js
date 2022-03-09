@@ -10,6 +10,8 @@ const testId = new mongoose.Types.ObjectId()
 const otherTestId = new mongoose.Types.ObjectId()
 const testWalletId = new mongoose.Types.ObjectId()
 
+const paths = require('../../api/routes.json')
+
 const fs = require('fs')
 const { Asset } = require('../../db/model/asset')
 const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
@@ -93,37 +95,37 @@ afterAll((done) => {
 })
 
 describe('Not authenticated cases', () => {
-	test('I should get a 401 not authenticate error message if I ping the route /api/wallets', async () => {
-		await request(server).post('/api/wallets').send().expect(401)
+	test(`I should get a 401 not authenticate error message if I ping the route ${paths.wallets.default}`, async () => {
+		await request(server).post(paths.wallets.default).send().expect(401)
 	})
 
-	test('I should get a 401 not authenticate error message if I ping the route /api/wallets/update', async () => {
-		await request(server).put('/api/wallets/update').send().expect(401)
+	test(`I should get a 401 not authenticate error message if I ping the route ${paths.wallets.default}`, async () => {
+		await request(server).put(paths.wallets.default).send().expect(401)
 	})
 
-	test('I should get a 401 not authenticate error message if I ping the route /api/wallets/delete', async () => {
-		await request(server).delete('/api/wallets/delete').send().expect(401)
+	test(`I should get a 401 not authenticate error message if I ping the route ${paths.wallets.default}`, async () => {
+		await request(server).delete(paths.wallets.default).send().expect(401)
 	})
 
-	test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/add`, async () => {
-		await request(server).post('/api/wallet/test/add').send().expect(401)
+	test(`I should get a 401 not authenticate error message if I ping the route POST ${paths.wallets['transaction-default']}:name`, async () => {
+		await request(server).post(`${paths.wallets['transaction-default']}test`).send().expect(401)
 	})
 
-	test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/remove`, async () => {
-		await request(server).delete('/api/wallet/test/remove').send().expect(401)
+	test(`I should get a 401 not authenticate error message if I ping the route DELETE ${paths.wallets['transaction-default']}:name`, async () => {
+		await request(server).delete(`${paths.wallets['transaction-default']}test`).send().expect(401)
 	})
 
-	test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/content`, async () => {
-		await request(server).get('/api/wallet/test/content').send().expect(401)
+	test(`I should get a 401 not authenticate error message if I ping the route GET ${paths.wallets['transaction-default']}:name`, async () => {
+		await request(server).get(`${paths.wallets['transaction-default']}test`).send().expect(401)
 	})
 
-	test(`I should get a 401 not authenticate error message if I ping the route /api/wallet/:name/content`, async () => {
-		await request(server).get('/api/wallets/detailed').send().expect(401)
+	test(`I should get a 401 not authenticate error message if I ping the route ${paths.wallets.detailed}`, async () => {
+		await request(server).get(paths.wallets.detailed).send().expect(401)
 	})
 })
 
-describe('Creation cases (/api/wallet/:name/add)', () => {
-	const URL = '/api/wallet/' + testUserWallet.asset + '/add'
+describe(`Creation cases ${paths.wallets['transaction-default']}:name`, () => {
+	const URL = paths.wallets['transaction-default'] + testUserWallet.asset
 
 	test(`I should not be able to add content to my wallet if I don't have one`, async () => {
 		await request(server)
@@ -166,8 +168,8 @@ describe('Creation cases (/api/wallet/:name/add)', () => {
 	})
 })
 
-describe('Remove cases (/api/wallet/:name/remove)', () => {
-	const URL = '/api/wallet/' + testUserWallet.asset + '/remove'
+describe(`Remove cases ${paths.wallets['transaction-default']}:name`, () => {
+	const URL = paths.wallets['transaction-default'] + testUserWallet.asset
 
 	test(`I should not be able to remove content from my wallet if I don't have one`, async () => {
 		await request(server)
@@ -191,7 +193,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 			paid: 20
 		}
 		await request(server)
-			.post('/api/wallet/' + testUserWallet.asset + '/add')
+			.post(paths.wallets['transaction-default'] + testUserWallet.asset)
 			.set({ Authorization: `Bearer ${token}` })
 			.send(body)
 			.expect(201)
@@ -217,7 +219,7 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 			paid: 20
 		}
 		await request(server)
-			.post('/api/wallet/' + testUserWallet.asset + '/add')
+			.post(paths.wallets['transaction-default'] + testUserWallet.asset)
 			.set({ Authorization: `Bearer ${token}` })
 			.send(body)
 			.expect(201)
@@ -238,8 +240,8 @@ describe('Remove cases (/api/wallet/:name/remove)', () => {
 	})
 })
 
-describe('Get cases (/api/wallet/:name/content)', () => {
-	const URL = '/api/wallet/' + testUserWallet.asset + '/content'
+describe(`Get cases ${paths.wallets['transaction-default']}:name`, () => {
+	const URL = paths.wallets['transaction-default'] + testUserWallet.asset
 
 	test(`I should not be able to see the content of my wallet if I don't have one`, async () => {
 		await request(server)
@@ -265,7 +267,7 @@ describe('Get cases (/api/wallet/:name/content)', () => {
 			paid: 20
 		}
 		await request(server)
-			.post('/api/wallet/' + testUserWallet.asset + '/add')
+			.post(paths.wallets['transaction-default'] + testUserWallet.asset)
 			.set({ Authorization: `Bearer ${token}` })
 			.send(body)
 			.expect(201)
@@ -284,8 +286,8 @@ describe('Get cases (/api/wallet/:name/content)', () => {
 	})
 })
 
-describe('Creation cases (/api/wallets)', () => {
-	const URL = '/api/wallets'
+describe(`Creation cases ${paths.wallets.default}`, () => {
+	const URL = paths.wallets.default
 
 	test(`I should not be able to create a duplicate wallet`, async () => {
 		const walletData = {
@@ -390,8 +392,8 @@ describe('Creation cases (/api/wallets)', () => {
 	})
 })
 
-describe('Modification cases /api/wallets/update', () => {
-	const URL = '/api/wallets/update'
+describe(`Modification cases ${paths.wallets.default}`, () => {
+	const URL = paths.wallets.default
 
 	test(`I should not be able to provide an empty body for modification`, async () => {
 		await request(server)
@@ -453,8 +455,8 @@ describe('Modification cases /api/wallets/update', () => {
 	})
 })
 
-describe(`Delete cases /api/wallets/delete`, () => {
-	const URL = '/api/wallets/delete'
+describe(`Delete cases ${paths.wallets.default}`, () => {
+	const URL = paths.wallets.default
 
 	test(`I should not be able to provide an empty asset`, async () => {
 		await request(server)
@@ -498,8 +500,8 @@ describe(`Delete cases /api/wallets/delete`, () => {
 	})
 })
 
-describe(`Detailed cases (/api/wallets/detailed)`, () => {
-	const URL = '/api/wallets/detailed'
+describe(`Detailed cases ${paths.wallets.detailed}`, () => {
+	const URL = paths.wallets.detailed
 
 	test(`I should not be able to see detailed informations about my wallets if I don't have one`, async () => {
 		await request(server)
@@ -523,7 +525,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 		const newAsset = 'ada'
 
 		await request(server)
-			.post('/api/wallets')
+			.post(paths.wallets.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -550,7 +552,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 
 	test(`The coverage should be 100% if I add details to an asset`, async () => {
 		await request(server)
-			.post(`/api/wallet/${testUserWallet.asset}/add`)
+			.post(`${paths.wallets['transaction-default']}${testUserWallet.asset}`)
 			.set({ Authorization: `Bearer ${token}` })
 			.send(BODY)
 			.expect(201)
@@ -566,7 +568,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 
 	test(`The totalSpent should be equal to the amount spent if I add details to an asset and I have only one asset`, async () => {
 		await request(server)
-			.post(`/api/wallet/${testUserWallet.asset}/add`)
+			.post(`${paths.wallets['transaction-default']}${testUserWallet.asset}`)
 			.set({ Authorization: `Bearer ${token}` })
 			.send(BODY)
 			.expect(201)
@@ -582,7 +584,7 @@ describe(`Detailed cases (/api/wallets/detailed)`, () => {
 
 	test(`I should be able to see small informations about the asset if I add details to an asset and I have only one asset`, async () => {
 		await request(server)
-			.post(`/api/wallet/${testUserWallet.asset}/add`)
+			.post(`${paths.wallets['transaction-default']}${testUserWallet.asset}`)
 			.set({ Authorization: `Bearer ${token}` })
 			.send(BODY)
 			.expect(201)

@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const server = require('../../app/app')
 const User = require('../../db/model/user')
 
+const paths = require('../../api/routes.json')
+
 const testId = new mongoose.Types.ObjectId()
 
 const fs = require('fs')
@@ -45,9 +47,9 @@ afterAll((done) => {
 	done()
 })
 
-describe(`Create tests cases /api/auth/register`, () => {
+describe(`Create tests cases ${paths.auth.register}`, () => {
 	test('I should be able to create a new user', async () => {
-		await request(server).post('/api/auth/register').send(dummyData).expect(201)
+		await request(server).post(paths.auth.register).send(dummyData).expect(201)
 
 		const user = await User.findOne({ email: dummyData.email })
 		expect(user).not.toBeNull()
@@ -55,20 +57,20 @@ describe(`Create tests cases /api/auth/register`, () => {
 
 	test('I should not be able to create a new account if the account already exists (same email)', async () => {
 		dummyData.email = testUser.email
-		await request(server).post('/api/auth/register').send(dummyData).expect(400)
+		await request(server).post(paths.auth.register).send(dummyData).expect(400)
 
 		const users = await User.find({})
 		expect(users.length).toBe(1)
 	})
 })
 
-describe(`Login tests cases /api/auth/login`, () => {
+describe(`Login tests cases ${paths.auth.login}`, () => {
 	test('I should not be able to log in if the user does not exist', async () => {
 		const credentials = {
 			email: dummyData.email,
 			password: dummyData.password
 		}
-		await request(server).post('/api/auth/login').send(credentials).expect(404)
+		await request(server).post(paths.auth.login).send(credentials).expect(404)
 	})
 
 	test('I should be able to log in if the user exists with a validated email', async () => {
@@ -80,7 +82,7 @@ describe(`Login tests cases /api/auth/login`, () => {
 		const user = await User.findOne({ email: credentials.email })
 		await user.verified()
 
-		await request(server).post('/api/auth/login').send(credentials).expect(200)
+		await request(server).post(paths.auth.login).send(credentials).expect(200)
 	})
 
 	test('I should not be able to log in if the user exists without a validated email', async () => {
@@ -88,13 +90,13 @@ describe(`Login tests cases /api/auth/login`, () => {
 			email: testUser.email,
 			password: testUser.password
 		}
-		await request(server).post('/api/auth/login').send(credentials).expect(409)
+		await request(server).post(paths.auth.login).send(credentials).expect(409)
 	})
 })
 
-describe(`Logout tests cases /api/auth/logout`, () => {
+describe(`Logout tests cases ${paths.auth.logout}`, () => {
 	test('I should not be able to logout if the user is not logged in.', async () => {
-		await request(server).post('/api/auth/logout').expect(401)
+		await request(server).post(paths.auth.logout).expect(401)
 	})
 
 	test('I should be able to logout if the user is logged in.', async () => {
@@ -106,17 +108,17 @@ describe(`Logout tests cases /api/auth/logout`, () => {
 		const user = await User.findOne({ email: credentials.email })
 		await user.verified()
 
-		const res = await request(server).post('/api/auth/login').send(credentials).expect(200)
+		const res = await request(server).post(paths.auth.login).send(credentials).expect(200)
 		const token = res.body.token
 		await request(server)
-			.post('/api/auth/logout')
+			.post(paths.auth.logout)
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(200)
 
 		// Making sure that you can't logout twice
 		await request(server)
-			.post('/api/auth/logout')
+			.post(paths.auth.logout)
 			.set({ Authorization: `Bearer ${token}` })
 			.send()
 			.expect(401)

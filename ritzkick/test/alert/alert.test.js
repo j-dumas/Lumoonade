@@ -7,6 +7,8 @@ const Watchlist = require('../../db/model/watchlist')
 
 const es = require('../../app/email/email-service')
 
+const paths = require('../../api/routes.json')
+
 const testId = new mongoose.Types.ObjectId()
 const testAlertId = new mongoose.Types.ObjectId()
 const someoneAlertId = new mongoose.Types.ObjectId()
@@ -66,14 +68,14 @@ afterAll((done) => {
 	done()
 })
 
-describe(`Create tests cases /api/alerts`, () => {
+describe(`Create tests cases ${paths.alerts.default}`, () => {
 	test(`I should not be able to add a new alert if I'm not authenticated`, async () => {
-		await request(server).post('/api/alerts').send().expect(401)
+		await request(server).post(paths.alerts.default).send().expect(401)
 	})
 
 	test(`I should be able to create a new alert when I'm authenticated`, async () => {
 		const response = await request(server)
-			.post('/api/alerts')
+			.post(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -91,7 +93,7 @@ describe(`Create tests cases /api/alerts`, () => {
 
 		for (let i = 0; i < ALERT_NUMBER; i++) {
 			await request(server)
-				.post('/api/alerts')
+				.post(paths.alerts.default)
 				.set({
 					Authorization: `Bearer ${token}`
 				})
@@ -109,14 +111,14 @@ describe(`Create tests cases /api/alerts`, () => {
 	})
 })
 
-describe(`Update tests cases /api/alerts/update`, () => {
+describe(`Update tests cases ${paths.alerts.default}`, () => {
 	test(`I should not be able to modify an alert if I'm not authenticated`, async () => {
-		await request(server).put('/api/alerts/update').send().expect(401)
+		await request(server).put(paths.alerts.default).send().expect(401)
 	})
 
 	test(`I should not be able to modify someone else's alert`, async () => {
 		await request(server)
-			.put('/api/alerts/update')
+			.put(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -129,7 +131,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 	test(`I should be able to modify my own alert (target)`, async () => {
 		// Adding a dummy alert
 		const response = await request(server)
-			.post('/api/alerts')
+			.post(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -140,7 +142,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 		let target = newAlert.target + 20000
 
 		await request(server)
-			.put('/api/alerts/update')
+			.put(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -159,7 +161,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 		// Adding a dummy alert
 		dummyData.parameter = 'gte'
 		const response = await request(server)
-			.post('/api/alerts')
+			.post(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -170,7 +172,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 		let parameter = 'lte'
 
 		await request(server)
-			.put('/api/alerts/update')
+			.put(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -188,7 +190,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 	test(`I should not be able to modify my alert with (INVALID parameter)`, async () => {
 		// Adding a dummy alert
 		const response = await request(server)
-			.post('/api/alerts')
+			.post(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -199,7 +201,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 		let parameter = 'invalid'
 
 		await request(server)
-			.put('/api/alerts/update')
+			.put(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -218,7 +220,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 	test(`I should not be able to modify my alert with non existing parameters`, async () => {
 		// Adding a dummy alert
 		const response = await request(server)
-			.post('/api/alerts')
+			.post(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -232,7 +234,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 		}
 
 		await request(server)
-			.put('/api/alerts/update')
+			.put(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -253,7 +255,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 	test(`I should not be able to modify my alert with a negative target`, async () => {
 		// Adding a dummy alert
 		const response = await request(server)
-			.post('/api/alerts')
+			.post(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -264,7 +266,7 @@ describe(`Update tests cases /api/alerts/update`, () => {
 		let target = -1
 
 		await request(server)
-			.put('/api/alerts/update')
+			.put(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -280,14 +282,14 @@ describe(`Update tests cases /api/alerts/update`, () => {
 	})
 })
 
-describe(`Delete tests cases /api/alerts/delete`, () => {
+describe(`Delete tests cases ${paths.alerts.default}`, () => {
 	test(`I should not be able to delete an alert if I'm not authenticated`, async () => {
-		await request(server).delete('/api/alerts/delete').send().expect(401)
+		await request(server).delete(paths.alerts.default).send().expect(401)
 	})
 
 	test(`I should not be able to delete someone else's alert`, async () => {
 		await request(server)
-			.delete('/api/alerts/delete')
+			.delete(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -305,7 +307,7 @@ describe(`Delete tests cases /api/alerts/delete`, () => {
 	test(`I should be able to delete my alert`, async () => {
 		// Adding a dummy alert
 		const response = await request(server)
-			.post('/api/alerts')
+			.post(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})
@@ -318,7 +320,7 @@ describe(`Delete tests cases /api/alerts/delete`, () => {
 		expect(alert).toBeDefined()
 
 		await request(server)
-			.delete('/api/alerts/delete')
+			.delete(paths.alerts.default)
 			.set({
 				Authorization: `Bearer ${token}`
 			})

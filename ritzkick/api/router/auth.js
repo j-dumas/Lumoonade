@@ -175,7 +175,7 @@ router.post(paths.auth.logout, authentication, async (req, res) => {
 	}
 })
 
-router.post(paths.auth.google, async (req, res) => {
+router.post(paths.auth.google, loginLimiter, async (req, res) => {
 	try {
 		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 		const client = new OAuth2Client(GOOGLE_CLIENT_ID)

@@ -1,6 +1,8 @@
 import { isUserConnected } from '../services/AuthService'
 import { getCookie } from '../services/CookieService'
 
+const paths = require('../api/routes.json')
+
 export async function getUserDashboardData() {
 	/*return { assets: [
         {
@@ -24,7 +26,7 @@ export async function getUserDashboardData() {
     ] }*/
 
 	if (!isUserConnected()) return
-	const URI = `/api/wallets/detailed`
+	const URI = paths.wallets.detailed
 
 	let response = await fetch(URI, {
 		method: 'GET',

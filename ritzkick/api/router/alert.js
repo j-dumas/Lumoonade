@@ -33,7 +33,7 @@ const paths = require('../routes.json')
  * }
  * @security BearerAuth
  */
-router.post(paths.alerts.create, auth, async (req, res) => {
+router.post(paths.alerts.default, auth, async (req, res) => {
 	try {
 		const user = req.user
 		let queryData = {
@@ -54,7 +54,7 @@ router.post(paths.alerts.create, auth, async (req, res) => {
 })
 
 /**
- * PUT /api/alerts/update
+ * PUT /api/alerts
  * @summary Updates an alert
  * @tags Alerts
  * @param {object} request.body.required - Alert info
@@ -84,7 +84,7 @@ router.post(paths.alerts.create, auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.put(paths.alerts.update, auth, async (req, res) => {
+router.put(paths.alerts.default, auth, async (req, res) => {
 	try {
 		let updates = Object.keys(req.body)
 		if (updates.length === 0) throw new BadRequestHttpError('Please provide informations to modify')
@@ -128,7 +128,7 @@ router.put(paths.alerts.update, auth, async (req, res) => {
 })
 
 /**
- * DELETE /api/alerts/delete
+ * DELETE /api/alerts
  * @summary Deletes an alert
  * @tags Alerts
  * @param {object} request.body.required - Alert info
@@ -141,10 +141,10 @@ router.put(paths.alerts.update, auth, async (req, res) => {
  * {
  * 	"message": "Alert successfully removed.",
  * 	"alert": {
-*	  "owner": "ab3612b3b6cb126301",
-* 	  "slug": "eth",
-* 	  "parameter": "gte",
-* 	  "target": 2000
+ *	  "owner": "ab3612b3b6cb126301",
+ * 	  "slug": "eth",
+ * 	  "parameter": "gte",
+ * 	  "target": 2000
  * 	}
  * }
  * @return {string} 401 - unauthorized
@@ -159,7 +159,7 @@ router.put(paths.alerts.update, auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.delete(paths.alerts.delete, auth, async (req, res) => {
+router.delete(paths.alerts.default, auth, async (req, res) => {
 	try {
 		await req.user.populate({
 			path: 'watchlist'
