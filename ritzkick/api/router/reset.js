@@ -69,7 +69,7 @@ router.post(paths.reset.default, creationLimiter, async (req, res) => {
 			// Maybe do something if it exists...
 			const reset = new Reset({ email })
 			await reset.save()
-			const resetLink = await reset.makeResetToken(req.host.toString().split(':')[0])
+			const resetLink = await reset.makeResetToken(req.hostname.toString())
 			// Email sent with the valid url for forgot password.
 			// This is just a dummy value.
 			let url = `$https://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/reset-password?key=${resetLink}`
@@ -84,7 +84,7 @@ router.post(paths.reset.default, creationLimiter, async (req, res) => {
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
-	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	audience: ['lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
