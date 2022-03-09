@@ -135,7 +135,7 @@ export async function deleteWatch(alertId) {
 	}
 }
 
-export async function addWatch(alert) {
+export async function addWatch(slug, parameter, target) {
 	try {
 		await fetch('/api/alerts', {
 			method: 'POST',
@@ -143,7 +143,7 @@ export async function addWatch(alert) {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + getCookie('token')
 			},
-			body: JSON.stringify({ slug: alert.slug, target: alert.target, parameter: alert.parameter })
+			body: JSON.stringify({ slug: slug, target: target, parameter: parameter })
 		})
 	} catch (e) {
 		console.log(e)

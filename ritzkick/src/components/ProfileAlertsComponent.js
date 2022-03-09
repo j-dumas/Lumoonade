@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { deleteWatch } from 'services/UserService'
 import { Delete } from '@mui/icons-material'
+import format from '../../utils/formatter'
 
 export default function ProfileAlertsComponent(props) {
 	function getSign(parameter) {
@@ -29,7 +30,7 @@ export default function ProfileAlertsComponent(props) {
 				</div>
 				<div className="alert-card-item">{getSign(props.alert.parameter)}</div>
 				<div id="alert-target" className="alert-card-item">
-					{props.alert.target}&#36;
+					{format(props.alert.target)}&#36;
 				</div>
 				<button id="delete-alert-button" className="alert-card-item" onClick={(event) => handleDelete(event)}>
 					<Delete fontSize="medium" />

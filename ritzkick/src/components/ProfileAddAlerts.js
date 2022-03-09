@@ -17,6 +17,7 @@ import { useForm } from './hooks/useForm'
 import { CloseRounded } from '@mui/icons-material'
 import Functions from 'services/CryptoService'
 import {SlugToSymbol, AreSlugsEqual} from '../../utils/crypto'
+import { createSocket } from 'services/SocketService'
 
 
 const ITEM_HEIGHT = 48
@@ -42,14 +43,7 @@ export default function ProfileAddAlerts(props) {
 	const [maxPrice, setMaxPrice] = useState(0)
 	const [data, setData] = useState(undefined)
 	const [slug, setSlug] = useState(undefined)
-
-	function getPrice(symbol) {
-		props.data.forEach((element) => {
-			if (AreSlugsEqual(symbol, element.fromCurrency)) {
-				setPrice(element.regularMarketPrice)
-			}
-		})
-	}
+	const [socket, setSocket] = useState()
 
 	function parseData() {
 		let parsedData = []
@@ -62,7 +56,7 @@ export default function ProfileAddAlerts(props) {
 				parsedData.push(tempValue)
 			})
 		}
-		return parsedData
+		return parsedData.sort()
 	}
 
 	function handleClose(event, reason) {
@@ -83,10 +77,7 @@ export default function ProfileAddAlerts(props) {
 	}, [])
 
 	useEffect(() => {
-		if (state.slug !== undefined) {
-			getPrice(state.slug)
-		}
-		if (state.parameter !== undefined) {
+		if (state.slug !== undefined && state.parameter !== undefined) {
 			if (state.parameter === 'lte') {
 				setMinPrice(0)
 				setMaxPrice(price)
@@ -102,6 +93,20 @@ export default function ProfileAddAlerts(props) {
 			resetState()
 		}
 	}, [isOpen])
+
+	useEffect(() => {
+		if(state.slug !== undefined){
+			let symbol = []
+			symbol.push(SlugToSymbol(state.slug, props.currency))
+			setSocket(createSocket(['general'], symbol, `wss://${window.location.host}`))
+		}
+	}, [state.slug])
+
+	useEffect(() => {
+		if (!socket) return
+		socket.on('data', (slugs) => {setPrice(slugs[0].regularMarketPrice)})
+		if (socket) return () => socket.disconnect()
+	}, [socket])
 
 	async function handleSubmit(event) {
 		event.preventDefault()

@@ -57,11 +57,7 @@ export default function ProfileAlerts(props) {
 		<div id="alerts column center">
 			<div id="alerts-header" className="row">
 				<h1>Alertes</h1>
-				{
-					(data.length >= 0)
-						&&
-							<ProfileAddAlerts data={data} onDataChange={fetchAssets} />
-				}
+					<ProfileAddAlerts currency={props.currency} onDataChange={fetchAssets} />
 				<Snackbar
 					sx={{ m: 6 }}
 					open={openStatus}
