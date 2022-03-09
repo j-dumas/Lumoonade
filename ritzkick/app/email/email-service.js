@@ -120,6 +120,9 @@ const notifyRemove = async () => {
  * Wakes the robot.
  */
 const wake = async () => {
+	if (!client) {
+		return await create()
+	}
 	if (client.connected) return
 	await create()
 }
