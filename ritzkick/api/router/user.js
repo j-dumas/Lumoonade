@@ -234,7 +234,8 @@ router.delete(paths.user.default, authentification, async (req, res) => {
  *       }
  *   ],
  *   "page": 1,
- *   "count": 1
+ *   "count": 1,
+ * 	 "max_count": 2
  * }
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -245,13 +246,23 @@ router.delete(paths.user.default, authentification, async (req, res) => {
  */
 router.get(paths.wallets.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
+		path: 'wallet'
+	})
+	const count = req.user.wallet.length
+
+	await req.user.populate({
 		path: 'wallet',
 		options: {
 			limit: req.limit,
 			skip: req.skipIndex
 		}
 	})
-	res.send({ wallets: req.user.wallet, page: req.page, count: req.user.wallet.length })
+	res.send({
+		wallets: req.user.wallet,
+		page: req.page,
+		count: req.user.wallet.length,
+		max_page: Math.ceil(count / req.limit)
+	})
 })
 
 /**
@@ -269,7 +280,8 @@ router.get(paths.wallets.all, [authentification, pagination], async (req, res) =
  *       }
  *   ],
  *   "page": 1,
- *   "count": 1
+ *   "count": 1,
+ * 	 "max_count": 2
  * }
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -280,13 +292,22 @@ router.get(paths.wallets.all, [authentification, pagination], async (req, res) =
  */
 router.get(paths.favorites.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
+		path: 'favorite'
+	})
+	const count = req.user.favorite.length
+	await req.user.populate({
 		path: 'favorite',
 		options: {
 			limit: req.limit,
 			skip: req.skipIndex
 		}
 	})
-	res.send({ favorites: req.user.favorite, page: req.page, count: req.user.favorite.length })
+	res.send({
+		favorites: req.user.favorite,
+		page: req.page,
+		count: req.user.favorite.length,
+		max_page: Math.ceil(count / req.limit)
+	})
 })
 
 /**
@@ -309,7 +330,8 @@ router.get(paths.favorites.all, [authentification, pagination], async (req, res)
  *       }
  *   ],
  *   "page": 1,
- *   "count": 1
+ *   "count": 1,
+ * 	 "max_count": 2
  * }
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -320,13 +342,22 @@ router.get(paths.favorites.all, [authentification, pagination], async (req, res)
  */
 router.get(paths.alerts.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
+		path: 'watchlist'
+	})
+	const count = req.user.watchlist.length
+	await req.user.populate({
 		path: 'watchlist',
 		options: {
 			limit: req.limit,
 			skip: req.skipIndex
 		}
 	})
-	res.send({ watchlists: req.user.watchlist, page: req.page, count: req.user.watchlist.length })
+	res.send({
+		watchlists: req.user.watchlist,
+		page: req.page,
+		count: req.user.watchlist.length,
+		max_page: Math.ceil(count / req.limit)
+	})
 })
 
 /**
