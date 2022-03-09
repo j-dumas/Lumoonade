@@ -30,6 +30,20 @@
 	min-height: 390px;
 	gap: 10px;
 }
+.dashboard-small {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	/*
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: 0;
+	*/
+	max-height: 190px;
+	gap: 10px;
+}
 
 .division {
 	width: 48%;
@@ -85,4 +99,8 @@
 
 .start {
 	justify-content: start;
+}
+
+.stretch {
+	align-items: stretch !important;
 }

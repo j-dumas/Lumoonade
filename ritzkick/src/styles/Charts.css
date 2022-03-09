@@ -3,8 +3,38 @@
 	padding: 20px;
 
 	background-color: var(--background-color-2);
-	width: 360px;
+	width: 100%;
 	height: fit-content;
+	max-height: 389px;
+}
+
+.bar-chart {
+	border-radius: 5px;
+	padding: 20px;
+
+	background-color: var(--background-color-2);
+	width: 100%;
+	max-height: 389px;
+}
+
+@media only screen and (min-width: 800px) {
+	.pie-chart {
+		border-radius: 5px;
+		padding: 20px;
+	
+		background-color: var(--background-color-2);
+		width: 360px;
+		height: fit-content;
+	}	
+	.bar-chart {
+		border-radius: 5px;
+		padding: 20px;
+	
+		background-color: var(--background-color-2);
+		min-width: 360px;
+		width: calc(100% - 380px);
+		max-height: 389px;
+	}
 }
 
 .simple-chart {
