@@ -78,12 +78,12 @@ const CompareView = (props) => {
 								<>
 									<p>Vous devez vous connecter pour accéder cette fonctionnalité.</p>
 									<div className="row space-between">
-										<Link href="/login" className="button">
-											Connexion
-										</Link>
-										<Link href="/register" className="button">
-											Inscription
-										</Link>
+										<div className="button">
+											<Link href="/login">Connexion</Link>
+										</div>
+										<div className="button">
+											<Link href="/register">Inscription</Link>
+										</div>
 									</div>
 								</>
 							)}

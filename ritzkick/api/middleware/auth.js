@@ -10,7 +10,7 @@ const fs = require('fs')
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
-	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	audience: ['lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 

@@ -87,7 +87,7 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
 			throw new ConflictHttpError('Please confirm your email.')
 		}
 
-		const token = await user.makeAuthToken('localhost')
+		const token = await user.makeAuthToken(req.hostname.toString())
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
@@ -200,7 +200,7 @@ router.post(paths.auth.google, loginLimiter, async (req, res) => {
 
 		if (payload['email_verified']) {
 			await user.verified()
-			const token = await user.makeAuthToken('localhost')
+			const token = await user.makeAuthToken(req.hostname.toString())
 			const profile = await user.makeProfile()
 			returnPayload = {
 				user: profile,
