@@ -12,7 +12,7 @@ function SimpleCryptoCardDashboard(props) {
 	}, [])
 	//  row center start
 	return (
-		<section className="dashboard">
+		<section className={props.small==true?"dashboard-small":"dashboard"}>
 			{datas.map((element, i) => {
 				let chartData = chartDatas.find((chartElement) => {
 					return chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()

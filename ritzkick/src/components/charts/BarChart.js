@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Line, Doughnut, Pie, Chart as Charts } from 'react-chartjs-2'
+import { Line, Doughnut, Pie, Bar, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from '../../../utils/color'
 import { getUserDashboardData } from '../../../services/dashboard-service'
-import { AreSlugsEqual } from 'utils/crypto'
+import zoomPlugin from 'chartjs-plugin-zoom'
+Chart.register(zoomPlugin)
 
-function PieChart(props) {
+function BarChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
 
 	const [data, setData] = useState({
@@ -35,25 +36,18 @@ function PieChart(props) {
 		let labels = []
 		let data = []
 		let backgroudColors = []
-		let max = 0
 		dataArr.forEach((datas) => {
 			assets.forEach((asset) => {
-				if (!AreSlugsEqual(asset.name, datas.fromCurrency)) return
-				max += datas.regularMarketPrice * asset.amount
-			})
-		})
-		dataArr.forEach((datas) => {
-			assets.forEach((asset) => {
-				if (!AreSlugsEqual(asset.name, datas.fromCurrency)) return
+				if (asset.name.toString().toUpperCase() != datas.fromCurrency.toString().toUpperCase()) return
 				labels.push(datas.fromCurrency.toString().toUpperCase())
-				data.push(datas.regularMarketPrice * asset.amount/max*100)
+				data.push(datas.regularMarketPrice * asset.amount)
 				backgroudColors.push(GetColorBySlug(datas.fromCurrency.toString()))
 			})
 		})
 
-		const pieData = {
+		const barData = {
 			maintainAspectRatio: false,
-			responsive: false,
+			responsive: true,
 			labels: labels,
 			datasets: [
 				{
@@ -63,15 +57,20 @@ function PieChart(props) {
 			]
 		}
 
-		return pieData
+		return barData
 	}
 
-	const pieOptions = {
+	const barOptions = {
 		responsive: true,
 		maintainAspectRatio: false,
+		interaction: {
+			mode: 'nearest',
+			intersect: false,
+			axis: 'x'
+		},
 		plugins: {
 			legend: {
-				display: true,
+				display: false,
 				position: 'bottom',
 				labels: {
 					color: 'white',
@@ -107,22 +106,77 @@ function PieChart(props) {
 					color: 'blue'
 				},
 				usePointStyle: true
+			},
+			zoom: {
+				zoom: {
+					wheel: {
+						enabled: false,
+						speed: 0.05
+					},
+					pinch: {
+						enabled: true
+					},
+					drag: {
+						enabled: false
+					},
+					mode: 'x'
+				},
+				pan: {
+					enabled: true,
+					mode: 'x',
+					threshold: 0 // default:10
+				},
 			}
 		},
-		elements: {
-			arc: {
-				borderWidth: 1,
-				borderColor: 'white'
+		scales: {
+			x: {
+				max: 5,
+				grid: {
+					display: true,
+					drawBorder: true,
+					borderColor: 'rgb(51, 52, 54)',
+					color: 'red',
+					borderWidth: 2,
+					drawOnChartArea: false,
+					drawTicks: false
+				},
+				ticks: {
+					display: true,
+					color: 'rgb(158,159,160)',
+					padding: 10,
+					font: {
+						size: 13
+					}
+				}
+			},
+			y: {
+				min: 0,
+				grid: {
+					display: true,
+					drawBorder: false,
+					drawOnChartArea: true,
+					drawTicks: false,
+					color: 'rgb(51, 52, 54)',
+					borderDash: [8, 8],
+					borderWidth: 1
+				},
+				ticks: {
+					display: true,
+					color: 'rgb(158,159,160)',
+					padding: 12,
+					font: {
+						size: 12.5
+					}
+				}
 			}
 		}
 	}
 
 	let chartInstance = null
 	return !data ? <></> :
-		<div className="pie-chart">
-			<p className="detailed-div-title">Assets division (%)</p>
-			<Pie name="pie" data={data} options={pieOptions} ref={chartReference} />
+		<div className="bar-chart">
+			<p className="detailed-div-title">Assets division ($)</p>
+			<Bar name="bar" data={data} options={barOptions} ref={chartReference} />
 		</div>
 }
-//ref={input => {chartInstance = input}}
-export default PieChart
+export default BarChart
