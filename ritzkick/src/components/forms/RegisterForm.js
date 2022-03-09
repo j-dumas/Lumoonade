@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { useForm } from '@/components/hooks/useForm'
 import { Email, Visibility, VisibilityOff, AccountCircle } from '@mui/icons-material'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText, Snackbar, Alert } from '@mui/material'
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText, Snackbar, Alert, Checkbox, FormControlLabel } from '@mui/material'
 
 const RegisterForm = () => {
 	const { t } = useTranslation('forms')
@@ -122,6 +122,12 @@ const RegisterForm = () => {
 							inputProps={{ minLength: 8 }}
 						/>
 					</FormControl>
+					<div className='row center'>
+						<Checkbox required color='secondary' />
+						<Link href="/tos">
+							<a className="link">Accept terms of service</a>
+						</Link>
+					</div>
 					<input id="submitButton" type="submit" value={t('register.submit')} />
 				</form>
 				<AndSeparator />
