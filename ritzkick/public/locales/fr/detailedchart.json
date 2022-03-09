@@ -1,0 +1,22 @@
+{
+	"menu": {
+		"price": "Prix (temps réel)",
+		"range": "Plage de temps",
+		"ranges": {
+			"day": "jour",
+			"days": "jours",
+			"month": "mois",
+			"months": "mois",
+			"year": "année",
+			"years": "années"
+		},
+		"interval": "Intervalle",
+		"intervals": {
+			"minute": "m",
+			"hour": "h",
+			"day": "j",
+			"week": "s",
+			"month": "mo"
+		}
+	}
+}

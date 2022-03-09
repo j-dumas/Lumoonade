@@ -1,0 +1,22 @@
+{
+	"menu": {
+		"price": "Price (real time)",
+		"range": "Date Range",
+		"ranges": {
+			"day": "day",
+			"days": "days",
+			"month": "month",
+			"months": "months",
+			"year": "year",
+			"years": "years"
+		},
+		"interval": "Interval",
+		"intervals": {
+			"minute": "m",
+			"hour": "h",
+			"day": "d",
+			"week": "wk",
+			"month": "month"
+		}
+	}
+}

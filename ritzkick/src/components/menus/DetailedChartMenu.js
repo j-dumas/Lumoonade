@@ -1,56 +1,60 @@
 import React, { useState, useEffect } from 'react'
 import ButtonLegend from '@/components/ButtonLegend'
 
+import { useTranslation } from 'next-i18next'
+
 export default function DetailedChartMenu(props) {
+	const { t } = useTranslation('detailedchart')
+
 	const [dateRange, setDateRange] = useState('5d')
-	const [currentInterval, setCurrentInterval] = useState('15m')
-	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange))
+	const [currentInterval, setCurrentInterval] = useState(`15${t('menu.intervals.minute')}`)
+	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange, t))
 
 	return (
 		<div className="detailed-div-menu row h-center space-between">
 			<div className="row detailed-chart-legend left h-center">
-				<p>Price (real time)</p>
+				<p>{t('menu.price')}</p>
 			</div>
 			<div className="row detailed-chart-options left">
 				<div className="row h-center">
 					<label htmlFor="daterange" className="detailed-div-label">
-						Date range
+						{t('menu.range')}
 					</label>
 					<select
 						onChange={(e) => {
 							props.sendDateRange(e.target.value)
-							let availableIntervals = getIntervalOptionsByDateRange(e.target.value)
+							let availableIntervals = getIntervalOptionsByDateRange(e.target.value, t)
 							if (
 								!availableIntervals.find((inter) =>
 									inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase())
 								)
 							) {
-								let value = getIntervalOptionsByDateRange(e.target.value)[0]
+								let value = getIntervalOptionsByDateRange(e.target.value, t)[0]
 								props.sendInterval(value)
 								setCurrentInterval(value)
 							}
 							setDateRange(e.target.value)
-							setIntervals(getIntervalOptionsByDateRange(e.target.value))
+							setIntervals(getIntervalOptionsByDateRange(e.target.value, t))
 						}}
 						defaultValue="5d"
 						className="detailed-chart-options-select"
 						name="daterange"
 					>
-						<optgroup label="Date Range">
-							<option value="1d">1 day</option>
-							<option value="5d">5 days</option>
-							<option value="1mo">1 month</option>
-							<option value="3mo">3 months</option>
-							<option value="6mo">6 months</option>
-							<option value="1y">1 year</option>
-							<option value="2y">2 years</option>
-							<option value="5y">5 years</option>
+						<optgroup label={t('menu.range')}>
+							<option value="1d">{`1 ${t('menu.ranges.day')}`}</option>
+							<option value="5d">{`5 ${t('menu.ranges.days')}`}</option>
+							<option value="1mo">{`1 ${t('menu.ranges.month')}`}</option>
+							<option value="3mo">{`3 ${t('menu.ranges.months')}`}</option>
+							<option value="6mo">{`6 ${t('menu.ranges.months')}`}</option>
+							<option value="1y">{`1 ${t('menu.ranges.year')}`}</option>
+							<option value="2y">{`2 ${t('menu.ranges.years')}`}</option>
+							<option value="5y">{`5 ${t('menu.ranges.years')}`}</option>
 						</optgroup>
 					</select>
 				</div>
 				<div className="row h-center">
 					<label htmlFor="interval" className="detailed-div-label">
-						Interval
+						{t('menu.interval')}
 					</label>
 					<select
 						onChange={(e) => {
@@ -61,7 +65,7 @@ export default function DetailedChartMenu(props) {
 						className="detailed-chart-options-select"
 						name="interval"
 					>
-						<optgroup label="Interval">
+						<optgroup label={t('menu.interval')}>
 							{intervals.map((element) => {
 								return (
 									<option key={element} value={element}>
@@ -77,34 +81,87 @@ export default function DetailedChartMenu(props) {
 	)
 }
 
-export function getIntervalOptionsByDateRange(dateRange) {
+export function getIntervalOptionsByDateRange(dateRange, t) {
 	switch (dateRange) {
 		case '1d':
-			return ['1m', '2m', '5m', '15m', '30m', '1h']
+			return [
+				`1${t('menu.intervals.minute')}`,
+				`2${t('menu.intervals.minute')}`,
+				`5${t('menu.intervals.minute')}`,
+				`15${t('menu.intervals.minute')}`,
+				`30${t('menu.intervals.minute')}`,
+				`1${t('menu.intervals.hour')}`
+			]
 		case '5d':
-			return ['1m', '2m', '5m', '15m', '30m', '1h', '1d']
+			return [
+				`1${t('menu.intervals.minute')}`,
+				`2${t('menu.intervals.minute')}`,
+				`5${t('menu.intervals.minute')}`,
+				`15${t('menu.intervals.minute')}`,
+				`30${t('menu.intervals.minute')}`,
+				`1${t('menu.intervals.hour')}`,
+				`1${t('menu.intervals.day')}`
+			]
 		case '1mo':
-			return ['2m', '5m', '15m', '30m', '1h', '1d', '1wk']
+			return [
+				`2${t('menu.intervals.minute')}`,
+				`5${t('menu.intervals.minute')}`,
+				`15${t('menu.intervals.minute')}`,
+				`30${t('menu.intervals.minute')}`,
+				`1${t('menu.intervals.hour')}`,
+				`1${t('menu.intervals.day')}`,
+				`1${t('menu.intervals.week')}`
+			]
 		case '3mo':
-			return ['1h', '1d', '1wk', '1mo']
+			return [
+				`1${t('menu.intervals.hour')}`,
+				`1${t('menu.intervals.day')}`,
+				`1${t('menu.intervals.week')}`,
+				`1${t('menu.intervals.month')}`
+			]
 		case '6mo':
-			return ['1h', '1d', '1wk', '1mo', '3mo']
+			return [
+				`1${t('menu.intervals.hour')}`,
+				`1${t('menu.intervals.day')}`,
+				`1${t('menu.intervals.week')}`,
+				`1${t('menu.intervals.month')}`,
+				`3${t('menu.intervals.month')}`
+			]
 		case '1y':
-			return ['1h', '1d', '1wk', '1mo', '3mo']
+			return [
+				`1${t('menu.intervals.hour')}`,
+				`1${t('menu.intervals.day')}`,
+				`1${t('menu.intervals.week')}`,
+				`1${t('menu.intervals.month')}`,
+				`3${t('menu.intervals.month')}`
+			]
 		case '2y':
-			return ['1h', '1d', '1wk', '1mo', '3mo']
+			return [
+				`1${t('menu.intervals.hour')}`,
+				`1${t('menu.intervals.day')}`,
+				`1${t('menu.intervals.week')}`,
+				`1${t('menu.intervals.month')}`,
+				`3${t('menu.intervals.month')}`
+			]
 		case '5y':
-			return ['1d', '1wk', '1mo', '3mo']
+			return [
+				`1${t('menu.intervals.day')}`,
+				`1${t('menu.intervals.week')}`,
+				`1${t('menu.intervals.month')}`,
+				`3${t('menu.intervals.month')}`
+			]
 		default:
-			return ['1m', '2m', '5m', '15m', '30m', '1h', '1d', '1wk', '1mo', '3mo']
+			return [
+				`1${t('menu.intervals.minute')}`,
+				`2${t('menu.intervals.minute')}`,
+				`5${t('menu.intervals.minute')}`,
+				`15${t('menu.intervals.minute')}`,
+				`30${t('menu.intervals.minute')}`,
+				`1${t('menu.intervals.hour')}`,
+				`1${t('menu.intervals.day')}`,
+				`1${t('menu.intervals.week')}`,
+				`1${t('menu.intervals.month')}`,
+				`3${t('menu.intervals.month')}`
+			]
 	}
 }
-
-/*
-	<ButtonLegend
-		sendData={getShowPrice}
-		value={showPrice}
-		name="Price"
-		backgroundColor="var(--background-color-3)"
-	/>
-*/
