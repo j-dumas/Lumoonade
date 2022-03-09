@@ -84,7 +84,7 @@ function Navbar(props) {
 					<ul className={props.mobile ? 'nav-menu-mobile' : 'nav-menu'}>
 						{isConnected ? (
 							<>
-								<li className={router.pathname == '/wallet' ? 'nav-item active-link' : 'nav-item'}>
+								<li className={router.pathname == '/me/wallet' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.Wallet />
 									<Link href="/wallet">
 										<a className="nav-links" onClick={closeMobileMenu}>

@@ -14,26 +14,25 @@ import { useTranslation } from 'next-i18next'
 const CURRENCY = 'usd'
 
 const Assets = () => {
-	
 	const { t } = useTranslation('assets')
 
 	const [keyword, setKeyword] = useState()
 	const [searchList, setSearchList] = useState([])
 	const [socket, setSocket] = useState()
 	const [favSocket, setFavSocket] = useState()
-	const [pagination, setPagination] = useState([1,1]) // Page#, #Pages
+	const [pagination, setPagination] = useState([1, 1]) // Page#, #Pages
 	const decrementPage = async () => {
 		const currentP = pagination[0]
 		if (currentP > 1) {
-			setPagination(currentP-1, pagination[1])
-			await searchAsset(keyword, currentP-1)
+			setPagination(currentP - 1, pagination[1])
+			await searchAsset(keyword, currentP - 1)
 		}
 	}
 	const incrementPage = async () => {
 		const currentP = pagination[0]
 		if (currentP < pagination[1]) {
-			setPagination(currentP+1, pagination[1])
-			await searchAsset(keyword, currentP+1)
+			setPagination(currentP + 1, pagination[1])
+			await searchAsset(keyword, currentP + 1)
 		}
 	}
 

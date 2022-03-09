@@ -19,13 +19,12 @@ const total = () => {
 }
 
 const aliveRooms = () => {
-	return [...rooms].filter(room => room.hasClients())
+	return [...rooms].filter((room) => room.hasClients())
 }
 
 const activePortfolioRooms = () => {
-	return aliveRooms().filter(room => room.name.toLowerCase().startsWith('dash-'))
+	return aliveRooms().filter((room) => room.name.toLowerCase().startsWith('dash-'))
 }
-
 
 /**
  * Remove the socket from his rooms

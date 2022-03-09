@@ -14,7 +14,7 @@ const Compare = () => {
 	return (
 		<>
 			<section className="section column principal first center">
-				<CompareView currency={CURRENCY}/>
+				<CompareView currency={CURRENCY} />
 			</section>
 		</>
 	)
@@ -38,7 +38,7 @@ Compare.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'compare', 'crypto']))
+			...(await serverSideTranslations(locale, ['common', 'compare', 'crypto', 'detailedchart']))
 		}
 	}
 }

@@ -31,7 +31,7 @@ const BarChart = dynamic(
 
 const CURRENCY = 'usd'
 
-const Dashboard = () => {
+const Portfolio = () => {
 	const router = useRouter()
 	const [socket, setSocket] = useState()
 	const [portfolioSocket, setPortfolioSocket] = useState()
@@ -82,7 +82,7 @@ const Dashboard = () => {
 	)
 }
 // <PieChart socket={socket} assets={assets}/> import PieChart from '../../components/charts/PieChart'
-Dashboard.getLayout = function getLayout(page) {
+Portfolio.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 
 	return (
@@ -105,4 +105,4 @@ export async function getStaticProps({ locale }) {
 	}
 }
 
-export default Dashboard
+export default Portfolio

@@ -14,7 +14,7 @@ const permissionSchema = new mongoose.Schema(
 		},
 		assigner: {
 			type: mongoose.Schema.Types.ObjectId,
-            required: true,
+			required: true,
 			trim: true
 		}
 	},

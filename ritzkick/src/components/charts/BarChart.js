@@ -70,17 +70,7 @@ function BarChart(props) {
 		},
 		plugins: {
 			legend: {
-				display: false,
-				position: 'bottom',
-				labels: {
-					color: 'white',
-					font: {
-						size: 14,
-						lineHeight: 0
-					},
-					padding: 20,
-					usePointStyle: true
-				}
+				display: false
 			},
 			tooltip: {
 				backgroundColor: 'rgba(28, 29, 31, 0.95)',

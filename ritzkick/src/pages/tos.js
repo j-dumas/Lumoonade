@@ -30,17 +30,20 @@ const TOS = () => {
 				<h2>2. Use License</h2>
 
 				<p>
-					Permission is granted to temporarily download one copy of the materials on Lumoonade's Website for
-					personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of
-					title, and under this license you may not:
+					Permission is granted to temporarily download one copy of the materials on Lumoonade&apos;s Website
+					for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer
+					of title, and under this license you may not:
 				</p>
 
 				<ul>
 					<li>modify or copy the materials;</li>
 					<li>use the materials for any commercial purpose or for any public display;</li>
-					<li>attempt to reverse engineer any software contained on Lumoonade's Website;</li>
+					<li>attempt to reverse engineer any software contained on Lumoonade&apos;s Website;</li>
 					<li>remove any copyright or other proprietary notations from the materials; or</li>
-					<li>transferring the materials to another person or "mirror" the materials on any other server.</li>
+					<li>
+						transferring the materials to another person or &ldquo;mirror&rdquo; the materials on any other
+						server.
+					</li>
 				</ul>
 
 				<p>
@@ -53,10 +56,11 @@ const TOS = () => {
 				<h2>3. Disclaimer</h2>
 
 				<p>
-					All the materials on Lumoonade’s Website are provided "as is". Lumoonade makes no warranties, may it
-					be expressed or implied, therefore negates all other warranties. Furthermore, Lumoonade does not
-					make any representations concerning the accuracy or reliability of the use of the materials on its
-					Website or otherwise relating to such materials or any sites linked to this Website.
+					All the materials on Lumoonade’s Website are provided &ldquo;as is&rdquo;. Lumoonade makes no
+					warranties, may it be expressed or implied, therefore negates all other warranties. Furthermore,
+					Lumoonade does not make any representations concerning the accuracy or reliability of the use of the
+					materials on its Website or otherwise relating to such materials or any sites linked to this
+					Website.
 				</p>
 
 				<h2>4. Limitations</h2>
@@ -94,15 +98,11 @@ const TOS = () => {
 					Use.
 				</p>
 
-				<h2>8. Your Privacy</h2>
-
-				<p>Please read our Privacy Policy.</p>
-
-				<h2>9. Governing Law</h2>
+				<h2>8. Governing Law</h2>
 
 				<p>
-					Any claim related to Lumoonade's Website shall be governed by the laws of ca without regards to its
-					conflict of law provisions.
+					Any claim related to Lumoonade&apos;s Website shall be governed by the laws of CA without regards to
+					its conflict of law provisions.
 				</p>
 			</div>
 		</div>
