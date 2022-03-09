@@ -14,7 +14,7 @@ const Compare = () => {
 	return (
 		<>
 			<section className="section column principal first center">
-				<CompareView currency={CURRENCY}/>
+				<CompareView currency={CURRENCY} />
 			</section>
 		</>
 	)

@@ -92,7 +92,9 @@ function CompareMenu(props) {
 	) : (
 		<div className="column detailed-informations detailed-div w-45">
 			<div className="detailed-div-menu row space-between">
-				<label className="detailed-div-title" for="with">{t('menu.comparing')}</label>
+				<label className="detailed-div-title" for="with">
+					{t('menu.comparing')}
+				</label>
 				<div>
 					<select name="with" id="" className="detailed-chart-options-select">
 						<option value="price">{t('menu.options.price')}</option>
@@ -105,11 +107,15 @@ function CompareMenu(props) {
 					</select>
 					<p className="detailed-div-title">{'$ = ' + props.currency + '$'}</p>
 				</div>
-				
+
 				<form className="row" action="" onSubmit={updateSearchList}>
-					<label for='search' className="detailed-div-title">{t('menu.with')}</label>
-					<input className='mini-search' name='search' type="search" />
-					<button className='mini-search-button' type="submit" value="Submit"><Icons.Search /></button>
+					<label for="search" className="detailed-div-title">
+						{t('menu.with')}
+					</label>
+					<input className="mini-search" name="search" type="search" />
+					<button className="mini-search-button" type="submit" value="Submit">
+						<Icons.Search />
+					</button>
 				</form>
 			</div>
 			<div className="row detailed-div-menu start gap-5">

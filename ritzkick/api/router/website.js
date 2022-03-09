@@ -1,5 +1,11 @@
 const express = require('express')
-const { NotFoundHttpError, BadRequestHttpError, ConflictHttpError, sendError, ForbiddenHttpError } = require('../../utils/http_errors')
+const {
+	NotFoundHttpError,
+	BadRequestHttpError,
+	ConflictHttpError,
+	sendError,
+	ForbiddenHttpError
+} = require('../../utils/http_errors')
 
 const Permission = require('../../db/model/permission')
 const { Asset } = require('../../db/model/asset')
@@ -39,25 +45,30 @@ router.get('/api/website/details', [auth, perm], async (req, res) => {
 
 router.get('/api/website/status', [auth, perm], async (req, res) => {
 	const apiUrls = [process.env.YAHOO_API, process.env.YAHOO_API_DASH]
-	let calls = [] 
-	apiUrls.forEach(url => {
-		calls.push(new Promise((res, rej) => {
-			let startAt = timer.performance.now()
-			let config = {
-				url,
-				status: 'down'
-			}
-			axios.get(url + 'spark?symbols=TEST').then(_ => { 
-				config.status = 'up'
-				config.responseTimeInMillis = timer.performance.now() - startAt
-				res(config) 
-			}).catch(_ => {
-				config.responseTimeInMillis = timer.performance.now() - startAt
-				rej(config)
+	let calls = []
+	apiUrls.forEach((url) => {
+		calls.push(
+			new Promise((res, rej) => {
+				let startAt = timer.performance.now()
+				let config = {
+					url,
+					status: 'down'
+				}
+				axios
+					.get(url + 'spark?symbols=TEST')
+					.then((_) => {
+						config.status = 'up'
+						config.responseTimeInMillis = timer.performance.now() - startAt
+						res(config)
+					})
+					.catch((_) => {
+						config.responseTimeInMillis = timer.performance.now() - startAt
+						rej(config)
+					})
 			})
-		}))
+		)
 	})
-	const response = (await Promise.allSettled(calls)).map(answer => answer.value || answer.reason)
+	const response = (await Promise.allSettled(calls)).map((answer) => answer.value || answer.reason)
 	res.send(response)
 })
 
@@ -70,7 +81,7 @@ const getWebsiteActivity = async () => {
 		totalRooms: total,
 		activeRooms: {
 			count: alive.length,
-			rooms: [...alive].map(room => room.name)
+			rooms: [...alive].map((room) => room.name)
 		},
 		activePortfolioRooms: portfolioRooms.length,
 		inactiveRooms: total - alive.length
@@ -111,7 +122,7 @@ const getUserStatistics = async () => {
 	let count = await User.count()
 	let validatedAccount = (await User.find({ validatedEmail: true })).length
 	let online = (await User.where('sessions.session').gt(0)).length
-	let googleAccounts = (await User.find({ google: true }))
+	let googleAccounts = await User.find({ google: true })
 	return {
 		total: count,
 		confirmed: validatedAccount,
