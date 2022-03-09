@@ -7,6 +7,7 @@ const swaggerOptions = require('../config/swagger')
 require('../db/mongodb')
 
 const userRouter = require('../api/router/user')
+const permRouter = require('../api/router/website')
 const walletRouter = require('../api/router/wallet')
 const watchlistRouter = require('../api/router/watchlist')
 const favoriteRouter = require('../api/router/favorite')
@@ -28,6 +29,7 @@ server.use(helmet(helmetOptions))
 setRouters()
 
 function setRouters() {
+	server.use(permRouter)
 	server.use(shortcutRouter)
 	server.use(resetRouter)
 	server.use(authRouter)

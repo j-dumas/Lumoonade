@@ -26,6 +26,15 @@ class UnauthorizedHttpError extends HttpError {
 	}
 }
 
+class ForbiddenHttpError extends HttpError {
+	constructor(message = 'Forbidden') {
+		super(message, 403)
+		this.name = this.constructor.name
+
+		Error.captureStackTrace(this, this.constructor)
+	}
+}
+
 class NotFoundHttpError extends HttpError {
 	constructor(message = 'Not Found') {
 		super(message, 404)
@@ -70,5 +79,6 @@ module.exports = {
 	UnauthorizedHttpError,
 	NotFoundHttpError,
 	ConflictHttpError,
-	ServerError
+	ServerError,
+	ForbiddenHttpError
 }
