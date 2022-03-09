@@ -58,7 +58,7 @@ const paths = require('../routes.json')
  * }
  * @security BearerAuth
  */
-router.get(paths.user.complete, authentification, async (req, res) => {
+router.get(paths.user.default, authentification, async (req, res) => {
 	await req.user.populate({
 		path: 'wallet'
 	})
@@ -103,39 +103,7 @@ router.get(paths.user.summary, authentification, async (req, res) => {
 })
 
 /**
- * This is only used by '/api/me/update' to properly make all validations and checks
- * @param {json} body
- * @param {list} allowed
- * @returns list of fields to be modified
- */
-const updateHelper = async (body, user) => {
-	if (body.length === 0) {
-		throw new BadRequestHttpError({ message: 'Please provide informations to be modified' })
-	}
-
-	// what we want to keep for password modification
-	const { oldPassword, newPassword, password } = body
-	let response = {}
-
-	if (password) {
-		throw new ConflictHttpError('Cannot implicitly set a new password without proper validations')
-	}
-
-	if (oldPassword && newPassword) {
-		const isOldPassword = await user.isOldPassword(oldPassword)
-		if (isOldPassword) {
-			response.password = newPassword
-		} else {
-			throw new ConflictHttpError('Invalid password. Cannot modify current password.')
-		}
-	}
-
-	response.username = body.username
-	return response
-}
-
-/**
- * PATCH /api/me/update
+ * PATCH /api/me
  * @summary Update the user's profile
  * @tags Me
  * @param {object} request.body.required - User info
@@ -164,7 +132,7 @@ const updateHelper = async (body, user) => {
  * }
  * @security BearerAuth
  */
-router.patch(paths.user.update, authentification, async (req, res) => {
+router.patch(paths.user.default, authentification, async (req, res) => {
 	try {
 		let updates = Object.keys(req.body)
 		if (updates.length === 0) throw new BadRequestHttpError('Please provide informations to be modified')
@@ -210,7 +178,7 @@ router.patch(paths.user.update, authentification, async (req, res) => {
 })
 
 /**
- * DELETE /api/me/delete
+ * DELETE /api/me
  * @summary Get all wallets from the user
  * @tags Me
  * @return {UserSummaryResponse} 200 - success
@@ -229,7 +197,7 @@ router.patch(paths.user.update, authentification, async (req, res) => {
  * @return {string} 500 - server error
  * @security BearerAuth
  */
-router.delete(paths.user.delete, authentification, async (req, res) => {
+router.delete(paths.user.default, authentification, async (req, res) => {
 	try {
 		await req.user.remove()
 		res.send({
@@ -275,7 +243,7 @@ router.delete(paths.user.delete, authentification, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.get('/api/me/wallets', [authentification, pagination], async (req, res) => {
+router.get(paths.wallets.all, [authentification, pagination], async (req, res) => {
 	await req.user.populate({
 		path: 'wallet',
 		options: {
@@ -379,7 +347,7 @@ router.get(paths.alerts.all, [authentification, pagination], async (req, res) =>
  * @return {string} 500 - server error
  * @security BearerAuth
  */
-router.patch('/api/me/sessions/purge', authentification, async (req, res) => {
+router.patch(paths.user['purge-sessions'], authentification, async (req, res) => {
 	try {
 		let activeSessions = req.user.sessions.length
 		req.user.sessions = req.user.sessions.find((session) => session.session === req.token)

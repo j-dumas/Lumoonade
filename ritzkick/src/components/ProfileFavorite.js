@@ -31,16 +31,14 @@ export default function ProfileFavorite() {
 		</div>
 	) : (
 		<div id="favorites">
-			{
-				(data.length !== 0) 
-					? 
-						<div>
-							<h1>Favoris</h1>
-							<SimpleCryptoDashboard socket={socket} /> 
-						</div>
-					: 
-						<h1>Aucun favoris</h1>
-			}
+			{data.length !== 0 ? (
+				<div>
+					<h1>Favoris</h1>
+					<SimpleCryptoDashboard socket={socket} />
+				</div>
+			) : (
+				<h1>Aucun favoris</h1>
+			)}
 		</div>
 	)
 }

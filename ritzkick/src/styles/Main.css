@@ -111,8 +111,6 @@ p {
 	text-align: left;
 }
 
-
-
 .title,
 .subtitle,
 .subtitle-small {
@@ -201,9 +199,7 @@ button:hover {
 	font-size: 14px;
 }
 
-.max-width {
-	max-width: 360px;
-}
+
 
 .increase {
 	color: var(--good-color) !important;
@@ -280,7 +276,6 @@ label {
 	z-index: 5;
 }
 
-
 .footer .footer-title {
 	text-transform: uppercase;
 	letter-spacing: 6px;
@@ -295,7 +290,7 @@ label {
 
 .footer a {
 	text-decoration: underline;
-	transition: .1s;
+	transition: 0.1s;
 }
 .footer a:hover {
 	color: var(--font-color-2);
@@ -319,5 +314,12 @@ label {
 }
 
 .w-100 {
-	width: 100%;
+	width: 100% !important;
+}
+.w-45 {
+	width: 49% !important;
+}
+
+.gap-5 {
+	gap: 5px !important;
 }

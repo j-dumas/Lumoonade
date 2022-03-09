@@ -17,12 +17,12 @@ const Register = () => {
 	useEffect(() => {
 		const token = getCookie('token')
 		if (token !== undefined) {
-			router.push("/")
+			router.push('/')
 		}
 	}, [])
 
 	return (
-		<section className='column center principal first layer2'>
+		<section className="column center principal first layer2">
 			<RegisterForm />
 			<Bubbles />
 		</section>

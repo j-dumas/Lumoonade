@@ -8,6 +8,8 @@ const axios = require('axios').default
 
 const email = require('../../app/email/email')
 
+const paths = require('../../api/routes.json')
+
 const fs = require('fs')
 const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
 
@@ -64,8 +66,8 @@ afterAll((done) => {
 	done()
 })
 
-describe('Tests for the route /api/reset', () => {
-	const BASE = '/api/reset'
+describe(`Tests for the route ${paths.reset.default}`, () => {
+	const BASE = paths.reset.default
 
 	test(`I should not be able to reset if I don't send any email address to reset the password`, async () => {
 		await request(server).post(BASE).send().expect(400)
@@ -123,8 +125,8 @@ describe('Tests for the route /api/reset', () => {
 	})
 })
 
-describe('Tests for the route /api/reset/verify/:jwt', () => {
-	const BASE = '/api/reset/verify/'
+describe(`Tests for the route ${paths.reset.verify}:jwt`, () => {
+	const BASE = paths.reset.verify
 
 	test(`I should not be able to verify if I send an invalid jwt token in the resquest (custom text)`, async () => {
 		await request(server)
@@ -165,8 +167,8 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 	})
 })
 
-describe('Tests for the route /api/reset/redeem', () => {
-	const BASE = '/api/reset/redeem'
+describe(`Tests for the route ${paths.reset.redeem}`, () => {
+	const BASE = paths.reset.redeem
 	const anyPassword = 'password1234'
 
 	test(`I should not be able to redeem if I don't send anything in the request`, async () => {

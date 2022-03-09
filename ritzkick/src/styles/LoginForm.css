@@ -143,7 +143,7 @@ input:focus::placeholder {
 	flex-direction: row;
 	align-items: center;
 	margin-top: 0%;
-	margin-bottom: 0%;	
+	margin-bottom: 0%;
 }
 
 #and {
@@ -187,12 +187,12 @@ input:focus::placeholder {
 	padding: 10px;
 }
 
-#resend-email-button{
+#resend-email-button {
 	margin-left: 10px;
 	background-color: var(--background-color-3);
 }
 
-#resend-email-button:hover{
+#resend-email-button:hover {
 	border: none;
 	background-color: var(--background-color);
 }

@@ -3,7 +3,9 @@ const { NotFoundHttpError, BadRequestHttpError, ConflictHttpError, sendError } =
 const Shortcut = require('../../db/model/shortcut')
 const router = express.Router()
 
-router.get('/redirect/:id', async (req, res) => {
+const paths = require('../routes.json')
+
+router.get(`${paths.shortcut.redirect}:id`, async (req, res) => {
 	try {
 		const shortcut = await Shortcut.findOne({ _id: req.params.id })
 		if (!shortcut) {
@@ -43,16 +45,16 @@ router.get('/redirect/:id', async (req, res) => {
  * 	"error": "You cannot set visits"
  * }
  */
-router.post('/api/redirects', async (req, res) => {
+router.post(paths.shortcut.default, async (req, res) => {
 	try {
 		if (Object.keys(req.body).length === 0) {
 			throw new BadRequestHttpError('Please provide a body.')
 		}
-		const baseURL = `https://${process.env.URL}:${process.env.PORT}/redirect`
+		const baseURL = `https://${process.env.URL}:${process.env.PORT}${paths.shortcut.redirect}`
 		const existsShort = await Shortcut.findOne({ url: req.body.url })
 		if (existsShort) {
 			return res.send({
-				url: `${baseURL}/${existsShort._id}`
+				url: `${baseURL}${existsShort._id}`
 			})
 		}
 		let shortUrlBody = {
@@ -63,7 +65,7 @@ router.post('/api/redirects', async (req, res) => {
 		}
 		const shorturl = new Shortcut(shortUrlBody)
 		await shorturl.save()
-		const url = `${baseURL}/${shorturl._id}`
+		const url = `${baseURL}${shorturl._id}`
 		res.status(201).send({
 			url
 		})
@@ -74,7 +76,7 @@ router.post('/api/redirects', async (req, res) => {
 
 /**
  * Remove or update the shortcut depending on how it was defined.
- * @param {Shortcut} shortcut 
+ * @param {Shortcut} shortcut
  */
 const handleShortcuts = async (shortcut) => {
 	shortcut.visits = parseInt(shortcut.visits) + 1

@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next'
 
 const EmailConfirmation = () => {
 	return (
-		<section className='column center principal first layer1'>
+		<section className="column center principal first layer1">
 			<Bubbles />
 			<EmailConfirmationCard />
 		</section>

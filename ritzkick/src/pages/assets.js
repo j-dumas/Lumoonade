@@ -59,15 +59,14 @@ const Assets = () => {
 
 	async function updateSearchList(event) {
 		event.preventDefault()
-		
+
 		const search = event.target[0].value
 		setKeyword(search)
-		if ((!search || search == undefined || search == '')) return
+		if (!search || search == undefined || search == '') return
 		await searchAsset(search, 1)
 	}
 
-	async function searchAsset(keyword, page) 
-	{
+	async function searchAsset(keyword, page) {
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 8)
 		setPagination([page, list.max_page])
 		let symbols = []
@@ -83,31 +82,29 @@ const Assets = () => {
 					<div className="row h-center detailed-menu-info">
 						<h1 className="detailed-menu-title">{t('markets')}</h1>
 					</div>
-					<form className='row' action="" onSubmit={updateSearchList}>
+					<form className="row" action="" onSubmit={updateSearchList}>
 						<input type="search" />
 						<button type="submit" value="Submit">
-							<Icons.Search/>
+							<Icons.Search />
 						</button>
 					</form>
-
 				</div>
 			</section>
 
 			<section className="sub-section column">
 				{socket ? (
 					<>
-					{favSocket && searchList.length == 0 ? (
-					<>
-						<div className='row start'>
-							<Icons.StarFulled/>
-							<h1>{t('favorites')}</h1>
-						</div>
-						{favSocket.auth.query.length == 0 ? <></> :
-						<SimpleCryptoCardDashboard socket={favSocket} />}
-					</>
+						{favSocket && searchList.length == 0 ? (
+							<>
+								<div className="row start">
+									<Icons.StarFulled />
+									<h1>{t('favorites')}</h1>
+								</div>
+								<SimpleCryptoCardDashboard socket={favSocket} />
+							</>
 						) : null}
-						<div className='row start'>
-							<Icons.List/>
+						<div className="row start">
+							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
 						<SimpleCryptoCardDashboard socket={socket}/>
@@ -115,7 +112,9 @@ const Assets = () => {
 							<div className='row center'>
 								<button onClick={decrementPage}>{'<'}</button><p>{pagination[0]} / {pagination[1]}</p><button  onClick={incrementPage}>{'>'}</button>
 							</div>
-						): <></>}
+						) : (
+							<></>
+						)}
 					</>
 				) : null}
 			</section>

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Functions from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
 import format from 'utils/formatter'
 import Image from 'next/image'
 
@@ -10,7 +8,7 @@ const DetailedInformations = (props) => {
 	const { t } = useTranslation('crypto')
 
 	return (
-		<div className="row detailed-informations detailed-div">
+		<div className="row space-between detailed-informations detailed-div">
 			{props.name ? (
 				<div className="detailed-div-name row space-between h-center">
 					<Image src={'/' + props.data.fromCurrency + '.svg'} width={30} height={30} />
@@ -39,21 +37,21 @@ const DetailedInformations = (props) => {
 				>
 					{props.data.regularMarketChangePercent >= 0 ? '+' : ''}
 					{format(props.data.regularMarketChangePercent)}% &nbsp;&nbsp;
-					{props.data.regularMarketChangePercent >= 0 ? '+' : ''}
-					{format(props.data.regularMarketChange)}$
+					{props.data.regularMarketChangePercent >= 0 ? '+$' : ''}
+					{format(props.data.regularMarketChange)}
 				</p>
 			</div>
 			<div className="row space-between detailed-div-item">
 				<p className="detailed-div-item-label">{t('detailed.market-cap')}</p>
-				<p className="detailed-div-item-value">{props.data.marketCap} $</p>
+				<p className="detailed-div-item-value">${format(props.data.marketCap, false)}</p>
 			</div>
 			<div className="row space-between detailed-div-item">
 				<p className="detailed-div-item-label">{t('detailed.volume.24h')}</p>
-				<p className="detailed-div-item-value">{props.data.volume24Hr}</p>
+				<p className="detailed-div-item-value">{format(props.data.volume24Hr, false)}</p>
 			</div>
 			<div className="row space-between detailed-div-item">
 				<p className="detailed-div-item-label">{t('detailed.volume.regular')}</p>
-				<p className="detailed-div-item-value">{props.data.regularMarketVolume}</p>
+				<p className="detailed-div-item-value">{format(props.data.regularMarketVolume, false)}</p>
 			</div>
 		</div>
 	)

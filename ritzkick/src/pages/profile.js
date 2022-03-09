@@ -25,7 +25,7 @@ const Profile = () => {
 		setUser(data)
 	}
 
-	async function updateUser(){
+	async function updateUser() {
 		getUser().then((res) => setUser(res))
 	}
 
@@ -57,7 +57,9 @@ const Profile = () => {
 				</div>
 				<hr className="line"></hr>
 			</div>
-			<div className="column center">{viewState ? <ProfileAlerts currency={CURRENCY}/> : <ProfileFavorite />}</div>
+			<div className="column center">
+				{viewState ? <ProfileAlerts currency={CURRENCY} /> : <ProfileFavorite />}
+			</div>
 			<hr className="line"></hr>
 			<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
 		</div>

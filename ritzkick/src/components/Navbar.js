@@ -23,7 +23,7 @@ function Navbar(props) {
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout(setConnection()).then(() => router.push("/"))
+		await logout(setConnection()).then(() => router.push('/'))
 	}
 
 	useEffect(() => {
@@ -31,7 +31,7 @@ function Navbar(props) {
 	}, [])
 
 	useEffect(() => {
-		if(login === "true"){
+		if (login === 'true') {
 			setConnection(true)
 		}
 	}, [login])

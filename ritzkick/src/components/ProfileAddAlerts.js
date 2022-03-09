@@ -73,7 +73,7 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	useEffect(async () => {
-		if(props.provenance){
+		if (props.provenance) {
 			let tempValue = props.slug.split('-')
 			setSlug(tempValue[0])
 			// const tempSlug = {target: {name: "slug", value: tempValue[0]}}
@@ -106,11 +106,11 @@ export default function ProfileAddAlerts(props) {
 
 	async function handleSubmit(event) {
 		event.preventDefault()
-		const tempSlug = {target: {name: "slug", value: slug}}
+		const tempSlug = { target: { name: 'slug', value: slug } }
 		handleChange(tempSlug)
 
 		await addWatch(state)
-		if(!props.provenance){
+		if (!props.provenance) {
 			props.onDataChange()
 		}
 		close()
@@ -119,17 +119,15 @@ export default function ProfileAddAlerts(props) {
 
 	return (
 		<div className="row center">
-			{
-				props.provenance 
-					?
-						<a href='' onClick={open}>
-							<Icons.Bell />
-						</a>
-					:
-						<button className="icon-button" id="rotate-button" onClick={open}>
-							<CloseRounded fontSize='medium' />
-						</button>
-			}
+			{props.provenance ? (
+				<a href="" onClick={open}>
+					<Icons.Bell />
+				</a>
+			) : (
+				<button className="icon-button" id="rotate-button" onClick={open}>
+					<CloseRounded fontSize="medium" />
+				</button>
+			)}
 			<Snackbar
 				sx={{ m: 6 }}
 				open={openStatus}
@@ -149,9 +147,21 @@ export default function ProfileAddAlerts(props) {
 						n&apos;est pas respectée
 					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
-						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled" disabled={props.provenance}>
+						<FormControl
+							sx={{ m: 1, width: '25%', minWidth: '50px' }}
+							className="inputField"
+							variant="filled"
+							disabled={props.provenance}
+						>
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue={props.provenance ? slug : ""} value={slug} onChange={handleChange} MenuProps={MenuProps} required>
+							<Select
+								name="slug"
+								defaultValue={props.provenance ? slug : ''}
+								value={slug}
+								onChange={handleChange}
+								MenuProps={MenuProps}
+								required
+							>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}

@@ -9,10 +9,10 @@ const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const ForgotPassword = () => {
 	return (
-		<section className='column center principal first layer3'>
-				<Bubbles />
-				<ForgotPasswordForm />
-			</section>
+		<section className="column center principal first layer3">
+			<Bubbles />
+			<ForgotPasswordForm />
+		</section>
 	)
 }
 
