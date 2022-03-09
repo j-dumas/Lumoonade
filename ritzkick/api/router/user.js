@@ -235,7 +235,7 @@ router.delete(paths.user.default, authentification, async (req, res) => {
  *   ],
  *   "page": 1,
  *   "count": 1,
- * 	 "max_count": 2
+ * 	 "max_page": 2
  * }
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -281,7 +281,7 @@ router.get(paths.wallets.all, [authentification, pagination], async (req, res) =
  *   ],
  *   "page": 1,
  *   "count": 1,
- * 	 "max_count": 2
+ * 	 "max_page": 2
  * }
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
@@ -331,7 +331,7 @@ router.get(paths.favorites.all, [authentification, pagination], async (req, res)
  *   ],
  *   "page": 1,
  *   "count": 1,
- * 	 "max_count": 2
+ * 	 "max_page": 2
  * }
  * @return {string} 401 - unauthorized
  * @example response - 401 - example unauthenticated user error response
