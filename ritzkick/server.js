@@ -76,7 +76,6 @@ server.listen(port, (err) => {
 	if (err) throw err
 	log.info('SERVER', `Ready on port ${port}`)
 	emailservice.wake()
-	
 })
 
 /**
