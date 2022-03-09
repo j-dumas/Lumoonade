@@ -86,7 +86,7 @@ Profile.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'profile', 'forms']))
+			...(await serverSideTranslations(locale, ['common', 'profile', 'forms', 'alert']))
 		}
 	}
 }

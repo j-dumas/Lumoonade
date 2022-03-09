@@ -50,7 +50,7 @@ export async function getStaticProps({ params, locale }) {
 	return {
 		props: {
 			assetData,
-			...(await serverSideTranslations(locale, ['common', 'crypto', 'detailedchart', 'detailedmenu']))
+			...(await serverSideTranslations(locale, ['common', 'crypto', 'detailedchart', 'detailedmenu', 'alert']))
 		}
 	}
 }
