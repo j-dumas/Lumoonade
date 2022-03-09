@@ -14,7 +14,8 @@
 			"description": "Page de réinitialisation de mot de passe Lumoonade"
 		},
 		"email": { "title": "LUMOONADE | CONFIRMATION", "description": "Page de confirmation de courriel Lumoonade" },
-		"profile": { "title": "LUMOONADE | PROFIL", "description": "Paage de profil Lumoonade" }
+		"profile": { "title": "LUMOONADE | PROFIL", "description": "Paage de profil Lumoonade" },
+		"404": { "title": "LUMOONADE | 404", "description": "Lumoonade - Page non trouvée" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade pour les CryptoCurrencies", "type": "website" },
 	"footer": {

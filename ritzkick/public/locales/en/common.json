@@ -8,7 +8,8 @@
 		"assets": { "title": "LUMOONADE | CRYPTOS", "description": "Lumoonade assets page" },
 		"reset": { "title": "LUMOONADE | RESET PASSWORD", "description": "Lumoonade reset password page" },
 		"email": { "title": "LUMOONADE | EMAIL CONFIRMATION", "description": "Lumoonade email confirmation page" },
-		"profile": { "title": "LUMOONADE | PROFILE", "description": "Lumoonade profile page" }
+		"profile": { "title": "LUMOONADE | PROFILE", "description": "Lumoonade profile page" },
+		"404": { "title": "LUMOONADE | 404", "description": "Lumoonade - page not found" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade for CryptoCurrencies", "type": "website" },
 	"footer": {

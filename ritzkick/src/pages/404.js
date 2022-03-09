@@ -13,7 +13,7 @@ import { deleteCookie, getCookie } from 'services/CookieService'
 
 const NotFound = () => {
 	const [data, setData] = useState([{}])
-	const { t } = useTranslation('index')
+	const { t } = useTranslation('404')
 	const router = useRouter()
 	const { logout } = router.query
 
@@ -34,7 +34,6 @@ const NotFound = () => {
 						<h2 className="subtitle item">{t('description')}</h2>
 					</div>
 				</div>
-				<BottomArrow />
 			</section>
 		</>
 	)
@@ -46,8 +45,8 @@ NotFound.getLayout = function getLayout(page) {
 	return (
 		<Layout
 			pageMeta={{
-				title: t('pages.index.title'),
-				description: t('pages.index.description')
+				title: t('pages.404.title'),
+				description: t('pages.404.description')
 			}}
 		>
 			{page}
@@ -58,7 +57,7 @@ NotFound.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'index']))
+			...(await serverSideTranslations(locale, ['common', '404']))
 		}
 	}
 }
