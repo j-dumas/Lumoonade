@@ -41,9 +41,9 @@ function Footer() {
 						<>
 							<Link href="/me/dashboard">{t('footer.account.dashboard')}</Link>
 							<Link href="/me/portfolio">{t('footer.account.portfolio')}</Link>
-							<Link href="/me/profile">{t('footer.account.profile')}</Link>
-							<Link href="/me/profile">{t('footer.account.favorites')}</Link>
-							<Link href="/me/profile">{t('footer.account.alerts')}</Link>
+							<Link href="/profile">{t('footer.account.profile')}</Link>
+							<Link href="/profile">{t('footer.account.favorites')}</Link>
+							<Link href="/profile">{t('footer.account.alerts')}</Link>
 						</>
 					) : (
 						<>

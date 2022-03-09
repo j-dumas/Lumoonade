@@ -87,6 +87,7 @@ export default function ProfilePopup(props) {
 	useEffect(() => {
 		if (!isOpen) {
 			eraseFieldValue()
+			setError(false)
 		}
 	}, [isOpen])
 
@@ -112,7 +113,7 @@ export default function ProfilePopup(props) {
 								type="text"
 								defaultValue={props.username}
 								onChange={handleChange}
-								startAdornment={
+								endAdornment={
 									<InputAdornment position="end">
 										<AccountCircle />
 									</InputAdornment>
@@ -155,11 +156,6 @@ export default function ProfilePopup(props) {
 								id="outlined-adornment-password"
 								type={passwordValues.oldPassShow ? 'text' : 'password'}
 								onChange={handleChange}
-								startAdornment={
-									<InputAdornment position="end">
-										<Lock />
-									</InputAdornment>
-								}
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
@@ -182,11 +178,6 @@ export default function ProfilePopup(props) {
 								id="outlined-adornment-new-password"
 								type={passwordValues.newPassShow ? 'text' : 'password'}
 								onChange={handleChange}
-								startAdornment={
-									<InputAdornment position="end">
-										<Lock />
-									</InputAdornment>
-								}
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
@@ -211,11 +202,6 @@ export default function ProfilePopup(props) {
 								id="outlined-adornment-new-confirmation-password"
 								type={passwordValues.newPassConfirmationShow ? 'text' : 'password'}
 								onChange={handleChange}
-								startAdornment={
-									<InputAdornment position="end">
-										<Lock />
-									</InputAdornment>
-								}
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
