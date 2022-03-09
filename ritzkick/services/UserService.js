@@ -87,10 +87,10 @@ export async function deleteFavorite(slug) {
 	})
 }
 
-export async function getFavorites() {
+export async function getFavorites(limit = 1000, page = 1) {
 	if (!isUserConnected()) return []
 	try {
-		let response = await fetch(paths.favorites.all, {
+		let response = await fetch(paths.favorites.all + "?limit=" + limit + "&page=" + page, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -100,6 +100,24 @@ export async function getFavorites() {
 
 		let json = await response.json()
 		return json.favorites
+	} catch (e) {
+		console.log(e)
+	}
+}
+
+export async function getFavoritesMaxPage(limit = 5) {
+	if (!isUserConnected()) return []
+	try {
+		let response = await fetch(paths.favorites.all + "?limit=" + limit, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + getCookie('token')
+			}
+		})
+
+		let json = await response.json()
+		return json.max_page
 	} catch (e) {
 		console.log(e)
 	}
@@ -116,7 +134,7 @@ export async function getWatchList(page = 1) {
 		})
 
 		let json = await response.json()
-		return json.watchlists
+		return json
 	} catch (e) {
 		console.log(e)
 	}
@@ -137,7 +155,7 @@ export async function deleteWatch(alertId) {
 	}
 }
 
-export async function addWatch(alert) {
+export async function addWatch(slug, parameter, target) {
 	try {
 		await fetch(paths.alerts.default, {
 			method: 'POST',
@@ -145,7 +163,7 @@ export async function addWatch(alert) {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + getCookie('token')
 			},
-			body: JSON.stringify({ slug: alert.slug, target: alert.target, parameter: alert.parameter })
+			body: JSON.stringify({ slug: slug, target: target, parameter: parameter })
 		})
 	} catch (e) {
 		console.log(e)

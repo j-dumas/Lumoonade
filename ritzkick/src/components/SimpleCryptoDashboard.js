@@ -17,9 +17,9 @@ function SimpleCryptoDashboard(props) {
 			setChartDatas(data)
 		})
 		if (props.socket) return () => props.socket.disconnect()
-	}, [])
+	}, [props.socket])
 
-	return !datas || !chartDatas || !props.socket ? (
+	return !datas || !chartDatas || !props.socket || !props.socket.connected ? (
 		<div className="column center">
 			<CircularProgress color="secondary" />
 		</div>

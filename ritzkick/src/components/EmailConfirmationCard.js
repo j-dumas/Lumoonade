@@ -10,14 +10,14 @@ export default function EmailConfirmationCard() {
 	const router = useRouter()
 	const { key } = router.query
 
-	useEffect(() => {
-		async function getConfirmation() {
-			if (key !== undefined) {
-				confirmEmail(key)
-			}
+	useEffect(async () => {
+		if(key !== undefined){
+			await confirmEmail(key)
 		}
 
-		getConfirmation()
+		setInterval(() => {
+			router.push("/login")
+		}, 4000)
 	}, [key])
 
 	return (
