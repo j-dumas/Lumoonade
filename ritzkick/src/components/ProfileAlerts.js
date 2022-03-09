@@ -15,6 +15,7 @@ export default function ProfileAlerts(props) {
 	const [data, setData] = useState([])
 	const [openStatus, setOpen] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
+	const [maxPage, setMaxPage] = useState(1)
 
 	function deletedAlert() {
 		setOpen(true)
@@ -29,7 +30,8 @@ export default function ProfileAlerts(props) {
 		setCurrentPage(page)
 		getWatchList(page)
 			.then((res) => {
-				setAlerts(res)
+				setMaxPage(res.max_page)
+				setAlerts(res.watchlists)
 			})
 			.catch((err) => {
 				console.log(err)
@@ -132,7 +134,7 @@ export default function ProfileAlerts(props) {
 						{currentPage}
 					</div>
 					{
-						(alerts.length === 5) 
+						(currentPage < maxPage) 
 						&& 
 							<button className='alert-page-control-buttons row center' onClick={() => fetchAssets(currentPage + 1)}>
 								<div>

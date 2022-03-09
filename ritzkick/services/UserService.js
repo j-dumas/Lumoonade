@@ -87,10 +87,10 @@ export async function deleteFavorite(slug) {
 	})
 }
 
-export async function getFavorites() {
+export async function getFavorites(limit = 1000) {
 	if (!isUserConnected()) return []
 	try {
-		let response = await fetch(paths.favorites.all, {
+		let response = await fetch(paths.favorites.all + "?limit=" + limit, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ export async function getWatchList(page = 1) {
 		})
 
 		let json = await response.json()
-		return json.watchlists
+		return json
 	} catch (e) {
 		console.log(e)
 	}
