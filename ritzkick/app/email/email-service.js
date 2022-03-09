@@ -26,6 +26,7 @@ const create = async () => {
 
 	// This will change in the future.
 	const connectionUrl = `https://${process.env.URL}:${process.env.PORT}/`
+	log(SERVICE_NAME, listen)
 	client = new Client(connectionUrl, {
 		auth: {
 			rooms: ['general'],

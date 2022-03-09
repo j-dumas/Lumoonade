@@ -111,7 +111,7 @@ export default function ProfileAddAlerts(props) {
 	async function handleSubmit(event) {
 		event.preventDefault()
 		if(!props.provenance){
-			await addWatch(state.slug, state.parameter, state.target)
+			await addWatch(state.slug + "-" + props.currency, state.parameter, state.target)
 			props.onDataChange()
 		}
 		else{
