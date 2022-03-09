@@ -14,23 +14,26 @@ import { useTranslation } from 'next-i18next'
 const CURRENCY = 'usd'
 
 const Assets = () => {
+	
 	const { t } = useTranslation('assets')
 
 	const [keyword, setKeyword] = useState()
 	const [searchList, setSearchList] = useState([])
 	const [socket, setSocket] = useState()
 	const [favSocket, setFavSocket] = useState()
-	const [currentPage, setCurrentPage] = useState([1, 1]) // Page#, #Pages
+	const [pagination, setPagination] = useState([1,1]) // Page#, #Pages
 	const decrementPage = async () => {
-		if (currentPage[0] > 1) {
-			setCurrentPage(currentPage[0] - 1)
-			await searchAsset(keyword, currentPage[0] - 1)
+		const currentP = pagination[0]
+		if (currentP > 1) {
+			setPagination(currentP-1, pagination[1])
+			await searchAsset(keyword, currentP-1)
 		}
 	}
 	const incrementPage = async () => {
-		if (currentPage[0] < currentPage[1]) {
-			setCurrentPage(currentPage[0] + 1)
-			await searchAsset(keyword, currentPage[0] + 1)
+		const currentP = pagination[0]
+		if (currentP < pagination[1]) {
+			setPagination(currentP+1, pagination[1])
+			await searchAsset(keyword, currentP+1)
 		}
 	}
 
@@ -65,14 +68,15 @@ const Assets = () => {
 
 	async function searchAsset(keyword, page) {
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 8)
-		setCurrentPage([page, 6]) // TODO: LIST.MAX
+		setPagination([page, list.max_page])
 		let symbols = []
 		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
 		setSearchList(symbols)
+		console.log(favSocket)
 	}
 
 	return (
-		<section className="section column center principal first">
+		<section className="section column h-center principal first">
 			<section className="sub-section">
 				<div className="page-menu space-between row h-center">
 					<div className="row h-center detailed-menu-info">
@@ -90,6 +94,7 @@ const Assets = () => {
 			<section className="sub-section column">
 				{socket ? (
 					<>
+<<<<<<< HEAD
 						{favSocket && searchList.length == 0 ? (
 							<>
 								<div className="row start">
@@ -98,17 +103,35 @@ const Assets = () => {
 								</div>
 								<SimpleCryptoCardDashboard socket={favSocket} />
 							</>
+=======
+					{favSocket && searchList.length == 0 ? (
+					<>
+						<div className='row start'>
+							<Icons.StarFulled/>
+							<h1>{t('favorites')}</h1>
+						</div>
+						{favSocket.auth.query.length == 0 ? <></> :
+						<SimpleCryptoCardDashboard socket={favSocket} />}
+					</>
+>>>>>>> 475b8f91ca091139ddda84d39644532dd02ce2c2
 						) : null}
 						<div className="row start">
 							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
+<<<<<<< HEAD
 						<SimpleCryptoCardDashboard socket={socket} />
 						{searchList.length > 0 && currentPage[1] > 1 ? (
 							<div className="row center">
 								<button onClick={decrementPage}>{'<'}</button>
 								<p>{currentPage[0]}</p>
 								<button onClick={incrementPage}>{'>'}</button>
+=======
+						<SimpleCryptoCardDashboard socket={socket}/>
+						{searchList.length > 0 && pagination[1] > 1 ? (
+							<div className='row center'>
+								<button onClick={decrementPage}>{'<'}</button><p>{pagination[0]} / {pagination[1]}</p><button  onClick={incrementPage}>{'>'}</button>
+>>>>>>> 475b8f91ca091139ddda84d39644532dd02ce2c2
 							</div>
 						) : (
 							<></>

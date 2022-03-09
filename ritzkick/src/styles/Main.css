@@ -54,7 +54,6 @@ main {
 	height: 100vh;
 	font-family: var(--font);
 	background-color: var(--background-color);
-	overflow-x: hidden;
 }
 
 html {
@@ -72,7 +71,8 @@ header {
 }
 
 .first {
-	margin-top: 60px;
+	margin-top: 50px;
+	padding-top: 20px;
 }
 
 .second {
@@ -267,6 +267,7 @@ label {
 }
 
 .footer {
+	margin-top: 20px;
 	display: flex;
 	flex: 1;
 	padding: 2rem 0;
@@ -274,6 +275,7 @@ label {
 	justify-content: center;
 	align-items: center;
 	flex-grow: 1;
+	z-index: 5;
 }
 
 .footer .footer-title {
@@ -307,5 +309,8 @@ label {
 .main {
 	font-family: var(--font);
 	background-color: var(--background-color);
-	overflow-x: hidden;
+}
+
+.transparent {
+	background: transparent !important;
 }

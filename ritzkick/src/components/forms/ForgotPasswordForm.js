@@ -47,7 +47,7 @@ export default function ForgotPasswordForm() {
 	}
 
 	return (
-		<Container className="p-3 form">
+		<Container className="form">
 			<h1 className="form-title">Problème de connexion?</h1>
 			<h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
 			<form method="POST" onSubmit={(event) => handleSubmit(event)}>
