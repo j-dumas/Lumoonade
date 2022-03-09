@@ -15,7 +15,8 @@
 		},
 		"email": { "title": "LUMOONADE | CONFIRMATION", "description": "Page de confirmation de courriel Lumoonade" },
 		"profile": { "title": "LUMOONADE | PROFIL", "description": "Paage de profil Lumoonade" },
-		"404": { "title": "LUMOONADE | 404", "description": "Lumoonade - Page non trouvée" }
+		"404": { "title": "LUMOONADE | 404", "description": "Lumoonade - Page non trouvée" },
+		"tos": { "title": "LUMOONADE | CONDITIONS", "description": "Page de conditions d'utilisation Lumoonade" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade pour les CryptoCurrencies", "type": "website" },
 	"footer": {
@@ -39,7 +40,7 @@
 		"about": {
 			"title": "À Propos",
 			"us": "Nous",
-			"tos": "Termes d'utilisation",
+			"tos": "Conditions d'utilisation",
 			"career": "Carrière"
 		}
 	},
