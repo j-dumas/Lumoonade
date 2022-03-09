@@ -6,7 +6,7 @@ import { createSocket } from 'services/SocketService'
 import { CircularProgress } from '@mui/material'
 import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 const PAGE_LIMIT = 5
 
 export default function ProfileFavorite() {
@@ -38,11 +38,6 @@ export default function ProfileFavorite() {
 		}
 	}, [data, data.length == 0, currentPage])
 
-	// useEffect(() => {
-	// 	if(socket){
-	// 		console.log(socket)
-	// 	}
-	// }, [socket])
 
 	return !socket ? (
 		<div className="column center">

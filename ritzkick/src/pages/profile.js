@@ -12,7 +12,7 @@ import { deleteCookie, getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 
-const CURRENCY = 'USD'
+const CURRENCY = 'cad'
 
 const Profile = () => {
 	const [viewState, setViewState] = useState(true)
