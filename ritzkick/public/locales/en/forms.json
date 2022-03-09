@@ -27,11 +27,32 @@
 	},
 	"validation": {
 		"email": "Enter a valid email",
+		"unique-email": "This email is already in use",
 		"username": "Enter a valid username",
 		"password": "Enter a valid password",
 		"minimum-username": "Enter a valid username with a least 4 characters",
 		"minimum-password": "Enter a valid password with a least 8 characters",
 		"reset": "Passwords are not identical"
 	},
-	"or": "or"
+	"or": "or",
+	"modify": {
+		"title": "Profile modification",
+		"username": "Username",
+		"email": "Email",
+		"passwords": {
+			"label": "Enter your old password and your new password",
+			"error": "Please verify that the passwords match",
+			"password": "Password",
+			"new": "New password",
+			"confirmation": "Confirm new password"
+		},
+		"cancel": "Cancel",
+		"delete": {
+			"label": "Delete Account",
+			"confirmation": "Are you sure you want to delete your account ?"
+		},
+		"confirmation": "Are you sure you want to modify your profile ?",
+		"success": "Profile changed",
+		"modify": "Modify"
+	}
 }

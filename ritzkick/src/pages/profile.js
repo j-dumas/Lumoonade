@@ -15,6 +15,8 @@ import { CircularProgress } from '@mui/material'
 const CURRENCY = 'USD'
 
 const Profile = () => {
+	const { t } = useTranslation('profile')
+
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
 	const router = useRouter()
@@ -46,13 +48,13 @@ const Profile = () => {
 						className={viewState ? 'profile-nav-selected' : 'profile-nav'}
 						onClick={() => setViewState(true)}
 					>
-						Alertes
+						{t('alerts.title')}
 					</button>
 					<button
 						className={viewState ? 'profile-nav' : 'profile-nav-selected'}
 						onClick={() => setViewState(false)}
 					>
-						Favoris
+						{t('favorites.title')}
 					</button>
 				</div>
 				<hr className="line"></hr>
@@ -84,7 +86,7 @@ Profile.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'profile']))
+			...(await serverSideTranslations(locale, ['common', 'profile', 'forms']))
 		}
 	}
 }

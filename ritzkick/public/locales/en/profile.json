@@ -1,0 +1,42 @@
+{
+	"alerts": {
+		"title": "Alerts",
+		"deleted": "Alert deleted !",
+		"card": {
+			"name": "Name",
+			"current": "Current Price",
+			"target": "Target Price"
+		}
+	},
+	"favorites": {
+		"title": "Favorites",
+		"none": "No favorites"
+	},
+	"header": {
+		"months": {
+			"january": "January",
+			"february": "February",
+			"march": "March",
+			"april": "April",
+			"may": "Mai",
+			"june": "June",
+			"july": "July",
+			"august": "August",
+			"september": "September",
+			"october": "October",
+			"november": "November",
+			"december": "December"
+		},
+		"member": "Member since"
+	},
+	"pages": {
+		"previous": "Previous page",
+		"next": "Next page"
+	},
+	"sessions": {
+		"deleted": "Session(s) deleted",
+		"have": "You have currently",
+		"active": "active session(s)",
+		"delete": "Remove useless sessions"
+	}
+}

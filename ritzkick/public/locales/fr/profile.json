@@ -1,0 +1,42 @@
+{
+	"alerts": {
+		"title": "Alertes",
+		"deleted": "Alerte supprimée !",
+		"card": {
+			"name": "Nom",
+			"current": "Prix Actuel",
+			"target": "Prix Visé"
+		}
+	},
+	"favorites": {
+		"title": "Favoris",
+		"none": "Aucun favoris"
+	},
+	"header": {
+		"months": {
+			"january": "janvier",
+			"february": "février",
+			"march": "mars",
+			"april": "avril",
+			"may": "mai",
+			"june": "juin",
+			"july": "juillet",
+			"august": "août",
+			"september": "septembre",
+			"october": "octobre",
+			"november": "novembre",
+			"december": "décembre"
+		},
+		"member": "Membre depuis le"
+	},
+	"pages": {
+		"previous": "Page précédente",
+		"next": "Page suivante"
+	},
+	"sessions": {
+		"deleted": "Session(s) suprimée(s)",
+		"have": "Vous avez",
+		"active": "session(s) active(s)",
+		"delete": "Effacer les sessions inutiles"
+	}
+}

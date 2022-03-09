@@ -1,27 +1,30 @@
 import React from 'react'
 import ProfilePopup from '@/components/ProfilePopup'
 
+import { useTranslation } from 'next-i18next'
+
 const usernameTitleId = 'username'
 const memberSinceId = 'memberSince'
 
 export default function ProfileHeader(props) {
-	function getMonth(monthNumber) {
-		const month = [
-			'janvier',
-			'février',
-			'mars',
-			'avril',
-			'mai',
-			'juin',
-			'juillet',
-			'août',
-			'septembre',
-			'octobre',
-			'novembre',
-			'décembre'
-		]
+	const { t } = useTranslation('profile')
 
-		return month[monthNumber - 1]
+	function getMonth(monthNumber) {
+		const months = [
+			t('header.months.january'),
+			t('header.months.february'),
+			t('header.months.march'),
+			t('header.months.april'),
+			t('header.months.may'),
+			t('header.months.june'),
+			t('header.months.july'),
+			t('header.months.august'),
+			t('header.months.september'),
+			t('header.months.october'),
+			t('header.months.november'),
+			t('header.months.december')
+		]
+		return months[monthNumber - 1]
 	}
 
 	function parseTime(createdAt) {
@@ -31,7 +34,7 @@ export default function ProfileHeader(props) {
 			let month = dateSliced[1]
 			let day = dateSliced[2].substring(0, 2)
 
-			return 'Membre depuis le ' + parseInt(day) + ' ' + getMonth(parseInt(month)) + ' ' + year
+			return `${t('header.member')} ${parseInt(day)} ${getMonth(parseInt(month))} ${year}`
 		}
 	}
 
@@ -45,7 +48,7 @@ export default function ProfileHeader(props) {
 					provenance={false}
 				/>
 				<div className="column center">
-					<img id="profile-picture" src="/ETH.svg"></img>
+					<img id="profile-picture" src="/themoon-t.png" alt="profil avatar"></img>
 					<h1 id={usernameTitleId}>{props.user.username}</h1>
 					<div className="information">
 						<div>

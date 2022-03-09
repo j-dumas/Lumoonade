@@ -7,12 +7,16 @@ import { AccountCircle, EditRounded, Email, Lock, Visibility, VisibilityOff } fr
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'next-i18next'
+
 const newUsername = 'newUsername'
 const oldPass = 'oldPass'
 const newPass = 'newPass'
 const newPassConfirmation = 'newPassConfirmation'
 
 export default function ProfilePopup(props) {
+	const { t } = useTranslation('forms')
+
 	const [Modal, open, close, isOpen] = useModal('header', {
 		preventScroll: true,
 		closeOnOverlayClick: false
@@ -31,7 +35,7 @@ export default function ProfilePopup(props) {
 	}
 
 	function deleteAuthUser() {
-		if (confirm('Êtes-vous sur de vouloir supprimer votre compte?')) {
+		if (confirm(t('modify.delete.confirmation'))) {
 			deleteUser()
 		}
 	}
@@ -67,7 +71,7 @@ export default function ProfilePopup(props) {
 			) {
 				close()
 			} else {
-				if (confirm('Êtes-vous sur de vouloir modifier votre profile?')) {
+				if (confirm(t('modify.confirmation'))) {
 					await updateUser(
 						event,
 						props.username,
@@ -78,7 +82,7 @@ export default function ProfilePopup(props) {
 						setError
 					)
 					await props.updateUser()
-					alert('Profil modifié avec succès')
+					alert(t('modify.success'))
 				}
 			}
 		}
@@ -103,9 +107,9 @@ export default function ProfilePopup(props) {
 							handleSubmit(event)
 						}}
 					>
-						<h1>Modification de profile</h1>
+						<h1>{t('modify.title')}</h1>
 						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-username">Nom d&apos;utilisateur</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-username">{t('modify.username')}</InputLabel>
 							<OutlinedInput
 								name={newUsername}
 								id="outlined-adornment-username"
@@ -129,7 +133,7 @@ export default function ProfilePopup(props) {
 							disabled
 							variant="filled"
 						>
-							<InputLabel htmlFor="outlined-adornment-courriel">Courriel</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-courriel">{t('modify.email')}</InputLabel>
 							<OutlinedInput
 								id="outlined-adornment-courriel"
 								type="email"
@@ -143,13 +147,13 @@ export default function ProfilePopup(props) {
 							/>
 						</FormControl>
 						<hr className="form-separator"></hr>
-						<label>Entrez votre ancien mot de passe ainsi que le nouveau</label>
+						<label>{t('modify.passwords.label')}</label>
 
-						{error && (
-							<div className="wrong">Veuillez vérifier si tous les champs ci dessous concorde bien</div>
-						)}
+						{error && <div className="wrong">{t('modify.passwords.error')}</div>}
 						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-password">
+								{t('modify.passwords.password')}
+							</InputLabel>
 							<OutlinedInput
 								name={oldPass}
 								id="outlined-adornment-password"
@@ -176,7 +180,9 @@ export default function ProfilePopup(props) {
 							/>
 						</FormControl>
 						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-new-password">Nouveau mot de passe</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-new-password">
+								{t('modify.passwords.new')}
+							</InputLabel>
 							<OutlinedInput
 								name={newPass}
 								id="outlined-adornment-new-password"
@@ -204,7 +210,7 @@ export default function ProfilePopup(props) {
 						</FormControl>
 						<FormControl className="inputField" sx={{ m: 1, width: '100%' }} error={error} variant="filled">
 							<InputLabel htmlFor="outlined-adornment-new-confirmation-password">
-								Confirmation nouveau mot de passe
+								{t('modify.passwords.confirmation')}
 							</InputLabel>
 							<OutlinedInput
 								name={newPassConfirmation}
@@ -235,13 +241,13 @@ export default function ProfilePopup(props) {
 								inputProps={{ minLength: 8 }}
 							/>
 						</FormControl>
-						<input type="submit" value="Modifier" />
+						<input type="submit" value={t('modify.modify')} />
 						<button type="button" onClick={close} id="cancel-edit">
-							Annuler
+							{t('modify.cancel')}
 						</button>
 					</form>
 					<a className="link" onClick={deleteAuthUser}>
-						Supprimer mon compte
+						{t('modify.delete.label')}
 					</a>
 				</div>
 			</Modal>

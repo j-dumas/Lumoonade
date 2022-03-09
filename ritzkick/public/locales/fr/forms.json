@@ -27,11 +27,32 @@
 	},
 	"validation": {
 		"email": "Entrez un courriel valide",
+		"unique-email": "Ce courriel est déjà utilisé",
 		"username": "Entrez un nom d'utilisateur valide",
 		"password": "Entrez un mot de passe valide",
 		"minimum-username": "Entrez un nom d'utilisateur avec au minimum 4 caractères",
 		"minimum-password": "Entrez un mot de passe avec au minimum 8 caractères",
 		"reset": "Les mots de passe ne sont pas identiques"
 	},
-	"or": "ou"
+	"or": "ou",
+	"modify": {
+		"title": "Modification du profil",
+		"username": "Nom d'utilisateur",
+		"email": "Courriel",
+		"passwords": {
+			"label": "Entrez votre ancien mot de passe ainsi que le nouveau",
+			"error": "Veuillez vous assurer que les champs concordent",
+			"password": "Mot de passe",
+			"new": "Nouveau mot de passe",
+			"confirmation": "Confirmez le nouveau mot de passe"
+		},
+		"cancel": "Annuler",
+		"delete": {
+			"label": "Supprimer le compte",
+			"confirmation": "Êtes-vous sûr de vouloir supprimer votre compte ?"
+		},
+		"confirmation": "Êtes-vous sûr de vouloir modifier vos informations ?",
+		"success": "Profil modifié",
+		"modify": "Modifier"
+	}
 }
