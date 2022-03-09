@@ -72,7 +72,7 @@ header {
 
 .first {
 	margin-top: 50px;
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 .second {
@@ -316,4 +316,8 @@ label {
 
 .transparent {
 	background: transparent !important;
+}
+
+.w-100 {
+	width: 100%;
 }

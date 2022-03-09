@@ -40,7 +40,6 @@ function DetailedCryptoView(props) {
 			<div className="detailed-crypto-view column">
 				<DetailedMenu slug={slug} firstData={firstData} />
 				<div className="row space-between">
-					
 					<DetailedInformationsDashboard socket={socket} currency={props.currency} name={false} />
 					<DetailedChart socket={socket} slug={slug} />
 				</div>
