@@ -37,6 +37,7 @@ const Assets = () => {
 	}
 
 	async function prepareFavSocket() {
+		console.log('CALL')
 		if (isUserConnected()) {
 			let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
 			setFavSocket(createSocket(['general', `graph-1d-30m`], symbols, `wss://${window.location.host}`))
@@ -98,7 +99,7 @@ const Assets = () => {
 									<h1>{t('favorites')}</h1>
 								</div>
 								{ favSocket.auth.query.length == 0 ? <></> :
-								<SimpleCryptoCardDashboard socket={favSocket} small={true} />}
+								<SimpleCryptoCardDashboard refresh={prepareFavSocket} socket={favSocket} small={true} />}
 							</>
 						) : null}
 						<div className="row start">
