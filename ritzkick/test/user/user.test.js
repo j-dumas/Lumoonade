@@ -7,6 +7,8 @@ const Wallet = require('../../db/model/wallet')
 const Favorite = require('../../db/model/favorite')
 const Watchlist = require('../../db/model/watchlist')
 
+const paths = require('../../api/routes.json')
+
 // ---------------------------------------------
 //        Section for the user generation
 // ---------------------------------------------
@@ -167,14 +169,14 @@ afterAll((done) => {
 	done()
 })
 
-describe(`Get details tests cases /api/me`, () => {
+describe(`Get details tests cases ${paths.user.default}`, () => {
 	test('I should not be able to access my account "details" without being authenticated', async () => {
-		await request(server).get('/api/me').send().expect(401)
+		await request(server).get(paths.user.default).send().expect(401)
 	})
 
 	test(`I should not be able to access someone else account's details and only get my details`, async () => {
 		const res = await request(server)
-			.get('/api/me')
+			.get(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -188,18 +190,18 @@ describe(`Get details tests cases /api/me`, () => {
 	})
 })
 
-describe(`Get details tests cases /api/me/profile`, () => {
+describe(`Get details tests cases ${paths.user.summary}`, () => {
 	test('I should not be able to access my profile without being authenticated', async () => {
-		await request(server).get('/api/me/profile').send().expect(401)
+		await request(server).get(paths.user.summary).send().expect(401)
 	})
 
 	test('I should not be able to access my profile without being authenticated', async () => {
-		await request(server).get('/api/me/profile').send().expect(401)
+		await request(server).get(paths.user.summary).send().expect(401)
 	})
 
 	test(`I should not be able to access someone else account's details and only get my details`, async () => {
 		const res = await request(server)
-			.get('/api/me/profile')
+			.get(paths.user.summary)
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -213,16 +215,16 @@ describe(`Get details tests cases /api/me/profile`, () => {
 	})
 })
 
-describe(`Delete tests cases /api/me/delete`, () => {
+describe(`Delete tests cases ${paths.user.default}`, () => {
 	test('I should not be able to delete my account without being authenticated', async () => {
-		await request(server).delete('/api/me/delete').send().expect(401)
+		await request(server).delete(paths.user.default).send().expect(401)
 	})
 
 	test(`I should be able to delete my account`, async () => {
 		let currentAccounts = await User.find({})
 		expect(currentAccounts.length).toBe(2)
 		await request(server)
-			.delete('/api/me/delete')
+			.delete(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -234,14 +236,14 @@ describe(`Delete tests cases /api/me/delete`, () => {
 	})
 })
 
-describe(`Wallets tests cases /api/me/wallets`, () => {
+describe(`Wallets tests cases ${paths.wallets.all}`, () => {
 	test('I should not be able to access my wallets without being authenticated', async () => {
-		await request(server).get('/api/me/wallets').send().expect(401)
+		await request(server).get(paths.wallets.all).send().expect(401)
 	})
 
 	test(`I should not be able to access someone else account's wallet details and only get my wallet details`, async () => {
 		const res = await request(server)
-			.get('/api/me/wallets')
+			.get(paths.wallets.all)
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -254,14 +256,14 @@ describe(`Wallets tests cases /api/me/wallets`, () => {
 	})
 })
 
-describe(`Favorites tests cases /api/me/favorites`, () => {
+describe(`Favorites tests cases ${paths.favorites.all}`, () => {
 	test('I should not be able to access my favorites without being authenticated', async () => {
-		await request(server).get('/api/me/favorites').send().expect(401)
+		await request(server).get(paths.favorites.all).send().expect(401)
 	})
 
 	test(`I should not be able to access someone else account's favorite details and only get my favorite details`, async () => {
 		const res = await request(server)
-			.get('/api/me/favorites')
+			.get(paths.favorites.all)
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -274,14 +276,14 @@ describe(`Favorites tests cases /api/me/favorites`, () => {
 	})
 })
 
-describe(`Watchlists tests cases /api/me/watchlists`, () => {
+describe(`Watchlists tests cases ${paths.alerts.all}`, () => {
 	test('I should not be able to access my watchlists without being authenticated', async () => {
-		await request(server).get('/api/me/watchlists').send().expect(401)
+		await request(server).get(paths.alerts.all).send().expect(401)
 	})
 
 	test(`I should not be able to access someone else account's watchlist details and only get my watchlist details`, async () => {
 		const res = await request(server)
-			.get('/api/me/watchlists')
+			.get(paths.alerts.all)
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -294,14 +296,14 @@ describe(`Watchlists tests cases /api/me/watchlists`, () => {
 	})
 })
 
-describe(`Session purge tests cases /api/me/sessions/purge`, () => {
+describe(`Session purge tests cases ${paths.user['purge-sessions']}`, () => {
 	test('I should not be able to purge all my active sessions without being authenticated', async () => {
-		await request(server).patch('/api/me/sessions/purge').send().expect(401)
+		await request(server).patch(paths.user['purge-sessions']).send().expect(401)
 	})
 
 	test(`I want to purge all the active session except mine, should get 0 purged because I only logged once.`, async () => {
 		const res = await request(server)
-			.patch('/api/me/sessions/purge')
+			.patch(paths.user['purge-sessions'])
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -312,7 +314,7 @@ describe(`Session purge tests cases /api/me/sessions/purge`, () => {
 
 	test(`I want to purge all the active session except mine, should get 0 purged because I only logged once.`, async () => {
 		const res = await request(server)
-			.patch('/api/me/sessions/purge')
+			.patch(paths.user['purge-sessions'])
 			.set({ Authorization: `Bearer ${tokenForUserOne}` })
 			.send()
 			.expect(200)
@@ -324,7 +326,7 @@ describe(`Session purge tests cases /api/me/sessions/purge`, () => {
 
 	// test(`I want to purge all the active session except mine, should get 1 purged because I logged twice.`, async () => {
 	// 	const res = await request(server)
-	// 		.patch('/api/me/sessions/purge')
+	// 		.patch(paths.user['purge-sessions'])
 	// 		.set({ Authorization: `Bearer ${tokenForUserTwo}` })
 	// 		.send()
 	// 		.expect(200)
@@ -335,15 +337,15 @@ describe(`Session purge tests cases /api/me/sessions/purge`, () => {
 	// })
 })
 
-describe(`Update tests cases /api/me/update`, () => {
+describe(`Update tests cases ${paths.user.default}`, () => {
 	test('I should not be able to modify my account without being authenticated', async () => {
-		await request(server).patch('/api/me/update').send().expect(401)
+		await request(server).patch(paths.user.default).send().expect(401)
 	})
 
 	test(`I want to modify my password when I'm authenticated`, async () => {
 		const CURRENT_PASSWORD = testUserTwo.password
 		await request(server)
-			.patch('/api/me/update')
+			.patch(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 			.send(
 				JSON.stringify({
@@ -360,7 +362,7 @@ describe(`Update tests cases /api/me/update`, () => {
 	test(`I cannot set an empty password as the new one`, async () => {
 		const CURRENT_PASSWORD = testUserTwo.password
 		await request(server)
-			.patch('/api/me/update')
+			.patch(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 			.send(JSON.stringify({ oldPassword: CURRENT_PASSWORD, newPassword: '' }))
 			.expect(409)
@@ -369,7 +371,7 @@ describe(`Update tests cases /api/me/update`, () => {
 	test(`I cannot set an empty password (with alot of spaces) as the new one`, async () => {
 		const CURRENT_PASSWORD = testUserTwo.password
 		await request(server)
-			.patch('/api/me/update')
+			.patch(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 			.send(JSON.stringify({ oldPassword: CURRENT_PASSWORD, newPassword: '      ' }))
 			.expect(400)
@@ -378,7 +380,7 @@ describe(`Update tests cases /api/me/update`, () => {
 	test(`I cannot implicitly set a new password without providing the oldPassword and the newPassword`, async () => {
 		const CURRENT_PASSWORD = testUserTwo.password
 		await request(server)
-			.patch('/api/me/update')
+			.patch(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 			.send(JSON.stringify({ password: CURRENT_PASSWORD }))
 			.expect(409)
@@ -387,7 +389,7 @@ describe(`Update tests cases /api/me/update`, () => {
 	test(`I want to modify my username when I'm authenticated`, async () => {
 		const CURRENT_USERNAME = testUserTwo.username
 		await request(server)
-			.patch('/api/me/update')
+			.patch(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 			.send(JSON.stringify({ username: 'jonny' }))
 			.expect(200)
@@ -400,7 +402,7 @@ describe(`Update tests cases /api/me/update`, () => {
 		const CURRENT_USERNAME = testUserTwo.username
 		const CURRENT_PASSWORD = testUserTwo.password
 		await request(server)
-			.patch('/api/me/update')
+			.patch(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 			.send(
 				JSON.stringify({
@@ -419,7 +421,7 @@ describe(`Update tests cases /api/me/update`, () => {
 	test(`I want to modify my email when I'm authenticated`, async () => {
 		const CURRENT_EMAIL = testUserTwo.email
 		await request(server)
-			.patch('/api/me/update')
+			.patch(paths.user.default)
 			.set({ Authorization: `Bearer ${tokenForUserTwo}`, 'Content-Type': 'application/json' })
 			.send(JSON.stringify({ email: 'someemail@mail.com' }))
 			.expect(409)

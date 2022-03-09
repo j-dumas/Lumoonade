@@ -5,7 +5,7 @@ import ProfileAlertsComponent from '@/components/ProfileAlertsComponent'
 import { Snackbar, Alert } from '@mui/material'
 import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import { createSocket } from '../../services/SocketService'
-import {SlugToSymbol, AreSlugsEqual} from '../../utils/crypto'
+import { SlugToSymbol, AreSlugsEqual } from '../../utils/crypto'
 import format from '../../utils/formatter'
 import { CircularProgress } from '@mui/material'
 
@@ -36,7 +36,9 @@ export default function ProfileAlerts(props) {
 			})
 	}
 
-	useEffect(() => {fetchAssets()}, [])
+	useEffect(() => {
+		fetchAssets()
+	}, [])
 
 	useEffect(() => {
 		if (!alerts) return
@@ -49,7 +51,9 @@ export default function ProfileAlerts(props) {
 
 	useEffect(() => {
 		if (!socket) return
-		socket.on('data', (slugs) => {setData(slugs)})
+		socket.on('data', (slugs) => {
+			setData(slugs)
+		})
 		if (socket) return () => socket.disconnect()
 	}, [socket])
 

@@ -11,6 +11,8 @@ const rateLimit = require('express-rate-limit')
 const https = require('https')
 const { sendError, BadRequestHttpError, ConflictHttpError, ServerError } = require('../../utils/http_errors')
 
+const paths = require('../routes.json')
+
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
@@ -49,7 +51,7 @@ const creationLimiter = rateLimit({
  * 	"message": "Please provide a valid email format | Please provide an email in the body | You can't confirm twice the email"
  * }
  */
-router.post('/api/confirmations', creationLimiter, async (req, res) => {
+router.post(paths.confirmation.default, creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!email) {
@@ -71,7 +73,7 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
 		let token = await confirmation.makeConfirmationToken(req.host.toString().split(':')[0])
 		let link = `https://${process.env.URL}:${process.env.PORT}/email-confirmation?key=${token}`
 		let response = await axios({
-			url: `https://${process.env.URL}:${process.env.PORT}/api/redirects`,
+			url: `https://${process.env.URL}:${process.env.PORT}${paths.shortcut.default}`,
 			method: 'POST',
 			httpsAgent: new https.Agent({ rejectUnauthorized: false }),
 			headers: {
@@ -98,7 +100,7 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
  */
 
 /**
- * GET /api/confirmations/{token}
+ * GET /api/confirmation/verify/{token}
  * @summary Verifies if the token is valid.
  * @tags Confirmation
  * @return 200 - valid
@@ -108,7 +110,7 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
  * 	"message": "Token may be outdated | Token is corrupted"
  * }
  */
-router.get('/api/confirmation/verify/:jwt', creationLimiter, async (req, res) => {
+router.get(`${paths.confirmation.verify}:jwt`, creationLimiter, async (req, res) => {
 	try {
 		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 		const token = req.params.jwt

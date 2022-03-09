@@ -25,8 +25,7 @@ const Profile = () => {
 		setUser(data)
 	}
 
-	async function getCurrentUser(){
-		console.log()
+	async function updateUser() {
 		getUser().then((res) => setUser(res))
 	}
 
@@ -40,7 +39,7 @@ const Profile = () => {
 
 	return (
 		<>
-			<div className="column first transparent">
+			<div className="column principal first layer4">
 				<div className="center">{user !== undefined && <ProfileHeader user={user} updateUser={getCurrentUser} />}</div>
 				<div>
 					<div className="row center">
@@ -59,11 +58,13 @@ const Profile = () => {
 					</div>
 					<hr className="line"></hr>
 				</div>
-				<div className="column center">{viewState ? <ProfileAlerts currency={CURRENCY}/> : <ProfileFavorite />}</div>
 				<hr className="line"></hr>
-				<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
 			</div>
-			<div className="spacer layer4"></div>
+			<div className="column center">
+				{viewState ? <ProfileAlerts currency={CURRENCY} /> : <ProfileFavorite />}
+			</div>
+			<hr className="line"></hr>
+			<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
 		</>
 	)
 }

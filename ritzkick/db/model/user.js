@@ -11,6 +11,7 @@ const Confirmation = require('./confirmation')
 
 const fs = require('fs')
 const { NotFoundHttpError, BadRequestHttpError } = require('../../utils/http_errors')
+const Permission = require('./permission')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -79,6 +80,10 @@ const userSchema = new mongoose.Schema(
 			}
 		],
 		validatedEmail: {
+			type: Boolean,
+			default: false
+		},
+		google: {
 			type: Boolean,
 			default: false
 		}
@@ -240,6 +245,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.pre('remove', async function (next) {
 	const user = this
+	await Permission.deleteMany({ user: user._id })
 	await Favorite.deleteMany({ owner: user._id })
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })

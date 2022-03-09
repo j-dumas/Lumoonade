@@ -54,7 +54,6 @@ main {
 	height: 100vh;
 	font-family: var(--font);
 	background-color: var(--background-color);
-	overflow-x: hidden;
 }
 
 html {
@@ -72,7 +71,8 @@ header {
 }
 
 .first {
-	margin-top: 60px;
+	margin-top: 50px;
+	padding-top: 10px;
 }
 
 .second {
@@ -110,8 +110,6 @@ p {
 	font-weight: bold;
 	text-align: left;
 }
-
-
 
 .title,
 .subtitle,
@@ -201,10 +199,6 @@ button:hover {
 	font-size: 14px;
 }
 
-.max-width {
-	max-width: 360px;
-}
-
 .increase {
 	color: var(--good-color) !important;
 }
@@ -269,6 +263,7 @@ label {
 }
 
 .footer {
+	margin-top: 20px;
 	display: flex;
 	flex: 1;
 	padding: 2rem 0;
@@ -276,8 +271,8 @@ label {
 	justify-content: center;
 	align-items: center;
 	flex-grow: 1;
+	z-index: 5;
 }
-
 
 .footer .footer-title {
 	text-transform: uppercase;
@@ -293,7 +288,7 @@ label {
 
 .footer a {
 	text-decoration: underline;
-	transition: .1s;
+	transition: 0.1s;
 }
 .footer a:hover {
 	color: var(--font-color-2);
@@ -310,9 +305,19 @@ label {
 .main {
 	font-family: var(--font);
 	background-color: var(--background-color);
-	overflow-x: hidden;
 }
 
 .transparent {
 	background: transparent !important;
+}
+
+.w-100 {
+	width: 100% !important;
+}
+.w-45 {
+	width: 49% !important;
+}
+
+.gap-5 {
+	gap: 5px !important;
 }

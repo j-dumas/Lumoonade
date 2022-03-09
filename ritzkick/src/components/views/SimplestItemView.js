@@ -11,16 +11,16 @@ function SimplestItemView(props) {
 
 	return (
 		<>
-			<div className="dynamic-list-item space-between row h-center">
+			<div className="dynamic-list-item compare-item space-between row h-center">
 				{!props.data.fromCurrency ? (
 					<div className="c-font-2">Loading...</div>
 				) : (
 					<>
-						<div className="row h-center" style={{ gap: 5 }}>
+						<div className="row h-center" style={{ gap: '5px' }}>
 							<div className="circle" style={{ backgroundColor: color }}></div>
 							<p style={{ fontWeight: 'bold' }}>{props.data.fromCurrency}</p>
 						</div>
-						<p>{format(props.data.regularMarketPrice)}</p>
+						<p>${format(props.data.regularMarketPrice)}</p>
 						<div
 							className={
 								props.data.regularMarketChangePercent >= 0
@@ -30,7 +30,7 @@ function SimplestItemView(props) {
 						>
 							<p>
 								{format(props.data.regularMarketChange)}$ &nbsp;{' '}
-								{format(props.data.regularMarketChangePercent)} %
+								{format(props.data.regularMarketChangePercent)}%
 							</p>
 						</div>
 						<div className="c-font-2" onClick={handleClick}>

@@ -15,7 +15,6 @@ const graph = require('app/socket/utils/graph')
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
-	
 	const [chartReference] = useState(React.createRef())
 	const [data] = useState(Functions.GetDummyChartData(props.slug))
 

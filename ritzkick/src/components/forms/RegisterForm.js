@@ -33,7 +33,7 @@ const RegisterForm = () => {
 	}
 
 	return (
-		<Container className="p-3 form">
+		<Container className="form">
 			<h1 className="form-title">{t('register.title')}</h1>
 			<form onSubmit={handleSubmit}>
 				{!!error && (

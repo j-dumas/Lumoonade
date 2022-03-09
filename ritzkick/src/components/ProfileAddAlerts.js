@@ -68,7 +68,7 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	useEffect(async () => {
-		if(props.provenance){
+		if (props.provenance) {
 			let tempValue = props.slug.split('-')
 			setSlug(tempValue[0])
 		}
@@ -153,7 +153,12 @@ export default function ProfileAddAlerts(props) {
 						n&apos;est pas respectée
 					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
-						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled" disabled={props.provenance}>
+						<FormControl
+							sx={{ m: 1, width: '25%', minWidth: '50px' }}
+							className="inputField"
+							variant="filled"
+							disabled={props.provenance}
+						>
 							<InputLabel>Crypto</InputLabel>
 							<Select name="slug" defaultValue={props.provenance ? slug : ""} onChange={handleChange} MenuProps={MenuProps} required>
 								{parseData().map((crypt) => (

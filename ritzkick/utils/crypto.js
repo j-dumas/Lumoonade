@@ -16,7 +16,7 @@ export function SymbolToSlug(symbol) {
 }
 
 export function SlugToSymbol(slug, currency) {
-	const symbol = SymbolToSlug(slug.toString())+'-'+currency
+	const symbol = SymbolToSlug(slug.toString()) + '-' + currency
 	return symbol
 }
 

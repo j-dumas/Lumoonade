@@ -15,7 +15,14 @@
 
 .detailed-chart {
 	/*width: 74%;*/
-	width: 74%;
+	width: 100%;
+}
+
+@media only screen and (min-width: 1400px) {
+	.detailed-chart {
+		/*width: 74%;*/
+		width: 74%;
+	}
 }
 
 .detailed-chart-chart {

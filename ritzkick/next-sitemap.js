@@ -9,7 +9,8 @@ module.exports = {
 				disallow: '/api/docs',
 				disallow: '/forgotPassword',
 				disallow: '/email-confirmation',
-				disallow: '/reset-password'
+				disallow: '/reset-password',
+				disallow: '/404'
 			}
 		]
 	},

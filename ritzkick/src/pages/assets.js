@@ -20,19 +20,19 @@ const Assets = () => {
 	const [searchList, setSearchList] = useState([])
 	const [socket, setSocket] = useState()
 	const [favSocket, setFavSocket] = useState()
-	const [pagination, setPagination] = useState([1,1]) // Page#, #Pages
+	const [pagination, setPagination] = useState([1, 1]) // Page#, #Pages
 	const decrementPage = async () => {
 		const currentP = pagination[0]
 		if (currentP > 1) {
-			setPagination(currentP-1, pagination[1])
-			await searchAsset(keyword, currentP-1)
+			setPagination(currentP - 1, pagination[1])
+			await searchAsset(keyword, currentP - 1)
 		}
 	}
 	const incrementPage = async () => {
 		const currentP = pagination[0]
 		if (currentP < pagination[1]) {
-			setPagination(currentP+1, pagination[1])
-			await searchAsset(keyword, currentP+1)
+			setPagination(currentP + 1, pagination[1])
+			await searchAsset(keyword, currentP + 1)
 		}
 	}
 
@@ -58,20 +58,20 @@ const Assets = () => {
 
 	async function updateSearchList(event) {
 		event.preventDefault()
-		
+
 		const search = event.target[0].value
 		setKeyword(search)
-		if ((!search || search == undefined || search == '')) return
+		if (!search || search == undefined || search == '') return
 		await searchAsset(search, 1)
 	}
 
-	async function searchAsset(keyword, page) 
-	{
+	async function searchAsset(keyword, page) {
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 8)
 		setPagination([page, list.max_page])
 		let symbols = []
 		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
 		setSearchList(symbols)
+		console.log(favSocket)
 	}
 
 	return (
@@ -81,13 +81,12 @@ const Assets = () => {
 					<div className="row h-center detailed-menu-info">
 						<h1 className="detailed-menu-title">{t('markets')}</h1>
 					</div>
-					<form className='row' action="" onSubmit={updateSearchList}>
+					<form className="row" action="" onSubmit={updateSearchList}>
 						<input type="search" />
 						<button type="submit" value="Submit">
-							<Icons.Search/>
+							<Icons.Search />
 						</button>
 					</form>
-
 				</div>
 			</section>
 
@@ -95,24 +94,34 @@ const Assets = () => {
 				{socket ? (
 					<>
 						{favSocket && searchList.length == 0 ? (
-					<>
-						<div className='row start'>
-							<Icons.StarFulled/>
-							<h1>{t('favorites')}</h1>
-						</div>
-						<SimpleCryptoCardDashboard socket={favSocket} />
-					</>
+							<>
+								<div className="row start">
+									<Icons.StarFulled />
+									<h1>{t('favorites')}</h1>
+								</div>
+								{favSocket.auth.query.length == 0 ? (
+									<></>
+								) : (
+									<SimpleCryptoCardDashboard socket={favSocket} />
+								)}
+							</>
 						) : null}
-						<div className='row start'>
-							<Icons.List/>
+						<div className="row start">
+							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
-						<SimpleCryptoCardDashboard socket={socket}/>
+						<SimpleCryptoCardDashboard socket={socket} />
 						{searchList.length > 0 && pagination[1] > 1 ? (
-							<div className='row center'>
-								<button onClick={decrementPage}>{'<'}</button><p>{pagination[0]} / {pagination[1]}</p><button  onClick={incrementPage}>{'>'}</button>
+							<div className="row center">
+								<button onClick={decrementPage}>{'<'}</button>
+								<p>
+									{pagination[0]} / {pagination[1]}
+								</p>
+								<button onClick={incrementPage}>{'>'}</button>
 							</div>
-						): <></>}
+						) : (
+							<></>
+						)}
 					</>
 				) : null}
 			</section>

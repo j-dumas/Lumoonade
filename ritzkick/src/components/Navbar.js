@@ -23,7 +23,7 @@ function Navbar(props) {
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout(setConnection()).then(() => router.push("/"))
+		await logout(setConnection()).then(() => router.push('/'))
 	}
 
 	useEffect(() => {
@@ -31,7 +31,7 @@ function Navbar(props) {
 	}, [])
 
 	useEffect(() => {
-		if(login === "true"){
+		if (login === 'true') {
 			setConnection(true)
 		}
 	}, [login])
@@ -84,7 +84,7 @@ function Navbar(props) {
 					<ul className={props.mobile ? 'nav-menu-mobile' : 'nav-menu'}>
 						{isConnected ? (
 							<>
-								<li className={router.pathname == '/wallet' ? 'nav-item active-link' : 'nav-item'}>
+								<li className={router.pathname == '/me/wallet' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.Wallet />
 									<Link href="/wallet">
 										<a className="nav-links" onClick={closeMobileMenu}>
