@@ -51,7 +51,7 @@ function CompareMenu(props) {
 		let search = event.target[0].value
 		if (!search) search = '0'
 		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 1, 8)
-		
+
 		setSearchList(list.assets)
 	}
 
@@ -87,8 +87,9 @@ function CompareMenu(props) {
 		changeURI()
 	}
 
-	return (
-		!searchList? <></> :
+	return !searchList ? (
+		<></>
+	) : (
 		<div className="column detailed-informations detailed-div max-width">
 			<div className="detailed-div-menu row space-between">
 				<label className="detailed-div-title">{t('menu.comparing')}</label>
@@ -104,10 +105,10 @@ function CompareMenu(props) {
 			</div>
 			<div className="row space-between detailed-div-item">
 				<p className="detailed-div-item-label">{t('menu.with')}</p>
-				<form className='row' action="" onSubmit={updateSearchList}>
+				<form className="row" action="" onSubmit={updateSearchList}>
 					<input type="search" />
 					<button type="submit" value="Submit">
-						<Icons.Search/>
+						<Icons.Search />
 					</button>
 				</form>
 			</div>
@@ -149,14 +150,7 @@ function CompareMenu(props) {
 							data = crypto
 						}
 					})
-					return (
-						<SimplestItemView
-							command={removeFromCompareList}
-							slug={element}
-							data={data}
-							key={element}
-						/>
-					)
+					return <SimplestItemView command={removeFromCompareList} slug={element} data={data} key={element} />
 				})}
 			</div>
 		</div>

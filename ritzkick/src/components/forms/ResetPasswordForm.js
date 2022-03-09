@@ -30,12 +30,11 @@ export default function ResetPasswordForm() {
 	async function handleSubmit(event) {
 		event.preventDefault()
 		if (state.password === state.passwordConfirmation) {
-				resetPassword(key, state.password, state.passwordConfirmation)
-				.then((status) => {
-					if(status === 200){
-						router.push("/login")
-					}
-				})
+			resetPassword(key, state.password, state.passwordConfirmation).then((status) => {
+				if (status === 200) {
+					router.push('/login')
+				}
+			})
 		} else {
 			setError(true)
 		}

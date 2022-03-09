@@ -17,7 +17,7 @@ const Login = () => {
 	useEffect(() => {
 		const token = getCookie('token')
 		if (token !== undefined) {
-			router.push("/")
+			router.push('/')
 		}
 	}, [])
 

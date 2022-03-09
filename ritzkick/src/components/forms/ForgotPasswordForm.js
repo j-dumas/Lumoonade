@@ -14,15 +14,14 @@ export default function ForgotPasswordForm() {
 
 	async function handleSubmit(event) {
 		event.preventDefault()
-		sendForgotPassword(email)
-		.then((status) => {
-			if(status === 201){
+		sendForgotPassword(email).then((status) => {
+			if (status === 201) {
 				setOpen(true)
 			}
 		})
 	}
 
-	function handleResend(event){
+	function handleResend(event) {
 		handleSubmit(event)
 		setConfirmation(true)
 	}
@@ -70,13 +69,25 @@ export default function ForgotPasswordForm() {
 			<Link href="/login">
 				<a className="link">Revenir à l&apos;écran de connexion</a>
 			</Link>
-			<Snackbar sx={{ m: 6 }} open={open} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+			<Snackbar
+				sx={{ m: 6 }}
+				open={open}
+				onClose={handleClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+			>
 				<Alert onClose={handleClose} severity="success">
 					{'Un email de confirmation a été envoyé à ' + email}
-					<button id='resend-email-button' onClick={handleResend}>Re-send email</button>
+					<button id="resend-email-button" onClick={handleResend}>
+						Re-send email
+					</button>
 				</Alert>
 			</Snackbar>
-			<Snackbar sx={{ m: 6, marginTop: 14 }} open={confirmation} onClose={handleConfirmationClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+			<Snackbar
+				sx={{ m: 6, marginTop: 14 }}
+				open={confirmation}
+				onClose={handleConfirmationClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+			>
 				<Alert onClose={handleConfirmationClose} severity="success">
 					{'Un email de confirmation a été renvoyé à ' + email}
 				</Alert>

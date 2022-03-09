@@ -5,7 +5,7 @@ import ProfileAlertsComponent from '@/components/ProfileAlertsComponent'
 import { Snackbar, Alert } from '@mui/material'
 import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import { createSocket } from '../../services/SocketService'
-import {SlugToSymbol, AreSlugsEqual} from '../../utils/crypto'
+import { SlugToSymbol, AreSlugsEqual } from '../../utils/crypto'
 import format from '../../utils/formatter'
 
 export default function ProfileAlerts(props) {
@@ -35,7 +35,9 @@ export default function ProfileAlerts(props) {
 			})
 	}
 
-	useEffect(() => {fetchAssets()}, [])
+	useEffect(() => {
+		fetchAssets()
+	}, [])
 
 	useEffect(() => {
 		if (!alerts) return
@@ -48,7 +50,9 @@ export default function ProfileAlerts(props) {
 
 	useEffect(() => {
 		if (!socket) return
-		socket.on('data', (slugs) => {setData(slugs)})
+		socket.on('data', (slugs) => {
+			setData(slugs)
+		})
 		if (socket) return () => socket.disconnect()
 	}, [socket])
 
@@ -69,64 +73,57 @@ export default function ProfileAlerts(props) {
 					</Alert>
 				</Snackbar>
 			</div>
-			{
-				(alerts !== undefined) 
-					&&
-					<div>
-						<ul>
-							<li>
-								<div className='row alert-card alert-title-card'>
-									<div>
-										Name
-									</div>
-									<div>
-										Current Price
-									</div>
-									<div>
-										Target Price
-									</div>
-								</div>
-							</li>
-							{
-								alerts.map((alert) => {
-									let price = 0
-									data.forEach((asset) => {
-										if (AreSlugsEqual(alert.slug, asset.fromCurrency)) price = asset.regularMarketPrice
-									})
-
-									return <li key={alert._id}>
-										<ProfileAlertsComponent price={format(price)} onDelete={deletedAlert} onDataChange={fetchAssets} alert={alert} />
-									</li>
-								})
-							}
-						</ul>
-						<div className='row center'>
-							{
-								(currentPage > 1) 
-								&&
-									<button className='alert-page-control-buttons row center' onClick={() => fetchAssets(currentPage - 1)}>
-										<ArrowLeft />
-										<div>
-											Previous Page
-										</div>
-									</button>
-							}
-							<div>
-								{currentPage}
+			{alerts !== undefined && (
+				<div>
+					<ul>
+						<li>
+							<div className="row alert-card alert-title-card">
+								<div>Name</div>
+								<div>Current Price</div>
+								<div>Target Price</div>
 							</div>
-							{
-								(data.length === 5) 
-								&& 
-									<button className='alert-page-control-buttons row center' onClick={() => fetchAssets(currentPage + 1)}>
-										<div>
-											Next Page 
-										</div>
-										<ArrowRight />
-									</button>
-							}
-						</div>
+						</li>
+						{alerts.map((alert) => {
+							let price = 0
+							data.forEach((asset) => {
+								if (AreSlugsEqual(alert.slug, asset.fromCurrency)) price = asset.regularMarketPrice
+							})
+
+							return (
+								<li key={alert._id}>
+									<ProfileAlertsComponent
+										price={format(price)}
+										onDelete={deletedAlert}
+										onDataChange={fetchAssets}
+										alert={alert}
+									/>
+								</li>
+							)
+						})}
+					</ul>
+					<div className="row center">
+						{currentPage > 1 && (
+							<button
+								className="alert-page-control-buttons row center"
+								onClick={() => fetchAssets(currentPage - 1)}
+							>
+								<ArrowLeft />
+								<div>Previous Page</div>
+							</button>
+						)}
+						<div>{currentPage}</div>
+						{data.length === 5 && (
+							<button
+								className="alert-page-control-buttons row center"
+								onClick={() => fetchAssets(currentPage + 1)}
+							>
+								<div>Next Page</div>
+								<ArrowRight />
+							</button>
+						)}
 					</div>
-			}
+				</div>
+			)}
 		</div>
 	)
 }

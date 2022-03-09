@@ -111,8 +111,6 @@ p {
 	text-align: left;
 }
 
-
-
 .title,
 .subtitle,
 .subtitle-small {
@@ -278,7 +276,6 @@ label {
 	flex-grow: 1;
 }
 
-
 .footer .footer-title {
 	text-transform: uppercase;
 	letter-spacing: 6px;
@@ -293,7 +290,7 @@ label {
 
 .footer a {
 	text-decoration: underline;
-	transition: .1s;
+	transition: 0.1s;
 }
 .footer a:hover {
 	color: var(--font-color-2);
