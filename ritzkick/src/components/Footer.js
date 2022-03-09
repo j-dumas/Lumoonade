@@ -29,33 +29,33 @@ function Footer() {
 					<Image src={'/themoon-t.png'} width={125} height={125} alt={t('footer.image-alt')} layout="fixed" />
 				</div>
 				<div className="column start footer-div">
-					<p className="footer-title">Navigation</p>
-					<a href="">Home</a>
-					<a href="">Cryptos</a>
-					<a href="">Compare</a>
+					<p className="footer-title">{t('footer.navigation.title')}</p>
+					<a href="">{t('footer.navigation.home')}</a>
+					<a href="">{t('footer.navigation.assets')}</a>
+					<a href="">{t('footer.navigation.compare')}</a>
 				</div>
 				<div className="column start footer-div">
-					<p className="footer-title">Account</p>
+					<p className="footer-title">{t('footer.account.title')}</p>
 					{userConnected ? (
 						<>
-							<a href="/me/dashboard">Dashboard</a>
-							<a href="/me/portfolio">Portfolio</a>
-							<a href="/me/profile">Profile</a>
-							<a href="/me/profile">Favorites</a>
-							<a href="/me/profile">Alerts</a>
+							<a href="/me/dashboard">{t('footer.account.dashboard')}</a>
+							<a href="/me/portfolio">{t('footer.account.portfolio')}</a>
+							<a href="/me/profile">{t('footer.account.profile')}</a>
+							<a href="/me/profile">{t('footer.account.favorites')}</a>
+							<a href="/me/profile">{t('footer.account.alerts')}</a>
 						</>
 					) : (
 						<>
-							<a href="/login">Login</a>
-							<a href="/register">Register</a>
+							<a href="/login">{t('footer.account.login')}</a>
+							<a href="/register">{t('footer.account.register')}</a>
 						</>
 					)}
 				</div>
 				<div className="column start footer-div">
-					<p className="footer-title">About</p>
-					<a href="/about">About us</a>
-					<a href="/tos">Terms of services</a>
-					<a href="/career">Career</a>
+					<p className="footer-title">{t('footer.about.title')}</p>
+					<a href="/about">{t('footer.about.us')}</a>
+					<a href="/tos">{t('footer.about.tos')}</a>
+					<a href="/career">{t('footer.about.career')}</a>
 				</div>
 			</div>
 		</footer>

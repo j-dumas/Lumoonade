@@ -5,11 +5,14 @@ import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
 import { createSocket } from '../../../services/SocketService'
+import { useTranslation } from 'next-i18next'
 import { isUserConnected } from 'services/AuthService'
 
 const io = require('socket.io-client')
 
 const CompareView = (props) => {
+	const { t } = useTranslation('compare')
+
 	const router = useRouter()
 	const [slug] = useState('Dummy' + '-' + props.currency)
 	const [firstData, setFirstData] = useState()
@@ -51,7 +54,7 @@ const CompareView = (props) => {
 		<div className="detailed-crypto-view column">
 			<div className="page-menu space-between row h-center">
 				<div className="row h-center detailed-menu-info">
-					<h1 className="detailed-menu-title">Compare</h1>
+					<h1 className="detailed-menu-title">{t('title')}</h1>
 				</div>
 			</div>
 			<div className="column">
@@ -67,18 +70,22 @@ const CompareView = (props) => {
 							<p className="detailed-div-title">Alertes</p>
 							<p className="detailed-div-title"></p>
 						</div>
-						<div className='column center'>
-							{userConnected ?
+						<div className="column center">
+							{userConnected ? (
 								<p>Cette fonctionnalité n'a pas encore été implémentée.</p>
-							:
-							<>
-								<p>Vous devez vous connecter pour accéder cette fonctionnalité.</p>
-								<div className='row space-between'>
-									<a href='/login' className='button'>Connexion</a>
-									<a href='/register' className='button'>Inscription</a>
-								</div>
-							</>
-							}
+							) : (
+								<>
+									<p>Vous devez vous connecter pour accéder cette fonctionnalité.</p>
+									<div className="row space-between">
+										<a href="/login" className="button">
+											Connexion
+										</a>
+										<a href="/register" className="button">
+											Inscription
+										</a>
+									</div>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
