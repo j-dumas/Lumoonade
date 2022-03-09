@@ -9,8 +9,15 @@ import Functions, {
 import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
-import DetailedMenu from '@/components/menus/DetailedMenu'
 import {createSocket} from '../../../services/SocketService'
+
+import dynamic from 'next/dynamic'
+const DetailedMenu = dynamic(
+	() => {
+		return import('../../components/menus/DetailedMenu')
+	},
+	{ ssr: false }
+)
 
 const io = require('socket.io-client')
 
