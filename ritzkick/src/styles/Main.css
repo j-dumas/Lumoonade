@@ -72,7 +72,7 @@ header {
 
 .first {
 	margin-top: 50px;
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 .second {
@@ -199,9 +199,7 @@ button:hover {
 	font-size: 14px;
 }
 
-.max-width {
-	max-width: 360px;
-}
+
 
 .increase {
 	color: var(--good-color) !important;
@@ -313,4 +311,15 @@ label {
 
 .transparent {
 	background: transparent !important;
+}
+
+.w-100 {
+	width: 100% !important;
+}
+.w-45 {
+	width: 49% !important;
+}
+
+.gap-5 {
+	gap: 5px !important;
 }

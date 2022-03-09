@@ -189,7 +189,8 @@ router.post(paths.auth.google, loginLimiter, async (req, res) => {
 			const data = {
 				email: payload['email'],
 				username: payload['name'],
-				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`
+				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`,
+				google: true
 			}
 			user = new User(data)
 			await user.save()

@@ -13,7 +13,7 @@ export default function DetailedChartMenu(props) {
 	return (
 		<div className="detailed-div-menu row h-center space-between">
 			<div className="row detailed-chart-legend left h-center">
-				<p>{t('menu.price')}</p>
+				<p className="detailed-div-title">{t('menu.price')}</p>
 			</div>
 			<div className="row detailed-chart-options left">
 				<div className="row h-center">

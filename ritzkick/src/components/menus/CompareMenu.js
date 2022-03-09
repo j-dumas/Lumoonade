@@ -90,29 +90,29 @@ function CompareMenu(props) {
 	return !searchList ? (
 		<></>
 	) : (
-		<div className="column detailed-informations detailed-div max-width">
+		<div className="column detailed-informations detailed-div w-45">
 			<div className="detailed-div-menu row space-between">
-				<label className="detailed-div-title">{t('menu.comparing')}</label>
+				<label className="detailed-div-title" for="with">{t('menu.comparing')}</label>
 				<div>
-					<select name="" id="" className="detailed-chart-options-select">
+					<select name="with" id="" className="detailed-chart-options-select">
 						<option value="price">{t('menu.options.price')}</option>
+						{/*
+						TODO: Lorsque l'on aura implémenter les autres données.
 						<option value="efficiency">{t('menu.options.efficiency')}</option>
 						<option value="volume">{t('menu.options.volume')}</option>
 						<option value="marketCap">{t('menu.options.market-cap')}</option>
+						*/}
 					</select>
 					<p className="detailed-div-title">{'$ = ' + props.currency + '$'}</p>
 				</div>
-			</div>
-			<div className="row space-between detailed-div-item">
-				<p className="detailed-div-item-label">{t('menu.with')}</p>
+				
 				<form className="row" action="" onSubmit={updateSearchList}>
-					<input type="search" />
-					<button type="submit" value="Submit">
-						<Icons.Search />
-					</button>
+					<label for='search' className="detailed-div-title">{t('menu.with')}</label>
+					<input className='mini-search' name='search' type="search" />
+					<button className='mini-search-button' type="submit" value="Submit"><Icons.Search /></button>
 				</form>
 			</div>
-			<form className="row detailed-div-item start">
+			<div className="row detailed-div-menu start gap-5">
 				{searchList.map((element) => {
 					return (
 						<button
@@ -125,24 +125,9 @@ function CompareMenu(props) {
 						</button>
 					)
 				})}
-			</form>
-			{props.compareList.length > 0 ? (
-				<div className="row">
-					<div className="row">
-						<p></p>
-						<p className="detailed-div-title">{t('menu.table.asset')}</p>
-					</div>
-					<p className="detailed-div-title">{t('menu.table.price')}</p>
-					<div className="row">
-						<p className="detailed-div-title">{t('menu.table.change')}</p>
-						<p className="detailed-div-title"></p>
-					</div>
-					<p></p>
-				</div>
-			) : (
-				<p></p>
-			)}
-			<div className="column detailed-div-item">
+			</div>
+			<br />
+			<div className="row detailed-div-menu">
 				{props.compareList.map((element, i) => {
 					let data = {}
 					datas.map((crypto) => {

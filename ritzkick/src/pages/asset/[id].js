@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 const Asset = ({ assetData }) => {
 	return (
 		<>
-			<section className="section column principal first center">
+			<section className="section column principal first h-center">
 				<DetailedCryptoView slug={assetData.slug} currency="CAD" />
 			</section>
 		</>

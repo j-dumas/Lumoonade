@@ -6,6 +6,7 @@ import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
 import { createSocket } from '../../../services/SocketService'
 import { useTranslation } from 'next-i18next'
+import { isUserConnected } from 'services/AuthService'
 
 const io = require('socket.io-client')
 
@@ -16,6 +17,7 @@ const CompareView = (props) => {
 	const [slug] = useState('Dummy' + '-' + props.currency)
 	const [firstData, setFirstData] = useState()
 	const [compareList, setCompareList] = useState(getFirstCompareList())
+	const [userConnected, setUserConnected] = useState(false)
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [interval, setInterval] = useState('15m')
@@ -25,6 +27,7 @@ const CompareView = (props) => {
 		setSocket(
 			createSocket(['general', `graph-${dateRange}-${interval}`], compareList, `wss://${window.location.host}/`)
 		)
+		setUserConnected(isUserConnected())
 	}, [compareList, dateRange, interval])
 
 	function getFirstCompareList() {
@@ -54,18 +57,35 @@ const CompareView = (props) => {
 					<h1 className="detailed-menu-title">{t('title')}</h1>
 				</div>
 			</div>
-			<div className="row space-between">
-				<div className="column">
+			<div className="column">
+				<div className="row space-between">
 					<CompareMenu
 						socket={socket}
 						compareList={compareList}
 						setCompareList={setCompareList}
 						currency={props.currency}
 					/>
-					<div className="column detailed-informations detailed-div max-width">
+					<div className="column detailed-informations detailed-div w-45">
 						<div className="detailed-div-menu row space-between">
-							<p>Titre</p>
-							<p>Lorem</p>
+							<p className="detailed-div-title">Alertes</p>
+							<p className="detailed-div-title"></p>
+						</div>
+						<div className="column center">
+							{userConnected ? (
+								<p>Cette fonctionnalité n'a pas encore été implémentée.</p>
+							) : (
+								<>
+									<p>Vous devez vous connecter pour accéder cette fonctionnalité.</p>
+									<div className="row space-between">
+										<a href="/login" className="button">
+											Connexion
+										</a>
+										<a href="/register" className="button">
+											Inscription
+										</a>
+									</div>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
