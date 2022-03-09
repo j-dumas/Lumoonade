@@ -8,14 +8,13 @@ import Layout from '@/layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
-// Exemple d'URL:/compare?assets=ETH-BNB
-const Compare = () => {
-	const [data, setData] = useState()
+const CURRENCY = 'USD'
 
+const Compare = () => {
 	return (
 		<>
 			<section className="section column principal first center">
-				<CompareView currency="CAD" />
+				<CompareView currency={CURRENCY} />
 			</section>
 		</>
 	)
@@ -39,7 +38,7 @@ Compare.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'compare', 'crypto']))
+			...(await serverSideTranslations(locale, ['common', 'compare', 'crypto', 'detailedchart']))
 		}
 	}
 }

@@ -5,24 +5,25 @@ import Separator from '@/components/Separator'
 import Link from 'next/link'
 import Snackbar from '@mui/material/Snackbar'
 import { Alert } from '@mui/material'
+import { sendForgotPassword } from 'services/AuthService'
 
 export default function ForgotPasswordForm() {
 	const [email, setEmail] = useState(undefined)
 	const [open, setOpen] = useState(false)
+	const [confirmation, setConfirmation] = useState(false)
 
 	async function handleSubmit(event) {
 		event.preventDefault()
-		try {
-			let response = await fetch('/api/reset', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ email: email })
-			})
+		sendForgotPassword(email).then((status) => {
+			if (status === 201) {
+				setOpen(true)
+			}
+		})
+	}
 
-			setOpen(true)
-		} catch (e) {}
+	function handleResend(event) {
+		handleSubmit(event)
+		setConfirmation(true)
 	}
 
 	function handleEmailChange(event) {
@@ -37,8 +38,16 @@ export default function ForgotPasswordForm() {
 		setOpen(false)
 	}
 
+	function handleConfirmationClose(event, reason) {
+		if (reason === 'clickaway') {
+			return
+		}
+
+		setConfirmation(false)
+	}
+
 	return (
-		<Container className="p-3 form">
+		<Container className="form">
 			<h1 className="form-title">Problème de connexion?</h1>
 			<h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
 			<form method="POST" onSubmit={(event) => handleSubmit(event)}>
@@ -60,9 +69,27 @@ export default function ForgotPasswordForm() {
 			<Link href="/login">
 				<a className="link">Revenir à l&apos;écran de connexion</a>
 			</Link>
-			<Snackbar open={open} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+			<Snackbar
+				sx={{ m: 6 }}
+				open={open}
+				onClose={handleClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+			>
 				<Alert onClose={handleClose} severity="success">
 					{'Un email de confirmation a été envoyé à ' + email}
+					<button id="resend-email-button" onClick={handleResend}>
+						Re-send email
+					</button>
+				</Alert>
+			</Snackbar>
+			<Snackbar
+				sx={{ m: 6, marginTop: 14 }}
+				open={confirmation}
+				onClose={handleConfirmationClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+			>
+				<Alert onClose={handleConfirmationClose} severity="success">
+					{'Un email de confirmation a été renvoyé à ' + email}
 				</Alert>
 			</Snackbar>
 		</Container>

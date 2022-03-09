@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { BadRequestHttpError } = require('../../utils/http_errors')
 
 const watchlistSchema = new mongoose.Schema(
 	{
@@ -23,7 +24,7 @@ const watchlistSchema = new mongoose.Schema(
 			required: true,
 			validate(target) {
 				if (target < 0) {
-					throw new Error('Target cannot be set under 0.')
+					throw new BadRequestHttpError('Target cannot be set under 0.')
 				}
 			}
 		}

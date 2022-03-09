@@ -7,13 +7,10 @@ import { useTranslation } from 'next-i18next'
 
 const ResetPassword = () => {
 	return (
-		<>
-			<main>
-				<Bubbles />
-				<ResetPasswordForm />
-				<div className="spacer layer1"></div>
-			</main>
-		</>
+		<section className="column center principal first layer1">
+			<Bubbles />
+			<ResetPasswordForm />
+		</section>
 	)
 }
 

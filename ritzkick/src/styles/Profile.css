@@ -84,7 +84,7 @@
 
 input[type='number'] {
 	width: 25%;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 
 ul {
@@ -94,8 +94,8 @@ ul {
 .alert-card {
 	display: flex;
 	justify-content: space-evenly;
-	width: 500px;
-	min-width: 300px;
+	width: 40vw;
+	min-width: 400px;
 	background-color: var(--background-color-2);
 	padding: 10px;
 	border-bottom: 2px solid;
@@ -135,22 +135,14 @@ ul {
 	color: white;
 }
 
-.page-navbar {
-	margin-top: 60px;
-	margin-left: 10%;
-	margin-right: 10%;
-	width: 100%;
-	z-index: 1;
-	position: relative;
-}
-
 .line {
-	margin: 0%;
+	margin: 0;
 	width: 100%;
+	height: 0px;
 }
 
 .profile-nav-selected {
-	margin: 0%;
+	margin: 0;
 	background-color: transparent;
 	border-bottom: 2px solid;
 	border-radius: 0;
@@ -160,7 +152,7 @@ ul {
 }
 
 .profile-nav {
-	margin: 0%;
+	margin: 0;
 	background-color: transparent;
 	border-radius: 0;
 	border-bottom: 2px;
@@ -180,10 +172,6 @@ ul {
 	max-width: 215px;
 }
 
-.no-margin {
-	margin: -21px;
-}
-
 .alert-page-control-buttons {
 	justify-content: center;
 	align-items: center;
@@ -191,5 +179,14 @@ ul {
 
 .alert-page-control-buttons:hover {
 	border: none;
+	background-color: var(--background-color-2);
+}
+
+.alert-title-card {
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.alert-title-card:hover {
 	background-color: var(--background-color-2);
 }

@@ -8,6 +8,8 @@ const axios = require('axios').default
 
 const email = require('../../app/email/email')
 
+const paths = require('../../api/routes.json')
+
 const fs = require('fs')
 const privateKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-priv-key.pem`)
 
@@ -64,13 +66,14 @@ afterAll((done) => {
 	done()
 })
 
-describe('Tests for the route /api/reset', () => {
-	const BASE = '/api/reset'
-	test(`'BAD REQUEST' if I don't send any email to reset the password`, async () => {
+describe(`Tests for the route ${paths.reset.default}`, () => {
+	const BASE = paths.reset.default
+
+	test(`I should not be able to reset if I don't send any email address to reset the password`, async () => {
 		await request(server).post(BASE).send().expect(400)
 	})
 
-	test(`'BAD REQUEST' if I send an invalid email to reset the password (empty string)`, async () => {
+	test(`I should not be able to reset if I send an invalid email address to reset the password (empty string)`, async () => {
 		await request(server)
 			.post(BASE)
 			.send({
@@ -79,7 +82,7 @@ describe('Tests for the route /api/reset', () => {
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' if I send an invalid email to reset the password (bad email format)`, async () => {
+	test(`I should not be able to reset if I send an invalid email address to reset the password (bad email format)`, async () => {
 		await request(server)
 			.post(BASE)
 			.send({
@@ -88,7 +91,7 @@ describe('Tests for the route /api/reset', () => {
 			.expect(400)
 	})
 
-	test(`'CREATION REQUEST' if I send a valid email to reset the password (doesn't need to exist)`, async () => {
+	test(`I should be able to reset if I send a valid email address to reset the password (doesn't need to exist)`, async () => {
 		await request(server)
 			.post(BASE)
 			.send({
@@ -104,7 +107,7 @@ describe('Tests for the route /api/reset', () => {
 		expect(reset).toBeNull()
 	})
 
-	test(`'CREATION REQUEST' if I send a valid email to reset the password (exist in db)`, async () => {
+	test(`I should be able to reset if I send a valid email address to reset the password (exist in db)`, async () => {
 		await request(server)
 			.post(BASE)
 			.send({
@@ -122,33 +125,33 @@ describe('Tests for the route /api/reset', () => {
 	})
 })
 
-describe('Tests for the route /api/reset/verify/:jwt', () => {
-	const BASE = '/api/reset/verify/'
+describe(`Tests for the route ${paths.reset.verify}:jwt`, () => {
+	const BASE = paths.reset.verify
 
-	test(`'BAD REQUEST' if I send an invalid jwt token in the resquest (custom text)`, async () => {
+	test(`I should not be able to verify if I send an invalid jwt token in the resquest (custom text)`, async () => {
 		await request(server)
 			.get(BASE + 'invalidJWT')
 			.send()
 			.expect(400)
 	})
 
-	test(`'BAD REQUEST' if I send an invalid jwt token in the resquest (custom jwt made)`, async () => {
+	test(`I should not be able to verify if I send an invalid jwt token in the request (custom jwt made)`, async () => {
 		const token = jwt.sign({ value: 'hey' }, privateKey, jwtOptions)
 		await request(server)
 			.get(BASE + token)
 			.send()
-			.expect(400)
+			.expect(409)
 	})
 
-	test(`'BAD REQUEST' if I send an invalid jwt token that doesn't have a valid email and secret (custom jwt made)`, async () => {
+	test(`I should not be able to verify if I send an invalid jwt token that doesn't have a valid email and secret (custom jwt made)`, async () => {
 		const token = jwt.sign({ email: 'email@mail.com', secret: 'shhh' }, privateKey, jwtOptions)
 		await request(server)
 			.get(BASE + token)
 			.send()
-			.expect(400)
+			.expect(409)
 	})
 
-	test(`'SUCCESS REQUEST' if I send a valid jwt token that does have a valid email and secret (custom jwt made)`, async () => {
+	test(`I should be able to verify if I send a valid jwt token that does have a valid email and secret (custom jwt made)`, async () => {
 		let reset = await Reset.findOne({ email: resetEmail })
 		const attemps = reset.attemps
 		expect(attemps).toBe(0)
@@ -164,25 +167,25 @@ describe('Tests for the route /api/reset/verify/:jwt', () => {
 	})
 })
 
-describe('Tests for the route /api/reset/redeem', () => {
-	const BASE = '/api/reset/redeem'
+describe(`Tests for the route ${paths.reset.redeem}`, () => {
+	const BASE = paths.reset.redeem
 	const anyPassword = 'password1234'
 
-	test(`'BAD REQUEST' if I don't send anything in the request`, async () => {
+	test(`I should not be able to redeem if I don't send anything in the request`, async () => {
 		await request(server).post(BASE).send().expect(400)
 	})
 
-	test(`'BAD REQUEST' if I send empty strings as the content`, async () => {
+	test(`I should not be able to redeem if I send empty strings as the content`, async () => {
 		await request(server).post(BASE).send(redeemConfig).expect(400)
 	})
 
-	test(`'BAD REQUEST' if I send none matching passwords (confirmation != password)`, async () => {
+	test(`I should not be able to redeem if I send no matching passwords (confirmation != password)`, async () => {
 		redeemConfig.password = anyPassword
 		redeemConfig.confirmation = redeemConfig.password + '!'
 		await request(server).post(BASE).send(redeemConfig).expect(400)
 	})
 
-	test(`'BAD REQUEST' if I send any none working resetToken with matching passwords`, async () => {
+	test(`I should not be able to redeem if I send any none working resetToken with matching passwords`, async () => {
 		const secret = 'test'
 		redeemConfig.resetToken = jwt.sign({ email: 'email@mail.com', secret: 'shhh' }, secret)
 		redeemConfig.password = anyPassword
@@ -195,7 +198,7 @@ describe('Tests for the route /api/reset/redeem', () => {
 		await request(server).post(BASE).send(redeemConfig).expect(400)
 	})
 
-	test(`'BAD REQUEST' if I use an invalid jwt token (no user bind to the reset token)`, async () => {
+	test(`I should not be able to redeem if I use an invalid jwt token (no user bind to the reset token)`, async () => {
 		const reset = await Reset.findOne({ email: resetEmail })
 		redeemConfig.resetToken = reset.resetToken
 		redeemConfig.password = anyPassword
@@ -204,10 +207,10 @@ describe('Tests for the route /api/reset/redeem', () => {
 		axios.get.mockResolvedValueOnce({})
 
 		// The route is using /api/reset/verify to make sure the token is valid
-		await request(server).post(BASE).send(redeemConfig).expect(400)
+		await request(server).post(BASE).send(redeemConfig).expect(404)
 	})
 
-	test(`'SUCCESS REQUEST' if I use an invalid jwt token (no user bind to the reset token)`, async () => {
+	test(`I should be able to redeem if I use a valid jwt token`, async () => {
 		// Creating the reset link in the database
 		const resetReal = new Reset({ email: testUser.email })
 		const token = await resetReal.makeResetToken()

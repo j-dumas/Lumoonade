@@ -5,6 +5,8 @@ const User = require('../../db/model/user')
 const Favorite = require('../../db/model/favorite')
 const jwt = require('jsonwebtoken')
 
+const paths = require('../../api/routes.json')
+
 const testId = new mongoose.Types.ObjectId()
 const testFavId = new mongoose.Types.ObjectId()
 
@@ -69,19 +71,19 @@ afterAll((done) => {
 })
 
 describe('Unauthenticated test cases', () => {
-	test(`'BAD REQUEST' you cannot add a favorite if you're not authenticated`, async () => {
-		await request(server).post('/api/favorite').send().expect(401)
+	test(`I should not be able to add a favorite if I'm not authenticated`, async () => {
+		await request(server).post(paths.favorites.default).send().expect(401)
 	})
 
-	test(`'BAD REQUEST' you cannot delete a favorite if you're not authenticated`, async () => {
-		await request(server).delete('/api/favorite').send().expect(401)
+	test(`I should not be able to delete a favorite if I'm not authenticated`, async () => {
+		await request(server).delete(paths.favorites.default).send().expect(401)
 	})
 })
 
-describe(`Create tests cases /api/favorite`, () => {
-	const URL = '/api/favorite'
+describe(`Create tests cases ${paths.favorites.default}`, () => {
+	const URL = paths.favorites.default
 
-	test(`'CONFLICTS REQUEST' you cannot add twice something in your favorite`, async () => {
+	test(`I should not be able to add twice something in my favorite`, async () => {
 		let favorites = await Favorite.find({})
 		expect(favorites.length).toBe(1)
 		await request(server)
@@ -96,7 +98,7 @@ describe(`Create tests cases /api/favorite`, () => {
 		expect(favorites.length).toBe(1)
 	})
 
-	test(`'CREATE REQUEST' you can add in your favorite something that you don't have`, async () => {
+	test(`I should be able to add in my favorite something that I don't have`, async () => {
 		let favorites = await Favorite.find({})
 		let user = await User.findById(testId)
 		expect(user.favorite_list.length).toBe(1)
@@ -116,10 +118,10 @@ describe(`Create tests cases /api/favorite`, () => {
 	})
 })
 
-describe(`Delete test cases /api/favorite`, () => {
-	const URL = '/api/favorite'
+describe(`Delete test cases ${paths.favorites.default}`, () => {
+	const URL = paths.favorites.default
 
-	test(`'NOT FOUND REQUEST' you cannot remove a specific favorite if you already have it in your list`, async () => {
+	test(`I should not be able to remove a specific favorite if I don't have it in my list`, async () => {
 		let favorites = await Favorite.find({})
 		expect(favorites.length).toBe(1)
 
@@ -136,7 +138,7 @@ describe(`Delete test cases /api/favorite`, () => {
 		expect(favorites.length).toBe(1)
 	})
 
-	test(`'SUCCESS REQUEST' you cannot remove a specific favorite if you already have it in your list`, async () => {
+	test(`I should be able to remove a specific favorite if I have it in my list`, async () => {
 		let favorites = await Favorite.find({})
 		expect(favorites.length).toBe(1)
 		let user = await User.findById(testId)

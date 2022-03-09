@@ -9,32 +9,32 @@ describe(`All tests related to the connection-manager`, () => {
 		id: 1
 	}
 
-	test('On creation, you should not have any connections', () => {
+	test('I should not have any connections on creation', () => {
 		expect(connectionManager.getConnections().length).toBe(0)
 	})
 
-	test('If the socket does not exist in the connections, you can add it', () => {
-		expect(connectionManager.getConnections().length).toBe(0)
-
-		connectionManager.registerConnection(dummySocket)
-
-		expect(connectionManager.getConnections().length).toBe(1)
-		expect(connectionManager.getConnections()[0].id).toBe(dummySocket.id)
-	})
-
-	test('If the socket does exist in the connections, you can not add it', () => {
+	test('I should be able to add a socket if it does not exist in the connections', () => {
 		expect(connectionManager.getConnections().length).toBe(0)
 
 		connectionManager.registerConnection(dummySocket)
 
 		expect(connectionManager.getConnections().length).toBe(1)
 		expect(connectionManager.getConnections()[0].id).toBe(dummySocket.id)
+	})
+
+	test('I should not be able to add a socket if it already exists in the connections', () => {
+		expect(connectionManager.getConnections().length).toBe(0)
+
+		connectionManager.registerConnection(dummySocket)
+
+		expect(connectionManager.getConnections().length).toBe(1)
+		expect(connectionManager.getConnections()[0].id).toBe(dummySocket.id)
 
 		connectionManager.registerConnection(dummySocket)
 		expect(connectionManager.getConnections().length).toBe(1)
 	})
 
-	test('You can set a connection a channel to listen to', () => {
+	test('I should be able to set a channel to listen to', () => {
 		expect(connectionManager.getConnections().length).toBe(0)
 
 		connectionManager.registerConnection(dummySocket)
@@ -51,7 +51,7 @@ describe(`All tests related to the connection-manager`, () => {
 		expect(connectionManager.getConnections()[0].channels[0]).toBe(channel)
 	})
 
-	test('You can remove a channel from a connection', () => {
+	test('I should be able to remove a channel from a connection', () => {
 		expect(connectionManager.getConnections().length).toBe(0)
 
 		connectionManager.registerConnection(dummySocket)
@@ -73,7 +73,7 @@ describe(`All tests related to the connection-manager`, () => {
 		expect(connectionManager.getConnections()[0].channels.length).toBe(0)
 	})
 
-	test('You can remove a connection if there is one', () => {
+	test('I should be able to remove a connection if there is one', () => {
 		expect(connectionManager.getConnections().length).toBe(0)
 
 		connectionManager.registerConnection(dummySocket)
@@ -87,7 +87,7 @@ describe(`All tests related to the connection-manager`, () => {
 		expect(connectionManager.getConnections().length).toBe(0)
 	})
 
-	test('if you have multiple connections, it should remove the only one specified', () => {
+	test('I should be able to remove specified connections if I have multiple', () => {
 		expect(connectionManager.getConnections().length).toBe(0)
 
 		connectionManager.registerConnection(dummySocket)

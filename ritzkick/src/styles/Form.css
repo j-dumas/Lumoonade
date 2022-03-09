@@ -1,0 +1,13 @@
+.wallet-form {
+	width: 360px;
+
+	padding: 20px;
+	background-color: var(--background-color-2);
+	border-radius: 5px;
+}
+
+.wallet-input {
+	padding: 5px !important;
+	width: 100% !important;
+	margin: 0;
+}

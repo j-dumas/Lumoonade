@@ -33,7 +33,7 @@ const RegisterForm = () => {
 	}
 
 	return (
-		<Container className="p-3 form">
+		<Container className="form">
 			<h1 className="form-title">{t('register.title')}</h1>
 			<form onSubmit={handleSubmit}>
 				{!!error && (
@@ -48,7 +48,7 @@ const RegisterForm = () => {
 						id="usernameField"
 						type="text"
 						onChange={handleChange}
-						startAdornment={
+						endAdornment={
 							<InputAdornment position="end">
 								<AccountCircle />
 							</InputAdornment>
@@ -66,7 +66,7 @@ const RegisterForm = () => {
 						id="emailField"
 						type="email"
 						onChange={handleChange}
-						startAdornment={
+						endAdornment={
 							<InputAdornment position="end">
 								<Email />
 							</InputAdornment>
@@ -83,11 +83,6 @@ const RegisterForm = () => {
 						id="passwordField"
 						type={passShow ? 'text' : 'password'}
 						onChange={handleChange}
-						startAdornment={
-							<InputAdornment position="end">
-								<Lock />
-							</InputAdornment>
-						}
 						endAdornment={
 							<InputAdornment position="end">
 								<IconButton

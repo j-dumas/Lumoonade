@@ -41,7 +41,7 @@ const auth = async (req, res, next) => {
 		// Not using custom http errors for testing
 		// There is only one type of error thrown here anyway
 		res.status(401).send({
-			error: e.message
+			message: e.message
 		})
 	}
 }

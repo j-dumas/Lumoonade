@@ -15,11 +15,23 @@
 
 .detailed-chart {
 	/*width: 74%;*/
-	width: 74%;
+	width: 100%;
+}
+
+@media only screen and (min-width: 1400px) {
+	.detailed-chart {
+		/*width: 74%;*/
+		width: 74%;
+	}
 }
 
 .detailed-chart-chart {
-	height: 65vh;
+	height: 65vh; /*height: 330px;*/
+	min-height: 330px;
+}
+
+.detailed-chart-chart-2 {
+	height: 330px;
 	min-height: 330px;
 }
 

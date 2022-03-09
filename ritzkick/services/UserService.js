@@ -1,9 +1,67 @@
 import { getCookie, deleteCookie } from './CookieService'
 import { isUserConnected } from './AuthService'
 
+const paths = require('../api/routes.json')
+
+export async function addTransaction(asset, boughtAt, paid, when) {
+	if (!isUserConnected()) return
+	const URI = `${paths.wallets['transaction-default']}${asset}`
+	let response = await fetch(URI, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({
+			boughtAt: boughtAt,
+			paid: paid,
+			when: when
+		})
+	})
+	if (response.status != 201 && paid > 0) {
+		let res = await createWallet(asset)
+		if (res.status === 201) addTransaction(asset, boughtAt, paid, when)
+	}
+}
+
+export async function createWallet(asset) {
+	if (!isUserConnected()) return
+	const URI = paths.wallets.default
+
+	let response = await fetch(URI, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		},
+		body: JSON.stringify({
+			asset: asset,
+			amount: 0
+		})
+	})
+
+	return response
+}
+
+export async function getTransactions() {
+	if (!isUserConnected()) return
+	const URI = paths.wallets.transactions
+
+	let response = await fetch(URI, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + getCookie('token')
+		}
+	})
+
+	let json = await response.json()
+	return json
+}
+
 export async function addFavorite(slug) {
 	if (!isUserConnected()) return
-	const URI = `/api/favorite`
+	const URI = paths.favorites.default
 
 	let response = await fetch(URI, {
 		method: 'POST',
@@ -17,7 +75,7 @@ export async function addFavorite(slug) {
 
 export async function deleteFavorite(slug) {
 	if (!isUserConnected()) return
-	const URI = `/api/favorite`
+	const URI = paths.favorites.default
 
 	let response = await fetch(URI, {
 		method: 'DELETE',
@@ -32,7 +90,7 @@ export async function deleteFavorite(slug) {
 export async function getFavorites() {
 	if (!isUserConnected()) return []
 	try {
-		let response = await fetch('/api/me/favorites', {
+		let response = await fetch(paths.favorites.all, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -49,7 +107,7 @@ export async function getFavorites() {
 
 export async function getWatchList(page = 1) {
 	try {
-		let response = await fetch('/api/me/watchlists?page=' + page, {
+		let response = await fetch(`${paths.alerts.all}?page=${page}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -66,7 +124,7 @@ export async function getWatchList(page = 1) {
 
 export async function deleteWatch(alertId) {
 	try {
-		await fetch('/api/alerts/delete', {
+		await fetch(paths.alerts.default, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -81,7 +139,7 @@ export async function deleteWatch(alertId) {
 
 export async function addWatch(alert) {
 	try {
-		await fetch('/api/alerts', {
+		await fetch(paths.alerts.default, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -96,7 +154,7 @@ export async function addWatch(alert) {
 
 export async function deleteUser() {
 	try {
-		await fetch('/api/me/delete', {
+		await fetch(paths.user.default, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -112,7 +170,7 @@ export async function deleteUser() {
 
 export async function getUser() {
 	try {
-		let response = await fetch('/api/me', {
+		let response = await fetch(paths.user.default, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -133,7 +191,7 @@ export async function getUser() {
 
 export async function removeSession() {
 	try {
-		let response = await fetch('/api/me/sessions/purge', {
+		let response = await fetch(paths.user['purge-sessions'], {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -173,7 +231,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 	async function updatePassword(oldPass, newPass) {
 		try {
 			const token = getCookie('token')
-			const response = await fetch('/api/me/update', {
+			const response = await fetch(paths.user.default, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -182,12 +240,9 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if (response.status === 200) {
-				alert('Profil modifié avec succès')
-				window.location.assign(`/${navigator.language}/profile`)
-			} else if (response.status === 400) {
+			if (response.status === 400) {
 				document.getElementById('wrong-password').style.display = 'block'
-			} else {
+			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
 		} catch (e) {
@@ -198,7 +253,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 	async function updateUsername(newUsername) {
 		try {
 			const token = getCookie('token')
-			const response = await fetch('/api/me/update', {
+			const response = await fetch(paths.user.default, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -207,12 +262,9 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername })
 			})
 
-			if (response.status === 200) {
-				alert('Profil modifié avec succès')
-				window.location.assign(`/${navigator.language}/profile`)
-			} else if (response.status === 400) {
+			if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
-			} else {
+			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
 		} catch (e) {
@@ -223,7 +275,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 	async function updateUsernameAndPassword(newUsername, oldPass, newPass) {
 		try {
 			const token = getCookie('token')
-			const response = await fetch('/api/me/update', {
+			const response = await fetch(paths.user.default, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -232,13 +284,10 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername, oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if (response.status === 200) {
-				alert('Profil modifié avec succès')
-				window.location.assign(`/${navigator.language}/profile`)
-			} else if (response.status === 400) {
+			if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
 				document.getElementById('wrong-password').style.display = 'block'
-			} else {
+			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
 		} catch (e) {

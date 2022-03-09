@@ -4,13 +4,42 @@
 	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
-	margin-top: 20px;
+}
+
+.simple-crypto-dashboard-menu {
+	width: 100%;
+	padding: 5px 0px 5px 0px;
+	color: var(--font-color-2);
+}
+
+.simple-crypto-view {
+	border-top: solid 2px var(--background-color-3);
+	border-bottom: solid 2px var(--background-color-2);
+	padding: 10px 0px 10px 0px;
+	transition: 0.5s;
+	width: 100%;
+}
+
+.simple-crypto-view:hover {
+	background-color: var(--background-color);
+}
+
+.simple-crypto-view-item {
+	width: 100px;
+}
+
+.simple-crypto-view-item-big {
+	max-width: 150px;
+	width: 150px;
+
+	gap: 5px;
 }
 
 .simple-crypto-card {
 	padding: 25px 25px 25px 20px;
 
-	min-width: 350px;
+	width: 350px;
+	height: 190px;
 
 	text-align: center;
 	justify-content: space-around !important;
@@ -21,6 +50,7 @@
 	background-color: var(--background-color-2);
 	border: 2px solid var(--background-color-2);
 
+	cursor: pointer;
 	transition: 0.5s;
 }
 
@@ -29,29 +59,29 @@
 	border: 2px solid var(--main-color);
 }
 
-.simple-crypto-view {
-	border-bottom: solid 2px var(--background-color);
-	transition: 0.5s;
+.card-row {
 	width: 100%;
 }
 
-.simple-crypto-view:hover {
-	background-color: var(--background-color);
+.card-title {
+	font-size: 17px;
+	font-weight: bolder;
+	letter-spacing: 0.75px;
+	max-width: 165px;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.simple-crypto-view-item {
-	max-width: 150px;
-	flex-grow: 1;
-}
-.simple-crypto-names {
-	margin-left: 15px;
-	max-width: 80px;
-}
-.simple-crypto-abbreviation {
-	color: gray;
+.card-slug {
+	color: var(--font-color-2);
 }
 
-.simple-crypto-view-logo {
-	width: 40px;
-	height: 40px;
+.card-price {
+	font-size: 18px;
+}
+
+.simple-chart-label {
+	width: 225px;
 }

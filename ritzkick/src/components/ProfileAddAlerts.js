@@ -39,6 +39,7 @@ export default function ProfileAddAlerts(props) {
 	const [minPrice, setMinPrice] = useState(0)
 	const [maxPrice, setMaxPrice] = useState(0)
 	const [data, setData] = useState(undefined)
+	const [slug, setSlug] = useState(undefined)
 
 	function getPrice(symbol) {
 		data.forEach((element) => {
@@ -72,6 +73,12 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	useEffect(async () => {
+		if (props.provenance) {
+			let tempValue = props.slug.split('-')
+			setSlug(tempValue[0])
+			// const tempSlug = {target: {name: "slug", value: tempValue[0]}}
+			// handleChange(tempSlug)
+		}
 		const values = await Functions.GetAllCryptocurrencySlugs(1, 1000)
 		setData(values.assets)
 	}, [])
@@ -99,17 +106,28 @@ export default function ProfileAddAlerts(props) {
 
 	async function handleSubmit(event) {
 		event.preventDefault()
+		const tempSlug = { target: { name: 'slug', value: slug } }
+		handleChange(tempSlug)
+
 		await addWatch(state)
-		props.onDataChange()
+		if (!props.provenance) {
+			props.onDataChange()
+		}
 		close()
 		setOpen(true)
 	}
 
 	return (
 		<div className="row center">
-			<button className="icon-button" id="rotate-button" onClick={open}>
-				<CloseRounded fontSize="medium" />
-			</button>
+			{props.provenance ? (
+				<a href="" onClick={open}>
+					<Icons.Bell />
+				</a>
+			) : (
+				<button className="icon-button" id="rotate-button" onClick={open}>
+					<CloseRounded fontSize="medium" />
+				</button>
+			)}
 			<Snackbar
 				sx={{ m: 6 }}
 				open={openStatus}
@@ -133,9 +151,17 @@ export default function ProfileAddAlerts(props) {
 							sx={{ m: 1, width: '25%', minWidth: '50px' }}
 							className="inputField"
 							variant="filled"
+							disabled={props.provenance}
 						>
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue="" onChange={handleChange} MenuProps={MenuProps} required>
+							<Select
+								name="slug"
+								defaultValue={props.provenance ? slug : ''}
+								value={slug}
+								onChange={handleChange}
+								MenuProps={MenuProps}
+								required
+							>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}
@@ -168,22 +194,24 @@ export default function ProfileAddAlerts(props) {
 								}}
 							/>
 						</FormControl>
-						<div className="column">
-							{state.parameter !== undefined &&
-								state.slug !== undefined &&
-								(state.parameter === 'lte' ? (
-									<div>
-										Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
-									</div>
-								) : (
-									<div>Veuillez entrer une valeur minimal {minPrice}$</div>
-								))}
-						</div>
-						<div className="row">
-							<input type="submit" value="Ajouter"></input>
-							<button type="button" onClick={close} id="cancel-edit">
-								Annuler
-							</button>
+						<div>
+							<div className="column">
+								{state.parameter !== undefined &&
+									state.slug !== undefined &&
+									(state.parameter === 'lte' ? (
+										<div>
+											Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
+										</div>
+									) : (
+										<div>Veuillez entrer une valeur minimal {minPrice}$</div>
+									))}
+							</div>
+							<div className="row">
+								<input type="submit" value="Ajouter"></input>
+								<button type="button" onClick={close} id="cancel-edit">
+									Annuler
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>

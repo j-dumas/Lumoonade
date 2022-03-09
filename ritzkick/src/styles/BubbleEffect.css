@@ -185,7 +185,7 @@
 }
 
 .bubble {
-	z-index: 1;
+	z-index: 0;
 	width: 10%;
 	height: auto;
 	position: fixed;

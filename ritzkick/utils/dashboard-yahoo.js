@@ -3,9 +3,7 @@ const graph = require('app/socket/utils/graph')
 
 const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, timezone = 'America/Toronto') => {
 	if (data.length === 0 || transactions.length === 0) return []
-
 	transactions = orderByDate(transactions)
-
 	if (single) {
 		data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
 		let timestamps = data[0].response[0].timestamp
@@ -49,7 +47,6 @@ const yahooToDashBoard = async (data = [], transactions = [], range, timezone) =
 		prices[index] = prices[index] * amountOfAssetsAtDate(timestamp, transactions)
 		timestamps[index] = graph.getDateFormat(range, timestamp, timezone)
 	})
-
 	return res
 }
 

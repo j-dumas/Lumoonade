@@ -9,6 +9,7 @@ import { getCookie } from 'services/CookieService'
 function Navbar(props) {
 	const { t } = useTranslation('common')
 	const router = useRouter()
+	const { login } = router.query
 
 	const [click, setClick] = useState(false)
 	const handleClick = () => setClick(!click)
@@ -16,19 +17,24 @@ function Navbar(props) {
 	const [isConnected, setConnection] = useState(false)
 
 	const connection = () => {
-		//todo: validation on token
 		if (getCookie('token') !== undefined) setConnection(true)
 		else setConnection(false)
 	}
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout(setConnection()).then(() => router.push({ pathname: '/', query: { logout: true } }))
+		await logout(setConnection()).then(() => router.push('/'))
 	}
 
 	useEffect(() => {
 		connection()
 	}, [])
+
+	useEffect(() => {
+		if (login === 'true') {
+			setConnection(true)
+		}
+	}, [login])
 
 	return (
 		<>
@@ -78,7 +84,7 @@ function Navbar(props) {
 					<ul className={props.mobile ? 'nav-menu-mobile' : 'nav-menu'}>
 						{isConnected ? (
 							<>
-								<li className={router.pathname == '/wallet' ? 'nav-item active-link' : 'nav-item'}>
+								<li className={router.pathname == '/me/wallet' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.Wallet />
 									<Link href="/wallet">
 										<a className="nav-links" onClick={closeMobileMenu}>

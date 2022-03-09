@@ -8,7 +8,7 @@ const { TopGainer, TopLoser } = require('../../db/model/top_asset')
 const router = express.Router()
 
 const paths = require('../routes.json')
-const { sendError, ServerError } = require('../../utils/http_errors')
+const { sendError, ServerError, NotFoundHttpError } = require('../../utils/http_errors')
 
 /**
  * Asset Response Model
@@ -46,13 +46,15 @@ const { sendError, ServerError } = require('../../utils/http_errors')
  * 		}
  * 	],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": 5
  * }
  * @example response - 200 - example empty response search
  * {
  * 	"assets": [],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": null
  * }
  * @returns {string} 500 - server error
  * @example response - 500 - example server error
@@ -70,10 +72,18 @@ router.get(`${paths.assets.search.db}:value`, pagination, async (req, res) => {
 			.limit(req.limit)
 			.skip(req.skipIndex)
 			.exec()
+		const count = await Asset.countDocuments({
+			$or: [{ symbol: { $regex: searchedValue } }, { name: { $regex: searchedValue } }]
+		}).exec()
 		if (!assets) {
 			throw new ServerError('Unable to fetch assets')
 		}
-		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
+		res.status(200).send({
+			assets: assets,
+			page: req.page,
+			count: assets.length,
+			max_page: Math.ceil(count / req.limit)
+		})
 	} catch (e) {
 		sendError(res, e)
 	}
@@ -146,7 +156,7 @@ router.get(`${paths.assets.search.yahoo}:slug`, async (req, res) => {
 })
 
 /**
- * GET /api/assets/all
+ * GET /api/assets
  * @summary All of the assets in the database default endpoint
  * @tags Asset
  * @param {number} page.query - The page number to show (defaults to 1)
@@ -163,13 +173,15 @@ router.get(`${paths.assets.search.yahoo}:slug`, async (req, res) => {
  * 		}
  * 	],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": 5
  * }
  * @example response - 200 - example empty response
  * {
  * 	"assets": [],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": null
  * }
  * @returns {string} 500 - server error
  * @example response - 500 - example server error
@@ -180,10 +192,16 @@ router.get(`${paths.assets.search.yahoo}:slug`, async (req, res) => {
 router.get(paths.assets.all, pagination, async (req, res) => {
 	try {
 		const assets = await Asset.find().limit(req.limit).skip(req.skipIndex).exec()
+		const count = await Asset.countDocuments().exec()
 		if (!assets) {
 			throw new ServerError('Unable to fetch assets')
 		}
-		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
+		res.status(200).send({
+			assets: assets,
+			page: req.page,
+			count: assets.length,
+			max_page: Math.ceil(count / req.limit)
+		})
 	} catch (e) {
 		sendError(res, e)
 	}
@@ -206,13 +224,15 @@ router.get(paths.assets.all, pagination, async (req, res) => {
  * 		}
  * 	],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": 5
  * }
  * @example response - 200 - example empty response
  * {
  * 	"assets": [],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": null
  * }
  * @returns {string} 500 - server error
  * @example response - 500 - example server error
@@ -224,12 +244,18 @@ router.get(paths.assets.top.gainers, pagination, async (req, res) => {
 	try {
 		await verifyTopAssets(options.gainers)
 		const assets = await TopGainer.find().sort({ percentage: -1 }).limit(req.limit).skip(req.skipIndex).exec()
+		const count = await TopGainer.countDocuments().exec()
 		if (!assets || assets.length === 0) {
-			throw new Error('Unable to fetch assets')
+			throw new NotFoundHttpError('Unable to fetch assets')
 		}
-		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
+		res.status(200).send({
+			assets: assets,
+			page: req.page,
+			count: assets.length,
+			max_page: Math.ceil(count / req.limit)
+		})
 	} catch (e) {
-		res.status(500).send({ error: e.message })
+		sendError(res, e)
 	}
 })
 
@@ -250,13 +276,15 @@ router.get(paths.assets.top.gainers, pagination, async (req, res) => {
  * 		}
  * 	],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": 5
  * }
  * @example response - 200 - example empty response
  * {
  * 	"assets": [],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": null
  * }
  * @returns {string} 500 - server error
  * @example response - 500 - example server error
@@ -268,12 +296,18 @@ router.get(paths.assets.top.loser, pagination, async (req, res) => {
 	try {
 		await verifyTopAssets(options.losers)
 		const assets = await TopLoser.find().sort({ percentage: 1 }).limit(req.limit).skip(req.skipIndex).exec()
+		const count = await TopLoser.countDocuments().exec()
 		if (!assets || assets.length === 0) {
-			throw new Error('Unable to fetch assets')
+			throw new NotFoundHttpError('Unable to fetch assets')
 		}
-		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
+		res.status(200).send({
+			assets: assets,
+			page: req.page,
+			count: assets.length,
+			max_page: Math.ceil(count / req.limit)
+		})
 	} catch (e) {
-		res.status(500).send({ error: e.message })
+		sendError(res, e)
 	}
 })
 
@@ -295,13 +329,15 @@ router.get(paths.assets.top.loser, pagination, async (req, res) => {
  * 		}
  * 	],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": 5
  * }
  * @example response - 200 - example empty response
  * {
  * 	"assets": [],
  * 	"page": 1,
- * 	"count": 1
+ * 	"count": 1,
+	"max_page": null
  * }
  * @returns {string} 500 - server error
  * @example response - 500 - example server error
@@ -311,18 +347,17 @@ router.get(paths.assets.top.loser, pagination, async (req, res) => {
  */
 router.get(paths.assets.populars, pagination, async (req, res) => {
 	try {
-		// const isEmpty = await Popular.isEmpty('populars')
-		// if (isEmpty) await fetchPopularAssets()
-		// else {
-		// 	let datesAreSame = await checkDatesAndHours(Popular)
-		// 	if (!datesAreSame) await modifyPopularAssets()
-		// }
-
 		const assets = await Asset.find().sort({ searchedCount: -1 }).limit(req.limit).skip(req.skipIndex).exec()
+		const count = await Asset.find().exec()
 		if (!assets) {
 			throw new ServerError('Unable to fetch assets')
 		}
-		res.status(200).send({ assets: assets, page: req.page, count: assets.length })
+		res.status(200).send({
+			assets: assets,
+			page: req.page,
+			count: assets.length,
+			max_page: Math.ceil(count / req.limit)
+		})
 	} catch (e) {
 		sendError(res, e)
 	}

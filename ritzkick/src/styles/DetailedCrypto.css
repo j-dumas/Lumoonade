@@ -21,7 +21,15 @@
 
 .detailed-menu-actions {
 	font-size: 20px;
+	width: 100%;
 }
+@media only screen and (min-width: 700px) {
+	.detailed-menu-actions {
+		font-size: 20px;
+		width: fit-content;
+	}
+}
+
 .detailed-menu-actions-icon {
 	background-color: transparent;
 	color: var(--font-color-2);
@@ -47,14 +55,14 @@
 }
 
 .detailed-informations {
+	/*
 	height: fit-content;
-	width: 360px;
+	flex-grow: 1;*/
 }
 
 .detailed-div {
-	position: relative;
-
 	min-width: 360px;
+	width: 100%;
 
 	padding: 20px;
 	gap: 5px;
@@ -66,7 +74,6 @@
 .detailed-div-title {
 	font-size: 16px;
 	color: var(--font-color-2);
-	margin-bottom: 15px;
 }
 
 .detailed-div-label {
@@ -78,17 +85,41 @@
 	margin-bottom: 10px;
 }
 
-.detailed-div-item {
-	width: 100%;
+.detailed-div-item,
+.detailed-div-item-big {
+	flex-grow: 1;
+	max-width: 100%;
 	margin: 5px 0px 10px 0px;
 	gap: 5px;
 
 	color: white;
 }
 
+@media only screen and (min-width: 600px) {
+	.detailed-div-item {
+		flex-grow: 1;
+		min-width: 180px;
+		max-width: 225px;
+		margin: 5px 0px 10px 0px;
+		gap: 5px;
+
+		color: white;
+	}
+	.detailed-div-item-big {
+		flex-grow: 1;
+		width: 100%;
+		max-width: 225px;
+		margin: 5px 0px 10px 0px;
+		gap: 5px;
+
+		color: white;
+	}
+}
+
 .detailed-div-item-label {
 	color: var(--font-color-2);
 	font-size: 14px;
+	width: 150px;
 }
 
 .detailed-div-item-value {
@@ -110,4 +141,18 @@
 	padding: 5px 9px 4px 8px;
 	transition: 0.5s;
 	cursor: default;
+}
+
+.compare-item {
+	width: 320px;
+}
+
+.mini-search {
+	height: 30px;
+}
+
+.mini-search-button {
+	width: 30px;
+	height: 30px;
+	border-radius: 50px;
 }
