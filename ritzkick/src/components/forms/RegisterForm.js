@@ -36,11 +36,7 @@ const RegisterForm = () => {
 		<Container className="form">
 			<h1 className="form-title">{t('register.title')}</h1>
 			<form onSubmit={handleSubmit}>
-				{!!error && (
-					<FormHelperText className="wrong" sx={{ m: 1 }}>
-						Se courriel est déjà utilisé. Veuillez en entrer une autre.
-					</FormHelperText>
-				)}
+				{!!error && <FormHelperText className="wrong">{t('validation.unique-email')}</FormHelperText>}
 				<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
 					<InputLabel htmlFor="usernameField">{t('fields.username')}</InputLabel>
 					<OutlinedInput
