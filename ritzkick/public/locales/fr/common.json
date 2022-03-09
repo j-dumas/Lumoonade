@@ -17,7 +17,31 @@
 		"profile": { "title": "LUMOONADE | PROFIL", "description": "Paage de profil Lumoonade" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade pour les CryptoCurrencies", "type": "website" },
-	"footer": { "powered": "Propulsé par " },
+	"footer": {
+		"powered": "Propulsé par ",
+		"navigation": {
+			"title": "Navigation",
+			"home": "Accueil",
+			"assets": "Cryptos",
+			"compare": "Comparer"
+		},
+		"account": {
+			"title": "Compte",
+			"dashboard": "Tableau de bord",
+			"profile": "Profil",
+			"portfolio": "Portfolio",
+			"favorites": "Favorits",
+			"alerts": "Alertes",
+			"login": "Connexion",
+			"register": "Inscription"
+		},
+		"about": {
+			"title": "À Propos",
+			"us": "Nous",
+			"tos": "Termes d'utilisation",
+			"career": "Carrière"
+		}
+	},
 	"navbar": {
 		"home": "Accueil",
 		"assets": "Cryptos",
