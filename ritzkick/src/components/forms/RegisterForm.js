@@ -105,7 +105,7 @@ const RegisterForm = () => {
 			<GoogleSignIn />
 			<div>
 				<Separator />
-				<div id="Signup">
+				<div className='column'>
 					<h4>{t('register.existing-account')}</h4>
 					<Link href="/login">
 						<a className="link">{t('register.login')}</a>

@@ -25,7 +25,7 @@ const Profile = () => {
 		setUser(data)
 	}
 
-	async function updateUser() {
+	async function getCurrentUser() {
 		getUser().then((res) => setUser(res))
 	}
 
@@ -33,7 +33,7 @@ const Profile = () => {
 		if (getCookie('token') === undefined) {
 			router.push('/')
 		} else {
-			getUser().then((res) => setUser(res))
+			getCurrentUser().then((res) => setUser(res))
 		}
 	}, [])
 
@@ -58,13 +58,12 @@ const Profile = () => {
 					</div>
 					<hr className="line"></hr>
 				</div>
+				<div className="column center">
+					{viewState ? <ProfileAlerts currency={CURRENCY} /> : <ProfileFavorite />}
+				</div>
 				<hr className="line"></hr>
+				<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
 			</div>
-			<div className="column center">
-				{viewState ? <ProfileAlerts currency={CURRENCY} /> : <ProfileFavorite />}
-			</div>
-			<hr className="line"></hr>
-			<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
 		</>
 	)
 }

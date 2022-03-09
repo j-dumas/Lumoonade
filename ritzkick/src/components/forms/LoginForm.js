@@ -101,7 +101,7 @@ const LoginForm = () => {
 
 			<div>
 				<Separator />
-				<div className="row">
+				<div className="column">
 					<p>{t('login.no-account')}</p>
 					<Link href="/register">
 						<div className="link">{t('login.register')}</div>
