@@ -25,7 +25,8 @@ const Profile = () => {
 		setUser(data)
 	}
 
-	async function updateUser(){
+	async function getCurrentUser(){
+		console.log()
 		getUser().then((res) => setUser(res))
 	}
 
@@ -40,7 +41,7 @@ const Profile = () => {
 	return (
 		<>
 			<div className="column first transparent">
-				<div className="center">{user !== undefined && <ProfileHeader user={user} />}</div>
+				<div className="center">{user !== undefined && <ProfileHeader user={user} updateUser={getCurrentUser} />}</div>
 				<div>
 					<div className="row center">
 						<button

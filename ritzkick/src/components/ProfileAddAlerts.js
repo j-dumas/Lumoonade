@@ -31,7 +31,7 @@ const MenuProps = {
 }
 
 export default function ProfileAddAlerts(props) {
-	const [state, handleChange, resetState, setSlug] = useForm({})
+	const [state, handleChange, resetState] = useForm({})
 	const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,
 		closeOnOverlayClick: true
@@ -41,6 +41,7 @@ export default function ProfileAddAlerts(props) {
 	const [minPrice, setMinPrice] = useState(0)
 	const [maxPrice, setMaxPrice] = useState(0)
 	const [data, setData] = useState(undefined)
+	const [slug, setSlug] = useState(undefined)
 
 	function getPrice(symbol) {
 		props.data.forEach((element) => {
@@ -82,7 +83,6 @@ export default function ProfileAddAlerts(props) {
 	}, [])
 
 	useEffect(() => {
-		console.log(state)
 		if (state.slug !== undefined) {
 			getPrice(state.slug)
 		}
@@ -105,9 +105,12 @@ export default function ProfileAddAlerts(props) {
 
 	async function handleSubmit(event) {
 		event.preventDefault()
-		await addWatch(state)
 		if(!props.provenance){
+			await addWatch(state.slug, state.parameter, state.target)
 			props.onDataChange()
+		}
+		else{
+			await addWatch(slug, state.parameter, state.target)
 		}
 		close()
 		setOpen(true)
@@ -118,7 +121,7 @@ export default function ProfileAddAlerts(props) {
 			{
 				props.provenance 
 					?
-						<a href='' onClick={open}>
+						<a onClick={open}>
 							<Icons.Bell />
 						</a>
 					:
@@ -147,7 +150,7 @@ export default function ProfileAddAlerts(props) {
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled" disabled={props.provenance}>
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue={props.provenance ? state.slug : ""} onChange={handleChange} MenuProps={MenuProps} required>
+							<Select name="slug" defaultValue={props.provenance ? slug : ""} onChange={handleChange} MenuProps={MenuProps} required>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}
