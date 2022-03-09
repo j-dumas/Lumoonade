@@ -36,7 +36,7 @@ Compare.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'compare', 'crypto']))
+			...(await serverSideTranslations(locale, ['common', 'compare', 'crypto', 'detailedchart']))
 		}
 	}
 }

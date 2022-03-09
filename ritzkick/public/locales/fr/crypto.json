@@ -3,7 +3,7 @@
 		"title": "Informations détaillées",
 		"price": "Prix ($)",
 		"change": "Changement 24h",
-		"market-cap": "Market Cap",
+		"market-cap": "Capitalisation boursière",
 		"volume": {
 			"24h": "Volume 24h",
 			"regular": "Volume"

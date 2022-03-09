@@ -5,10 +5,13 @@ import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
 import { createSocket } from '../../../services/SocketService'
+import { useTranslation } from 'next-i18next'
 
 const io = require('socket.io-client')
 
 const CompareView = (props) => {
+	const { t } = useTranslation('compare')
+
 	const router = useRouter()
 	const [slug] = useState('Dummy' + '-' + props.currency)
 	const [firstData, setFirstData] = useState()
@@ -48,7 +51,7 @@ const CompareView = (props) => {
 		<div className="detailed-crypto-view column">
 			<div className="page-menu space-between row h-center">
 				<div className="row h-center detailed-menu-info">
-					<h1 className="detailed-menu-title">Compare</h1>
+					<h1 className="detailed-menu-title">{t('title')}</h1>
 				</div>
 			</div>
 			<div className="row space-between">
