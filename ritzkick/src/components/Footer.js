@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { isUserConnected } from 'services/AuthService'
+import Link from 'next/link'
 
 const DEV_TEAM_NAME = 'RitzKick'
 const WEBSITE_NAME = 'Lumoonade'
@@ -20,9 +21,9 @@ function Footer() {
 			<div className="sub-section row">
 				<div className="column start footer-div">
 					<p className="footer-title">{WEBSITE_NAME}</p>
-					<a href="https://konjuu.com" target="_blank" rel="noreferrer">
+					<Link href="https://konjuu.com" target="_blank" rel="noreferrer">
 						{t('footer.powered') + DEV_TEAM_NAME}
-					</a>
+					</Link>
 					<p>
 						{WEBSITE_NAME} © {year}
 					</p>
@@ -30,32 +31,32 @@ function Footer() {
 				</div>
 				<div className="column start footer-div">
 					<p className="footer-title">{t('footer.navigation.title')}</p>
-					<a href="">{t('footer.navigation.home')}</a>
-					<a href="">{t('footer.navigation.assets')}</a>
-					<a href="">{t('footer.navigation.compare')}</a>
+					<Link href="">{t('footer.navigation.home')}</Link>
+					<Link href="">{t('footer.navigation.assets')}</Link>
+					<Link href="">{t('footer.navigation.compare')}</Link>
 				</div>
 				<div className="column start footer-div">
 					<p className="footer-title">{t('footer.account.title')}</p>
 					{userConnected ? (
 						<>
-							<a href="/me/dashboard">{t('footer.account.dashboard')}</a>
-							<a href="/me/portfolio">{t('footer.account.portfolio')}</a>
-							<a href="/me/profile">{t('footer.account.profile')}</a>
-							<a href="/me/profile">{t('footer.account.favorites')}</a>
-							<a href="/me/profile">{t('footer.account.alerts')}</a>
+							<Link href="/me/dashboard">{t('footer.account.dashboard')}</Link>
+							<Link href="/me/portfolio">{t('footer.account.portfolio')}</Link>
+							<Link href="/me/profile">{t('footer.account.profile')}</Link>
+							<Link href="/me/profile">{t('footer.account.favorites')}</Link>
+							<Link href="/me/profile">{t('footer.account.alerts')}</Link>
 						</>
 					) : (
 						<>
-							<a href="/login">{t('footer.account.login')}</a>
-							<a href="/register">{t('footer.account.register')}</a>
+							<Link href="/login">{t('footer.account.login')}</Link>
+							<Link href="/register">{t('footer.account.register')}</Link>
 						</>
 					)}
 				</div>
 				<div className="column start footer-div">
 					<p className="footer-title">{t('footer.about.title')}</p>
-					<a href="/about">{t('footer.about.us')}</a>
-					<a href="/tos">{t('footer.about.tos')}</a>
-					<a href="/career">{t('footer.about.career')}</a>
+					<Link href="/about">{t('footer.about.us')}</Link>
+					<Link href="/tos">{t('footer.about.tos')}</Link>
+					<Link href="/career">{t('footer.about.career')}</Link>
 				</div>
 			</div>
 		</footer>

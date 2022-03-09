@@ -92,7 +92,7 @@ function CompareMenu(props) {
 	) : (
 		<div className="column detailed-informations detailed-div w-45">
 			<div className="detailed-div-menu row space-between">
-				<label className="detailed-div-title" for="with">
+				<label className="detailed-div-title" htmlFor="with">
 					{t('menu.comparing')}
 				</label>
 				<div>
@@ -109,7 +109,7 @@ function CompareMenu(props) {
 				</div>
 
 				<form className="row" action="" onSubmit={updateSearchList}>
-					<label for="search" className="detailed-div-title">
+					<label htmlFor="search" className="detailed-div-title">
 						{t('menu.with')}
 					</label>
 					<input className="mini-search" name="search" type="search" />

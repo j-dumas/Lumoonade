@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { createSocket } from '../../../services/SocketService'
 import { useTranslation } from 'next-i18next'
 import { isUserConnected } from 'services/AuthService'
+import Link from 'next/link'
 
 const io = require('socket.io-client')
 
@@ -72,17 +73,17 @@ const CompareView = (props) => {
 						</div>
 						<div className="column center">
 							{userConnected ? (
-								<p>Cette fonctionnalité n'a pas encore été implémentée.</p>
+								<p>Cette fonctionnalité n&apos;a pas encore été implémentée.</p>
 							) : (
 								<>
 									<p>Vous devez vous connecter pour accéder cette fonctionnalité.</p>
 									<div className="row space-between">
-										<a href="/login" className="button">
+										<Link href="/login" className="button">
 											Connexion
-										</a>
-										<a href="/register" className="button">
+										</Link>
+										<Link href="/register" className="button">
 											Inscription
-										</a>
+										</Link>
 									</div>
 								</>
 							)}
