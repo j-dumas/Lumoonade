@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import ButtonLegend from '@/components/ButtonLegend'
+import React, { useState } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
@@ -8,7 +7,6 @@ export default function DetailedChartMenu(props) {
 
 	const [dateRange, setDateRange] = useState('5d')
 	const [currentInterval, setCurrentInterval] = useState(`15${t('menu.intervals.minute')}`)
-	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange, t))
 
 	return (
 		<div className="detailed-div-menu row h-center space-between">
@@ -36,7 +34,6 @@ export default function DetailedChartMenu(props) {
 								setCurrentInterval(value)
 							}
 							setDateRange(e.target.value)
-							setIntervals(getIntervalOptionsByDateRange(e.target.value, t))
 						}}
 						defaultValue="5d"
 						className="detailed-chart-options-select"

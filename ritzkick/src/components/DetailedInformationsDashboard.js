@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import Icons from '@/components/Icons'
-import Functions, {
-	GetCryptocurrencyInformationsBySlug,
-	GetTopEfficientCryptocurrencies,
-	GetTopPopularCryptocurrencies
-} from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformations from '@/components/DetailedInformations'
-import DetailedChart from '@/components/charts/DetailedChart'
-import CompareMenu from '@/components/menus/CompareMenu'
-import { useRouter } from 'next/router'
 
-const io = require('socket.io-client')
 const parser = require('app/socket/utils/parser')
 
 const DetailedInformationsDashboard = (props) => {

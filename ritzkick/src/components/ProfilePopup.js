@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Icons from '@/components/Icons'
 import { useModal } from 'react-hooks-use-modal'
 import { deleteUser, updateUser } from 'services/UserService'
 import { useForm } from '@/components/hooks/useForm'
-import { AccountCircle, EditRounded, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material'
+import { AccountCircle, EditRounded, Email, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
-import { useRouter } from 'next/router'
 
 import { useTranslation } from 'next-i18next'
 
@@ -28,7 +26,6 @@ export default function ProfilePopup(props) {
 		newPassConfirmationShow: false
 	})
 	const [error, setError] = useState(false)
-	const router = useRouter()
 
 	function eraseFieldValue() {
 		resetValues()

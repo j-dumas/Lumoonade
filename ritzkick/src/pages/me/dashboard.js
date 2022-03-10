@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Layout from '../../layouts/Layout'
+import Layout from '@/layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import PieChart from '../../components/charts/PieChart'
-import { getUserDashboardData } from '../../../services/dashboard-service'
-import { isUserConnected } from '../../../services/AuthService'
-import DetailedChart from '../../components/charts/DetailedChart'
-import { createSocket } from '../../../services/SocketService'
-import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
-import { SlugArrayToSymbolArray } from '../../../utils/crypto'
+import PieChart from '@/components/charts/PieChart'
+import { getUserDashboardData } from '@/services/dashboard-service'
+import DetailedChart from '@/components/charts/DetailedChart'
+import { createSocket } from 'services/SocketService'
+import SimpleCryptoDashboard from '@/components/SimpleCryptoDashboard'
+import { SlugArrayToSymbolArray } from 'utils/crypto'
 
 const CURRENCY = 'cad'
 
 const Dashboard = () => {
-	const router = useRouter()
 	const [socket, setSocket] = useState()
-	const [slug, setSlug] = useState('btc-cad')
-	const [dateRange, setDateRange] = useState('1d')
-	const [interval, setInterval] = useState('1h')
+	const slug = 'btc-cad'
+	const dateRange = '1d'
+	const interval = '1h'
 	useEffect(async () => {
 		let userData = await getUserDashboardData()
 		let slugs = []

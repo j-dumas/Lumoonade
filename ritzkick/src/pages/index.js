@@ -1,4 +1,4 @@
-import BottomArrow from '@/components/BottomArrow'
+// import BottomArrow from '@/components/BottomArrow'
 import Layout from '@/layouts/Layout'
 import React, { useEffect } from 'react'
 
@@ -29,7 +29,7 @@ const Home = () => {
 						<h2 className="subtitle item">{t('description')}</h2>
 					</div>
 				</div>
-				<BottomArrow />
+				{/* <BottomArrow /> */}
 			</section>
 
 			<svg className="svg svg-transit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

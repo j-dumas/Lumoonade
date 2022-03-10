@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import GoogleSignIn from '@/components/GoogleSignIn'
 import AndSeparator from '@/components/AndSeparator'
@@ -17,8 +17,7 @@ import {
 	FormHelperText,
 	Snackbar,
 	Alert,
-	Checkbox,
-	FormControlLabel
+	Checkbox
 } from '@mui/material'
 
 const RegisterForm = () => {
@@ -29,7 +28,7 @@ const RegisterForm = () => {
 	const [error, setError] = useState(false)
 	const [open, setOpen] = useState(false)
 
-	const handleClickShowPassword = (event) => {
+	const handleClickShowPassword = () => {
 		setPassShow(!passShow)
 	}
 

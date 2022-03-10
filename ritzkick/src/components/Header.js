@@ -1,4 +1,3 @@
-import { connection } from 'mongoose'
 import React, { useCallback, useEffect, useState } from 'react'
 import Navbar from '@/components/Navbar'
 

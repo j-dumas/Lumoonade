@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useModal } from 'react-hooks-use-modal'
-import Icons from './Icons'
-import { addWatch } from '../../services/UserService'
+import Icons from '@/components/Icons'
+import { addWatch } from 'services/UserService'
 import {
 	Alert,
 	FormControl,
-	FormHelperText,
 	InputAdornment,
 	InputLabel,
 	MenuItem,
@@ -16,7 +15,7 @@ import {
 import { useForm } from './hooks/useForm'
 import { CloseRounded } from '@mui/icons-material'
 import Functions from 'services/CryptoService'
-import { SlugToSymbol, AreSlugsEqual } from '../../utils/crypto'
+import { SlugToSymbol } from 'utils/crypto'
 import { createSocket } from 'services/SocketService'
 
 import { useTranslation } from 'next-i18next'

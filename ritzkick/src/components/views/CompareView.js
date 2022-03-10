@@ -4,12 +4,10 @@ import DetailedInformationsDashboard from '@/components/DetailedInformationsDash
 import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
-import { createSocket } from '../../../services/SocketService'
+import { createSocket } from 'services/SocketService'
 import { useTranslation } from 'next-i18next'
 import { isUserConnected } from 'services/AuthService'
 import Link from 'next/link'
-
-const io = require('socket.io-client')
 
 const CompareView = (props) => {
 	const { t } = useTranslation('compare')
@@ -20,8 +18,8 @@ const CompareView = (props) => {
 	const [compareList, setCompareList] = useState(getFirstCompareList())
 	const [userConnected, setUserConnected] = useState(false)
 
-	const [dateRange, setDateRange] = useState('5d')
-	const [interval, setInterval] = useState('15m')
+	const dateRange = '5d'
+	const interval = '15m'
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {

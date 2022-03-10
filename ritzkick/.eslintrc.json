@@ -14,7 +14,6 @@
 		// ],
 		// "no-duplicate-imports": "error",
 		// "spaced-comment": "error"
-		"no-empty": "off",
-		"no-unused-vars": "off"
+		"no-empty": "off"
 	}
 }

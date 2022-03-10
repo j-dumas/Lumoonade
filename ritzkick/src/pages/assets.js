@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import dynamic from 'next/dynamic'
 import { createSocket } from 'services/SocketService'
 import Functions from 'services/CryptoService'
 import { getFavorites } from 'services/UserService'
 import { isUserConnected } from 'services/AuthService'
 import Layout from '@/layouts/Layout'
-import Icons from '../components/Icons'
+import Icons from '@/components/Icons'
 
 /* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -69,7 +68,9 @@ const Assets = () => {
 	}
 
 	async function searchAsset(keyword, page) {
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 12)
+		let list = await Functions.GetCryptocurrencySlugsBySearch(keyword, page, 12)
+
+		console.log(list)
 		setPagination([page, list.max_page])
 		let symbols = []
 		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))

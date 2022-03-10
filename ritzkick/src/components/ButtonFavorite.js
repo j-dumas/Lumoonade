@@ -3,7 +3,6 @@ import { addFavorite, deleteFavorite, getFavorites } from 'services/UserService'
 import Icons from '@/components/Icons'
 import { isUserConnected } from 'services/AuthService'
 import { AreSlugsEqual, SymbolToSlug } from 'utils/crypto'
-import { DriveEtaOutlined } from '@mui/icons-material'
 
 function ButtonFavorite(props) {
 	const [favorite, setFavorite] = useState(false)

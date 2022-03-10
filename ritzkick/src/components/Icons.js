@@ -6,7 +6,6 @@ import {
 	faBars,
 	faBell,
 	faChartLine,
-	faCheckSquare,
 	faChevronDown,
 	faCoins,
 	faDoorClosed,

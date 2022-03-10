@@ -15,8 +15,8 @@ export default function ProfileFavorite() {
 	const { t } = useTranslation('profile')
 
 	const [socket, setSocket] = useState()
-	const [dateRange, setDateRange] = useState('1d')
-	const [interval, setInterval] = useState('1h')
+	const dateRange = '1d'
+	const interval = '1h'
 	const [data, setData] = useState([])
 	const [currentPage, setCurrentPage] = useState(1)
 	const [maxPage, setMaxPage] = useState(1)

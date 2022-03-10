@@ -11,10 +11,10 @@ function SimpleCryptoCardDashboard(props) {
 		if (props.socket) return () => props.socket.disconnect()
 		console.log(props.refresh)
 	}, [])
-	//  row center start
+
 	return (
 		<section className={props.small == true ? 'dashboard-small' : 'dashboard'}>
-			{datas.map((element, i) => {
+			{datas.map((element) => {
 				let chartData = chartDatas.find((chartElement) => {
 					return chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()
 				})

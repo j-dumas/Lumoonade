@@ -8,7 +8,7 @@ import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import { deleteCookie, getCookie } from 'services/CookieService'
+import { getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 
@@ -56,13 +56,13 @@ const Profile = () => {
 								className={viewState ? 'profile-nav-selected' : 'profile-nav'}
 								onClick={() => setViewState(true)}
 							>
-								Alertes
+								{t('alerts.title')}
 							</button>
 							<button
 								className={viewState ? 'profile-nav' : 'profile-nav-selected'}
 								onClick={() => setViewState(false)}
 							>
-								Favoris
+								{t('favorites.title')}
 							</button>
 						</div>
 						<hr className="line"></hr>

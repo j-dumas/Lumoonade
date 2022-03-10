@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Functions from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
 import SimplestItemView from '@/components/views/SimplestItemView'
 import { useRouter } from 'next/router'
 import Icons from '../../components/Icons'
@@ -50,7 +49,7 @@ function CompareMenu(props) {
 		event.preventDefault()
 		let search = event.target[0].value
 		if (!search) search = '0'
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 1, 8)
+		let list = await Functions.GetCryptocurrencySlugsBySearch(search, 1, 8)
 
 		setSearchList(list.assets)
 	}
@@ -134,7 +133,7 @@ function CompareMenu(props) {
 			</div>
 			<br />
 			<div className="row detailed-div-menu">
-				{props.compareList.map((element, i) => {
+				{props.compareList.map((element) => {
 					let data = {}
 					datas.map((crypto) => {
 						if (crypto.fromCurrency.toString() + '-' + props.currency == element) {
