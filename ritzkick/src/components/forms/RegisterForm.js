@@ -64,7 +64,7 @@ const RegisterForm = () => {
 				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
 			>
 				<Alert onClose={handleClose} severity="success">
-					{'Un email de confirmation a été envoyé à ' + state.email}
+					{`${t('register.email')} ${state.email}`}
 				</Alert>
 			</Snackbar>
 			<Container className="form">
@@ -72,7 +72,7 @@ const RegisterForm = () => {
 				<form onSubmit={handleSubmit}>
 					{!!error && (
 						<FormHelperText className="wrong" sx={{ m: 1 }}>
-							Se courriel est déjà utilisé. Veuillez en entrer une autre.
+							{t('validation.unique-email')}
 						</FormHelperText>
 					)}
 					<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
@@ -136,7 +136,7 @@ const RegisterForm = () => {
 					<div className="row center">
 						<Checkbox required color="secondary" />
 						<Link href="/tos">
-							<a className="link">Accept terms of service</a>
+							<a className="link">{t('register.tos')}</a>
 						</Link>
 					</div>
 					<input id="submitButton" type="submit" value={t('register.submit')} />

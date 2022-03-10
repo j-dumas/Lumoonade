@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, Snackbar } from '@mui/material'
 
+import { useTranslation } from 'next-i18next'
+
 export default function ProfilePurge(props) {
+	const { t } = useTranslation('profile')
+
 	const [openStatus, setOpenStatus] = useState(false)
 	const [deletedSessions, setDeletedSessions] = useState(props.user.sessions - 1)
 
@@ -30,17 +34,17 @@ export default function ProfilePurge(props) {
 				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
 			>
 				<Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-					{deletedSessions} Session(s) éffacée(s)!
+					{`${deletedSessions} ${t('sessions.deleted')}`}
 				</Alert>
 			</Snackbar>
-			<h2>Vous avez présentement {props.user.sessions} session(s) active(s)</h2>
+			<h2>{`${t('sessions.have')} ${props.user.sessions} ${t('sessions.active')}`}</h2>
 			<button
 				id="purge-session"
 				onClick={(event) => {
 					removeUserSession(event)
 				}}
 			>
-				Effacer les sessions inutiles
+				{t('sessions.delete')}
 			</button>
 		</div>
 	)

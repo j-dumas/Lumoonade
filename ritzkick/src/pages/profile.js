@@ -15,6 +15,8 @@ import { CircularProgress } from '@mui/material'
 const CURRENCY = 'cad'
 
 const Profile = () => {
+	const { t } = useTranslation('profile')
+
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
 	const router = useRouter()
@@ -94,7 +96,7 @@ Profile.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'profile']))
+			...(await serverSideTranslations(locale, ['common', 'profile', 'forms', 'alert']))
 		}
 	}
 }

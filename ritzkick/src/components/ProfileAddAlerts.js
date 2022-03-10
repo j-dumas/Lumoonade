@@ -19,6 +19,8 @@ import Functions from 'services/CryptoService'
 import { SlugToSymbol, AreSlugsEqual } from '../../utils/crypto'
 import { createSocket } from 'services/SocketService'
 
+import { useTranslation } from 'next-i18next'
+
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
@@ -146,16 +148,13 @@ export default function ProfileAddAlerts(props) {
 				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
 			>
 				<Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-					Alerte ajoutée!
+					{t('added')}
 				</Alert>
 			</Snackbar>
 			<Modal>
 				<div className="edit-popup">
-					<h1>Ajouter une alerte</h1>
-					<p>
-						L&apos;alerte nous permet de vous envoyez un courriel lorsque la condition que vous entrez
-						n&apos;est pas respectée
-					</p>
+					<h1>{t('title')}</h1>
+					<p>{t('description')}</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl
 							sx={{ m: 1, width: '25%', minWidth: '50px' }}
@@ -163,7 +162,7 @@ export default function ProfileAddAlerts(props) {
 							variant="filled"
 							disabled={props.provenance}
 						>
-							<InputLabel>Crypto</InputLabel>
+							<InputLabel>{t('labels.crypto')}</InputLabel>
 							<Select
 								name="slug"
 								defaultValue={props.provenance ? slug : ''}
@@ -179,14 +178,14 @@ export default function ProfileAddAlerts(props) {
 							</Select>
 						</FormControl>
 						<FormControl sx={{ m: 1, width: '30%' }} className="inputField" variant="filled">
-							<InputLabel>Symbole</InputLabel>
+							<InputLabel>{t('labels.symbol')}</InputLabel>
 							<Select name="parameter" defaultValue="" onChange={handleChange} required>
-								<MenuItem value="lte">Moins que la valeur</MenuItem>
-								<MenuItem value="gte">Plus que la valeur</MenuItem>
+								<MenuItem value="lte">{t('labels.less')}</MenuItem>
+								<MenuItem value="gte">{t('labels.greater')}</MenuItem>
 							</Select>
 						</FormControl>
 						<FormControl className="inputField" sx={{ m: 1, width: '25%' }} variant="filled">
-							<InputLabel htmlFor="outlined-adornment-amount">Valeur</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-amount">{t('labels.value')}</InputLabel>
 							<OutlinedInput
 								id="outlined-adornment-amount"
 								name="target"
@@ -209,16 +208,17 @@ export default function ProfileAddAlerts(props) {
 									state.slug !== undefined &&
 									(state.parameter === 'lte' ? (
 										<div>
-											Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
+											{`${t('validation.between.enter')} ${minPrice} 
+										${t('validation.between.and')} ${maxPrice}$`}
 										</div>
 									) : (
-										<div>Veuillez entrer une valeur minimal {minPrice}$</div>
+										<div>{`${t('validation.minimum')} ${minPrice}$`}</div>
 									))}
 							</div>
 							<div className="row">
-								<input type="submit" value="Ajouter"></input>
+								<input type="submit" value={t('add')}></input>
 								<button type="button" onClick={close} id="cancel-edit">
-									Annuler
+									{t('cancel')}
 								</button>
 							</div>
 						</div>
