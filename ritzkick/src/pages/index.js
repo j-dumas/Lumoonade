@@ -19,9 +19,8 @@ const Home = () => {
 
 	useEffect(() => {
 		if (logout) {
-			console.log('called')
 			deleteCookie('token')
-			console.log(getCookie('token'))
+			router.reload(window.location.pathname)
 		}
 	}, [])
 

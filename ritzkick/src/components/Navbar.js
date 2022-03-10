@@ -9,7 +9,7 @@ import { getCookie } from 'services/CookieService'
 function Navbar(props) {
 	const { t } = useTranslation('common')
 	const router = useRouter()
-	const { login } = router.query
+	const { login,logout } = router.query
 
 	const [click, setClick] = useState(false)
 	const handleClick = () => setClick(!click)
@@ -31,10 +31,16 @@ function Navbar(props) {
 	}, [])
 
 	useEffect(() => {
-		if (login === 'true') {
+		if (login) {
 			setConnection(true)
 		}
 	}, [login])
+
+	useEffect(() => {
+		if(logout){
+			setConnection(false)
+		}
+	}, [logout])
 
 	return (
 		<>

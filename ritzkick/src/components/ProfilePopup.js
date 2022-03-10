@@ -24,6 +24,7 @@ export default function ProfilePopup(props) {
 		newPassConfirmationShow: false
 	})
 	const [error, setError] = useState(false)
+	const router = useRouter()
 
 	function eraseFieldValue() {
 		resetValues()
@@ -32,6 +33,7 @@ export default function ProfilePopup(props) {
 	function deleteAuthUser() {
 		if (confirm('Êtes-vous sur de vouloir supprimer votre compte?')) {
 			deleteUser()
+			router.push({pathname: "/", query: {logout: true}})
 		}
 	}
 
