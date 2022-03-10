@@ -9,7 +9,11 @@ import { SlugToSymbol, AreSlugsEqual } from '../../utils/crypto'
 import format from '../../utils/formatter'
 import { CircularProgress } from '@mui/material'
 
+import { useTranslation } from 'next-i18next'
+
 export default function ProfileAlerts(props) {
+	const { t } = useTranslation('profile')
+
 	const [socket, setSocket] = useState()
 	const [alerts, setAlerts] = useState([])
 	const [data, setData] = useState([])
@@ -62,7 +66,7 @@ export default function ProfileAlerts(props) {
 	return (
 		<div id="alerts column center">
 			<div id="alerts-header" className="row">
-				<h1>Alerte(s)</h1>
+				<h1>{t('alerts.title')}</h1>
 				<ProfileAddAlerts currency={props.currency} onDataChange={fetchAssets} />
 				<Snackbar
 					sx={{ m: 6 }}
@@ -72,7 +76,7 @@ export default function ProfileAlerts(props) {
 					anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
 				>
 					<Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-						Alerte supprimée!
+						{t('alerts.deleted')}
 					</Alert>
 				</Snackbar>
 			</div>
@@ -90,9 +94,9 @@ export default function ProfileAlerts(props) {
 						<ul>
 							<li>
 								<div className="row alert-card alert-title-card">
-									<div>Name</div>
-									<div>Current Price</div>
-									<div>Target Price</div>
+									<div>{t('alerts.card.name')}</div>
+									<div>{t('alerts.card.current')}</div>
+									<div>{t('alerts.card.target')}</div>
 								</div>
 							</li>
 							{alerts.map((alert) => {
@@ -116,7 +120,7 @@ export default function ProfileAlerts(props) {
 					</div>
 				)
 			) : (
-				<h1>Aucune alerte</h1>
+				<h1>{t('alerts.none')}</h1>
 			)}
 			<div className="row center">
 				{currentPage > 1 && (
@@ -125,7 +129,7 @@ export default function ProfileAlerts(props) {
 						onClick={() => fetchAssets(currentPage - 1)}
 					>
 						<ArrowLeft />
-						<div>Previous Page</div>
+						<div>{t('pages.previous')}</div>
 					</button>
 				)}
 				<div>{currentPage}</div>
@@ -134,7 +138,7 @@ export default function ProfileAlerts(props) {
 						className="alert-page-control-buttons row center"
 						onClick={() => fetchAssets(currentPage + 1)}
 					>
-						<div>Next Page</div>
+						<div>{t('pages.next')}</div>
 						<ArrowRight />
 					</button>
 				)}

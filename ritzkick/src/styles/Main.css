@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
 
 :root {
-	--headline: calc(35px + 4vw);
+	--headline: calc(35px + 4.5vw);
 	--title: calc(30px + 2vw);
 	--subtitle: calc(var(--title) / 3);
 	--subtitle-small: calc(var(--title) / 4);
@@ -106,6 +106,7 @@ p {
 
 .website-title {
 	font-size: var(--headline);
+	color: white;
 	margin: 0;
 	font-weight: bold;
 	text-align: left;
@@ -125,6 +126,7 @@ p {
 
 .subtitle {
 	font-size: var(--subtitle);
+	fill: white;
 }
 
 .subtitle-small {
@@ -320,4 +322,38 @@ label {
 
 .gap-5 {
 	gap: 5px !important;
+}
+
+.gap-0 {
+	gap: 0px !important;
+}
+
+.anim {
+	stroke: white;
+	stroke-width: 1;
+	fill: white;
+	animation: textAnimate 8s ease;
+}
+
+@keyframes textAnimate {
+	0% {
+		stroke-dasharray: 0 50%;
+		stroke-dashoffset: 20%;
+		fill: var(--navbar-color);
+		stroke: var(--main-color);
+	}
+
+	75% {
+		stroke-dasharray: 50% 0;
+		stroke-dashoffstet: -20%;
+		fill: transparent;
+		stroke: white;
+	}
+
+	100% {
+		stroke-dasharray: 50% 0;
+		stroke-dashoffstet: -20%;
+		fill: white;
+		stroke: white;
+	}
 }

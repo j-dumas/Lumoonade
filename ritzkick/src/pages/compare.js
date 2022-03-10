@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import DomHead from '@/components/DomHead'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import CompareView from '@/components/views/CompareView'
 import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
+
+const CompareView = dynamic(() => import('@/components/views/CompareView'))
 
 const CURRENCY = 'cad'
 

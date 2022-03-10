@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SimpleWalletAssetView from '@/components/views/SimpleWalletAssetView'
-import { isUserConnected } from '../../services/AuthService'
-import { AreSlugsEqual } from '../../utils/crypto'
+import { AreSlugsEqual } from 'utils/crypto'
 
 function SimpleWalletAssetDashboard(props) {
 	const [datas, setDatas] = useState([])
@@ -37,7 +36,7 @@ function SimpleWalletAssetDashboard(props) {
 						</div>
 					</div>
 				</div>
-				{datas.map((element, i) => {
+				{datas.map((element) => {
 					let data = datas.find((el) => {
 						return AreSlugsEqual(
 							el.fromCurrency.toString().toUpperCase(),

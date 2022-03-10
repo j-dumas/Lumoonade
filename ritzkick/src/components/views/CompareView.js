@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import Functions from 'services/CryptoService'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
 import CompareMenu from '@/components/menus/CompareMenu'
 import { useRouter } from 'next/router'
-import { createSocket } from '../../../services/SocketService'
+import { createSocket } from 'services/SocketService'
 import { useTranslation } from 'next-i18next'
 import { isUserConnected } from 'services/AuthService'
 import Link from 'next/link'
-
-const io = require('socket.io-client')
 
 const CompareView = (props) => {
 	const { t } = useTranslation('compare')
 
 	const router = useRouter()
 	const [slug] = useState('Dummy' + '-' + props.currency)
-	const [firstData, setFirstData] = useState()
 	const [compareList, setCompareList] = useState(getFirstCompareList())
 	const [userConnected, setUserConnected] = useState(false)
 
-	const [dateRange, setDateRange] = useState('5d')
-	const [interval, setInterval] = useState('15m')
+	const [dateRange] = useState('5d')
+	const [interval] = useState('15m')
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {
@@ -42,14 +38,10 @@ const CompareView = (props) => {
 		return params
 	}
 
-	useEffect(async () => {
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-	}, [compareList])
-
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>
 
-	return !firstData || !socket ? (
+	return !socket ? (
 		<p>Loading...</p>
 	) : (
 		<div className="detailed-crypto-view column">

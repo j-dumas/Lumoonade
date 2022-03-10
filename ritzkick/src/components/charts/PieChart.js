@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { Line, Doughnut, Pie, Chart as Charts } from 'react-chartjs-2'
-import Chart from 'chart.js/auto'
-import GetColorBySlug from '../../../utils/color'
-import { getUserDashboardData } from '../../../services/dashboard-service'
+import React, { useEffect, useState } from 'react'
+import { Pie } from 'react-chartjs-2'
+import GetColorBySlug from 'utils/color'
 import { AreSlugsEqual } from 'utils/crypto'
 
 function PieChart(props) {
-	const [chartReference, setCR] = useState(React.createRef())
+	const [chartReference] = useState(React.createRef())
 
-	const [data, setData] = useState({
+	const [data] = useState({
 		maintainAspectRatio: false,
 		responsive: false,
 		labels: [0],
@@ -117,7 +115,6 @@ function PieChart(props) {
 		}
 	}
 
-	let chartInstance = null
 	return !data ? (
 		<></>
 	) : (
@@ -127,5 +124,5 @@ function PieChart(props) {
 		</div>
 	)
 }
-//ref={input => {chartInstance = input}}
+// ref={input => {chartInstance = input}}
 export default PieChart

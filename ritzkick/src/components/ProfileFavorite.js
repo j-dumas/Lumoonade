@@ -6,13 +6,17 @@ import { createSocket } from 'services/SocketService'
 import { CircularProgress } from '@mui/material'
 import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 
-const CURRENCY = 'cad'
+import { useTranslation } from 'next-i18next'
+
+const CURRENCY = 'usd'
 const PAGE_LIMIT = 5
 
 export default function ProfileFavorite() {
+	const { t } = useTranslation('profile')
+
 	const [socket, setSocket] = useState()
-	const [dateRange, setDateRange] = useState('1d')
-	const [interval, setInterval] = useState('1h')
+	const [dateRange] = useState('1d')
+	const [interval] = useState('1h')
 	const [data, setData] = useState([])
 	const [currentPage, setCurrentPage] = useState(1)
 	const [maxPage, setMaxPage] = useState(1)
@@ -48,11 +52,11 @@ export default function ProfileFavorite() {
 		<div id="favorites">
 			{data.length !== 0 ? (
 				<div>
-					<h1>Favoris</h1>
+					<h1>{t('favorites.title')}</h1>
 					<SimpleCryptoDashboard socket={socket} />
 				</div>
 			) : (
-				<h1>Aucun favoris</h1>
+				<h1>{t('favorites.none')}</h1>
 			)}
 			<div className="row center">
 				{currentPage > 1 && (

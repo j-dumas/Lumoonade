@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import SimpleChart from '@/components/charts/SimpleChart'
-import Icons from '@/components/Icons'
+import React, { useState } from 'react'
 import format from '../../../utils/formatter'
-import { isUserConnected } from '../../../services/AuthService'
-import ButtonFavorite from '../ButtonFavorite'
 import Image from 'next/image'
 
 function SimpleCryptoView(props) {

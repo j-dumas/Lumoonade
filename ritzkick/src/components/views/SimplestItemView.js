@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import GetColorBySlug from 'utils/color'
 import Icons from '@/components/Icons'
 import format from 'utils/formatter'
@@ -12,7 +12,7 @@ function SimplestItemView(props) {
 	return (
 		<>
 			<div className="dynamic-list-item compare-item space-between row h-center">
-				{!props.data.fromCurrency ? (
+				{!props.data ? (
 					<div className="c-font-2">Loading...</div>
 				) : (
 					<>

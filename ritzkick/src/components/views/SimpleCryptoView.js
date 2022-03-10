@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import SimpleChart from '@/components/charts/SimpleChart'
-import Icons from '@/components/Icons'
 import format from '../../../utils/formatter'
 import { isUserConnected } from '../../../services/AuthService'
 import ButtonFavorite from '../ButtonFavorite'
@@ -8,8 +7,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export default function SimpleCryptoView(props) {
-	const [imgLoaded, setImgStatus] = useState(false)
-
 	return (
 		<Link href={'/asset/' + props.data.fromCurrency.toString().toLowerCase()}>
 			<div className="simple-crypto-view row center">

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Functions from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
 import SimplestItemView from '@/components/views/SimplestItemView'
 import { useRouter } from 'next/router'
 import Icons from '../../components/Icons'
+import { AreSlugsEqual } from 'utils/crypto'
 
 import { useTranslation } from 'next-i18next'
 
@@ -50,7 +50,7 @@ function CompareMenu(props) {
 		event.preventDefault()
 		let search = event.target[0].value
 		if (!search) search = '0'
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(search, 1, 8)
+		let list = await Functions.GetCryptocurrencySlugsBySearch(search, 1, 8)
 
 		setSearchList(list.assets)
 	}
@@ -73,8 +73,8 @@ function CompareMenu(props) {
 		const lastCompareList = props.compareList
 		lastCompareList.push(elementToAdd)
 		props.setCompareList(lastCompareList)
-		setSearchList([])
 
+		setSearchList([])
 		changeURI()
 	}
 
@@ -134,12 +134,10 @@ function CompareMenu(props) {
 			</div>
 			<br />
 			<div className="row detailed-div-menu">
-				{props.compareList.map((element, i) => {
-					let data = {}
+				{props.compareList.map((element) => {
+					let data
 					datas.map((crypto) => {
-						if (crypto.fromCurrency.toString() + '-' + props.currency == element) {
-							data = crypto
-						}
+						if (AreSlugsEqual(crypto.fromCurrency, element)) data = crypto
 					})
 					return <SimplestItemView command={removeFromCompareList} slug={element} data={data} key={element} />
 				})}
