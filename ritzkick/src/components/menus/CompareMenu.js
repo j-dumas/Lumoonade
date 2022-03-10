@@ -3,6 +3,7 @@ import Functions from 'services/CryptoService'
 import SimplestItemView from '@/components/views/SimplestItemView'
 import { useRouter } from 'next/router'
 import Icons from '../../components/Icons'
+import { AreSlugsEqual } from 'utils/crypto'
 
 import { useTranslation } from 'next-i18next'
 
@@ -72,8 +73,8 @@ function CompareMenu(props) {
 		const lastCompareList = props.compareList
 		lastCompareList.push(elementToAdd)
 		props.setCompareList(lastCompareList)
-		setSearchList([])
 
+		setSearchList([])
 		changeURI()
 	}
 
@@ -134,11 +135,9 @@ function CompareMenu(props) {
 			<br />
 			<div className="row detailed-div-menu">
 				{props.compareList.map((element) => {
-					let data = {}
+					let data
 					datas.map((crypto) => {
-						if (crypto.fromCurrency.toString() + '-' + props.currency == element) {
-							data = crypto
-						}
+						if (AreSlugsEqual(crypto.fromCurrency, element)) data = crypto
 					})
 					return <SimplestItemView command={removeFromCompareList} slug={element} data={data} key={element} />
 				})}

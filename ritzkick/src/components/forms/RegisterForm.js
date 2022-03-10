@@ -66,7 +66,7 @@ const RegisterForm = () => {
 					{`${t('register.email')} ${state.email}`}
 				</Alert>
 			</Snackbar>
-			<Container className="form">
+			<Container className="column p-3 form">
 				<h1 className="form-title">{t('register.title')}</h1>
 				<form onSubmit={handleSubmit}>
 					{!!error && (

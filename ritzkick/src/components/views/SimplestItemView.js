@@ -12,7 +12,7 @@ function SimplestItemView(props) {
 	return (
 		<>
 			<div className="dynamic-list-item compare-item space-between row h-center">
-				{!props.data.fromCurrency ? (
+				{!props.data ? (
 					<div className="c-font-2">Loading...</div>
 				) : (
 					<>
