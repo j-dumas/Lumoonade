@@ -33,12 +33,12 @@ const create = async () => {
 		rejectUnauthorized: false,
 		auth: {
 			rooms: ['general'],
-			query: listen		
+			query: listen
 		}
 	})
 
-	client.on("connect_error", (err) => {
-		console.log(`connect_error due to ${err.message}`);
+	client.on('connect_error', (err) => {
+		console.log(`connect_error due to ${err.message}`)
 	})
 
 	client.on('ready', (_) => {
@@ -52,7 +52,11 @@ const create = async () => {
 	client.on('data', (data) => {
 		if (!data) return
 		data.forEach((d) => {
-			try { tracker(d.symbol.toLowerCase(), d.regularMarketPrice) } catch (e) { console.log(e) }
+			try {
+				tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
+			} catch (e) {
+				console.log(e)
+			}
 		})
 	})
 }

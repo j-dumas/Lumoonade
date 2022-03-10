@@ -11,12 +11,12 @@ export default function EmailConfirmationCard() {
 	const { key } = router.query
 
 	useEffect(async () => {
-		if(key !== undefined){
+		if (key !== undefined) {
 			await confirmEmail(key)
 		}
 
 		setInterval(() => {
-			router.push("/login")
+			router.push('/login')
 		}, 4000)
 	}, [key])
 

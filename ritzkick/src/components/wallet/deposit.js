@@ -29,7 +29,7 @@ const MenuProps = {
 }
 
 function WalletDeposit(props) {
-	const [state, handleChange] = useForm({asset:props.default})
+	const [state, handleChange] = useForm({ asset: props.default })
 	const [date] = useState(new Date().toISOString().slice(0, 10))
 	const [data, setData] = useState()
 
@@ -77,17 +77,23 @@ function WalletDeposit(props) {
 				</div>
 
 				<label htmlFor="asset">Asset</label>
-				{props.default ?
-				<input name="" id="" value={props.default} disabled />
-				:
-				<Select name="asset" defaultValue={props.default} onChange={handleChange} MenuProps={MenuProps} required>
-					{parseData().map((crypt) => (
-						<MenuItem key={crypt.value} value={crypt.value}>
-							{crypt.label}
-						</MenuItem>
-					))}
-				</Select>
-				}
+				{props.default ? (
+					<input name="" id="" value={props.default} disabled />
+				) : (
+					<Select
+						name="asset"
+						defaultValue={props.default}
+						onChange={handleChange}
+						MenuProps={MenuProps}
+						required
+					>
+						{parseData().map((crypt) => (
+							<MenuItem key={crypt.value} value={crypt.value}>
+								{crypt.label}
+							</MenuItem>
+						))}
+					</Select>
+				)}
 				<label htmlFor="boughtAt">Bought at</label>
 				<input name="boughtAt" onChange={handleChange} className="wallet-input" type="number" required />
 				<label htmlFor="price">Amount (price)</label>

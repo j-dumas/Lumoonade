@@ -29,7 +29,9 @@ export default function DetailedChartMenu(props) {
 									inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase())
 								)
 							) {
-								let value = getIntervalOptionsByDateRange(e.target.value, t)[Object.keys(availableIntervals)[0]]
+								let value = getIntervalOptionsByDateRange(e.target.value, t)[
+									Object.keys(availableIntervals)[0]
+								]
 								props.sendInterval(value)
 								setCurrentInterval(value)
 							}
@@ -66,7 +68,7 @@ export default function DetailedChartMenu(props) {
 						name="interval"
 					>
 						<optgroup label={t('menu.interval')}>
-							{Object.keys(getIntervalOptionsByDateRange(dateRange, t)).map(element => {
+							{Object.keys(getIntervalOptionsByDateRange(dateRange, t)).map((element) => {
 								let value = getIntervalOptionsByDateRange(dateRange, t)[element]
 								return (
 									<option key={element} value={element}>

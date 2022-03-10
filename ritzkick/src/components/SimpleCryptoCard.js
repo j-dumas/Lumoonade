@@ -18,7 +18,11 @@ function SimpleCryptoCard(props) {
 							<p className="card-title">{props.data.shortName}</p>
 							<p className="card-slug">{props.data.fromCurrency}</p>
 						</div>
-						{!isUserConnected() ? <></> : <ButtonFavorite refresh={props.refresh} slug={props.data.fromCurrency} />}
+						{!isUserConnected() ? (
+							<></>
+						) : (
+							<ButtonFavorite refresh={props.refresh} slug={props.data.fromCurrency} />
+						)}
 					</div>
 					<div className="row card-row space-between">
 						<p className="card-price">{format(props.data.regularMarketPrice)} $</p>
