@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Icons from '@/components/Icons'
-import { AreSlugsEqual } from '../../../utils/crypto'
-import format from '../../../utils/formatter'
 
-import WalletDeposit from '../../components/wallet/deposit'
-import WalletWithdraw from '../../components/wallet/withdraw'
+import WalletDeposit from '@/components/wallet/deposit'
+import WalletWithdraw from '@/components/wallet/withdraw'
 
-function PortfolioMenuD(props) {
+function PortfolioMenuD() {
 	const [withdraw, setWithdraw] = useState(false)
 	const openWithdraw = () => setWithdraw(true)
 	const closeWithdraw = () => setWithdraw(false)
