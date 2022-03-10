@@ -10,12 +10,6 @@ import ButtonFavorite from '@/components/ButtonFavorite'
 import {createSocket} from 'services/SocketService'
 
 import dynamic from 'next/dynamic'
-const DetailedMenu = dynamic(
-	() => {
-		return import('../../components/menus/DetailedMenu')
-	},
-	{ ssr: false }
-)
 
 const io = require('socket.io-client')
 
