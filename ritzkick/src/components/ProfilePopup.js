@@ -36,7 +36,7 @@ export default function ProfilePopup(props) {
 	function deleteAuthUser() {
 		if (confirm(t('modify.delete.confirmation'))) {
 			deleteUser()
-			router.push({pathname: "/", query: {logout: true}})
+			router.push({ pathname: '/', query: { logout: true } })
 		}
 	}
 

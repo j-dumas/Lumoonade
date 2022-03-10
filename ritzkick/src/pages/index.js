@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { deleteCookie, getCookie } from 'services/CookieService'
+import { deleteCookie } from 'services/CookieService'
 
 const Home = () => {
 	const { t } = useTranslation('index')

@@ -63,7 +63,7 @@ const Assets = () => {
 		event.preventDefault()
 
 		const search = event.target[0].value
-		
+
 		if (!search || search == undefined || search == '') {
 			/*console.log('called')
 			setSearchList([])
@@ -115,10 +115,7 @@ const Assets = () => {
 								{favSocket.auth.query.length == 0 ? (
 									<></>
 								) : (
-									<SimpleCryptoCardDashboard
-										socket={favSocket}
-										small={true}
-									/>
+									<SimpleCryptoCardDashboard socket={favSocket} small={true} />
 								)}
 							</>
 						) : null}
@@ -126,7 +123,7 @@ const Assets = () => {
 							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
-						<SimpleCryptoCardDashboard socket={socket}/>
+						<SimpleCryptoCardDashboard socket={socket} />
 						{searchList.length > 0 && pagination[1] > 1 ? (
 							<div className="row center">
 								<button onClick={decrementPage}>{'<'}</button>
