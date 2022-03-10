@@ -31,22 +31,20 @@ const Dashboard = () => {
 	return !socket ? (
 		<></>
 	) : (
-		<>
-			<section className="section column principal first center">
-				<section className="sub-section">
-					<div className="page-menu space-between row h-center">
-						<div className="row h-center detailed-menu-info">
-							<h1 className="detailed-menu-title">Portfolio</h1>
-						</div>
+		<section className="section column principal first center">
+			<section className="sub-section">
+				<div className="page-menu space-between row h-center">
+					<div className="row h-center detailed-menu-info">
+						<h1 className="detailed-menu-title">Portfolio</h1>
 					</div>
-					<div className="row">
-						<PieChart socket={socket} />
-						<DetailedChart socket={socket} slug={slug} />
-					</div>
-					<SimpleCryptoDashboard socket={socket} />
-				</section>
+				</div>
+				<div className="row">
+					<PieChart socket={socket} />
+					<DetailedChart socket={socket} slug={slug} />
+				</div>
+				<SimpleCryptoDashboard socket={socket} />
 			</section>
-		</>
+		</section>
 	)
 }
 //

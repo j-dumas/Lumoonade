@@ -70,7 +70,7 @@ function WalletWithdraw(props) {
 				{props.default ? (
 					<input name="" id="" value={props.default} disabled />
 				) : (
-					<Select name="asset" onChange={handleChange} MenuProps={MenuProps} required>
+					<Select className='inputField' name="asset" onChange={handleChange} MenuProps={MenuProps} required>
 						{parseData().map((crypt) => (
 							<MenuItem key={crypt.value} value={crypt.value}>
 								{crypt.label}
@@ -86,7 +86,7 @@ function WalletWithdraw(props) {
 				<input
 					name="date"
 					max={date}
-					value={date}
+					defaultValue={date}
 					onChange={handleChange}
 					className="wallet-input"
 					type="date"

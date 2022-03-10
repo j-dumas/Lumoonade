@@ -69,6 +69,7 @@ function WalletDeposit(props) {
 					<input name="" id="" value={props.default} disabled />
 				) : (
 					<Select
+						className='inputField'
 						name="asset"
 						defaultValue={props.default}
 						onChange={handleChange}
@@ -90,7 +91,7 @@ function WalletDeposit(props) {
 				<input
 					name="date"
 					max={date}
-					value={date}
+					defaultValue={date}
 					onChange={handleChange}
 					className="wallet-input"
 					type="date"

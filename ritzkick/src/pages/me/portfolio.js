@@ -51,22 +51,35 @@ const Portfolio = () => {
 	}, [])
 
 	return !socket || !portfolioSocket || !assets || assets == undefined ? (
-		<></>
-	) : (
-		<>
-			<section className="section column principal first center">
-				<section className="sub-section column">
-					<PortfolioMenu socket={socket} assets={assets} />
-					<DetailedChart socket={portfolioSocket} slug={slug} wallet={true} />
-					<div className="row space-between stretch">
-						<PieChart socket={socket} assets={assets} />
-						<BarChart socket={socket} assets={assets} />
+		<section className="section column principal first center">
+			<section className="sub-section column">
+				<PortfolioMenu socket={socket} assets={assets} />
+				<div className="detailed-chart detailed-div"/>
+				<div className="row space-between stretch">
+					<div className="column pie-chart">
+						<p className="detailed-div-title">Assets division (%)</p>
 					</div>
-					<SimpleWalletAssetDashboard socket={socket} assets={assets} />
-					<SimpleCryptoDashboard socket={socket} />
-				</section>
+					<div className="column bar-chart">
+						<p className="detailed-div-title">Assets division ($)</p>
+					</div>
+				</div>
+				<div className="simple-crypto-dashboard v-center"/>
+				<div className="simple-crypto-dashboard v-center"/>
 			</section>
-		</>
+		</section>
+	) : (
+		<section className="section column principal first center">
+			<section className="sub-section column">
+				<PortfolioMenu socket={socket} assets={assets} />
+				<DetailedChart socket={portfolioSocket} slug={slug} wallet={true} />
+				<div className="row space-between stretch">
+					<PieChart socket={socket} assets={assets} />
+					<BarChart socket={socket} assets={assets} />
+				</div>
+				<SimpleWalletAssetDashboard socket={socket} assets={assets} />
+				<SimpleCryptoDashboard socket={socket} />
+			</section>
+		</section>
 	)
 }
 // <PieChart socket={socket} assets={assets}/> import PieChart from '../../components/charts/PieChart'
