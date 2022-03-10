@@ -1,6 +1,4 @@
 import ProfileHeader from '@/components/ProfileHeader'
-import ProfileAlerts from '@/components/ProfileAlerts'
-import ProfileFavorite from '@/components/ProfileFavorite'
 import { useEffect, useState } from 'react'
 import { getUser, removeSession } from 'services/UserService'
 import ProfilePurge from '@/components/ProfilePurge'
@@ -11,6 +9,10 @@ import { useTranslation } from 'next-i18next'
 import { getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
+import dynamic from 'next/dynamic'
+
+const ProfileAlerts = dynamic(() => import('@/components/ProfileAlerts'))
+const ProfileFavorite = dynamic(() => import('@/components/ProfileFavorite'))
 
 const CURRENCY = 'cad'
 
