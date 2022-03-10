@@ -124,6 +124,7 @@ describe('Tests for Socket-Manager', () => {
 	test(`When multiple client are connected to the room and someone change the query, it should not override the current query of the service`, (done) => {
 		let newQuery = ['eth-cad', 'eth-usd']
 		let newConnection = new Client(`http://localhost:${port}`, {
+			rejectUnauthorized: false,
 			auth: {
 				rooms: [defaultRoom],
 				query: defaultQuery,
@@ -154,6 +155,7 @@ describe('Tests for Socket-Manager', () => {
 	test(`When someone join with a query that already exists, the service query should not contains both version (upper cases)`, (done) => {
 		let newQuery = ['eth-cad', 'eth-usd']
 		let newConnection = new Client(`http://localhost:${port}`, {
+			rejectUnauthorized: false,
 			auth: {
 				rooms: [defaultRoom],
 				query: ['ETH-CAD'],
@@ -181,6 +183,7 @@ describe('Tests for Socket-Manager', () => {
 
 	test(`When multiple client are connected to the room and someone disconnect, it should remove the query in the service`, (done) => {
 		let newConnection = new Client(`http://localhost:${port}`, {
+			rejectUnauthorized: false,
 			auth: {
 				rooms: [defaultRoom],
 				query: [...defaultQuery, 'ada-cad'],
@@ -190,6 +193,7 @@ describe('Tests for Socket-Manager', () => {
 
 		newConnection.on('ready', () => {
 			let newConnection2 = new Client(`http://localhost:${port}`, {
+				rejectUnauthorized: false,
 				auth: {
 					rooms: [defaultRoom],
 					query: [...defaultQuery, 'eth-cad', 'eth-eur'],
