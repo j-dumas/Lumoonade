@@ -11,7 +11,7 @@ import Icons from '../components/Icons'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const Assets = () => {
 	const { t } = useTranslation('assets')

@@ -29,7 +29,7 @@ const BarChart = dynamic(
 	{ ssr: false }
 )
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const Portfolio = () => {
 	const router = useRouter()

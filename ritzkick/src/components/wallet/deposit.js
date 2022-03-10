@@ -15,7 +15,7 @@ import {
 	FormHelperText
 } from '@mui/material'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
