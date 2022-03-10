@@ -67,13 +67,12 @@ const Portfolio = () => {
 		<>
 			<section className="section column principal first center">
 				<section className="sub-section column">
-					<PortfolioMenu socket={socket} assets={assets} />
-
+					<PortfolioMenu socket={socket} assets={assets} />					
+					<DetailedChart socket={portfolioSocket} slug={slug} wallet={true} />
 					<div className="row space-between stretch">
 						<PieChart socket={socket} assets={assets} />
 						<BarChart socket={socket} assets={assets} />
 					</div>
-					<DetailedChart socket={portfolioSocket} slug={slug} wallet={true} />
 					<SimpleWalletAssetDashboard socket={socket} assets={assets} />
 					<SimpleCryptoDashboard socket={socket} />
 				</section>

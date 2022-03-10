@@ -119,7 +119,7 @@ function PieChart(props) {
 
 	let chartInstance = null
 	return !data ? <></> :
-		<div className="pie-chart">
+		<div className="column pie-chart">
 			<p className="detailed-div-title">Assets division (%)</p>
 			<Pie name="pie" data={data} options={pieOptions} ref={chartReference} />
 		</div>
