@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import GetColorBySlug from 'utils/color'
 import { AreSlugsEqual } from 'utils/crypto'
+import 'chart.js/auto'
 
 function PieChart(props) {
 	const [chartReference] = useState(React.createRef())
