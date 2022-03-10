@@ -46,7 +46,7 @@ function PieChart(props) {
 			assets.forEach((asset) => {
 				if (!AreSlugsEqual(asset.name, datas.fromCurrency)) return
 				labels.push(datas.fromCurrency.toString().toUpperCase())
-				data.push(datas.regularMarketPrice * asset.amount/max*100)
+				data.push(((datas.regularMarketPrice * asset.amount) / max) * 100)
 				backgroudColors.push(GetColorBySlug(datas.fromCurrency.toString()))
 			})
 		})
@@ -118,11 +118,14 @@ function PieChart(props) {
 	}
 
 	let chartInstance = null
-	return !data ? <></> :
+	return !data ? (
+		<></>
+	) : (
 		<div className="column pie-chart">
 			<p className="detailed-div-title">Assets division (%)</p>
 			<Pie name="pie" data={data} options={pieOptions} ref={chartReference} />
 		</div>
+	)
 }
 //ref={input => {chartInstance = input}}
 export default PieChart

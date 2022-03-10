@@ -98,20 +98,33 @@ const Assets = () => {
 									<Icons.StarFulled />
 									<h1>{t('favorites')}</h1>
 								</div>
-								{ favSocket.auth.query.length == 0 ? <></> :
-								<SimpleCryptoCardDashboard refresh={prepareFavSocket} socket={favSocket} small={true} />}
+								{favSocket.auth.query.length == 0 ? (
+									<></>
+								) : (
+									<SimpleCryptoCardDashboard
+										refresh={prepareFavSocket}
+										socket={favSocket}
+										small={true}
+									/>
+								)}
 							</>
 						) : null}
 						<div className="row start">
 							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
-						<SimpleCryptoCardDashboard socket={socket}/>
-						{searchList.length > 0 && pagination[1] > 1 ?
-						<div className='row center'>
-							<button onClick={decrementPage}>{'<'}</button><p>{pagination[0]} / {pagination[1]}</p><button  onClick={incrementPage}>{'>'}</button>
-						</div>
-						:<></>}
+						<SimpleCryptoCardDashboard socket={socket} />
+						{searchList.length > 0 && pagination[1] > 1 ? (
+							<div className="row center">
+								<button onClick={decrementPage}>{'<'}</button>
+								<p>
+									{pagination[0]} / {pagination[1]}
+								</p>
+								<button onClick={incrementPage}>{'>'}</button>
+							</div>
+						) : (
+							<></>
+						)}
 					</>
 				) : null}
 			</section>
