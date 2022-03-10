@@ -19,6 +19,7 @@ describe('Tests for Socket-Manager', () => {
 	beforeEach((done) => {
 		port = server.address().port
 		client = new Client(`http://localhost:${port}`, {
+			rejectUnauthorized: false,
 			auth: {
 				rooms: [defaultRoom],
 				query: defaultQuery,

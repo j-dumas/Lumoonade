@@ -8,7 +8,18 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { useForm } from '@/components/hooks/useForm'
 import { Email, Visibility, VisibilityOff, AccountCircle } from '@mui/icons-material'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, FormHelperText, Snackbar, Alert, Checkbox, FormControlLabel } from '@mui/material'
+import {
+	FormControl,
+	InputLabel,
+	OutlinedInput,
+	InputAdornment,
+	IconButton,
+	FormHelperText,
+	Snackbar,
+	Alert,
+	Checkbox,
+	FormControlLabel
+} from '@mui/material'
 
 const RegisterForm = () => {
 	const { t } = useTranslation('forms')
@@ -38,7 +49,7 @@ const RegisterForm = () => {
 		event.preventDefault()
 		if (state.email !== undefined && state.username !== undefined && state.password !== undefined) {
 			const status = await register(state.email, state.username, state.password, handleError)
-			if(status == 201){
+			if (status == 201) {
 				setOpen(true)
 			}
 		}
@@ -122,8 +133,8 @@ const RegisterForm = () => {
 							inputProps={{ minLength: 8 }}
 						/>
 					</FormControl>
-					<div className='row center'>
-						<Checkbox required color='secondary' />
+					<div className="row center">
+						<Checkbox required color="secondary" />
 						<Link href="/tos">
 							<a className="link">Accept terms of service</a>
 						</Link>
@@ -134,7 +145,7 @@ const RegisterForm = () => {
 				<GoogleSignIn />
 				<div>
 					<Separator />
-					<div className='column'>
+					<div className="column">
 						<h4>{t('register.existing-account')}</h4>
 						<Link href="/login">
 							<a className="link">{t('register.login')}</a>

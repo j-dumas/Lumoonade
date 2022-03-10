@@ -35,7 +35,7 @@ const LoginForm = () => {
 			event.preventDefault()
 			await login(state.email, state.password, handleError).then((res) => {
 				if (res === 200) {
-					router.push({ pathname: '/profile', query: { login: true }})
+					router.push({ pathname: '/profile', query: { login: true } })
 				}
 			})
 		}

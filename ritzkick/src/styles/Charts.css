@@ -1,4 +1,5 @@
-.pie-chart, .bar-chart {
+.pie-chart,
+.bar-chart {
 	border-radius: 5px;
 	padding: 20px;
 
@@ -8,7 +9,8 @@
 	max-height: 390px;
 }
 
-.pie-chart canvas, .bar-chart canvas {
+.pie-chart canvas,
+.bar-chart canvas {
 	height: 310px;
 	max-height: 310px;
 }
@@ -17,15 +19,15 @@
 	.pie-chart {
 		border-radius: 5px;
 		padding: 20px;
-	
+
 		background-color: var(--background-color-2);
 		width: 360px;
 		height: fit-content;
-	}	
+	}
 	.bar-chart {
 		border-radius: 5px;
 		padding: 20px;
-	
+
 		background-color: var(--background-color-2);
 		min-width: 360px;
 		width: calc(100% - 380px);

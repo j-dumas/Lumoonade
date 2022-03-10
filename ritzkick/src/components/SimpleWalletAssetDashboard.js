@@ -21,17 +21,17 @@ function SimpleWalletAssetDashboard(props) {
 			<div className="simple-crypto-dashboard v-center">
 				<div className="simple-crypto-dashboard-menu row center">
 					<div className="sub-section row space-between">
-						<div className='row simple-crypto-view-div'>
+						<div className="row simple-crypto-view-div">
 							<div className="simple-crypto-view-item-big row left h-center">
 								<p>Asset</p>
 							</div>
 							<p className="simple-crypto-view-item">Market price</p>
 						</div>
-						<div className='row simple-crypto-view-div'>
+						<div className="row simple-crypto-view-div">
 							<p className="simple-crypto-view-item">Amount</p>
 							<p className="simple-crypto-view-item">Total spent</p>
 						</div>
-						<div className='row simple-crypto-view-div'>
+						<div className="row simple-crypto-view-div">
 							<p className="simple-crypto-view-item-big simple-crypto-change">Change</p>
 							<p className="simple-crypto-view-item">Value</p>
 						</div>

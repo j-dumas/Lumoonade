@@ -10,7 +10,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
-const CURRENCY = "USD"
+const CURRENCY = 'USD'
 
 const Asset = ({ assetData }) => {
 	return (
