@@ -73,7 +73,9 @@ const Assets = () => {
 		console.log(list)
 		setPagination([page, list.max_page])
 		let symbols = []
-		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
+		try {
+			list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
+		} catch (_) {}
 		setSearchList(symbols)
 	}
 

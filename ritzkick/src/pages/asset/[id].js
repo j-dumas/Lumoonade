@@ -70,6 +70,7 @@ export async function getAllAssetIds() {
 	let slugs = await Functions.GetAllAvailableSlug()
 
 	let ids = []
+	if (!slugs) return ids
 	slugs.map((slug) => {
 		ids.push({
 			params: {
