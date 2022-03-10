@@ -76,8 +76,8 @@ Portfolio.getLayout = function getLayout(page) {
 	return (
 		<Layout
 			pageMeta={{
-				title: t('pages.compare.title'),
-				description: t('pages.compare.description')
+				title: t('pages.portfolio.title'),
+				description: t('pages.portfolio.description')
 			}}
 		>
 			{page}
@@ -88,7 +88,7 @@ Portfolio.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'dashboard', 'crypto']))
+			...(await serverSideTranslations(locale, ['common', 'dashboard', 'crypto', 'detailedchart']))
 		}
 	}
 }
