@@ -44,11 +44,9 @@ export default function ProfileFavorite() {
 		}
 	}, [data, data.length === 0, currentPage])
 
-	return data.length === 0 
-				? (
-					<h1>Aucun favoris</h1>
-				)
-				:( !socket ? (
+	return data.length === 0 ? (
+		<h1>Aucun favoris</h1>
+	) : !socket ? (
 		<div className="column center">
 			<CircularProgress color="secondary" />
 		</div>
@@ -84,5 +82,5 @@ export default function ProfileFavorite() {
 				)}
 			</div>
 		</div>
-	))
+	)
 }

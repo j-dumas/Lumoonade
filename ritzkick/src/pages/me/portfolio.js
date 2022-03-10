@@ -9,8 +9,9 @@ import { isUserConnected } from 'services/AuthService'
 import { createSocket } from 'services/SocketService'
 import { SlugArrayToSymbolArray } from 'utils/crypto'
 import dynamic from 'next/dynamic'
-
-const PortfolioMenu = dynamic(() => import('@/components/menus/PortfolioMenu'))
+import PortfolioMenu from '@/components/menus/PortfolioMenu'
+import PortfolioMenuD from '@/components/menus/PortfolioMenuD'
+/*const PortfolioMenu = dynamic(() => import('@/components/menus/PortfolioMenu'), { ssr: false })*/
 const SimpleWalletAssetDashboard = dynamic(() => import('@/components/SimpleWalletAssetDashboard'))
 const SimpleCryptoDashboard = dynamic(() => import('@/components/SimpleCryptoDashboard'))
 
@@ -53,7 +54,7 @@ const Portfolio = () => {
 	return !socket || !portfolioSocket || !assets || assets == undefined ? (
 		<section className="section column principal first center">
 			<section className="sub-section column">
-				<PortfolioMenu socket={socket} assets={assets} />
+				<PortfolioMenuD/>
 				<div className="detailed-chart detailed-div"/>
 				<div className="row space-between stretch">
 					<div className="column pie-chart">
@@ -89,8 +90,8 @@ Portfolio.getLayout = function getLayout(page) {
 	return (
 		<Layout
 			pageMeta={{
-				title: t('pages.compare.title'),
-				description: t('pages.compare.description')
+				title: t('pages.portfolio.title'),
+				description: t('pages.portfolio.description')
 			}}
 		>
 			{page}
@@ -101,7 +102,7 @@ Portfolio.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'dashboard', 'crypto']))
+			...(await serverSideTranslations(locale, ['common', 'dashboard', 'crypto', 'detailedchart']))
 		}
 	}
 }

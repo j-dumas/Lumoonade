@@ -46,14 +46,11 @@ export async function login(email, password, handleError) {
 			let json = await response.json()
 			setCookie(json.token)
 			return response.status
-		}
-		else if(response.status === 400){
+		} else if (response.status === 400) {
 			handleError()
-		}
-		else if(response.status === 409){
+		} else if (response.status === 409) {
 			alert('Please validate your email')
-		}
-		else {
+		} else {
 			alert('Something went wrong')
 		}
 	} catch (e) {

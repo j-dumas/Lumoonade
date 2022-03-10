@@ -20,7 +20,7 @@ function Footer() {
 	}, [])
 
 	useEffect(() => {
-		if(logout){
+		if (logout) {
 			setUserConnected(false)
 		}
 	}, [logout])
