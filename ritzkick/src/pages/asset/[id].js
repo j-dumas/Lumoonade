@@ -10,11 +10,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
+const CURRENCY = 'USD'
+
 const Asset = ({ assetData }) => {
 	return (
 		<>
 			<section className="section column principal first h-center">
-				<DetailedCryptoView slug={assetData.slug} currency="CAD" />
+				<DetailedCryptoView slug={assetData.slug} currency={CURRENCY} />
 			</section>
 		</>
 	)

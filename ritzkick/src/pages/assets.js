@@ -11,7 +11,7 @@ import Icons from '../components/Icons'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const Assets = () => {
 	const { t } = useTranslation('assets')
@@ -37,6 +37,7 @@ const Assets = () => {
 	}
 
 	async function prepareFavSocket() {
+		console.log('CALL')
 		if (isUserConnected()) {
 			let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
 			setFavSocket(createSocket(['general', `graph-1d-30m`], symbols, `wss://${window.location.host}`))
@@ -97,20 +98,33 @@ const Assets = () => {
 									<Icons.StarFulled />
 									<h1>{t('favorites')}</h1>
 								</div>
-								{ favSocket.auth.query.length == 0 ? <></> :
-								<SimpleCryptoCardDashboard socket={favSocket} small={true} />}
+								{favSocket.auth.query.length == 0 ? (
+									<></>
+								) : (
+									<SimpleCryptoCardDashboard
+										refresh={prepareFavSocket}
+										socket={favSocket}
+										small={true}
+									/>
+								)}
 							</>
 						) : null}
 						<div className="row start">
 							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
-						<SimpleCryptoCardDashboard socket={socket}/>
-						{searchList.length > 0 && pagination[1] > 1 ?
-						<div className='row center'>
-							<button onClick={decrementPage}>{'<'}</button><p>{pagination[0]} / {pagination[1]}</p><button  onClick={incrementPage}>{'>'}</button>
-						</div>
-						:<></>}
+						<SimpleCryptoCardDashboard socket={socket} />
+						{searchList.length > 0 && pagination[1] > 1 ? (
+							<div className="row center">
+								<button onClick={decrementPage}>{'<'}</button>
+								<p>
+									{pagination[0]} / {pagination[1]}
+								</p>
+								<button onClick={incrementPage}>{'>'}</button>
+							</div>
+						) : (
+							<></>
+						)}
 					</>
 				) : null}
 			</section>

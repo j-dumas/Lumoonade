@@ -18,31 +18,34 @@ function SimpleCryptoView(props) {
 	return (
 		<div className="simple-crypto-view row center">
 			<div className="sub-section row space-between h-center">
-				<div className="simple-crypto-view-item-big row left h-center">
-					<Image src={'/' + props.data.fromCurrency + '.svg'} width={25} height={25}></Image>
-					<p>{props.data.shortName}</p>
+				<div className="row simple-crypto-view-div">
+					<div className="simple-crypto-view-item-big row left h-center">
+						<Image src={'/' + props.data.fromCurrency + '.svg'} width={25} height={25}></Image>
+						<p>{props.data.shortName}</p>
+					</div>
+					<p className="simple-crypto-view-item c-font-2">$ {format(props.data.regularMarketPrice)}</p>
 				</div>
-
-				<p className="simple-crypto-view-item c-font-2">$ {format(props.data.regularMarketPrice)}</p>
-
-				<p className="simple-crypto-view-item">
-					{format(props.asset.amount)} {props.asset.name.toString().toUpperCase()}
-				</p>
-				<p className="simple-crypto-view-item">$ {format(props.asset.totalSpent)}</p>
-
-				{changeNumber >= 0 ? (
-					<p className="simple-crypto-view-item-big increase">
-						+{format(changePercent)}% &nbsp; +{format(changeNumber)}$
+				<div className="row simple-crypto-view-div">
+					<p className="simple-crypto-view-item">
+						{format(props.asset.amount)} {props.asset.name.toString().toUpperCase()}
 					</p>
-				) : (
-					<p className="simple-crypto-view-item-big decrease">
-						{format(changePercent)}% &nbsp; {format(changeNumber)}$
-					</p>
-				)}
+					<p className="simple-crypto-view-item">$ {format(props.asset.totalSpent)}</p>
+				</div>
+				<div className="row simple-crypto-view-div">
+					{changeNumber >= 0 ? (
+						<p className="simple-crypto-view-item-big increase">
+							+{format(changePercent)}% &nbsp; +{format(changeNumber)}$
+						</p>
+					) : (
+						<p className="simple-crypto-view-item-big decrease">
+							{format(changePercent)}% &nbsp; {format(changeNumber)}$
+						</p>
+					)}
 
-				<p className="simple-crypto-view-item-big">
-					$ {format(props.data.regularMarketPrice * props.asset.amount)}
-				</p>
+					<p className="simple-crypto-view-item">
+						$ {format(props.data.regularMarketPrice * props.asset.amount)}
+					</p>
+				</div>
 			</div>
 		</div>
 	)

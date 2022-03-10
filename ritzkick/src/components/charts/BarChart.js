@@ -115,7 +115,7 @@ function BarChart(props) {
 					enabled: true,
 					mode: 'x',
 					threshold: 0 // default:10
-				},
+				}
 			}
 		},
 		scales: {
@@ -163,10 +163,13 @@ function BarChart(props) {
 	}
 
 	let chartInstance = null
-	return !data ? <></> :
-		<div className="bar-chart">
+	return !data ? (
+		<></>
+	) : (
+		<div className="column bar-chart">
 			<p className="detailed-div-title">Assets division ($)</p>
 			<Bar name="bar" data={data} options={barOptions} ref={chartReference} />
 		</div>
+	)
 }
 export default BarChart
