@@ -3,6 +3,7 @@ import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { isUserConnected } from 'services/AuthService'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const DEV_TEAM_NAME = 'RitzKick'
 const WEBSITE_NAME = 'Lumoonade'
@@ -11,10 +12,18 @@ function Footer() {
 	const { t } = useTranslation('common')
 	const year = new Date().getFullYear()
 	const [userConnected, setUserConnected] = useState(false)
+	const router = useRouter()
+	const { logout } = router.query
 
 	useEffect(() => {
 		setUserConnected(isUserConnected())
 	}, [])
+
+	useEffect(() => {
+		if(logout){
+			setUserConnected(false)
+		}
+	}, [logout])
 
 	return (
 		<footer className="footer section">

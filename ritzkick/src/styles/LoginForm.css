@@ -196,3 +196,7 @@ input:focus::placeholder {
 	border: none;
 	background-color: var(--background-color);
 }
+
+.front{
+	z-index: 1;
+}

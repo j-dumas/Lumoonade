@@ -24,7 +24,6 @@ export default function ProfilePopup(props) {
 		newPassConfirmationShow: false
 	})
 	const [error, setError] = useState(false)
-	const router = useRouter()
 
 	function eraseFieldValue() {
 		resetValues()

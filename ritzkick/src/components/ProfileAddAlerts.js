@@ -90,11 +90,9 @@ export default function ProfileAddAlerts(props) {
 	useEffect(() => {
 		if (state.slug !== undefined && state.parameter !== undefined) {
 			if (state.parameter === 'lte') {
-				console.log('changing prices')
 				setMinPrice(0)
 				setMaxPrice(price)
 			} else {
-				console.log('changing prices2')
 				setMinPrice(price)
 				setMaxPrice(Infinity)
 			}
