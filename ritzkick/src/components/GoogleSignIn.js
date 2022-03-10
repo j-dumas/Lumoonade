@@ -4,9 +4,11 @@ import Head from 'next/head'
 import GoogleLogin, { GoogleLogout } from 'react-google-login'
 import { useTranslation } from 'next-i18next'
 import { googleLogin } from 'services/AuthService'
+import { useRouter } from 'next/router'
 
 export default function GoogleSignIn() {
 	const { t } = useTranslation('forms')
+	const router = useRouter()
 
 	async function onSignIn(googleUser) {
 		const id_token = googleUser.getAuthResponse().id_token

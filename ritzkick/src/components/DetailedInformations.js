@@ -3,7 +3,6 @@ import format from 'utils/formatter'
 import Image from 'next/image'
 
 import { useTranslation } from 'next-i18next'
-import Image from 'next/image'
 
 const DetailedInformations = (props) => {
 	const { t } = useTranslation('crypto')

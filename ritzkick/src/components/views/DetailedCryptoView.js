@@ -7,9 +7,7 @@ import Functions, {
 	GetTopPopularCryptocurrencies
 } from 'services/CryptoService'
 import ButtonFavorite from '@/components/ButtonFavorite'
-import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
-import DetailedChart from '@/components/charts/DetailedChart'
-import {createSocket} from '../../../services/SocketService'
+import {createSocket} from 'services/SocketService'
 
 import dynamic from 'next/dynamic'
 const DetailedMenu = dynamic(

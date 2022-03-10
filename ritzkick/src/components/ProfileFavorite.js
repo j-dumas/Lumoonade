@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import { useTranslation } from 'next-i18next'
 
 const CURRENCY = 'usd'
+const PAGE_LIMIT = 5
 
 export default function ProfileFavorite() {
 	const { t } = useTranslation('profile')

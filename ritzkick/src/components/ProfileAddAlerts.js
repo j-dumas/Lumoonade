@@ -33,6 +33,8 @@ const MenuProps = {
 }
 
 export default function ProfileAddAlerts(props) {
+	const { t } = useTranslation('alert')
+
 	const [state, handleChange, resetState] = useForm(props.provenance ? { slug: props.slug } : {})
 	const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,

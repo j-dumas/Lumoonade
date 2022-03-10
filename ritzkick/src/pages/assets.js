@@ -11,6 +11,8 @@ import Icons from '../components/Icons'
 /* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { SlugArrayToSymbolArray } from 'utils/crypto'
+import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
 
 const CURRENCY = 'cad'
 

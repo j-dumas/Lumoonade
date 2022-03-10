@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 /* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 const LoginForm = dynamic(() => import('@/components/forms/LoginForm'))
