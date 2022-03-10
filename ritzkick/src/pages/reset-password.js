@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next'
 import dynamic from 'next/dynamic'
 
 const ResetPasswordForm = dynamic(() => import('@/components/forms/ResetPasswordForm'))
-const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const ResetPassword = () => {
 	return (

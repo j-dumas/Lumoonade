@@ -9,7 +9,7 @@ import Layout from '@/layouts/Layout'
 import { useRouter } from 'next/router'
 
 const RegisterForm = dynamic(() => import('@/components/forms/RegisterForm'))
-const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const Register = () => {
 	const router = useRouter()

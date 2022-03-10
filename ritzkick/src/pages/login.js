@@ -9,7 +9,7 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
 const LoginForm = dynamic(() => import('@/components/forms/LoginForm'))
-const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const Login = () => {
 	const router = useRouter()

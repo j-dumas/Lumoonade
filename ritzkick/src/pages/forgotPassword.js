@@ -6,7 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 const ForgotPasswordForm = dynamic(() => import('@/components/forms/ForgotPasswordForm'))
-const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const ForgotPassword = () => {
 	return (

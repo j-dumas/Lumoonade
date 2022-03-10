@@ -5,7 +5,7 @@ import LayoutNoNav from '@/layouts/Layout-no-nav'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
-const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const EmailConfirmation = () => {
 	return (
