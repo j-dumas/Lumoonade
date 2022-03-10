@@ -42,7 +42,6 @@ function ButtonFavorite(props) {
 		event.stopPropagation()
 		console.log('clicked')
 		await handleFavorite()
-		console.log(props.refresh)
 	}
 
 	return !isUserConnected() ? null : (

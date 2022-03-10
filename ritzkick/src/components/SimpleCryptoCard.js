@@ -21,7 +21,7 @@ function SimpleCryptoCard(props) {
 						{!isUserConnected() ? (
 							<></>
 						) : (
-							<ButtonFavorite refresh={props.refresh} slug={props.data.fromCurrency} />
+							<ButtonFavorite slug={props.data.fromCurrency} />
 						)}
 					</div>
 					<div className="row card-row space-between">
