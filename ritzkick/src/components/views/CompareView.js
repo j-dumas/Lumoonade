@@ -16,7 +16,6 @@ const CompareView = (props) => {
 
 	const router = useRouter()
 	const [slug] = useState('Dummy' + '-' + props.currency)
-	const [firstData, setFirstData] = useState()
 	const [compareList, setCompareList] = useState(getFirstCompareList())
 	const [userConnected, setUserConnected] = useState(false)
 
@@ -42,14 +41,10 @@ const CompareView = (props) => {
 		return params
 	}
 
-	useEffect(async () => {
-		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))
-	}, [compareList])
-
 	// Validation:
 	if (!props.currency) return <div>Impossible action.</div>
 
-	return !firstData || !socket ? (
+	return !socket ? (
 		<p>Loading...</p>
 	) : (
 		<div className="detailed-crypto-view column">

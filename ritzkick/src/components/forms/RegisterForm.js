@@ -56,7 +56,7 @@ const RegisterForm = () => {
 					{'Un email de confirmation a été envoyé à ' + state.email}
 				</Alert>
 			</Snackbar>
-			<Container className="form">
+			<Container className="column p-3 form">
 				<h1 className="form-title">{t('register.title')}</h1>
 				<form onSubmit={handleSubmit}>
 					{!!error && (
