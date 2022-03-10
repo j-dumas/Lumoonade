@@ -1,7 +1,6 @@
 import ProfileHeader from '@/components/ProfileHeader'
 import { useEffect, useState } from 'react'
 import { getUser, removeSession } from 'services/UserService'
-import ProfilePurge from '@/components/ProfilePurge'
 import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -13,6 +12,7 @@ import dynamic from 'next/dynamic'
 
 const ProfileAlerts = dynamic(() => import('@/components/ProfileAlerts'))
 const ProfileFavorite = dynamic(() => import('@/components/ProfileFavorite'))
+const ProfilePurge = dynamic(() => import('@/components/ProfilePurge'))
 
 const CURRENCY = 'cad'
 

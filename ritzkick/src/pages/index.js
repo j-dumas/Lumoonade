@@ -32,14 +32,16 @@ const Home = () => {
 		<>
 			<section className="column first principal center">
 				<div className="column center w-100 gap-0">
-					
 					<svg width="100%" height="100px">
-						<text className='website-title anim' x="52%" y="80%"  textAnchor="middle">{t('title')}</text>
+						<text className="website-title anim" x="52%" y="80%" textAnchor="middle">
+							{t('title')}
+						</text>
 					</svg>
 					<svg width="100%" height="50px">
-						<text className='subtitle item' x="50%" y="75%"  textAnchor="middle">{t('description')}</text>
+						<text className="subtitle item" x="50%" y="75%" textAnchor="middle">
+							{t('description')}
+						</text>
 					</svg>
-					
 				</div>
 				{/* <BottomArrow /> */}
 			</section>

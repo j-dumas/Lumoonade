@@ -11,7 +11,9 @@ import Icons from '@/components/Icons'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { SlugArrayToSymbolArray } from 'utils/crypto'
-import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
+import dynamic from 'next/dynamic'
+
+const SimpleCryptoCardDashboard = dynamic(() => import('@/components/SimpleCryptoCardDashboard'))
 
 const CURRENCY = 'cad'
 

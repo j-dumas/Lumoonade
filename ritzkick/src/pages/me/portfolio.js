@@ -3,31 +3,20 @@ import { useRouter } from 'next/router'
 import Layout from '@/layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-//import PortfolioMenu from '../../components/menus/PortfolioMenu'
-import PieChart from '../../components/charts/PieChart'
-//import BarChart from '../../components/charts/BarChart'
-import DetailedChart from '../../components/charts/DetailedChart'
 
-import { getUserDashboardData } from '../../../services/dashboard-service'
-import { isUserConnected } from '../../../services/AuthService'
-import { createSocket } from '../../../services/SocketService'
-import SimpleWalletAssetDashboard from '../../components/SimpleWalletAssetDashboard'
-import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
-import { SlugArrayToSymbolArray } from '../../../utils/crypto'
+import { getUserDashboardData } from 'services/dashboard-service'
+import { isUserConnected } from 'services/AuthService'
+import { createSocket } from 'services/SocketService'
+import { SlugArrayToSymbolArray } from 'utils/crypto'
 import dynamic from 'next/dynamic'
 
-const PortfolioMenu = dynamic(
-	() => {
-		return import('../../components/menus/PortfolioMenu')
-	},
-	{ ssr: false }
-)
-const BarChart = dynamic(
-	() => {
-		return import('../../components/charts/BarChart')
-	},
-	{ ssr: false }
-)
+const PortfolioMenu = dynamic(() => import('@/components/menus/PortfolioMenu'))
+const SimpleWalletAssetDashboard = dynamic(() => import('@/components/SimpleWalletAssetDashboard'))
+const SimpleCryptoDashboard = dynamic(() => import('@/components/SimpleCryptoDashboard'))
+
+const BarChart = dynamic(() => import('@/components/charts/BarChart'), { ssr: false })
+const PieChart = dynamic(() => import('@/components/charts/PieChart'), { ssr: false })
+const DetailedChart = dynamic(() => import('@/components/charts/DetailedChart'), { ssr: false })
 
 const CURRENCY = 'cad'
 
