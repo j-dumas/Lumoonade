@@ -44,7 +44,6 @@ const Portfolio = () => {
 			slugs.push(asset.name)
 		})
 		let symbols = SlugArrayToSymbolArray(slugs, CURRENCY, false)
-		console.log(symbols)
 		setSocket(createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`))
 		setPortfolioSocket(
 			createSocket([`dash-graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`)

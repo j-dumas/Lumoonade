@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { deleteCookie, getCookie } from 'services/CookieService'
+import { deleteCookie } from 'services/CookieService'
 
 const NotFound = () => {
 	const { t } = useTranslation('404')
@@ -13,9 +13,7 @@ const NotFound = () => {
 
 	useEffect(() => {
 		if (logout) {
-			console.log('called')
 			deleteCookie('token')
-			console.log(getCookie('token'))
 		}
 	}, [])
 

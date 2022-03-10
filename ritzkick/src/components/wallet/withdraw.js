@@ -21,10 +21,6 @@ function WalletWithdraw(props) {
 	const [date] = useState(new Date().toISOString().slice(0, 10))
 	const [data, setData] = useState()
 
-	useEffect(async () => {
-		console.log(state)
-	}, [state])
-
 	async function handleSubmit(e) {
 		e.preventDefault()
 		await addTransaction(state.asset.toLowerCase(), state.boughtAt, state.price * -1, state.date)

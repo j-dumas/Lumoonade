@@ -37,9 +37,7 @@ export default function ProfileAlerts(props) {
 				setMaxPage(res.max_page)
 				setAlerts(res.watchlists)
 			})
-			.catch((err) => {
-				console.log(err)
-			})
+			.catch(() => {})
 	}
 
 	useEffect(() => {

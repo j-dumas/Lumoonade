@@ -39,7 +39,6 @@ function ButtonFavorite(props) {
 
 	const handleClick = async (event) => {
 		event.stopPropagation()
-		console.log('clicked')
 		await handleFavorite()
 	}
 
