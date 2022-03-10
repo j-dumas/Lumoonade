@@ -98,8 +98,7 @@ ul {
 	min-width: 400px;
 	background-color: var(--background-color-2);
 	padding: 10px;
-	border-bottom: 2px solid;
-	border-color: var(--background-color);
+	border-bottom: 2px solid var(--background-color-3);
 	align-items: center;
 }
 

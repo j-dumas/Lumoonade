@@ -15,7 +15,7 @@ export default function EmailConfirmationCard() {
 			await confirmEmail(key)
 		}
 
-		setInterval(() => {
+		setTimeout(() => {
 			router.push('/login')
 		}, 4000)
 	}, [key])
