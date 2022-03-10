@@ -81,7 +81,7 @@ export default function ProfilePopup(props) {
 						values.newPassConfirmation,
 						setError
 					)
-					if(status === 200){
+					if (status === 200) {
 						await props.updateUser()
 						alert(t('modify.success'))
 						close()

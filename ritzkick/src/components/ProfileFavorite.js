@@ -71,9 +71,7 @@ export default function ProfileFavorite() {
 						Previous Page
 					</button>
 				)}
-				{
-					maxPage > 1 && <div>{currentPage}</div>
-				}
+				{maxPage > 1 && <div>{currentPage}</div>}
 				{currentPage < maxPage && (
 					<button
 						className="alert-page-control-buttons row center"

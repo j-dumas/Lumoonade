@@ -19,7 +19,7 @@ function PortfolioMenuD(props) {
 		<div className="page-menu space-between row h-center">
 			<div className="row h-center detailed-menu-info">
 				<h1 className="detailed-menu-title">Portfolio</h1>
-				<p className="detailed-menu-subtitle">${0}</p>	
+				<p className="detailed-menu-subtitle">${0}</p>
 				<p className="detailed-menu-subtitle increase">
 					{0}% &nbsp; -${0}
 					<span className="small-p"> (24h)</span>

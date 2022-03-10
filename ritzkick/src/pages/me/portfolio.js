@@ -54,8 +54,8 @@ const Portfolio = () => {
 	return !socket || !portfolioSocket || !assets || assets == undefined ? (
 		<section className="section column principal first center">
 			<section className="sub-section column">
-				<PortfolioMenuD/>
-				<div className="detailed-chart detailed-div"/>
+				<PortfolioMenuD />
+				<div className="detailed-chart detailed-div" />
 				<div className="row space-between stretch">
 					<div className="column pie-chart">
 						<p className="detailed-div-title">Assets division (%)</p>
@@ -64,8 +64,8 @@ const Portfolio = () => {
 						<p className="detailed-div-title">Assets division ($)</p>
 					</div>
 				</div>
-				<div className="simple-crypto-dashboard v-center"/>
-				<div className="simple-crypto-dashboard v-center"/>
+				<div className="simple-crypto-dashboard v-center" />
+				<div className="simple-crypto-dashboard v-center" />
 			</section>
 		</section>
 	) : (

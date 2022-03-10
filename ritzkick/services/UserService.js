@@ -261,7 +261,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if(response.status === 200){
+			if (response.status === 200) {
 				return response.status
 			}
 			if (response.status === 400 || response.status === 409) {
@@ -287,7 +287,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername })
 			})
 
-			if(response.status === 200){
+			if (response.status === 200) {
 				return response.status
 			}
 			if (response.status === 400 || response.status === 409) {
@@ -313,7 +313,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername, oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if(response.status === 200){
+			if (response.status === 200) {
 				return response.status
 			}
 			if (response.status === 400 || response.status === 409) {

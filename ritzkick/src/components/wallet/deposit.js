@@ -69,7 +69,7 @@ function WalletDeposit(props) {
 					<input name="" id="" value={props.default} disabled />
 				) : (
 					<Select
-						className='inputField'
+						className="inputField"
 						name="asset"
 						defaultValue={props.default}
 						onChange={handleChange}
