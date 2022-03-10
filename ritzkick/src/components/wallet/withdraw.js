@@ -15,7 +15,7 @@ import {
 	FormHelperText
 } from '@mui/material'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -29,14 +29,18 @@ const MenuProps = {
 }
 
 function WalletWithdraw(props) {
-	const [state, handleChange] = useForm()
+	const [state, handleChange] = useForm({asset:props.default})
 	const [date] = useState(new Date().toISOString().slice(0, 10))
 	const [data, setData] = useState()
+
+	useEffect(async () => {
+		console.log(state)
+	}, [state])
 
 	async function handleSubmit(e) {
 		e.preventDefault()
 		await addTransaction(state.asset.toLowerCase(), state.boughtAt, state.price * -1, state.date)
-		window.location.reload()
+		if (props.refresh) window.location.reload()
 	}
 
 	function compare(a, b) {
@@ -75,13 +79,17 @@ function WalletWithdraw(props) {
 					</div>
 				</div>
 				<label htmlFor="asset">Asset</label>
-				<Select name="asset" defaultValue="" onChange={handleChange} MenuProps={MenuProps} required>
+				{props.default ?
+				<input name="" id="" value={props.default} disabled />
+				:
+				<Select name="asset" onChange={handleChange} MenuProps={MenuProps} required>
 					{parseData().map((crypt) => (
 						<MenuItem key={crypt.value} value={crypt.value}>
 							{crypt.label}
 						</MenuItem>
 					))}
 				</Select>
+				}
 				<label htmlFor="boughtAt">Withdraw at</label>
 				<input name="boughtAt" onChange={handleChange} className="wallet-input" type="number" required />
 				<label htmlFor="price">Amount (price)</label>
@@ -96,7 +104,7 @@ function WalletWithdraw(props) {
 					type="date"
 					required
 				/>
-				<button type="submit" value="Submit">
+				<button type="submit" value="Submit" onClick={props.close}>
 					Withdraw
 				</button>
 			</form>

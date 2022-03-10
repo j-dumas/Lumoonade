@@ -28,11 +28,24 @@
 	width: 100px;
 }
 
+
 .simple-crypto-view-item-big {
 	max-width: 150px;
 	width: 150px;
 
 	gap: 5px;
+}
+
+.simple-crypto-view-div {
+	width: 100%;
+	justify-content: space-between;
+	flex-grow: 1;
+}
+@media only screen and (min-width: 750px) {
+	.simple-crypto-view-div {
+		max-width: 325px;
+		justify-content: space-around;
+	}
 }
 
 .simple-crypto-card {

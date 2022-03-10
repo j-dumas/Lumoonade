@@ -11,7 +11,7 @@ import Icons from '../components/Icons'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const Assets = () => {
 	const { t } = useTranslation('assets')
@@ -36,16 +36,16 @@ const Assets = () => {
 		}
 	}
 
-	useEffect(() => {
-		async function prepareSockets() {
-			if (isUserConnected()) {
-				let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
-				setFavSocket(createSocket(['general', `graph-1d-30m`], symbols, `wss://${window.location.host}`))
-			}
+	async function prepareFavSocket() {
+		console.log('CALL')
+		if (isUserConnected()) {
+			let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
+			setFavSocket(createSocket(['general', `graph-1d-30m`], symbols, `wss://${window.location.host}`))
 		}
+	}
 
-		prepareSockets()
-
+	useEffect(async () => {
+		await prepareFavSocket()
 		//let symbols = await Functions.GetTopGainersCryptocurrencies(8)
 		//let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
 		let list = ['btc-usd', 'eth-usd', 'bnb-usd', 'ltc-usd', 'ada-usd', 'doge-usd', 'shib-usd', 'theta-usd']
@@ -66,12 +66,11 @@ const Assets = () => {
 	}
 
 	async function searchAsset(keyword, page) {
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 8)
+		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 12)
 		setPagination([page, list.max_page])
 		let symbols = []
 		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
 		setSearchList(symbols)
-		console.log(favSocket)
 	}
 
 	return (
@@ -99,29 +98,20 @@ const Assets = () => {
 									<Icons.StarFulled />
 									<h1>{t('favorites')}</h1>
 								</div>
-								{favSocket.auth.query.length == 0 ? (
-									<></>
-								) : (
-									<SimpleCryptoCardDashboard socket={favSocket} />
-								)}
+								{ favSocket.auth.query.length == 0 ? <></> :
+								<SimpleCryptoCardDashboard refresh={prepareFavSocket} socket={favSocket} small={true} />}
 							</>
 						) : null}
 						<div className="row start">
 							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
-						<SimpleCryptoCardDashboard socket={socket} />
-						{searchList.length > 0 && pagination[1] > 1 ? (
-							<div className="row center">
-								<button onClick={decrementPage}>{'<'}</button>
-								<p>
-									{pagination[0]} / {pagination[1]}
-								</p>
-								<button onClick={incrementPage}>{'>'}</button>
-							</div>
-						) : (
-							<></>
-						)}
+						<SimpleCryptoCardDashboard socket={socket}/>
+						{searchList.length > 0 && pagination[1] > 1 ?
+						<div className='row center'>
+							<button onClick={decrementPage}>{'<'}</button><p>{pagination[0]} / {pagination[1]}</p><button  onClick={incrementPage}>{'>'}</button>
+						</div>
+						:<></>}
 					</>
 				) : null}
 			</section>

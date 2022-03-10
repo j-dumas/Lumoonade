@@ -2,15 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { getFavorites, addFavorite, deleteFavorite } from 'services/UserService'
 import Icons from '@/components/Icons'
 import { isUserConnected } from 'services/AuthService'
-import { AreSlugsEqual } from 'utils/crypto'
+import { AreSlugsEqual, SymbolToSlug } from 'utils/crypto'
 import { DriveEtaOutlined } from '@mui/icons-material'
 
 function ButtonFavorite(props) {
 	const [favorite, setFavorite] = useState(false)
 
 	async function handleFavorite() {
-		if (favorite) await deleteFavorite(props.slug)
-		else await addFavorite(props.slug)
+		if (favorite) await deleteFavorite(SymbolToSlug(props.slug))
+		else await addFavorite(SymbolToSlug(props.slug))
 		updateFavorite()
 	}
 
@@ -42,6 +42,7 @@ function ButtonFavorite(props) {
 		event.stopPropagation()
 		console.log('clicked')
 		await handleFavorite()
+		console.log(props.refresh)
 	}
 
 	return !isUserConnected() ? null : (

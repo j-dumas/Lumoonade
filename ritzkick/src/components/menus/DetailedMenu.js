@@ -5,10 +5,21 @@ import Image from 'next/image'
 import { isUserConnected } from '../../../services/AuthService'
 import ProfileAddAlerts from '../ProfileAddAlerts'
 
+import WalletDeposit from '../../components/wallet/deposit'
+import WalletWithdraw from '../../components/wallet/withdraw'
+
 import { useTranslation } from 'next-i18next'
 
 function DetailedMenu(props) {
 	const { t } = useTranslation('detailedmenu')
+
+	const [withdraw, setWithdraw] = useState(false)
+	const openWithdraw = () => setWithdraw(true)
+	const closeWithdraw = () => setWithdraw(false)
+
+	const [deposit, setDeposit] = useState(false)
+	const openDeposit = () => setDeposit(true)
+	const closeDeposit = () => setDeposit(false)
 
 	return (
 		<div className="page-menu space-between row h-center">
@@ -29,17 +40,15 @@ function DetailedMenu(props) {
 			) : (
 				<div id="alerts-header" className="detailed-menu-actions row h-center">
 					<ButtonFavorite slug={props.slug} />
-					{/* <Icons.Bell /> */}
 					<ProfileAddAlerts slug={props.slug} provenance={true} />
-					<a href="" className="detailed-menu-actions-icon">
+					<div onClick={openWithdraw} className="detailed-menu-actions-icon">
 						<Icons.ArrowUp />
-					</a>
-					<a href="" className="detailed-menu-actions-icon">
+					</div>
+					<WalletWithdraw default={props.firstData[0].fromCurrency} isOpen={withdraw} close={closeWithdraw} />
+					<div onClick={openDeposit} className="detailed-menu-actions-icon">
 						<Icons.ArrowDown />
-					</a>
-					<a href="" className="detailed-menu-actions-icon">
-						<Icons.Exange />
-					</a>
+					</div>
+					<WalletDeposit default={props.firstData[0].fromCurrency} isOpen={deposit} close={closeDeposit} />
 				</div>
 			)}
 		</div>

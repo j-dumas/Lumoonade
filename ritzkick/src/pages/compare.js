@@ -8,7 +8,7 @@ import Layout from '@/layouts/Layout'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
-const CURRENCY = 'USD'
+const CURRENCY = 'cad'
 
 const Compare = () => {
 	return (

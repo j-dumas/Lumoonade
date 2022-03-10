@@ -89,13 +89,15 @@ export async function register(email, username, password, handleError) {
 		})
 
 		if (response.status === 201) {
-			await fetch(paths.confirmation.default, {
+			const response = await fetch(paths.confirmation.default, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ email: email })
-			}).catch((e) => console.log(e))
+			})
+
+			return response.status
 		} else {
 			handleError()
 		}

@@ -35,7 +35,7 @@ const LoginForm = () => {
 			event.preventDefault()
 			await login(state.email, state.password, handleError).then((res) => {
 				if (res === 200) {
-					router.push('/profile')
+					router.push({ pathname: '/profile', query: { login: true }})
 				}
 			})
 		}
@@ -101,7 +101,7 @@ const LoginForm = () => {
 
 			<div>
 				<Separator />
-				<div className="row">
+				<div className="column">
 					<p>{t('login.no-account')}</p>
 					<Link href="/register">
 						<div className="link">{t('login.register')}</div>

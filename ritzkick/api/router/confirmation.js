@@ -16,7 +16,7 @@ const paths = require('../routes.json')
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
-	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	audience: ['lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
@@ -70,7 +70,7 @@ router.post(paths.confirmation.default, creationLimiter, async (req, res) => {
 		const _ = await dropIfExist(email)
 		const confirmation = new Confirmation({ email })
 		await confirmation.save()
-		let token = await confirmation.makeConfirmationToken(req.host.toString().split(':')[0])
+		let token = await confirmation.makeConfirmationToken(req.hostname.toString())
 		let link = `https://${process.env.URL}:${process.env.PORT}/email-confirmation?key=${token}`
 		let response = await axios({
 			url: `https://${process.env.URL}:${process.env.PORT}${paths.shortcut.default}`,

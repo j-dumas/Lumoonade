@@ -15,7 +15,7 @@ import {
 	FormHelperText
 } from '@mui/material'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -29,14 +29,15 @@ const MenuProps = {
 }
 
 function WalletDeposit(props) {
-	const [state, handleChange] = useForm()
+	const [state, handleChange] = useForm({asset:props.default})
 	const [date] = useState(new Date().toISOString().slice(0, 10))
 	const [data, setData] = useState()
 
 	async function handleSubmit(e) {
 		e.preventDefault()
 		await addTransaction(state.asset.toLowerCase(), state.boughtAt, state.price, state.date)
-		window.location.reload()
+		props.close()
+		if (props.refresh) window.location.reload()
 	}
 
 	function compare(a, b) {
@@ -67,7 +68,7 @@ function WalletDeposit(props) {
 
 	return (
 		<div className={props.isOpen ? 'wallet' : 'no-display'}>
-			<form className="wallet-form column">
+			<form className="wallet-form column" onSubmit={handleSubmit}>
 				<div className="row space-between">
 					<p>Deposit</p>
 					<div onClick={props.close}>
@@ -76,13 +77,17 @@ function WalletDeposit(props) {
 				</div>
 
 				<label htmlFor="asset">Asset</label>
-				<Select name="asset" defaultValue="" onChange={handleChange} MenuProps={MenuProps} required>
+				{props.default ?
+				<input name="" id="" value={props.default} disabled />
+				:
+				<Select name="asset" defaultValue={props.default} onChange={handleChange} MenuProps={MenuProps} required>
 					{parseData().map((crypt) => (
 						<MenuItem key={crypt.value} value={crypt.value}>
 							{crypt.label}
 						</MenuItem>
 					))}
 				</Select>
+				}
 				<label htmlFor="boughtAt">Bought at</label>
 				<input name="boughtAt" onChange={handleChange} className="wallet-input" type="number" required />
 				<label htmlFor="price">Amount (price)</label>
@@ -97,7 +102,9 @@ function WalletDeposit(props) {
 					type="date"
 					required
 				/>
-				<button onClick={handleSubmit}>Deposit</button>
+				<button type="submit" value="Submit" onClick={props.close}>
+					Deposit
+				</button>
 			</form>
 		</div>
 	)

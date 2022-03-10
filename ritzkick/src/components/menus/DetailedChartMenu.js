@@ -25,11 +25,11 @@ export default function DetailedChartMenu(props) {
 							props.sendDateRange(e.target.value)
 							let availableIntervals = getIntervalOptionsByDateRange(e.target.value, t)
 							if (
-								!availableIntervals.find((inter) =>
+								!Object.keys(availableIntervals).find((inter) =>
 									inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase())
 								)
 							) {
-								let value = getIntervalOptionsByDateRange(e.target.value, t)[0]
+								let value = getIntervalOptionsByDateRange(e.target.value, t)[Object.keys(availableIntervals)[0]]
 								props.sendInterval(value)
 								setCurrentInterval(value)
 							}
@@ -66,10 +66,11 @@ export default function DetailedChartMenu(props) {
 						name="interval"
 					>
 						<optgroup label={t('menu.interval')}>
-							{intervals.map((element) => {
+							{Object.keys(getIntervalOptionsByDateRange(dateRange, t)).map(element => {
+								let value = getIntervalOptionsByDateRange(dateRange, t)[element]
 								return (
 									<option key={element} value={element}>
-										{element}
+										{value}
 									</option>
 								)
 							})}
@@ -84,84 +85,84 @@ export default function DetailedChartMenu(props) {
 export function getIntervalOptionsByDateRange(dateRange, t) {
 	switch (dateRange) {
 		case '1d':
-			return [
-				`1${t('menu.intervals.minute')}`,
-				`2${t('menu.intervals.minute')}`,
-				`5${t('menu.intervals.minute')}`,
-				`15${t('menu.intervals.minute')}`,
-				`30${t('menu.intervals.minute')}`,
-				`1${t('menu.intervals.hour')}`
-			]
+			return {
+				'1m': `1${t('menu.intervals.minute')}`,
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`
+			}
 		case '5d':
-			return [
-				`1${t('menu.intervals.minute')}`,
-				`2${t('menu.intervals.minute')}`,
-				`5${t('menu.intervals.minute')}`,
-				`15${t('menu.intervals.minute')}`,
-				`30${t('menu.intervals.minute')}`,
-				`1${t('menu.intervals.hour')}`,
-				`1${t('menu.intervals.day')}`
-			]
+			return {
+				'1m': `1${t('menu.intervals.minute')}`,
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`
+			}
 		case '1mo':
-			return [
-				`2${t('menu.intervals.minute')}`,
-				`5${t('menu.intervals.minute')}`,
-				`15${t('menu.intervals.minute')}`,
-				`30${t('menu.intervals.minute')}`,
-				`1${t('menu.intervals.hour')}`,
-				`1${t('menu.intervals.day')}`,
-				`1${t('menu.intervals.week')}`
-			]
+			return {
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`
+			}
 		case '3mo':
-			return [
-				`1${t('menu.intervals.hour')}`,
-				`1${t('menu.intervals.day')}`,
-				`1${t('menu.intervals.week')}`,
-				`1${t('menu.intervals.month')}`
-			]
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`
+			}
 		case '6mo':
-			return [
-				`1${t('menu.intervals.hour')}`,
-				`1${t('menu.intervals.day')}`,
-				`1${t('menu.intervals.week')}`,
-				`1${t('menu.intervals.month')}`,
-				`3${t('menu.intervals.month')}`
-			]
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 		case '1y':
-			return [
-				`1${t('menu.intervals.hour')}`,
-				`1${t('menu.intervals.day')}`,
-				`1${t('menu.intervals.week')}`,
-				`1${t('menu.intervals.month')}`,
-				`3${t('menu.intervals.month')}`
-			]
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 		case '2y':
-			return [
-				`1${t('menu.intervals.hour')}`,
-				`1${t('menu.intervals.day')}`,
-				`1${t('menu.intervals.week')}`,
-				`1${t('menu.intervals.month')}`,
-				`3${t('menu.intervals.month')}`
-			]
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 		case '5y':
-			return [
-				`1${t('menu.intervals.day')}`,
-				`1${t('menu.intervals.week')}`,
-				`1${t('menu.intervals.month')}`,
-				`3${t('menu.intervals.month')}`
-			]
+			return {
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 		default:
-			return [
-				`1${t('menu.intervals.minute')}`,
-				`2${t('menu.intervals.minute')}`,
-				`5${t('menu.intervals.minute')}`,
-				`15${t('menu.intervals.minute')}`,
-				`30${t('menu.intervals.minute')}`,
-				`1${t('menu.intervals.hour')}`,
-				`1${t('menu.intervals.day')}`,
-				`1${t('menu.intervals.week')}`,
-				`1${t('menu.intervals.month')}`,
-				`3${t('menu.intervals.month')}`
-			]
+			return {
+				'1m': `1${t('menu.intervals.minute')}`,
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 	}
 }

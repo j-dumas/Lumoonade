@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from '@mui/icons-material'
 import { createSocket } from '../../services/SocketService'
 import { SlugToSymbol, AreSlugsEqual } from '../../utils/crypto'
 import format from '../../utils/formatter'
+import { CircularProgress } from '@mui/material'
 
 export default function ProfileAlerts(props) {
 	const [socket, setSocket] = useState()
@@ -14,6 +15,7 @@ export default function ProfileAlerts(props) {
 	const [data, setData] = useState([])
 	const [openStatus, setOpen] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
+	const [maxPage, setMaxPage] = useState(1)
 
 	function deletedAlert() {
 		setOpen(true)
@@ -28,7 +30,8 @@ export default function ProfileAlerts(props) {
 		setCurrentPage(page)
 		getWatchList(page)
 			.then((res) => {
-				setAlerts(res)
+				setMaxPage(res.max_page)
+				setAlerts(res.watchlists)
 			})
 			.catch((err) => {
 				console.log(err)
@@ -46,7 +49,7 @@ export default function ProfileAlerts(props) {
 			symbols.push(SlugToSymbol(alert.slug, props.currency))
 		})
 		setSocket(createSocket(['general'], symbols, `wss://${window.location.host}`))
-	}, [!alerts, alerts.length == 0])
+	}, [alerts, alerts.length == 0, currentPage])
 
 	useEffect(() => {
 		if (!socket) return
@@ -59,8 +62,8 @@ export default function ProfileAlerts(props) {
 	return (
 		<div id="alerts column center">
 			<div id="alerts-header" className="row">
-				<h1>Alertes</h1>
-				<ProfileAddAlerts onDataChange={fetchAssets} />
+				<h1>Alerte(s)</h1>
+					<ProfileAddAlerts currency={props.currency} onDataChange={fetchAssets} />
 				<Snackbar
 					sx={{ m: 6 }}
 					open={openStatus}
@@ -73,57 +76,78 @@ export default function ProfileAlerts(props) {
 					</Alert>
 				</Snackbar>
 			</div>
-			{alerts !== undefined && (
-				<div>
-					<ul>
-						<li>
-							<div className="row alert-card alert-title-card">
-								<div>Name</div>
-								<div>Current Price</div>
-								<div>Target Price</div>
-							</div>
-						</li>
-						{alerts.map((alert) => {
-							let price = 0
-							data.forEach((asset) => {
-								if (AreSlugsEqual(alert.slug, asset.fromCurrency)) price = asset.regularMarketPrice
-							})
+			{
+				(alerts === undefined || socket === undefined) 
+					?
+						<div className='column center'>
+							<CircularProgress color="secondary" />
+						</div>
+					:
+					(alerts.length !== 0)
+						?
+							(!socket.connected)
+								?
+									<div className='column center'>
+										<CircularProgress color="secondary" />
+									</div>
+								:
+									<div>
+										<ul>
+											<li>
+												<div className='row alert-card alert-title-card'>
+													<div>
+														Name
+													</div>
+													<div>
+														Current Price
+													</div>
+													<div>
+														Target Price
+													</div>
+												</div>
+											</li>
+											{
+												alerts.map((alert) => {
+													let price = 0
+													data.forEach((asset) => {
+														if (AreSlugsEqual(alert.slug, asset.fromCurrency)) price = asset.regularMarketPrice
+													})
 
-							return (
-								<li key={alert._id}>
-									<ProfileAlertsComponent
-										price={format(price)}
-										onDelete={deletedAlert}
-										onDataChange={fetchAssets}
-										alert={alert}
-									/>
-								</li>
-							)
-						})}
-					</ul>
-					<div className="row center">
-						{currentPage > 1 && (
-							<button
-								className="alert-page-control-buttons row center"
-								onClick={() => fetchAssets(currentPage - 1)}
-							>
+													return <li key={alert._id}>
+														<ProfileAlertsComponent price={format(price)} onDelete={deletedAlert} onDataChange={fetchAssets} alert={alert} />
+													</li>
+												})
+											}
+										</ul>
+									</div>
+								:
+									<h1>Aucune alerte</h1>
+			}
+				<div className='row center'>
+					{
+						(currentPage > 1) 
+						&&
+							<button className='alert-page-control-buttons row center' onClick={() => fetchAssets(currentPage - 1)}>
 								<ArrowLeft />
-								<div>Previous Page</div>
+								<div>
+									Previous Page
+								</div>
 							</button>
-						)}
-						<div>{currentPage}</div>
-						{data.length === 5 && (
-							<button
-								className="alert-page-control-buttons row center"
-								onClick={() => fetchAssets(currentPage + 1)}
-							>
-								<div>Next Page</div>
+					}
+					<div>
+						{currentPage}
+					</div>
+					{
+						(currentPage < maxPage) 
+						&& 
+							<button className='alert-page-control-buttons row center' onClick={() => fetchAssets(currentPage + 1)}>
+								<div>
+									Next Page 
+								</div>
 								<ArrowRight />
 							</button>
-						)}
-					</div>
+					}
 				</div>
-			)}
 		</div>
 	)
 }
