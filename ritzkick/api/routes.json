@@ -1,12 +1,10 @@
 {
 	"alerts": {
 		"all": "/api/me/watchlists",
-		"create": "/api/alerts",
-		"update": "/api/alerts/update",
-		"delete": "/api/alerts/delete"
+		"default": "/api/alerts"
 	},
 	"assets": {
-		"all": "/api/assets/all",
+		"all": "/api/assets",
 		"search": {
 			"db": "/api/assets/search/",
 			"yahoo": "/api/yahoo/search/"
@@ -22,18 +20,35 @@
 		"login": "/api/auth/login",
 		"logout": "/api/auth/logout",
 		"register": "/api/auth/register",
-		"forgot-password": "/api/auth/forgot",
 		"google": "/api/auth/google"
 	},
 	"favorites": {
 		"all": "/api/me/favorites",
-		"create": "/api/favorite",
-		"delete": "/api/favorite"
+		"default": "/api/favorite"
+	},
+	"wallets": {
+		"all": "/api/me/wallets",
+		"transaction-default": "/api/wallet/",
+		"transactions": "/api/wallets/transactions",
+		"detailed": "/api/wallets/detailed",
+		"default": "/api/wallets"
 	},
 	"user": {
-		"complete": "/api/me",
+		"default": "/api/me",
 		"summary": "/api/me/profile",
-		"update": "/api/me/update",
-		"delete": "/api/me/delete"
+		"purge-sessions": "/api/me/sessions/purge"
+	},
+	"confirmation": {
+		"default": "/api/confirmations",
+		"verify": "/api/confirmation/verify/"
+	},
+	"reset": {
+		"default": "/api/reset",
+		"verify": "/api/reset/verify/",
+		"redeem": "/api/reset/redeem"
+	},
+	"shortcut": {
+		"default": "/api/redirects",
+		"redirect": "/redirect/"
 	}
 }

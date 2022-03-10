@@ -8,10 +8,16 @@ import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { deleteCookie, getCookie } from 'services/CookieService'
+import { useRouter } from 'next/router'
+import { CircularProgress } from '@mui/material'
+
+const CURRENCY = 'cad'
 
 const Profile = () => {
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
+	const router = useRouter()
 
 	async function removeUserSession() {
 		await removeSession()
@@ -19,17 +25,31 @@ const Profile = () => {
 		setUser(data)
 	}
 
-	useEffect(() => {
+	async function getCurrentUser() {
 		getUser().then((res) => setUser(res))
+	}
+
+	useEffect(() => {
+		if (getCookie('token') === undefined) {
+			router.push('/')
+		} else {
+			getCurrentUser().then((res) => setUser(res))
+		}
 	}, [])
 
 	return (
 		<>
-			<main>
-				<div className="column page-navbar">
-					<div className="center">{user !== undefined && <ProfileHeader user={user} />}</div>
+			{user === undefined ? (
+				<div className="column center">
+					<CircularProgress color="secondary" />
+				</div>
+			) : (
+				<div className="column principal first layer4">
+					<div className="center">
+						{user !== undefined && <ProfileHeader user={user} updateUser={getCurrentUser} />}
+					</div>
 					<div>
-						<div className="row center no-margin">
+						<div className="row center">
 							<button
 								className={viewState ? 'profile-nav-selected' : 'profile-nav'}
 								onClick={() => setViewState(true)}
@@ -45,12 +65,13 @@ const Profile = () => {
 						</div>
 						<hr className="line"></hr>
 					</div>
-					<div className="column center">{viewState ? <ProfileAlerts /> : <ProfileFavorite />}</div>
+					<div className="column center">
+						{viewState ? <ProfileAlerts currency={CURRENCY} /> : <ProfileFavorite />}
+					</div>
 					<hr className="line"></hr>
 					<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
 				</div>
-				<div className="spacer layer4"></div>
-			</main>
+			)}
 		</>
 	)
 }

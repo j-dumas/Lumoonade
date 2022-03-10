@@ -18,6 +18,7 @@ import '@/styles/Charts.css'
 import '@/styles/SimpleCrypto.css'
 import '@/styles/Profile.css'
 import '@/styles/DetailedCrypto.css'
+import '@/styles/Form.css'
 
 /* eslint-disable sort-imports, import/first */
 // The following import prevents a Font Awesome icon server-side rendering bug,
@@ -33,7 +34,7 @@ function MyApp({ Component, pageProps }) {
 	const getLayout = Component.getLayout || ((page) => page)
 
 	let app
-	if (process.env.NEXT_PUBLIC_PROD == 'true') {
+	if (process.env.NODE_ENV === 'production') {
 		app = (
 			<div>
 				<Script

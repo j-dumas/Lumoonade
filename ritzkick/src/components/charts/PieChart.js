@@ -3,10 +3,10 @@ import { Chart as Charts, Doughnut, Line, Pie } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from '../../../utils/color'
 import { getUserDashboardData } from '../../../services/dashboard-service'
+import { AreSlugsEqual } from 'utils/crypto'
 
 function PieChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
-	// if (!props.data || props.data.length == 0) return (<></>)
 
 	const [data, setData] = useState({
 		maintainAspectRatio: false,
@@ -20,59 +20,33 @@ function PieChart(props) {
 		]
 	})
 
-	const [assets, setAssets] = useState(async (el) => {
-		console.log(el)
-		let d = await getUserDashboardData()
-		return d.assets
-	})
-
 	useEffect(async () => {
-		// let userData = await getUserDashboardData()
-		let userData = {
-			assets: [
-				{
-					name: 'eth',
-					totalSpent: 1000,
-					holding: 0.2,
-					transactions: 1
-				},
-				{
-					name: 'btc',
-					totalSpent: 3400,
-					holding: 0.001,
-					transactions: 1
-				},
-				{
-					name: 'ltc',
-					totalSpent: 200,
-					holding: 1.3,
-					transactions: 1
-				}
-			]
-		}
-		setAssets(userData.assets)
-		console.log(assets)
-	}, [])
-
-	useEffect(async () => {
-		props.socket.on('data', async (data) => {
+		props.socket.on('data', (data) => {
 			const chart = chartReference.current
 			if (!chart) return
-			chart.data = generateData(data, await assets)
+			chart.data = generateData(data, props.assets)
 			chart.update('none')
 		})
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
 
 	function generateData(dataArr, assets) {
+		if (assets == undefined) return
 		let labels = []
 		let data = []
 		let backgroudColors = []
+		let max = 0
 		dataArr.forEach((datas) => {
 			assets.forEach((asset) => {
-				if (asset.name.toString().toUpperCase() != datas.fromCurrency.toString().toUpperCase()) return
+				if (!AreSlugsEqual(asset.name, datas.fromCurrency)) return
+				max += datas.regularMarketPrice * asset.amount
+			})
+		})
+		dataArr.forEach((datas) => {
+			assets.forEach((asset) => {
+				if (!AreSlugsEqual(asset.name, datas.fromCurrency)) return
 				labels.push(datas.fromCurrency.toString().toUpperCase())
-				data.push(datas.regularMarketPrice * asset.holding)
+				data.push(((datas.regularMarketPrice * asset.amount) / max) * 100)
 				backgroudColors.push(GetColorBySlug(datas.fromCurrency.toString()))
 			})
 		})
@@ -93,6 +67,8 @@ function PieChart(props) {
 	}
 
 	const pieOptions = {
+		responsive: true,
+		maintainAspectRatio: false,
 		plugins: {
 			legend: {
 				display: true,
@@ -145,8 +121,8 @@ function PieChart(props) {
 	return !data ? (
 		<></>
 	) : (
-		<div className="pie-chart">
-			<p className="detailed-div-title">Assets Division</p>
+		<div className="column pie-chart">
+			<p className="detailed-div-title">Assets division (%)</p>
 			<Pie name="pie" data={data} options={pieOptions} ref={chartReference} />
 		</div>
 	)

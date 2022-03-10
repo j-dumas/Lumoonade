@@ -1,4 +1,5 @@
 {
+	"title": "Comparer",
 	"menu": {
 		"comparing": "Comparer",
 		"options": {
@@ -12,7 +13,7 @@
 		"table": {
 			"asset": "Crypto",
 			"price": "Prix ($)",
-			"change": "Changement en 24h"
+			"change": "Changement 24h"
 		}
 	}
 }

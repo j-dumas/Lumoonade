@@ -31,7 +31,6 @@ if (nodeEnv !== 'test') {
 		log.error('SERVER', 'Launch error', ex.stack)
 		process.exit(1)
 	})
-} else {
 }
 
 /**********************
@@ -66,6 +65,8 @@ server.use(compression({ filter: shouldCompress }))
 
 prepareHttps2()
 
+const emailservice = require('./app/email/email-service')
+
 sm.initialize(server)
 
 /**************
@@ -74,6 +75,7 @@ sm.initialize(server)
 server.listen(port, (err) => {
 	if (err) throw err
 	log.info('SERVER', `Ready on port ${port}`)
+	emailservice.wake()
 })
 
 /**

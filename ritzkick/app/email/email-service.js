@@ -25,13 +25,20 @@ const create = async () => {
 	log(SERVICE_NAME, 'Found ' + watchlists.length + ' lists with ' + listen.length + ' unique search.')
 
 	// This will change in the future.
-	const connectionUrl = `https://${process.env.URL}:${process.env.PORT}/`
+	const connectionUrl = `wss://${process.env.URL}:${process.env.PORT}/`
+	console.log(connectionUrl)
+	log(SERVICE_NAME, listen)
+	console.log('data', listen)
 	client = new Client(connectionUrl, {
+		rejectUnauthorized: false,
 		auth: {
 			rooms: ['general'],
-			query: listen,
-			graph: false
+			query: listen
 		}
+	})
+
+	client.on('connect_error', (err) => {
+		console.log(`connect_error due to ${err.message}`)
 	})
 
 	client.on('ready', (_) => {
@@ -43,8 +50,13 @@ const create = async () => {
 	})
 
 	client.on('data', (data) => {
+		if (!data) return
 		data.forEach((d) => {
-			tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
+			try {
+				tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
+			} catch (e) {
+				console.log(e)
+			}
 		})
 	})
 }
@@ -66,7 +78,7 @@ const tracker = async (slug, price) => {
  * @param {list} list list of people that must be notified
  * @param {number} price current price of the asset
  */
-const handleTracker = (list, price) => {
+const handleTracker = (list = [], price) => {
 	list.forEach((client) => {
 		setTimeout(() => {
 			User.findById(client.owner).then(async (user) => {
@@ -119,8 +131,7 @@ const notifyRemove = async () => {
  * Wakes the robot.
  */
 const wake = async () => {
-	if (client.connected) return
-	await create()
+	return await create()
 }
 
 /**

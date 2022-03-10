@@ -3,26 +3,42 @@ import { Chart as Charts, Line } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
 import Functions from 'services/CryptoService'
+import { isUserConnected } from 'services/AuthService'
+import { getTransactions } from 'services/UserService'
+import yahoo from 'utils/dashboard-yahoo'
 import 'chartjs-adapter-moment'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
+const graph = require('app/socket/utils/graph')
+
 const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
-	const [chartReference, setCR] = useState(React.createRef())
-	const [data, setData] = useState()
+	const [chartReference] = useState(React.createRef())
+	const [data] = useState(Functions.GetDummyChartData(props.slug))
 
 	useEffect(async () => {
-		setData(await Functions.GetCryptocurrencyChartDataBySlug(props.slug, props.dateRange, props.interval))
+		let transactionList = props.wallet && isUserConnected() ? await getTransactions() : null
+		let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+		if (props.socket._callbacks.$graph) props.socket._callbacks.$graph.length = 0
 		props.socket.on('graph', (datas) => {
-			const chart = chartReference.current
-			if (!chart || isDataNull(datas)) return
-			chart.data = getRelativeChartData(datas)
-			chart.update()
+			console.log(props.dateRange)
+			if (props.wallet && isUserConnected()) {
+				datas = yahoo.yahooToDashBoard2(datas, transactionList, props.dateRange, true, timeZone)
+			} else if (!props.wallet) {
+				datas = graph.adjustDateMiddleware(datas, props.dateRange, timeZone)
+			}
+			try {
+				const chart = chartReference.current
+				if (!chart || isDataNull(datas)) return
+				chart.data = getRelativeChartData(datas)
+				chart.update()
+			} catch (_) {}
 		})
 		if (props.socket) return () => props.socket.disconnect()
-	}, [])
+	}, [props.dateRange])
 
 	function isDataNull(datas) {
 		if (!datas || datas.length == 0 || !datas[0] || datas == undefined || datas[0].response == undefined) {
@@ -114,7 +130,7 @@ function DetailedChartChart(props) {
 						speed: 0.05
 					},
 					pinch: {
-						enabled: false
+						enabled: true
 					},
 					drag: {
 						enabled: false
@@ -204,7 +220,7 @@ function DetailedChartChart(props) {
 	return isDataNull(data) ? (
 		<div>Loading...</div>
 	) : (
-		<div className="detailed-chart-chart">
+		<div className={props.wallet ? 'detailed-chart-chart-2' : 'detailed-chart-chart'}>
 			<Charts ref={chartReference} data={getRelativeChartData(data)} options={getChartOptions(data)} />
 		</div>
 	)

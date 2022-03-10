@@ -26,6 +26,15 @@ class UnauthorizedHttpError extends HttpError {
 	}
 }
 
+class ForbiddenHttpError extends HttpError {
+	constructor(message = 'Forbidden') {
+		super(message, 403)
+		this.name = this.constructor.name
+
+		Error.captureStackTrace(this, this.constructor)
+	}
+}
+
 class NotFoundHttpError extends HttpError {
 	constructor(message = 'Not Found') {
 		super(message, 404)
@@ -53,14 +62,14 @@ class ServerError extends HttpError {
 	}
 }
 
-async function sendError(res, e) {
+function sendError(res, e) {
 	if (e.status)
 		res.status(e.status).send({
-			error: e.message
+			message: e.message
 		})
 	else
 		res.status(500).send({
-			error: e.message
+			message: e.message
 		})
 }
 
@@ -70,5 +79,6 @@ module.exports = {
 	UnauthorizedHttpError,
 	NotFoundHttpError,
 	ConflictHttpError,
-	ServerError
+	ServerError,
+	ForbiddenHttpError
 }

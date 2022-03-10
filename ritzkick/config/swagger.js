@@ -1,8 +1,8 @@
 module.exports = {
 	info: {
 		version: '1.0.0',
-		title: 'Cryptool',
-		description: 'Cryptool API'
+		title: 'Lumoonade',
+		description: 'Lumoonade API'
 	},
 	security: {
 		BearerAuth: {
@@ -16,12 +16,12 @@ module.exports = {
 	swaggerUIPath: '/api/docs',
 	servers: [
 		{
-			url: 'https://localhost:3000',
-			description: 'Dev server'
-		},
-		{
 			url: 'https://lumoonade.com:4000',
 			description: 'Test server'
+		},
+		{
+			url: 'https://localhost:3000',
+			description: 'Dev server'
 		}
 	]
 }

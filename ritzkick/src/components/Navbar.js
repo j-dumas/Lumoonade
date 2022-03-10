@@ -4,19 +4,37 @@ import Icons from './Icons'
 import { logout } from 'services/AuthService'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
+import { getCookie } from 'services/CookieService'
 
 function Navbar(props) {
 	const { t } = useTranslation('common')
 	const router = useRouter()
+	const { login } = router.query
 
 	const [click, setClick] = useState(false)
 	const handleClick = () => setClick(!click)
 	const closeMobileMenu = () => setClick(false)
+	const [isConnected, setConnection] = useState(false)
+
+	const connection = () => {
+		if (getCookie('token') !== undefined) setConnection(true)
+		else setConnection(false)
+	}
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout()
+		await logout(setConnection()).then(() => router.push('/'))
 	}
+
+	useEffect(() => {
+		connection()
+	}, [])
+
+	useEffect(() => {
+		if (login === 'true') {
+			setConnection(true)
+		}
+	}, [login])
 
 	return (
 		<>
@@ -64,9 +82,9 @@ function Navbar(props) {
 						</li>
 					</ul>
 					<ul className={props.mobile ? 'nav-menu-mobile' : 'nav-menu'}>
-						{props.connected ? (
+						{isConnected ? (
 							<>
-								<li className={router.pathname == '/wallet' ? 'nav-item active-link' : 'nav-item'}>
+								<li className={router.pathname == '/me/wallet' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.Wallet />
 									<Link href="/wallet">
 										<a className="nav-links" onClick={closeMobileMenu}>

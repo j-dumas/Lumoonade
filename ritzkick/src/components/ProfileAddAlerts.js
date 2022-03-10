@@ -14,34 +14,24 @@ import {
 	Snackbar
 } from '@mui/material'
 import { useForm } from './hooks/useForm'
+import { CloseRounded } from '@mui/icons-material'
+import Functions from 'services/CryptoService'
+import { SlugToSymbol, AreSlugsEqual } from '../../utils/crypto'
+import { createSocket } from 'services/SocketService'
 
-const data = [
-	{
-		slug: 'btc',
-		name: 'Bitcoin',
-		price: 50000
-	},
-	{
-		slug: 'eth',
-		name: 'Etherium',
-		price: 5000
-	}
-]
-
-function parseData() {
-	let parsedData = []
-	data.forEach((element) => {
-		let tempValue = {
-			label: element.name,
-			value: element.slug
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+	PaperProps: {
+		style: {
+			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			width: 250
 		}
-		parsedData.push(tempValue)
-	})
-	return parsedData
+	}
 }
 
 export default function ProfileAddAlerts(props) {
-	const [state, handleChange, resetState] = useForm({})
+	const [state, handleChange, resetState] = useForm(props.provenance ? { slug: props.slug } : {})
 	const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,
 		closeOnOverlayClick: true
@@ -50,14 +40,22 @@ export default function ProfileAddAlerts(props) {
 	const [price, setPrice] = useState(0)
 	const [minPrice, setMinPrice] = useState(0)
 	const [maxPrice, setMaxPrice] = useState(0)
+	const [data, setData] = useState(undefined)
+	const [slug, setSlug] = useState(undefined)
+	const [socket, setSocket] = useState()
 
-	function getPrice(slug) {
-		data.forEach((element) => {
-			if (element.slug === slug) {
-				console.log(element.price)
-				setPrice(element.price)
-			}
-		})
+	function parseData() {
+		let parsedData = []
+		if (data !== undefined) {
+			data.forEach((element) => {
+				let tempValue = {
+					label: element.name,
+					value: element.symbol
+				}
+				parsedData.push(tempValue)
+			})
+		}
+		return parsedData.sort()
 	}
 
 	function handleClose(event, reason) {
@@ -68,15 +66,35 @@ export default function ProfileAddAlerts(props) {
 		setOpen(false)
 	}
 
+	useEffect(async () => {
+		if (props.provenance) {
+			let tempValue = props.slug.split('-')
+			setSlug(tempValue[0])
+		}
+		const values = await Functions.GetAllCryptocurrencySlugs(1, 1000)
+		setData(values.assets)
+	}, [])
+
 	useEffect(() => {
 		if (state.slug !== undefined) {
-			getPrice(state.slug)
+			let symbol = []
+			if (props.provenance) {
+				symbol.push(state.slug)
+			} else {
+				symbol.push(SlugToSymbol(state.slug, props.currency))
+			}
+			setSocket(createSocket(['general'], symbol, `wss://${window.location.host}`))
 		}
-		if (state.parameter !== undefined) {
+	}, [state])
+
+	useEffect(() => {
+		if (state.slug !== undefined && state.parameter !== undefined) {
 			if (state.parameter === 'lte') {
+				console.log('changing prices')
 				setMinPrice(0)
 				setMaxPrice(price)
 			} else {
+				console.log('changing prices2')
 				setMinPrice(price)
 				setMaxPrice(Infinity)
 			}
@@ -84,24 +102,42 @@ export default function ProfileAddAlerts(props) {
 	}, [state])
 
 	useEffect(() => {
-		if (!isOpen) {
+		if (!isOpen && !props.provenance) {
 			resetState()
 		}
 	}, [isOpen])
 
+	useEffect(() => {
+		if (!socket) return
+		socket.on('data', (slugs) => {
+			setPrice(slugs[0].regularMarketPrice)
+		})
+		if (socket) return () => socket.disconnect()
+	}, [socket])
+
 	async function handleSubmit(event) {
 		event.preventDefault()
-		await addWatch(state)
-		props.onDataChange()
+		if (!props.provenance) {
+			await addWatch(SlugToSymbol(state.slug, props.currency), state.parameter, state.target)
+			props.onDataChange()
+		} else {
+			await addWatch(state.slug, state.parameter, state.target)
+		}
 		close()
 		setOpen(true)
 	}
 
 	return (
 		<div className="row center">
-			<button className="icon-button transform" id="rotate-button" onClick={open}>
-				<Icons.Times />
-			</button>
+			{props.provenance ? (
+				<a onClick={open}>
+					<Icons.Bell />
+				</a>
+			) : (
+				<button className="icon-button" id="rotate-button" onClick={open}>
+					<CloseRounded fontSize="medium" />
+				</button>
+			)}
 			<Snackbar
 				sx={{ m: 6 }}
 				open={openStatus}
@@ -121,9 +157,20 @@ export default function ProfileAddAlerts(props) {
 						n&apos;est pas respectée
 					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
-						<FormControl sx={{ m: 1, width: '25%' }} className="inputField" variant="filled">
+						<FormControl
+							sx={{ m: 1, width: '25%', minWidth: '50px' }}
+							className="inputField"
+							variant="filled"
+							disabled={props.provenance}
+						>
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue="" onChange={handleChange} required>
+							<Select
+								name="slug"
+								defaultValue={props.provenance ? slug : ''}
+								onChange={handleChange}
+								MenuProps={MenuProps}
+								required
+							>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}
@@ -149,29 +196,31 @@ export default function ProfileAddAlerts(props) {
 								required
 								autoComplete="off"
 								inputProps={{
-									inputMode: 'numeric',
-									pattern: '[0-9]*',
+									pattern: '[0-9]+([.,][0-9]+)?',
+									step: '0.0000000001',
 									min: minPrice.toString(),
 									max: maxPrice.toString()
 								}}
 							/>
 						</FormControl>
-						<div className="column">
-							{state.parameter !== undefined &&
-								state.slug !== undefined &&
-								(state.parameter === 'lte' ? (
-									<div>
-										Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
-									</div>
-								) : (
-									<div>Veuillez entrer une valeur minimal {minPrice}$</div>
-								))}
-						</div>
-						<div className="row">
-							<input type="submit" value="Ajouter"></input>
-							<button type="button" onClick={close} id="cancel-edit">
-								Annuler
-							</button>
+						<div>
+							<div className="column">
+								{state.parameter !== undefined &&
+									state.slug !== undefined &&
+									(state.parameter === 'lte' ? (
+										<div>
+											Veuillez entrer une valeur entre {minPrice} et {maxPrice}$
+										</div>
+									) : (
+										<div>Veuillez entrer une valeur minimal {minPrice}$</div>
+									))}
+							</div>
+							<div className="row">
+								<input type="submit" value="Ajouter"></input>
+								<button type="button" onClick={close} id="cancel-edit">
+									Annuler
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>

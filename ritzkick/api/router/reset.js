@@ -8,6 +8,15 @@ const emailSender = require('../../app/email/email')
 const axios = require('axios').default
 const fs = require('fs')
 const rateLimit = require('express-rate-limit')
+const {
+	BadRequestHttpError,
+	sendError,
+	ConflictHttpError,
+	ServerError,
+	NotFoundHttpError
+} = require('../../utils/http_errors')
+
+const paths = require('../routes.json')
 
 /**
  * Reset Email Model
@@ -48,11 +57,11 @@ const creationLimiter = rateLimit({
  *  "message": "Please provide a valid email."
  * }
  */
-router.post('/api/reset', creationLimiter, async (req, res) => {
+router.post(paths.reset.default, creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
-		if (!validator.isEmail(email)) {
-			throw new Error('Please provide a valid email.')
+		if (!email || !validator.isEmail(email)) {
+			throw new BadRequestHttpError('Please provide a valid email.')
 		}
 		const user = await User.findOne({ email })
 		if (user) {
@@ -60,7 +69,7 @@ router.post('/api/reset', creationLimiter, async (req, res) => {
 			// Maybe do something if it exists...
 			const reset = new Reset({ email })
 			await reset.save()
-			const resetLink = await reset.makeResetToken(req.host.toString().split(':')[0])
+			const resetLink = await reset.makeResetToken(req.hostname.toString())
 			// Email sent with the valid url for forgot password.
 			// This is just a dummy value.
 			let url = `$https://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/reset-password?key=${resetLink}`
@@ -68,16 +77,14 @@ router.post('/api/reset', creationLimiter, async (req, res) => {
 		}
 		res.status(201).send()
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
-	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	audience: ['lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
@@ -92,16 +99,21 @@ const verifyOptions = {
  *  "message": "Token may be outdated. | Token is corrupted"
  * }
  */
-router.get('/api/reset/verify/:jwt', async (req, res) => {
+router.get(`${paths.reset.verify}:jwt`, async (req, res) => {
 	try {
 		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 
 		const token = req.params.jwt
-		const decoded = jwt.verify(token, publicKey, verifyOptions)
+		let decoded
+		try {
+			decoded = jwt.verify(token, publicKey, verifyOptions)
+		} catch (e) {
+			throw new BadRequestHttpError(e.message)
+		}
 		const { email, secret } = decoded
 		const reset = await Reset.findOne({ email, secret })
 		if (!reset) {
-			throw new Error('Token may be outdated.')
+			throw new ConflictHttpError('Token may be outdated.')
 		}
 
 		const decodedTokenStored = jwt.verify(reset.resetToken, publicKey, verifyOptions)
@@ -111,16 +123,14 @@ router.get('/api/reset/verify/:jwt', async (req, res) => {
 		})
 
 		if (modified) {
-			throw new Error('Token is corrupted')
+			throw new ConflictHttpError('Token is corrupted')
 		}
 
 		reset.attemps = parseInt(reset.attemps) + 1
 		await reset.save()
 		res.send()
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 
@@ -142,12 +152,12 @@ router.get('/api/reset/verify/:jwt', async (req, res) => {
  *  "message": "Error explaining the situation"
  * }
  */
-router.post('/api/reset/redeem', async (req, res) => {
+router.post(paths.reset.redeem, async (req, res) => {
 	try {
 		const { resetToken, password, confirmation } = req.body
 
 		if (!resetToken || !password || !confirmation) {
-			throw new Error('Please provide the minimum information to make the request')
+			throw new BadRequestHttpError('Please provide the minimum information to make the request')
 		}
 
 		if (
@@ -155,31 +165,36 @@ router.post('/api/reset/redeem', async (req, res) => {
 			validator.isEmpty(String(password).trim()) ||
 			validator.isEmpty(String(confirmation).trim())
 		) {
-			throw new Error('Please provide values to your fields')
+			throw new BadRequestHttpError('Please provide values to your fields')
 		}
 
 		if (password !== confirmation) {
-			throw new Error('Passwords do not match')
+			throw new BadRequestHttpError('Passwords do not match')
 		}
 
 		let response = await axios
-			.get(`https://${process.env.URL}:${process.env.PORT}/api/reset/verify/${resetToken}`)
+			.get(`https://${process.env.URL}:${process.env.PORT}${paths.reset.verify}${resetToken}`)
 			.catch((e) => {
 				return e
 			})
 
 		if (response.isAxiosError) {
-			throw new Error('Cannot update the profile.')
+			throw new BadRequest('Cannot update the profile.')
 		}
 
 		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 
-		const decoded = jwt.verify(resetToken, publicKey, verifyOptions)
+		let decoded
+		try {
+			decoded = jwt.verify(resetToken, publicKey, verifyOptions)
+		} catch (e) {
+			throw new BadRequestHttpError(e.message)
+		}
 		const { email } = decoded
 		const user = await User.findOne({ email })
 
 		if (!user) {
-			throw new Error('No user matches the email')
+			throw new NotFoundHttpError('No user matches the email')
 		}
 
 		user['password'] = password
@@ -190,9 +205,7 @@ router.post('/api/reset/redeem', async (req, res) => {
 
 		res.send()
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 

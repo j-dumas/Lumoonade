@@ -10,6 +10,8 @@ const Reset = require('./reset')
 const Confirmation = require('./confirmation')
 
 const fs = require('fs')
+const { NotFoundHttpError, BadRequestHttpError } = require('../../utils/http_errors')
+const Permission = require('./permission')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -21,7 +23,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			validate(email) {
 				if (!validator.isEmail(email)) {
-					throw new Error('Invalid Email Format')
+					throw new BadRequestHttpError('Invalid Email Format')
 				}
 			}
 		},
@@ -30,9 +32,10 @@ const userSchema = new mongoose.Schema(
 			trim: true,
 			minlength: 4,
 			required: true,
+			maxlength: 20,
 			validate(username) {
 				if (validator.isEmpty(username)) {
-					throw new Error('Please provide a username.')
+					throw new BadRequestHttpError('Please provide a username.')
 				}
 			}
 		},
@@ -43,7 +46,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			validate(password) {
 				if (validator.isEmpty(password)) {
-					throw new Error('Please provide a password.')
+					throw new BadRequestHttpError('Please provide a password.')
 				}
 			}
 		},
@@ -77,6 +80,10 @@ const userSchema = new mongoose.Schema(
 			}
 		],
 		validatedEmail: {
+			type: Boolean,
+			default: false
+		},
+		google: {
 			type: Boolean,
 			default: false
 		}
@@ -214,12 +221,12 @@ userSchema.methods.isOldPassword = async function (oldPassword) {
 userSchema.statics.findByCredentials = async (email, password) => {
 	const user = await User.findOne({ email })
 	if (!user) {
-		throw new Error('Could not login properly.')
+		throw new NotFoundHttpError('Could not find an user.')
 	}
 
 	const match = await bcrypt.compare(password, user.password)
 	if (!match) {
-		throw new Error('Could not login properly.')
+		throw new BadRequestHttpError('Wrong Password.')
 	}
 
 	return user
@@ -238,6 +245,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.pre('remove', async function (next) {
 	const user = this
+	await Permission.deleteMany({ user: user._id })
 	await Favorite.deleteMany({ owner: user._id })
 	await Wallet.deleteMany({ owner: user._id })
 	await Watchlist.deleteMany({ owner: user._id })

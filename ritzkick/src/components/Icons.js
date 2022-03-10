@@ -13,20 +13,10 @@ import {
 	faDoorOpen,
 	faEdit,
 	faExchangeAlt,
-	faFarStar,
-	faGlobe,
-	faHandsHelping,
-	faHome,
-	faInfoCircle,
-	faMedal,
-	faQuestionCircle,
-	faShoppingCart,
-	faStar,
-	faTicketAlt,
-	faTimes,
+	faBell,
 	faTrash,
-	faUserCircle,
-	faWallet
+	faList,
+	faSearch
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
@@ -102,6 +92,12 @@ const Icons = {
 	},
 	Trash: () => {
 		return <FontAwesomeIcon className="icon" icon={faTrash} />
+	},
+	List: () => {
+		return <FontAwesomeIcon className="icon" icon={faList} />
+	},
+	Search: () => {
+		return <FontAwesomeIcon className="icon" icon={faSearch} />
 	}
 }
 

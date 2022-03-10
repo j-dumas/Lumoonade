@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { BadRequestHttpError } = require('../../utils/http_errors')
 const Transaction = require('./transaction')
 
 const walletSchema = new mongoose.Schema(
@@ -11,7 +12,8 @@ const walletSchema = new mongoose.Schema(
 		asset: {
 			type: String,
 			required: true,
-			trim: true
+			trim: true,
+			lowercase: true
 		},
 		history: [
 			{
@@ -26,7 +28,7 @@ const walletSchema = new mongoose.Schema(
 			default: 0,
 			validate(amount) {
 				if (amount < 0) {
-					throw new Error('Unable to set an amount under 0.')
+					throw new BadRequestHttpError('Unable to set an amount under 0.')
 				}
 			}
 		}

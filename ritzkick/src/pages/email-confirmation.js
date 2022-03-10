@@ -9,13 +9,10 @@ const Bubbles = dynamic(() => import('@/components/Bubbles'), { ssr: false })
 
 const EmailConfirmation = () => {
 	return (
-		<>
-			<main>
-				<Bubbles />
-				<EmailConfirmationCard />
-				<div className="spacer layer1"></div>
-			</main>
-		</>
+		<section className="column center principal first layer1">
+			<Bubbles />
+			<EmailConfirmationCard />
+		</section>
 	)
 }
 

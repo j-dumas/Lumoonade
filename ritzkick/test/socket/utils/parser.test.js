@@ -2,13 +2,13 @@ const { appendToList, rebuild, keepFromList, sameString, slapToLowerCase } = req
 
 describe('Testing the parser util for the websocket service', () => {
 	describe('SameString function', () => {
-		test(`Testing 'sameString' with two strings (that are the same) and should return true`, () => {
+		test(`It should return true with two strings that are the same`, () => {
 			let string1 = 'test'
 			let string2 = 'test'
 			expect(sameString(string1, string2)).toBeTruthy()
 		})
 
-		test(`Testing 'sameString' with two strings (that are not the same) and should return false`, () => {
+		test(`It should return false with two strings that are not the same`, () => {
 			let string1 = 'test'
 			let string2 = string1 + '1'
 			expect(sameString(string1, string2)).toBeFalsy()
@@ -61,7 +61,7 @@ describe('Testing the parser util for the websocket service', () => {
 	})
 
 	describe('Rebuild function', () => {
-		test(`Testing 'rebuild' with a list containing duplicates, I should have unique values`, () => {
+		test(`It should return unique values with a list containing duplicates, `, () => {
 			let randomList = ['1', '2', '3', '1', '1', '4', '5']
 			let expected = ['1', '2', '3', '4', '5']
 			let rebuilt = rebuild(randomList)
@@ -69,7 +69,7 @@ describe('Testing the parser util for the websocket service', () => {
 			expect(rebuilt).toStrictEqual(expected)
 		})
 
-		test(`Testing 'rebuild' with a list containing unique values, it should not change`, () => {
+		test(`It should not change with a list containing unique values`, () => {
 			let randomList = ['1', '2', '3', '4', '5']
 			let expected = randomList
 			let rebuilt = rebuild(randomList)

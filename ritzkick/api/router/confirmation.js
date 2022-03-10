@@ -9,11 +9,14 @@ const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const rateLimit = require('express-rate-limit')
 const https = require('https')
+const { sendError, BadRequestHttpError, ConflictHttpError, ServerError } = require('../../utils/http_errors')
+
+const paths = require('../routes.json')
 
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
-	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	audience: ['lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
@@ -26,29 +29,51 @@ const creationLimiter = rateLimit({
 	legacyHeaders: false
 })
 
-router.post('/api/confirmations', creationLimiter, async (req, res) => {
+/**
+ * Confirmation Request Model
+ * @typedef {object} ConfirmationRequest
+ * @property {string} email.required - Email to send it to
+ */
+
+/**
+ * POST /api/confirmations
+ * @summary Creating a confirmation email
+ * @tags Confirmation
+ * @param {ConfirmationRequest} request.body.required - Confirmation info
+ * @example request - example payload
+ * {
+ * 	"email": "foo@bar.foo"
+ * }
+ * @return 201 - created
+ * @return {string} 400 - bad request
+ * @example response - 400 - example of a possible error message
+ * {
+ * 	"message": "Please provide a valid email format | Please provide an email in the body | You can't confirm twice the email"
+ * }
+ */
+router.post(paths.confirmation.default, creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!email) {
-			throw new Error('Please provide an email in the body.')
+			throw new BadRequestHttpError('Please provide an email in the body.')
 		}
 
 		if (!validator.isEmail(email)) {
-			throw new Error('Please provide a valid email format.')
+			throw new BadRequestHttpError('Please provide a valid email format.')
 		}
 
 		const user = await User.findOne({ email })
 		if (user && user.validatedEmail) {
-			throw new Error(`You can't confirm twice the email.`)
+			throw new ConflictHttpError(`You can't confirm twice the email.`)
 		}
 
 		const _ = await dropIfExist(email)
 		const confirmation = new Confirmation({ email })
 		await confirmation.save()
-		let token = await confirmation.makeConfirmationToken(req.host.toString().split(':')[0])
+		let token = await confirmation.makeConfirmationToken(req.hostname.toString())
 		let link = `https://${process.env.URL}:${process.env.PORT}/email-confirmation?key=${token}`
 		let response = await axios({
-			url: `https://${process.env.URL}:${process.env.PORT}/api/redirects`,
+			url: `https://${process.env.URL}:${process.env.PORT}${paths.shortcut.default}`,
 			method: 'POST',
 			httpsAgent: new https.Agent({ rejectUnauthorized: false }),
 			headers: {
@@ -58,17 +83,34 @@ router.post('/api/confirmations', creationLimiter, async (req, res) => {
 				url: link,
 				destroyable: true
 			})
-		}).catch(_ => { return { data: { url: link } } } )
+		}).catch((_) => {
+			return { data: { url: link } }
+		})
 		emailSender.sendConfirmationEmail(email, response.data.url)
 		res.status(201).send()
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 
-router.get('/api/confirmation/verify/:jwt', async (req, res) => {
+/**
+ * Confirmation Verify Request Model
+ * @typedef {object} ConfirmationVerifyRequest
+ * @property {string} jwt.required - jwt for decoding purposes
+ */
+
+/**
+ * GET /api/confirmation/verify/{token}
+ * @summary Verifies if the token is valid.
+ * @tags Confirmation
+ * @return 200 - valid
+ * @return {string} 400 - bad request
+ * @example response - 400 - example of a possible error message
+ * {
+ * 	"message": "Token may be outdated | Token is corrupted"
+ * }
+ */
+router.get(`${paths.confirmation.verify}:jwt`, creationLimiter, async (req, res) => {
 	try {
 		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 		const token = req.params.jwt
@@ -76,7 +118,7 @@ router.get('/api/confirmation/verify/:jwt', async (req, res) => {
 		const { email, secret } = decoded
 		const confirmation = await Confirmation.findOne({ email, secret })
 		if (!confirmation) {
-			throw new Error('Token may be outdated.')
+			throw new ConflictHttpError('Token may be outdated.')
 		}
 
 		const decodedTokenStored = jwt.verify(confirmation.confirmationToken, publicKey, verifyOptions)
@@ -86,7 +128,7 @@ router.get('/api/confirmation/verify/:jwt', async (req, res) => {
 		})
 
 		if (modified) {
-			throw new Error('Token is corrupted')
+			throw new ConflictHttpError('Token is corrupted')
 		}
 
 		await Confirmation.findOneAndDelete({ email, secret })
@@ -94,9 +136,7 @@ router.get('/api/confirmation/verify/:jwt', async (req, res) => {
 		await user.verified()
 		res.send()
 	} catch (e) {
-		res.status(400).send({
-			message: e.message
-		})
+		sendError(res, e)
 	}
 })
 

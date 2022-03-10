@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Icons from '@/components/Icons'
 import { deleteWatch } from 'services/UserService'
-import { Alert, Snackbar } from '@mui/material'
+import { Delete } from '@mui/icons-material'
+import format from '../../utils/formatter'
 
 export default function ProfileAlertsComponent(props) {
 	function getSign(parameter) {
@@ -25,16 +25,13 @@ export default function ProfileAlertsComponent(props) {
 				<div id="alert-slug" className="alert-card-item">
 					{props.alert.slug}
 				</div>
-				<div className="alert-card-item">
-					{50000}&#36;{' '}
-					{/* RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPPPPPHY WEEEEEB SOOOOOOCKET ON VEUT LE PRIX */}
-				</div>
+				<div className="alert-card-item">{props.price}&#36; </div>
 				<div className="alert-card-item">{getSign(props.alert.parameter)}</div>
 				<div id="alert-target" className="alert-card-item">
-					{props.alert.target}&#36;
+					{format(props.alert.target)}&#36;
 				</div>
-				<button className="alert-card-item" onClick={(event) => handleDelete(event)}>
-					<Icons.Trash id="icon" />
+				<button id="delete-alert-button" className="alert-card-item" onClick={(event) => handleDelete(event)}>
+					<Delete fontSize="medium" />
 				</button>
 			</div>
 		</div>

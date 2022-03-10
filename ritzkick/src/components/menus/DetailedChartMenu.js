@@ -1,81 +1,78 @@
 import React, { useEffect, useState } from 'react'
 import ButtonLegend from '@/components/ButtonLegend'
 
+import { useTranslation } from 'next-i18next'
+
 export default function DetailedChartMenu(props) {
-	const [showPrice, setShowPrice] = useState(true)
-	const [showChange, setShowChange] = useState(false)
-	const [showVolume, setShowVolume] = useState(false)
+	const { t } = useTranslation('detailedchart')
 
 	const [dateRange, setDateRange] = useState('5d')
-	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange))
-
-	function getShowPrice(value) {
-		setShowPrice(value)
-	}
-	function getShowChange(value) {
-		setShowChange(value)
-	}
-	function getShowVolume(value) {
-		setShowVolume(value)
-	}
+	const [currentInterval, setCurrentInterval] = useState(`15${t('menu.intervals.minute')}`)
+	const [intervals, setIntervals] = useState(getIntervalOptionsByDateRange(dateRange, t))
 
 	return (
 		<div className="detailed-div-menu row h-center space-between">
 			<div className="row detailed-chart-legend left h-center">
-				{
-					<ButtonLegend
-						sendData={getShowPrice}
-						value={showPrice}
-						name="Price"
-						backgroundColor="var(--background-color-3)"
-					/>
-				}
+				<p className="detailed-div-title">{t('menu.price')}</p>
 			</div>
 			<div className="row detailed-chart-options left">
 				<div className="row h-center">
 					<label htmlFor="daterange" className="detailed-div-label">
-						Date range
+						{t('menu.range')}
 					</label>
 					<select
 						onChange={(e) => {
 							props.sendDateRange(e.target.value)
-							props.sendInterval(getIntervalOptionsByDateRange(e.target.value)[0])
+							let availableIntervals = getIntervalOptionsByDateRange(e.target.value, t)
+							if (
+								!Object.keys(availableIntervals).find((inter) =>
+									inter.toLocaleLowerCase().includes(currentInterval.toLocaleLowerCase())
+								)
+							) {
+								let value = getIntervalOptionsByDateRange(e.target.value, t)[
+									Object.keys(availableIntervals)[0]
+								]
+								props.sendInterval(value)
+								setCurrentInterval(value)
+							}
 							setDateRange(e.target.value)
-							setIntervals(getIntervalOptionsByDateRange(e.target.value))
+							setIntervals(getIntervalOptionsByDateRange(e.target.value, t))
 						}}
 						defaultValue="5d"
 						className="detailed-chart-options-select"
 						name="daterange"
 					>
-						<optgroup label="Date Range">
-							<option value="1d">1 day</option>
-							<option value="5d">5 days</option>
-							<option value="1mo">1 month</option>
-							<option value="3mo">3 months</option>
-							<option value="6mo">6 months</option>
-							<option value="1y">1 year</option>
-							<option value="2y">2 years</option>
-							<option value="5y">5 years</option>
+						<optgroup label={t('menu.range')}>
+							<option value="1d">{`1 ${t('menu.ranges.day')}`}</option>
+							<option value="5d">{`5 ${t('menu.ranges.days')}`}</option>
+							<option value="1mo">{`1 ${t('menu.ranges.month')}`}</option>
+							<option value="3mo">{`3 ${t('menu.ranges.months')}`}</option>
+							<option value="6mo">{`6 ${t('menu.ranges.months')}`}</option>
+							<option value="1y">{`1 ${t('menu.ranges.year')}`}</option>
+							<option value="2y">{`2 ${t('menu.ranges.years')}`}</option>
+							<option value="5y">{`5 ${t('menu.ranges.years')}`}</option>
 						</optgroup>
 					</select>
 				</div>
 				<div className="row h-center">
 					<label htmlFor="interval" className="detailed-div-label">
-						Interval
+						{t('menu.interval')}
 					</label>
 					<select
 						onChange={(e) => {
 							props.sendInterval(e.target.value)
+							setCurrentInterval(e.target.value)
 						}}
 						defaultValue="15m"
 						className="detailed-chart-options-select"
 						name="interval"
 					>
-						<optgroup label="Interval">
-							{intervals.map((element) => {
+						<optgroup label={t('menu.interval')}>
+							{Object.keys(getIntervalOptionsByDateRange(dateRange, t)).map((element) => {
+								let value = getIntervalOptionsByDateRange(dateRange, t)[element]
 								return (
 									<option key={element} value={element}>
-										{element}
+										{value}
 									</option>
 								)
 							})}
@@ -87,44 +84,87 @@ export default function DetailedChartMenu(props) {
 	)
 }
 
-export function getIntervalOptionsByDateRange(dateRange) {
+export function getIntervalOptionsByDateRange(dateRange, t) {
 	switch (dateRange) {
 		case '1d':
-			return ['1m', '2m', '5m', '15m', '30m', '1h']
+			return {
+				'1m': `1${t('menu.intervals.minute')}`,
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`
+			}
 		case '5d':
-			return ['1m', '2m', '5m', '15m', '30m', '1h', '1d']
+			return {
+				'1m': `1${t('menu.intervals.minute')}`,
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`
+			}
 		case '1mo':
-			return ['2m', '5m', '15m', '30m', '1h', '1d', '1wk']
+			return {
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`
+			}
 		case '3mo':
-			return ['1h', '1d', '1wk', '1mo']
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`
+			}
 		case '6mo':
-			return ['1h', '1d', '1wk', '1mo', '3mo']
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 		case '1y':
-			return ['1h', '1d', '1wk', '1mo', '3mo']
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 		case '2y':
-			return ['1h', '1d', '1wk', '1mo', '3mo']
+			return {
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 		case '5y':
-			return ['1d', '1wk', '1mo', '3mo']
-		case 'max':
-			return ['1m', '2m', '5m', '15m', '30m', '1h', '1d', '1wk', '1mo', '3mo']
+			return {
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
+		default:
+			return {
+				'1m': `1${t('menu.intervals.minute')}`,
+				'2m': `2${t('menu.intervals.minute')}`,
+				'5m': `5${t('menu.intervals.minute')}`,
+				'15m': `15${t('menu.intervals.minute')}`,
+				'30m': `30${t('menu.intervals.minute')}`,
+				'1h': `1${t('menu.intervals.hour')}`,
+				'1d': `1${t('menu.intervals.day')}`,
+				'1wk': `1${t('menu.intervals.week')}`,
+				'1mo': `1${t('menu.intervals.month')}`,
+				'3mo': `3${t('menu.intervals.month')}`
+			}
 	}
 }
-
-/*
-
-<select onChange={(e) => {props.sendInterval(e.target.value)}} defaultValue="15m" className='detailed-chart-options-select' name="interval">
-    <optgroup label="Interval">
-        <option value="1m">1 min</option>
-        <option value="2m">2 mins</option>
-        <option value="5m">5 mins</option>
-        <option value="15m">15 mins</option>
-        <option value="30m">30 mins</option>
-        <option value="1h">1 hour</option>
-        <option value="1d">1 day</option>
-        <option value="1wk">1 week</option>
-        <option value="1mo">1 month</option>
-        <option value="3mo">3 months</option>
-    </optgroup>
-</select>
-
-*/

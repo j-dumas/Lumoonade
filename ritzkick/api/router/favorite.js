@@ -1,9 +1,8 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const Favorite = require('../../db/model/favorite')
 const authentification = require('../middleware/auth')
 const router = express.Router()
-const { NotFoundHttpError, ConflictHttpError, sendError } = require('../../utils/http_errors')
+const { ConflictHttpError, sendError } = require('../../utils/http_errors')
 require('../swagger_models')
 
 const paths = require('../routes.json')
@@ -41,7 +40,7 @@ const paths = require('../routes.json')
  *	}
  * @security BearerAuth
  */
-router.post(paths.favorites.create, authentification, async (req, res) => {
+router.post(paths.favorites.default, authentification, async (req, res) => {
 	try {
 		let data = {
 			owner: req.user._id,
@@ -54,7 +53,7 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
 		await req.user.addFavoriteAndSave(favorite._id)
 		res.status(201).send(favorite)
 	} catch (e) {
-		await sendError(res, e)
+		sendError(res, e)
 	}
 })
 
@@ -80,7 +79,7 @@ router.post(paths.favorites.create, authentification, async (req, res) => {
  *	}
  * @security BearerAuth
  */
-router.delete(paths.favorites.delete, authentification, async (req, res) => {
+router.delete(paths.favorites.default, authentification, async (req, res) => {
 	try {
 		let filter = {
 			owner: req.user._id,

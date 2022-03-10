@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
 
 :root {
-	--headline: calc(45px + 5vw);
-	--title: calc(45px + 2vw);
+	--headline: calc(35px + 4vw);
+	--title: calc(30px + 2vw);
 	--subtitle: calc(var(--title) / 3);
 	--subtitle-small: calc(var(--title) / 4);
 	--text: 14px;
@@ -54,7 +54,6 @@ main {
 	height: 100vh;
 	font-family: var(--font);
 	background-color: var(--background-color);
-	overflow-x: hidden;
 }
 
 html {
@@ -68,11 +67,12 @@ header {
 	min-width: 100%;
 	height: 40px;
 	background-color: var(--navbar-color);
-	z-index: 9999999999;
+	z-index: 50;
 }
 
 .first {
-	margin-top: 60px;
+	margin-top: 50px;
+	padding-top: 10px;
 }
 
 .second {
@@ -97,13 +97,11 @@ h5,
 h6,
 p {
 	font-weight: normal;
+	margin: 0;
 }
 p {
 	font-size: var(--text);
-}
-
-.item {
-	width: 90%;
+	line-height: 25px;
 }
 
 .website-title {
@@ -113,20 +111,11 @@ p {
 	text-align: left;
 }
 
-main {
-	min-width: 100%;
-	width: 100%;
-
-	display: flex;
-	justify-content: space-around;
-}
-
 .title,
 .subtitle,
 .subtitle-small {
 	font-weight: normal;
 	text-align: left;
-	margin: 10px;
 }
 
 .title {
@@ -136,7 +125,6 @@ main {
 
 .subtitle {
 	font-size: var(--subtitle);
-	margin-top: 0px;
 }
 
 .subtitle-small {
@@ -188,33 +176,34 @@ input {
 	outline: none;
 	background-color: var(--background-color-3);
 	color: white;
-	font-size: 15px;
+	font-size: 14px;
 }
 button {
-	margin-left: 5px;
 	padding: 5px;
 	border: none;
 	border-radius: 5px;
 	outline: none;
 	background-color: var(--background-color-3);
+	border: 1px solid var(--background-color-3);
 	color: white;
 	font-size: 15px;
-	transition: 0.5s;
+	transition: 0.1s;
 	cursor: pointer;
 }
 button:hover {
 	border: 1px solid white;
 }
 
-.max-width {
-	max-width: 360px;
+.small-p {
+	color: var(--font-color-2);
+	font-size: 14px;
 }
 
 .increase {
-	color: var(--good-color);
+	color: var(--good-color) !important;
 }
 .decrease {
-	color: var(--bad-color);
+	color: var(--bad-color) !important;
 }
 
 .icon {
@@ -226,6 +215,31 @@ button:hover {
 	width: 10px;
 	height: 10px;
 	background-color: white;
+}
+
+label {
+	font-size: 14px;
+}
+
+.no-display {
+	display: none;
+}
+.display {
+	display: block;
+}
+.wallet {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 100;
+
+	background-color: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(5px);
 }
 
 /* width */
@@ -246,4 +260,64 @@ button:hover {
 
 ::-webkit-scrollbar-thumb:active {
 	background: var(--background-color-3);
+}
+
+.footer {
+	margin-top: 20px;
+	display: flex;
+	flex: 1;
+	padding: 2rem 0;
+	border-top: 1px solid var(--background-color-3);
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+	z-index: 5;
+}
+
+.footer .footer-title {
+	text-transform: uppercase;
+	letter-spacing: 6px;
+	font-weight: bold;
+	font-size: 16px;
+	border-bottom: 1px solid white;
+}
+
+.footer p {
+	font-size: 15px;
+}
+
+.footer a {
+	text-decoration: underline;
+	transition: 0.1s;
+}
+.footer a:hover {
+	color: var(--font-color-2);
+}
+
+.footer-div {
+	width: 250px;
+}
+
+.footer .sub-section {
+	gap: 50px;
+}
+
+.main {
+	font-family: var(--font);
+	background-color: var(--background-color);
+}
+
+.transparent {
+	background: transparent !important;
+}
+
+.w-100 {
+	width: 100% !important;
+}
+.w-45 {
+	width: 49% !important;
+}
+
+.gap-5 {
+	gap: 5px !important;
 }

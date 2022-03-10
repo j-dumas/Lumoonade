@@ -13,6 +13,8 @@ const DetailedCryptoView = dynamic(() => import('@/components/views/DetailedCryp
 	loading: () => <div>Loading...</div>
 })
 
+const CURRENCY = 'USD'
+
 const Asset = ({ assetData }) => {
 	const router = useRouter()
 
@@ -22,8 +24,8 @@ const Asset = ({ assetData }) => {
 
 	return (
 		<>
-			<section className="section column principal first center">
-				<DetailedCryptoView slug={assetData.slug} currency="CAD" />
+			<section className="section column principal first h-center">
+				<DetailedCryptoView slug={assetData.slug} currency={CURRENCY} />
 			</section>
 		</>
 	)
@@ -59,9 +61,8 @@ export async function getStaticProps({ params, locale }) {
 	return {
 		props: {
 			assetData,
-			...(await serverSideTranslations(locale, ['common', 'crypto']))
-		},
-		revalidate: 60
+			...(await serverSideTranslations(locale, ['common', 'crypto', 'detailedchart', 'detailedmenu']))
+		}
 	}
 }
 

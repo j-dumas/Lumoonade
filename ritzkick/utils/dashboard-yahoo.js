@@ -1,13 +1,11 @@
 const moment = require('moment')
 const graph = require('app/socket/utils/graph')
 
-const yahooToDashBoard2 = (data = [], transactions = [], range, single = true) => {
+const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, timezone = 'America/Toronto') => {
 	if (data.length === 0 || transactions.length === 0) return []
-
 	transactions = orderByDate(transactions)
-
 	if (single) {
-		data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range))
+		data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
 		let timestamps = data[0].response[0].timestamp
 		timestamps.forEach((_, index) => {
 			let priceSum = 0
@@ -17,17 +15,15 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true) =
 			})
 			data[0].response[0].indicators.quote[0].close[index] = priceSum
 		})
-		data[0].symbol = 'dashboard'
+		data[0].symbol = 'value'
 		return [data[0]]
 	}
 
-	data.forEach((entry) => {
-		yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range)
-	})
+	data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
 }
 
 const fromSymbol = (symbol, transactions) => {
-	return transactions.filter((transac) => symbol.toLowerCase().includes(transac.name))
+	return transactions.filter((transac) => symbol.toLowerCase().includes(transac.asset))
 }
 
 /**
@@ -36,7 +32,7 @@ const fromSymbol = (symbol, transactions) => {
  * @param {list} transactions list of all transactions from the user.
  * @returns formated values for the dashboard
  */
-const yahooToDashBoard = async (data = [], transactions = [], range) => {
+const yahooToDashBoard = async (data = [], transactions = [], range, timezone) => {
 	if (data.length === 0 || transactions.length === 0) return []
 
 	transactions = orderByDate(transactions)
@@ -49,9 +45,8 @@ const yahooToDashBoard = async (data = [], transactions = [], range) => {
 
 	timestamps.forEach((timestamp, index) => {
 		prices[index] = prices[index] * amountOfAssetsAtDate(timestamp, transactions)
-		timestamps[index] = graph.getDateFormat(range, timestamp)
+		timestamps[index] = graph.getDateFormat(range, timestamp, timezone)
 	})
-
 	return res
 }
 
@@ -81,6 +76,5 @@ const orderByDate = (transactions = []) => {
 }
 
 module.exports = {
-	yahooToDashBoard,
 	yahooToDashBoard2
 }

@@ -11,7 +11,7 @@ import { createSocket } from '../../../services/SocketService'
 import SimpleCryptoDashboard from '../../components/SimpleCryptoDashboard'
 import { SlugArrayToSymbolArray } from '../../../utils/crypto'
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
 const Dashboard = () => {
 	const router = useRouter()

@@ -7,6 +7,7 @@ require('../swagger_models')
 const { OAuth2Client } = require('google-auth-library')
 
 const paths = require('../routes.json')
+const { ConflictHttpError, ServerError, sendError } = require('../../utils/http_errors')
 
 // Config for the login call.
 const loginLimiter = rateLimit({
@@ -83,19 +84,17 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
 		const user = await User.findByCredentials(email, password)
 
 		if (!user.validatedEmail) {
-			throw new Error('Please confirm your email.')
+			throw new ConflictHttpError('Please confirm your email.')
 		}
 
-		const token = await user.makeAuthToken('localhost')
+		const token = await user.makeAuthToken(req.hostname.toString())
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
 			token
 		})
 	} catch (e) {
-		res.status(400).send({
-			error: e.message
-		})
+		sendError(res, e)
 	}
 })
 
@@ -130,7 +129,7 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
  * }
  * @example response - 400 - example existing user error response
  * {
- * 	"error": "E11000 duplicate key error collection: cryptool.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
+ * 	"error": "E11000 duplicate key error collection: lumoonade.users index: email_1 dup key: { email: \"hubert_est_cool@gmail.com\" }"
  * }
  */
 router.post(paths.auth.register, registerLimiter, async (req, res) => {
@@ -176,32 +175,12 @@ router.post(paths.auth.logout, authentication, async (req, res) => {
 	}
 })
 
-/**
- * POST /api/auth/forgot
- * @summary "Forgot password" default endpoint - NOT READY
- * @tags Authentification
- * @param {string} email.query.deprecated Work in progress
- * @return {object} 200 - success
- * @return {string} 500 - server error
- */
-router.post(paths.auth['forgot-password'], async (req, res) => {
-	try {
-		const { email } = req.body
-		// Todo need to find a user related to the email
-		res.send({
-			message: `Notification sent to ${email}`
-		})
-	} catch (e) {
-		res.status(500).send()
-	}
-})
-
-router.post(paths.auth.google, async (req, res) => {
+router.post(paths.auth.google, loginLimiter, async (req, res) => {
 	try {
 		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 		const client = new OAuth2Client(GOOGLE_CLIENT_ID)
 		const payload = await verify(client, req.body.idToken, GOOGLE_CLIENT_ID).catch((e) => {
-			throw new Error(e.message)
+			throw new ServerError(e.message)
 		})
 
 		let user = await User.findOne({ email: payload['email'] })
@@ -210,7 +189,8 @@ router.post(paths.auth.google, async (req, res) => {
 			const data = {
 				email: payload['email'],
 				username: payload['name'],
-				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`
+				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`,
+				google: true
 			}
 			user = new User(data)
 			await user.save()
@@ -220,7 +200,7 @@ router.post(paths.auth.google, async (req, res) => {
 
 		if (payload['email_verified']) {
 			await user.verified()
-			const token = await user.makeAuthToken('localhost')
+			const token = await user.makeAuthToken(req.hostname.toString())
 			const profile = await user.makeProfile()
 			returnPayload = {
 				user: profile,
@@ -235,7 +215,7 @@ router.post(paths.auth.google, async (req, res) => {
 
 		res.status(200).send(returnPayload)
 	} catch (e) {
-		res.status(500).send({ error: e.message })
+		sendError(res, e)
 	}
 })
 

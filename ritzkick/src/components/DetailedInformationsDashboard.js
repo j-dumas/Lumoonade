@@ -34,7 +34,7 @@ const DetailedInformationsDashboard = (props) => {
 	return !data ? (
 		<h1>Wait...</h1>
 	) : (
-		<div className="row start">
+		<div className="row start w-100">
 			{data.map((element) => {
 				return <DetailedInformations data={element} name={props.name} key={element.fromCurrency} />
 			})}
