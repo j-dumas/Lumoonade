@@ -49,7 +49,7 @@ export default function ForgotPasswordForm() {
 	}
 
 	return (
-		<div className='front'>
+		<div className="front">
 			<Snackbar
 				sx={{ m: 6 }}
 				open={open}

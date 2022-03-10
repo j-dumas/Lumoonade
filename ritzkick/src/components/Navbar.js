@@ -9,7 +9,7 @@ import { getCookie } from 'services/CookieService'
 function Navbar(props) {
 	const { t } = useTranslation('common')
 	const router = useRouter()
-	const { login,logout } = router.query
+	const { login, logout } = router.query
 
 	const [click, setClick] = useState(false)
 	const handleClick = () => setClick(!click)
@@ -23,7 +23,7 @@ function Navbar(props) {
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout(setConnection()).then(() => router.push({pathname: '/', query: {logout: true}}))
+		await logout(setConnection()).then(() => router.push({ pathname: '/', query: { logout: true } }))
 	}
 
 	useEffect(() => {
@@ -37,7 +37,7 @@ function Navbar(props) {
 	}, [login])
 
 	useEffect(() => {
-		if(logout){
+		if (logout) {
 			setConnection(false)
 		}
 	}, [logout])

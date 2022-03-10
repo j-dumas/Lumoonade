@@ -197,10 +197,10 @@ input:focus::placeholder {
 	background-color: var(--background-color);
 }
 
-.front{
+.front {
 	z-index: 1;
 }
 
-.check-box{
+.check-box {
 	color: white;
 }

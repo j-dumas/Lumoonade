@@ -55,7 +55,7 @@ const RegisterForm = () => {
 	}
 
 	return (
-		<div className='front'>
+		<div className="front">
 			<Snackbar
 				sx={{ m: 6 }}
 				open={open}
@@ -133,7 +133,7 @@ const RegisterForm = () => {
 						/>
 					</FormControl>
 					<div className="row center">
-						<Checkbox required color="secondary" className='check-box' />
+						<Checkbox required color="secondary" className="check-box" />
 						<Link href="/tos">
 							<a className="link">{t('register.tos')}</a>
 						</Link>
