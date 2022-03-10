@@ -45,15 +45,10 @@ const Assets = () => {
 		}
 	}
 
-<<<<<<< HEAD
-		// let symbols = await Functions.GetTopGainersCryptocurrencies(8)
-		// let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
-=======
 	useEffect(async () => {
 		await prepareFavSocket()
 		//let symbols = await Functions.GetTopGainersCryptocurrencies(8)
 		//let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
->>>>>>> develop
 		let list = ['btc-usd', 'eth-usd', 'bnb-usd', 'ltc-usd', 'ada-usd', 'doge-usd', 'shib-usd', 'theta-usd']
 		setSocket(createSocket(['general', `graph-1d-30m`], list, `wss://${window.location.host}`))
 	}, [setSocket])
