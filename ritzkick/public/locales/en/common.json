@@ -10,7 +10,8 @@
 		"email": { "title": "LUMOONADE | EMAIL CONFIRMATION", "description": "Lumoonade email confirmation page" },
 		"profile": { "title": "LUMOONADE | PROFILE", "description": "Lumoonade profile page" },
 		"404": { "title": "LUMOONADE | 404", "description": "Lumoonade - page not found" },
-		"tos": { "title": "LUMOONADE | TOS", "description": "Lumoonade Terms of Service page" }
+		"tos": { "title": "LUMOONADE | TOS", "description": "Lumoonade Terms of Service page" },
+		"portfolio": { "title": "LUMOONADE | PORTFOLIO", "description": "Lumoonade Portfolio page" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade for CryptoCurrencies", "type": "website" },
 	"footer": {
