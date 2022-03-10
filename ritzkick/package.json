@@ -10,7 +10,7 @@
 		"postbuild": "next-sitemap",
 		"lint": "next lint --quiet",
 		"lint:fix": "next lint --fix --quiet",
-		"test": "env-cmd -f ./env/.test.env jest --runInBand",
+		"test": "env-cmd -f ./env/.test.env jest --runInBand --silent",
 		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand --silent",
 		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand",
 		"format": "prettier --config .prettierrc './**/*.js' './**/*.css' --write"
