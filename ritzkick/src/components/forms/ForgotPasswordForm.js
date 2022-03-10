@@ -6,6 +6,8 @@ import Link from 'next/link'
 import Snackbar from '@mui/material/Snackbar'
 import { Alert } from '@mui/material'
 import { sendForgotPassword } from 'services/AuthService'
+import { Email } from '@mui/icons-material'
+import { FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material'
 
 export default function ForgotPasswordForm() {
 	const [email, setEmail] = useState(undefined)
@@ -47,28 +49,7 @@ export default function ForgotPasswordForm() {
 	}
 
 	return (
-		<Container className="form">
-			<h1 className="form-title">Problème de connexion?</h1>
-			<h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
-			<form method="POST" onSubmit={(event) => handleSubmit(event)}>
-				<input
-					name="email"
-					id="emailField"
-					type="email"
-					placeholder="Courriel"
-					onChange={handleEmailChange}
-					required
-				></input>
-				<input type="submit" value="Envoyez"></input>
-			</form>
-			<AndSeparator />
-			<Link href="/register">
-				<a className="link">Créer un compte</a>
-			</Link>
-			<Separator />
-			<Link href="/login">
-				<a className="link">Revenir à l&apos;écran de connexion</a>
-			</Link>
+		<div className='front'>
 			<Snackbar
 				sx={{ m: 6 }}
 				open={open}
@@ -92,6 +73,38 @@ export default function ForgotPasswordForm() {
 					{'Un email de confirmation a été renvoyé à ' + email}
 				</Alert>
 			</Snackbar>
-		</Container>
+			<Container className="form">
+				<h1 className="form-title">Problème de connexion?</h1>
+				<h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
+				<form method="POST" onSubmit={(event) => handleSubmit(event)}>
+					<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
+						<InputLabel htmlFor="outlined-adornment-courriel">Courriel</InputLabel>
+						<OutlinedInput
+							name="email"
+							id="outlined-adornment-courriel"
+							type="email"
+							onChange={handleEmailChange}
+							endAdornment={
+								<InputAdornment position="end">
+									<Email />
+								</InputAdornment>
+							}
+							fullWidth
+							required
+							autoComplete="off"
+						/>
+					</FormControl>
+					<input type="submit" value="Envoyez"></input>
+				</form>
+				<AndSeparator />
+				<Link href="/register">
+					<a className="link">Créer un compte</a>
+				</Link>
+				<Separator />
+				<Link href="/login">
+					<a className="link">Revenir à l&apos;écran de connexion</a>
+				</Link>
+			</Container>
+		</div>
 	)
 }

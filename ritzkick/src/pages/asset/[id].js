@@ -13,7 +13,7 @@ const DetailedCryptoView = dynamic(() => import('@/components/views/DetailedCryp
 	loading: () => <div>Loading...</div>
 })
 
-const CURRENCY = 'USD'
+const CURRENCY = 'cad'
 
 const Asset = ({ assetData }) => {
 	const router = useRouter()

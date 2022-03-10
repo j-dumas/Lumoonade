@@ -117,32 +117,32 @@ export default function ProfileAlerts(props) {
 								)
 							})}
 						</ul>
+						<div className="row center">
+							{currentPage > 1 && (
+								<button
+									className="alert-page-control-buttons row center"
+									onClick={() => fetchAssets(currentPage - 1)}
+								>
+									<ArrowLeft />
+									<div>{t('pages.previous')}</div>
+								</button>
+							)}
+							<div>{currentPage}</div>
+							{currentPage < maxPage && (
+								<button
+									className="alert-page-control-buttons row center"
+									onClick={() => fetchAssets(currentPage + 1)}
+								>
+									<div>{t('pages.next')}</div>
+									<ArrowRight />
+								</button>
+							)}
+						</div>
 					</div>
 				)
 			) : (
 				<h1>{t('alerts.none')}</h1>
 			)}
-			<div className="row center">
-				{currentPage > 1 && (
-					<button
-						className="alert-page-control-buttons row center"
-						onClick={() => fetchAssets(currentPage - 1)}
-					>
-						<ArrowLeft />
-						<div>{t('pages.previous')}</div>
-					</button>
-				)}
-				<div>{currentPage}</div>
-				{currentPage < maxPage && (
-					<button
-						className="alert-page-control-buttons row center"
-						onClick={() => fetchAssets(currentPage + 1)}
-					>
-						<div>{t('pages.next')}</div>
-						<ArrowRight />
-					</button>
-				)}
-			</div>
 		</div>
 	)
 }

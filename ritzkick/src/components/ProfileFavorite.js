@@ -42,9 +42,13 @@ export default function ProfileFavorite() {
 				createSocket(['general', `graph-${dateRange}-${interval}`], symbols, `wss://${window.location.host}`)
 			)
 		}
-	}, [data, data.length == 0, currentPage])
+	}, [data, data.length === 0, currentPage])
 
-	return !socket ? (
+	return data.length === 0 
+				? (
+					<h1>Aucun favoris</h1>
+				)
+				:( !socket ? (
 		<div className="column center">
 			<CircularProgress color="secondary" />
 		</div>
@@ -80,5 +84,5 @@ export default function ProfileFavorite() {
 				)}
 			</div>
 		</div>
-	)
+	))
 }

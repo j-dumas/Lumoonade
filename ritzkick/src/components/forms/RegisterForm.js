@@ -55,7 +55,7 @@ const RegisterForm = () => {
 	}
 
 	return (
-		<div>
+		<div className='front'>
 			<Snackbar
 				sx={{ m: 6 }}
 				open={open}
@@ -66,7 +66,7 @@ const RegisterForm = () => {
 					{`${t('register.email')} ${state.email}`}
 				</Alert>
 			</Snackbar>
-			<Container className="column p-3 form">
+			<Container className="column form">
 				<h1 className="form-title">{t('register.title')}</h1>
 				<form onSubmit={handleSubmit}>
 					{!!error && (
@@ -133,7 +133,7 @@ const RegisterForm = () => {
 						/>
 					</FormControl>
 					<div className="row center">
-						<Checkbox required color="secondary" />
+						<Checkbox required color="secondary" className='check-box' />
 						<Link href="/tos">
 							<a className="link">{t('register.tos')}</a>
 						</Link>

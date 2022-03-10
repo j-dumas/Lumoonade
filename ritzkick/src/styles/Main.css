@@ -265,7 +265,6 @@ label {
 }
 
 .footer {
-	margin-top: 20px;
 	display: flex;
 	flex: 1;
 	padding: 2rem 0;
@@ -332,7 +331,7 @@ label {
 	stroke: white;
 	stroke-width: 1;
 	fill: white;
-	animation: textAnimate 8s ease;
+	animation: textAnimate 5s ease;
 }
 
 @keyframes textAnimate {

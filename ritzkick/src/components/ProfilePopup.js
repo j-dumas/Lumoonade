@@ -6,6 +6,7 @@ import { AccountCircle, EditRounded, Email, Visibility, VisibilityOff } from '@m
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 const newUsername = 'newUsername'
 const oldPass = 'oldPass'
@@ -26,6 +27,7 @@ export default function ProfilePopup(props) {
 		newPassConfirmationShow: false
 	})
 	const [error, setError] = useState(false)
+	const router = useRouter()
 
 	function eraseFieldValue() {
 		resetValues()
@@ -34,6 +36,7 @@ export default function ProfilePopup(props) {
 	function deleteAuthUser() {
 		if (confirm(t('modify.delete.confirmation'))) {
 			deleteUser()
+			router.push({pathname: "/", query: {logout: true}})
 		}
 	}
 
