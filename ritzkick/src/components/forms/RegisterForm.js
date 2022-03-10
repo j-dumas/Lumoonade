@@ -134,7 +134,7 @@ const RegisterForm = () => {
 						/>
 					</FormControl>
 					<div className="row center">
-						<Checkbox required color="secondary" />
+						<Checkbox required color="secondary" className='check-box' />
 						<Link href="/tos">
 							<a className="link">Accept terms of service</a>
 						</Link>

@@ -200,3 +200,7 @@ input:focus::placeholder {
 .front{
 	z-index: 1;
 }
+
+.check-box{
+	color: white;
+}
