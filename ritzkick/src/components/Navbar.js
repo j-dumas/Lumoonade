@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Icons from './Icons'
 import { logout } from 'services/AuthService'
@@ -92,9 +92,9 @@ function Navbar(props) {
 							<>
 								<li className={router.pathname == '/me/wallet' ? 'nav-item active-link' : 'nav-item'}>
 									<Icons.Wallet />
-									<Link href="/wallet">
+									<Link href="/me/portfolio">
 										<a className="nav-links" onClick={closeMobileMenu}>
-											{t('navbar.user.wallet')}
+											{t('navbar.user.portfolio')}
 										</a>
 									</Link>
 								</li>

@@ -1,18 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Icons from '@/components/Icons'
-import Functions, {
-	GetCryptocurrencyInformationsBySlug,
-	GetTopPopularCryptocurrencies,
-	GetTopEfficientCryptocurrencies
-} from 'services/CryptoService'
-import ButtonFavorite from '@/components/ButtonFavorite'
+import React, { useEffect, useState } from 'react'
 import DetailedInformations from '@/components/DetailedInformations'
-import DetailedChart from '@/components/charts/DetailedChart'
-import CompareMenu from '@/components/menus/CompareMenu'
-import { useRouter } from 'next/router'
 
-const io = require('socket.io-client')
 const parser = require('app/socket/utils/parser')
 
 const DetailedInformationsDashboard = (props) => {
@@ -25,7 +13,7 @@ const DetailedInformationsDashboard = (props) => {
 			b = parser.rebuild(b)
 			setData(b === undefined ? undefined : b)
 		})
-		if (props.socket) return () => socket.disconnect()
+		if (props.socket) return () => props.socket.disconnect()
 	}, [])
 
 	// Validation:

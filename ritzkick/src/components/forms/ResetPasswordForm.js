@@ -1,16 +1,8 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import { useForm } from '@/components/hooks/useForm'
-import {
-	InputLabel,
-	OutlinedInput,
-	FormControl,
-	IconButton,
-	InputAdornment,
-	styled,
-	FormHelperText
-} from '@mui/material'
+import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 

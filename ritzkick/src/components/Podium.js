@@ -6,4 +6,4 @@ function Podium() {
 	)
 }
 
-export default podium
+export default Podium

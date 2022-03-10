@@ -8,9 +8,10 @@
 		"build": "env-cmd -f ./env/.prod.env next build",
 		"analyze": "cross-env ANALYZE=true next build",
 		"postbuild": "next-sitemap",
-		"lint": "next lint",
-		"test": "env-cmd -f ./env/.test.env jest --runInBand --silent --detectOpenHandles",
-		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand --silent --forceExit",
+		"lint": "next lint --quiet",
+		"lint:fix": "next lint --fix --quiet",
+		"test": "env-cmd -f ./env/.test.env jest --runInBand --silent",
+		"test-ci": "env-cmd -f ./env/.test.ci.env jest --runInBand --silent",
 		"test-dev": "env-cmd -f ./env/.test.env jest --watch --runInBand",
 		"format": "prettier --config .prettierrc './**/*.js' './**/*.css' --write"
 	},

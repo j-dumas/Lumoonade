@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Line, Chart as Charts } from 'react-chartjs-2'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
 import Functions from 'services/CryptoService'
@@ -11,8 +11,6 @@ import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
 const graph = require('app/socket/utils/graph')
-
-const NB_DATA_DISPLAYED_1ST_VIEW = 24
 
 function DetailedChartChart(props) {
 	const [chartReference] = useState(React.createRef())
@@ -79,7 +77,7 @@ function DetailedChartChart(props) {
 			borderColor: color,
 			borderWidth: 2.5,
 			borderCapStyle: 'butt',
-			//borderDash: [5, 5],
+			// borderDash: [5, 5],
 			hoverBorderColor: 'white',
 			pointStyle: 'circle',
 			pointRadius: 0
@@ -140,21 +138,21 @@ function DetailedChartChart(props) {
 				pan: {
 					enabled: true,
 					mode: 'x',
-					//overScaleMode:'y',
+					// overScaleMode:'y',
 					threshold: 0 // default:10
 				},
 				limits: {
-					//y: {min: -1000, max: props.data[0].maxValue+1000},
-					//x: {min: 500} //DATE_RANGE * INTERVAL * 24
+					// y: {min: -1000, max: props.data[0].maxValue+1000},
+					// x: {min: 500} //DATE_RANGE * INTERVAL * 24
 				}
 			}
 		}
 	}
 
-	function getChartOptionsScales(datas) {
+	function getChartOptionsScales() {
 		return {
 			x: {
-				//min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,
+				// min: datas[0].response[0].timestamp.length-10,//data[0].response[0].timestamp.length - NB_DATA_DISPLAYED_1ST_VIEW,
 				grid: {
 					display: true,
 					drawBorder: true,

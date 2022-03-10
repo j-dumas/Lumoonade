@@ -1,9 +1,4 @@
-import DomHead from '@/components/DomHead'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import BottomArrow from '@/components/BottomArrow'
-import SimpleCryptoDashboard from '@/components/SimpleCryptoDashboard'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -12,7 +7,6 @@ import { useRouter } from 'next/router'
 import { deleteCookie, getCookie } from 'services/CookieService'
 
 const NotFound = () => {
-	const [data, setData] = useState([{}])
 	const { t } = useTranslation('404')
 	const router = useRouter()
 	const { logout } = router.query
