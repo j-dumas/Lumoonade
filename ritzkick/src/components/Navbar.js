@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Icons from './Icons'
+import { logout as logoutUserFunction } from 'services/AuthService'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { getCookie } from 'services/CookieService'
@@ -22,7 +23,7 @@ function Navbar(props) {
 
 	async function logoutUser(event) {
 		event.preventDefault()
-		await logout(setConnection()).then(() => router.push({ pathname: '/', query: { logout: true } }))
+		await logoutUserFunction(setConnection()).then(() => router.push({ pathname: '/', query: { logout: true } }))
 	}
 
 	useEffect(() => {

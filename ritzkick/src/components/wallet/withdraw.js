@@ -21,10 +21,6 @@ function WalletWithdraw(props) {
 	const [date] = useState(new Date().toISOString().slice(0, 10))
 	const [data, setData] = useState()
 
-	useEffect(async () => {
-		console.log(state)
-	}, [state])
-
 	async function handleSubmit(e) {
 		e.preventDefault()
 		await addTransaction(state.asset.toLowerCase(), state.boughtAt, state.price * -1, state.date)
@@ -70,7 +66,7 @@ function WalletWithdraw(props) {
 				{props.default ? (
 					<input name="" id="" value={props.default} disabled />
 				) : (
-					<Select name="asset" onChange={handleChange} MenuProps={MenuProps} required>
+					<Select className="inputField" name="asset" onChange={handleChange} MenuProps={MenuProps} required>
 						{parseData().map((crypt) => (
 							<MenuItem key={crypt.value} value={crypt.value}>
 								{crypt.label}
@@ -86,7 +82,7 @@ function WalletWithdraw(props) {
 				<input
 					name="date"
 					max={date}
-					value={date}
+					defaultValue={date}
 					onChange={handleChange}
 					className="wallet-input"
 					type="date"

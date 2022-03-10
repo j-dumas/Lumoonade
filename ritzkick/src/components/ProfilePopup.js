@@ -72,7 +72,7 @@ export default function ProfilePopup(props) {
 				close()
 			} else {
 				if (confirm(t('modify.confirmation'))) {
-					await updateUser(
+					const status = await updateUser(
 						event,
 						props.username,
 						values.newUsername,
@@ -81,8 +81,11 @@ export default function ProfilePopup(props) {
 						values.newPassConfirmation,
 						setError
 					)
-					await props.updateUser()
-					alert(t('modify.success'))
+					if (status === 200) {
+						await props.updateUser()
+						alert(t('modify.success'))
+						close()
+					}
 				}
 			}
 		}

@@ -65,7 +65,7 @@ const Assets = () => {
 		const search = event.target[0].value
 
 		if (!search || search == undefined || search == '') {
-			/*console.log('called')
+			/*
 			setSearchList([])
 			await prepareFavSocket()
 			let list = ['btc-cad', 'eth-cad', 'bnb-cad', 'ltc-cad', 'ada-cad', 'doge-cad', 'shib-cad', 'theta-cad']
@@ -86,7 +86,6 @@ const Assets = () => {
 		setSearchList(symbols)
 	}
 
-	console.log('RETURN')
 	return (
 		<section className="section column h-center principal first">
 			<section className="sub-section">

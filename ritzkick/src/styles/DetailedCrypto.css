@@ -34,7 +34,7 @@
 	background-color: transparent;
 	color: var(--font-color-2);
 	border: 1px solid var(--background-color-3);
-	padding: 8px 11px 8px 11px;
+	padding: 6px 11px 8px 11px;
 	border-radius: 50px;
 	transition: 0.25s;
 }

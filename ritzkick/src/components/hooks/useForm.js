@@ -16,7 +16,6 @@ export const useForm = (initialValues) => {
 			setValues({})
 		},
 		(symbol) => {
-			console.log(symbol)
 			setValues({
 				...values,
 				slug: symbol

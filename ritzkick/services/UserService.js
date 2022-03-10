@@ -230,14 +230,17 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 		if (newUsername !== oldUsername && newUsername !== undefined) {
 			if (newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined) {
 				if (newPass === newPassConfirmation) {
-					await updateUsernameAndPassword(newUsername, oldPass, newPass)
+					const status = await updateUsernameAndPassword(newUsername, oldPass, newPass, setError())
+					return status
 				}
 			} else {
-				await updateUsername(newUsername)
+				const status = await updateUsername(newUsername, setError())
+				return status
 			}
 		} else if (newPass !== undefined && newPassConfirmation !== undefined && oldPass !== undefined) {
 			if (newPass === newPassConfirmation) {
-				await updatePassword(oldPass, newPass)
+				const status = await updatePassword(oldPass, newPass, setError())
+				return status
 			} else {
 				setError(true)
 			}
@@ -246,7 +249,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 		}
 	}
 
-	async function updatePassword(oldPass, newPass) {
+	async function updatePassword(oldPass, newPass, setError) {
 		try {
 			const token = getCookie('token')
 			const response = await fetch(paths.user.default, {
@@ -258,8 +261,12 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if (response.status === 400) {
+			if (response.status === 200) {
+				return response.status
+			}
+			if (response.status === 400 || response.status === 409) {
 				document.getElementById('wrong-password').style.display = 'block'
+				setError(true)
 			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
@@ -268,7 +275,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 		}
 	}
 
-	async function updateUsername(newUsername) {
+	async function updateUsername(newUsername, setError) {
 		try {
 			const token = getCookie('token')
 			const response = await fetch(paths.user.default, {
@@ -280,8 +287,12 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername })
 			})
 
-			if (response.status === 400) {
+			if (response.status === 200) {
+				return response.status
+			}
+			if (response.status === 400 || response.status === 409) {
 				document.getElementById('wrong-name').style.display = 'block'
+				setError(true)
 			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
@@ -290,7 +301,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 		}
 	}
 
-	async function updateUsernameAndPassword(newUsername, oldPass, newPass) {
+	async function updateUsernameAndPassword(newUsername, oldPass, newPass, setError) {
 		try {
 			const token = getCookie('token')
 			const response = await fetch(paths.user.default, {
@@ -302,9 +313,13 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 				body: JSON.stringify({ username: newUsername, oldPassword: oldPass, newPassword: newPass })
 			})
 
-			if (response.status === 400) {
+			if (response.status === 200) {
+				return response.status
+			}
+			if (response.status === 400 || response.status === 409) {
 				document.getElementById('wrong-name').style.display = 'block'
 				document.getElementById('wrong-password').style.display = 'block'
+				setError(true)
 			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}

@@ -22,7 +22,6 @@ function DetailedChartChart(props) {
 
 		if (props.socket._callbacks.$graph) props.socket._callbacks.$graph.length = 0
 		props.socket.on('graph', (datas) => {
-			console.log(props.dateRange)
 			if (props.wallet && isUserConnected()) {
 				datas = yahoo.yahooToDashBoard2(datas, transactionList, props.dateRange, true, timeZone)
 			} else if (!props.wallet) {
