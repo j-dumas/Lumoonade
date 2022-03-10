@@ -51,7 +51,7 @@ const Assets = () => {
 		await prepareFavSocket()
 		//let symbols = await Functions.GetTopGainersCryptocurrencies(8)
 		//let list = SlugArrayToSymbolArray(symbols.assets, CURRENCY)
-		let list = ['btc-usd', 'eth-usd', 'bnb-usd', 'ltc-usd', 'ada-usd', 'doge-usd', 'shib-usd', 'theta-usd']
+		let list = ['btc-cad', 'eth-cad', 'bnb-cad', 'ltc-cad', 'ada-cad', 'doge-cad', 'shib-cad', 'theta-cad']
 		setSocket(createSocket(['general', `graph-1d-30m`], list, `wss://${window.location.host}`))
 	}, [setSocket])
 
@@ -63,8 +63,16 @@ const Assets = () => {
 		event.preventDefault()
 
 		const search = event.target[0].value
+		
+		if (!search || search == undefined || search == '') {
+			/*console.log('called')
+			setSearchList([])
+			await prepareFavSocket()
+			let list = ['btc-cad', 'eth-cad', 'bnb-cad', 'ltc-cad', 'ada-cad', 'doge-cad', 'shib-cad', 'theta-cad']
+			setSocket(createSocket(['general', `graph-1d-30m`], list, `wss://${window.location.host}`))*/
+			return
+		}
 		setKeyword(search)
-		if (!search || search == undefined || search == '') return
 		await searchAsset(search, 1)
 	}
 
@@ -108,7 +116,6 @@ const Assets = () => {
 									<></>
 								) : (
 									<SimpleCryptoCardDashboard
-										refresh={prepareFavSocket}
 										socket={favSocket}
 										small={true}
 									/>
@@ -119,7 +126,7 @@ const Assets = () => {
 							<Icons.List />
 							<h1>{t('assets')}</h1>
 						</div>
-						<SimpleCryptoCardDashboard socket={socket} />
+						<SimpleCryptoCardDashboard socket={socket}/>
 						{searchList.length > 0 && pagination[1] > 1 ? (
 							<div className="row center">
 								<button onClick={decrementPage}>{'<'}</button>
