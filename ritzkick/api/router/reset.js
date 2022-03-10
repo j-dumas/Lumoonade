@@ -16,6 +16,8 @@ const {
 	NotFoundHttpError
 } = require('../../utils/http_errors')
 
+const paths = require('../routes.json')
+
 /**
  * Reset Email Model
  * @typedef {object} ResetEmail
@@ -55,7 +57,7 @@ const creationLimiter = rateLimit({
  *  "message": "Please provide a valid email."
  * }
  */
-router.post('/api/reset', creationLimiter, async (req, res) => {
+router.post(paths.reset.default, creationLimiter, async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!email || !validator.isEmail(email)) {
@@ -67,7 +69,7 @@ router.post('/api/reset', creationLimiter, async (req, res) => {
 			// Maybe do something if it exists...
 			const reset = new Reset({ email })
 			await reset.save()
-			const resetLink = await reset.makeResetToken(req.host.toString().split(':')[0])
+			const resetLink = await reset.makeResetToken(req.hostname.toString())
 			// Email sent with the valid url for forgot password.
 			// This is just a dummy value.
 			let url = `$https://${process.env.NEXT_PUBLIC_HTTPS}:${process.env.NEXT_PUBLIC_PORT}/reset-password?key=${resetLink}`
@@ -82,7 +84,7 @@ router.post('/api/reset', creationLimiter, async (req, res) => {
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
-	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	audience: ['lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
@@ -97,7 +99,7 @@ const verifyOptions = {
  *  "message": "Token may be outdated. | Token is corrupted"
  * }
  */
-router.get('/api/reset/verify/:jwt', async (req, res) => {
+router.get(`${paths.reset.verify}:jwt`, async (req, res) => {
 	try {
 		const publicKey = fs.readFileSync(`${__dirname}/../../config/keys/${process.env.ES256_KEY}-pub-key.pem`)
 
@@ -150,7 +152,7 @@ router.get('/api/reset/verify/:jwt', async (req, res) => {
  *  "message": "Error explaining the situation"
  * }
  */
-router.post('/api/reset/redeem', async (req, res) => {
+router.post(paths.reset.redeem, async (req, res) => {
 	try {
 		const { resetToken, password, confirmation } = req.body
 
@@ -171,7 +173,7 @@ router.post('/api/reset/redeem', async (req, res) => {
 		}
 
 		let response = await axios
-			.get(`https://${process.env.URL}:${process.env.PORT}/api/reset/verify/${resetToken}`)
+			.get(`https://${process.env.URL}:${process.env.PORT}${paths.reset.verify}${resetToken}`)
 			.catch((e) => {
 				return e
 			})

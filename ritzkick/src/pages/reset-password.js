@@ -7,9 +7,9 @@ import { useTranslation } from 'next-i18next'
 
 const ResetPassword = () => {
 	return (
-		<section className='column center principal first layer1'>
-				<Bubbles />
-				<ResetPasswordForm />
+		<section className="column center principal first layer1">
+			<Bubbles />
+			<ResetPasswordForm />
 		</section>
 	)
 }

@@ -16,6 +16,9 @@ import {
 import { useForm } from './hooks/useForm'
 import { CloseRounded } from '@mui/icons-material'
 import Functions from 'services/CryptoService'
+import {SlugToSymbol, AreSlugsEqual} from '../../utils/crypto'
+import { createSocket } from 'services/SocketService'
+
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -29,7 +32,7 @@ const MenuProps = {
 }
 
 export default function ProfileAddAlerts(props) {
-	const [state, handleChange, resetState] = useForm({})
+	const [state, handleChange, resetState] = useForm(props.provenance ? {slug: props.slug} : {})
 	const [Modal, open, close, isOpen] = useModal('alerts-header', {
 		preventScroll: true,
 		closeOnOverlayClick: true
@@ -40,15 +43,7 @@ export default function ProfileAddAlerts(props) {
 	const [maxPrice, setMaxPrice] = useState(0)
 	const [data, setData] = useState(undefined)
 	const [slug, setSlug] = useState(undefined)
-
-	function getPrice(symbol) {
-		data.forEach((element) => {
-			if (element.symbol === symbol) {
-				console.log(element.symbol)
-				setPrice(5000)
-			}
-		})
-	}
+	const [socket, setSocket] = useState()
 
 	function parseData() {
 		let parsedData = []
@@ -61,7 +56,7 @@ export default function ProfileAddAlerts(props) {
 				parsedData.push(tempValue)
 			})
 		}
-		return parsedData
+		return parsedData.sort()
 	}
 
 	function handleClose(event, reason) {
@@ -73,25 +68,35 @@ export default function ProfileAddAlerts(props) {
 	}
 
 	useEffect(async () => {
-		if(props.provenance){
+		if (props.provenance) {
 			let tempValue = props.slug.split('-')
 			setSlug(tempValue[0])
-			// const tempSlug = {target: {name: "slug", value: tempValue[0]}}
-			// handleChange(tempSlug)
 		}
 		const values = await Functions.GetAllCryptocurrencySlugs(1, 1000)
 		setData(values.assets)
 	}, [])
 
 	useEffect(() => {
-		if (state.slug !== undefined) {
-			getPrice(state.slug)
+		if(state.slug !== undefined){
+			let symbol = []
+			if(props.provenance){
+				symbol.push(state.slug)
+			}
+			else{
+				symbol.push(SlugToSymbol(state.slug, props.currency))
+			}
+			setSocket(createSocket(['general'], symbol, `wss://${window.location.host}`))
 		}
-		if (state.parameter !== undefined) {
+	}, [state])
+
+	useEffect(() => {
+		if (state.slug !== undefined && state.parameter !== undefined) {
 			if (state.parameter === 'lte') {
+				console.log("changing prices")
 				setMinPrice(0)
 				setMaxPrice(price)
 			} else {
+				console.log("changing prices2")
 				setMinPrice(price)
 				setMaxPrice(Infinity)
 			}
@@ -99,19 +104,26 @@ export default function ProfileAddAlerts(props) {
 	}, [state])
 
 	useEffect(() => {
-		if (!isOpen) {
+		if (!isOpen && !props.provenance) {
 			resetState()
 		}
 	}, [isOpen])
 
+
+	useEffect(() => {
+		if (!socket) return
+		socket.on('data', (slugs) => {setPrice(slugs[0].regularMarketPrice)})
+		if (socket) return () => socket.disconnect()
+	}, [socket])
+
 	async function handleSubmit(event) {
 		event.preventDefault()
-		const tempSlug = {target: {name: "slug", value: slug}}
-		handleChange(tempSlug)
-
-		await addWatch(state)
 		if(!props.provenance){
+			await addWatch(SlugToSymbol(state.slug, props.currency), state.parameter, state.target)
 			props.onDataChange()
+		}
+		else{
+			await addWatch(state.slug, state.parameter, state.target)
 		}
 		close()
 		setOpen(true)
@@ -122,7 +134,7 @@ export default function ProfileAddAlerts(props) {
 			{
 				props.provenance 
 					?
-						<a href='' onClick={open}>
+						<a onClick={open}>
 							<Icons.Bell />
 						</a>
 					:
@@ -149,9 +161,14 @@ export default function ProfileAddAlerts(props) {
 						n&apos;est pas respectée
 					</p>
 					<form className="row" onSubmit={(event) => handleSubmit(event)}>
-						<FormControl sx={{ m: 1, width: '25%', minWidth: '50px' }} className="inputField" variant="filled" disabled={props.provenance}>
+						<FormControl
+							sx={{ m: 1, width: '25%', minWidth: '50px' }}
+							className="inputField"
+							variant="filled"
+							disabled={props.provenance}
+						>
 							<InputLabel>Crypto</InputLabel>
-							<Select name="slug" defaultValue={props.provenance ? slug : ""} value={slug} onChange={handleChange} MenuProps={MenuProps} required>
+							<Select name="slug" defaultValue={props.provenance ? slug : ""} onChange={handleChange}  MenuProps={MenuProps} required>
 								{parseData().map((crypt) => (
 									<MenuItem key={crypt.value} value={crypt.value}>
 										{crypt.label}
@@ -177,8 +194,8 @@ export default function ProfileAddAlerts(props) {
 								required
 								autoComplete="off"
 								inputProps={{
-									inputMode: 'numeric',
-									pattern: '[0-9]*',
+									pattern: '[0-9]+([\.,][0-9]+)?',
+									step: "0.0000000001",
 									min: minPrice.toString(),
 									max: maxPrice.toString()
 								}}

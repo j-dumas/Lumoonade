@@ -11,6 +11,7 @@ const ContentSecurityPolicy = `
   font-src 'self' https://fonts.gstatic.com/;
   frame-src 'self' https://accounts.google.com/;
   img-src 'self' data:;
+  connect-src 'self' https://www.google-analytics.com/;
 `
 
 const securityHeaders = [

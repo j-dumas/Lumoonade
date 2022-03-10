@@ -38,10 +38,17 @@ export default function ProfileHeader(props) {
 	return (
 		<div className="profile-header" id="header">
 			<div className="profile-card">
-				<ProfilePopup username={props.user.username} email={props.user.email} updateUser={props.updateUser} provenance={false} />
 				<div className="column center">
 					<img id="profile-picture" src="/ETH.svg"></img>
-					<h1 id={usernameTitleId}>{props.user.username}</h1>
+					<div className='row center'>
+						<h1 id={usernameTitleId}>{props.user.username}</h1>
+						<ProfilePopup
+							username={props.user.username}
+							email={props.user.email}
+							updateUser={props.updateUser}
+							provenance={false}
+						/>
+					</div>
 					<div className="information">
 						<div>
 							<h3 id={memberSinceId}>{parseTime(props.user.createdAt)}</h3>

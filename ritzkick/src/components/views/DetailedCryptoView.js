@@ -9,8 +9,15 @@ import Functions, {
 import ButtonFavorite from '@/components/ButtonFavorite'
 import DetailedInformationsDashboard from '@/components/DetailedInformationsDashboard'
 import DetailedChart from '@/components/charts/DetailedChart'
-import DetailedMenu from '@/components/menus/DetailedMenu'
 import {createSocket} from '../../../services/SocketService'
+
+import dynamic from 'next/dynamic'
+const DetailedMenu = dynamic(
+	() => {
+		return import('../../components/menus/DetailedMenu')
+	},
+	{ ssr: false }
+)
 
 const io = require('socket.io-client')
 
@@ -40,7 +47,6 @@ function DetailedCryptoView(props) {
 			<div className="detailed-crypto-view column">
 				<DetailedMenu slug={slug} firstData={firstData} />
 				<div className="row space-between">
-					
 					<DetailedInformationsDashboard socket={socket} currency={props.currency} name={false} />
 					<DetailedChart socket={socket} slug={slug} />
 				</div>

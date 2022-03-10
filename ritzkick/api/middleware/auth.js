@@ -10,7 +10,7 @@ const fs = require('fs')
 const verifyOptions = {
 	algorithm: 'ES256',
 	issuer: ['LUMOONADE', 'localhost', '127.0.0.1'],
-	audience: ['https://lumoonade.com', 'localhost', '127.0.0.1'],
+	audience: ['lumoonade.com', 'localhost', '127.0.0.1'],
 	subject: 'Lumoonade Auth'
 }
 
@@ -41,7 +41,7 @@ const auth = async (req, res, next) => {
 		// Not using custom http errors for testing
 		// There is only one type of error thrown here anyway
 		res.status(401).send({
-			error: e.message
+			message: e.message
 		})
 	}
 }

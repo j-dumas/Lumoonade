@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const server = require('../../app/app')
 const Shortcut = require('../../db/model/shortcut')
 
+const paths = require('../../api/routes.json')
+
 const domainURL = `https://${process.env.URL}:${process.env.PORT}`
 
 let config
@@ -20,8 +22,8 @@ afterAll((done) => {
 	done()
 })
 
-describe('Testing all redirections "GET" (/redirect/:id)', () => {
-	const URL = '/redirect/'
+describe(`Testing all redirections "GET" ${paths.shortcut.redirect}:id`, () => {
+	const URL = paths.shortcut.redirect
 
 	test(`I should be redirected to home page if the shortcut id doesn't exist`, async () => {
 		const randomID = new mongoose.Types.ObjectId()
@@ -33,7 +35,7 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 	})
 
 	test(`I should be redirected to the page if the shortcut id does exist`, async () => {
-		let response = await request(server).post('/api/redirects').send(config).expect(201)
+		let response = await request(server).post(paths.shortcut.default).send(config).expect(201)
 		await request(server)
 			.get(response.body.url.split(domainURL)[1])
 			.send()
@@ -43,7 +45,7 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 
 	test(`I should be redirected to the page if the shortcut id does exist and deletes it if we set it to destroyable`, async () => {
 		config.destroyable = true
-		let response = await request(server).post('/api/redirects').send(config).expect(201)
+		let response = await request(server).post(paths.shortcut.default).send(config).expect(201)
 		let shortcuts = await Shortcut.find({})
 		expect(shortcuts.length).toBe(1)
 		await request(server)
@@ -58,7 +60,7 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 	test(`I should be redirected to the page if the shortcut id does exist and deletes it if we set it to destroyable and we use it 'maxUse' times`, async () => {
 		config.destroyable = true
 		config.maxUse = 2
-		let response = await request(server).post('/api/redirects').send(config).expect(201)
+		let response = await request(server).post(paths.shortcut.default).send(config).expect(201)
 		let shortcuts = await Shortcut.find({})
 		expect(shortcuts.length).toBe(1)
 		await request(server)
@@ -79,8 +81,8 @@ describe('Testing all redirections "GET" (/redirect/:id)', () => {
 	})
 })
 
-describe(`Testing creation cases 'POST' (/api/redirects)`, () => {
-	const URL = '/api/redirects'
+describe(`Testing creation cases 'POST' ${paths.shortcut.default}`, () => {
+	const URL = paths.shortcut.default
 
 	test(`It should throw an error if I provide nothing in the body`, async () => {
 		await request(server).post(URL).send().expect(400)

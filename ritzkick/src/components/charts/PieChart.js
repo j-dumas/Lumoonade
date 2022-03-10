@@ -3,6 +3,7 @@ import { Line, Doughnut, Pie, Chart as Charts } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from '../../../utils/color'
 import { getUserDashboardData } from '../../../services/dashboard-service'
+import { AreSlugsEqual } from 'utils/crypto'
 
 function PieChart(props) {
 	const [chartReference, setCR] = useState(React.createRef())
@@ -34,11 +35,18 @@ function PieChart(props) {
 		let labels = []
 		let data = []
 		let backgroudColors = []
+		let max = 0
 		dataArr.forEach((datas) => {
 			assets.forEach((asset) => {
-				if (asset.name.toString().toUpperCase() != datas.fromCurrency.toString().toUpperCase()) return
+				if (!AreSlugsEqual(asset.name, datas.fromCurrency)) return
+				max += datas.regularMarketPrice * asset.amount
+			})
+		})
+		dataArr.forEach((datas) => {
+			assets.forEach((asset) => {
+				if (!AreSlugsEqual(asset.name, datas.fromCurrency)) return
 				labels.push(datas.fromCurrency.toString().toUpperCase())
-				data.push(datas.regularMarketPrice * asset.amount)
+				data.push(datas.regularMarketPrice * asset.amount/max*100)
 				backgroudColors.push(GetColorBySlug(datas.fromCurrency.toString()))
 			})
 		})
@@ -59,6 +67,8 @@ function PieChart(props) {
 	}
 
 	const pieOptions = {
+		responsive: true,
+		maintainAspectRatio: false,
 		plugins: {
 			legend: {
 				display: true,
@@ -108,14 +118,11 @@ function PieChart(props) {
 	}
 
 	let chartInstance = null
-	return !data ? (
-		<></>
-	) : (
-		<div className="pie-chart">
-			<p className="detailed-div-title">Assets Division</p>
+	return !data ? <></> :
+		<div className="column pie-chart">
+			<p className="detailed-div-title">Assets division (%)</p>
 			<Pie name="pie" data={data} options={pieOptions} ref={chartReference} />
 		</div>
-	)
 }
 //ref={input => {chartInstance = input}}
 export default PieChart

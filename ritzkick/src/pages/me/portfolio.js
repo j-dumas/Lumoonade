@@ -5,6 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 //import PortfolioMenu from '../../components/menus/PortfolioMenu'
 import PieChart from '../../components/charts/PieChart'
+//import BarChart from '../../components/charts/BarChart'
 import DetailedChart from '../../components/charts/DetailedChart'
 
 import { getUserDashboardData } from '../../../services/dashboard-service'
@@ -21,10 +22,16 @@ const PortfolioMenu = dynamic(
 	},
 	{ ssr: false }
 )
+const BarChart = dynamic(
+	() => {
+		return import('../../components/charts/BarChart')
+	},
+	{ ssr: false }
+)
 
-const CURRENCY = 'usd'
+const CURRENCY = 'cad'
 
-const Dashboard = () => {
+const Portfolio = () => {
 	const router = useRouter()
 	const [socket, setSocket] = useState()
 	const [portfolioSocket, setPortfolioSocket] = useState()
@@ -39,7 +46,8 @@ const Dashboard = () => {
 			return
 		}
 		let userData = await getUserDashboardData()
-		console.log(userData.assets)
+		if (!userData.assets) return
+
 		setAssets(userData.assets)
 		let slugs = []
 		userData.assets.map((asset) => {
@@ -59,11 +67,11 @@ const Dashboard = () => {
 		<>
 			<section className="section column principal first center">
 				<section className="sub-section column">
-					<PortfolioMenu socket={socket} assets={assets} />
-
-					<div className="row space-between">
+					<PortfolioMenu socket={socket} assets={assets} />					
+					<DetailedChart socket={portfolioSocket} slug={slug} wallet={true} />
+					<div className="row space-between stretch">
 						<PieChart socket={socket} assets={assets} />
-						<DetailedChart socket={portfolioSocket} slug={slug} wallet={true} />
+						<BarChart socket={socket} assets={assets} />
 					</div>
 					<SimpleWalletAssetDashboard socket={socket} assets={assets} />
 					<SimpleCryptoDashboard socket={socket} />
@@ -73,7 +81,7 @@ const Dashboard = () => {
 	)
 }
 // <PieChart socket={socket} assets={assets}/> import PieChart from '../../components/charts/PieChart'
-Dashboard.getLayout = function getLayout(page) {
+Portfolio.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 
 	return (
@@ -96,4 +104,4 @@ export async function getStaticProps({ locale }) {
 	}
 }
 
-export default Dashboard
+export default Portfolio

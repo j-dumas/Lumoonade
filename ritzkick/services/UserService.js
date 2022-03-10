@@ -1,9 +1,11 @@
 import { getCookie, deleteCookie } from './CookieService'
 import { isUserConnected } from './AuthService'
 
+const paths = require('../api/routes.json')
+
 export async function addTransaction(asset, boughtAt, paid, when) {
 	if (!isUserConnected()) return
-	const URI = `/api/wallet/${asset}/add`
+	const URI = `${paths.wallets['transaction-default']}${asset}`
 	let response = await fetch(URI, {
 		method: 'POST',
 		headers: {
@@ -24,7 +26,7 @@ export async function addTransaction(asset, boughtAt, paid, when) {
 
 export async function createWallet(asset) {
 	if (!isUserConnected()) return
-	const URI = `/api/wallets`
+	const URI = paths.wallets.default
 
 	let response = await fetch(URI, {
 		method: 'POST',
@@ -43,7 +45,7 @@ export async function createWallet(asset) {
 
 export async function getTransactions() {
 	if (!isUserConnected()) return
-	const URI = `/api/wallets/transactions`
+	const URI = paths.wallets.transactions
 
 	let response = await fetch(URI, {
 		method: 'GET',
@@ -59,7 +61,7 @@ export async function getTransactions() {
 
 export async function addFavorite(slug) {
 	if (!isUserConnected()) return
-	const URI = `/api/favorite`
+	const URI = paths.favorites.default
 
 	let response = await fetch(URI, {
 		method: 'POST',
@@ -73,7 +75,7 @@ export async function addFavorite(slug) {
 
 export async function deleteFavorite(slug) {
 	if (!isUserConnected()) return
-	const URI = `/api/favorite`
+	const URI = paths.favorites.default
 
 	let response = await fetch(URI, {
 		method: 'DELETE',
@@ -85,10 +87,10 @@ export async function deleteFavorite(slug) {
 	})
 }
 
-export async function getFavorites() {
+export async function getFavorites(limit = 1000, page = 1) {
 	if (!isUserConnected()) return []
 	try {
-		let response = await fetch('/api/me/favorites', {
+		let response = await fetch(paths.favorites.all + "?limit=" + limit + "&page=" + page, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -103,9 +105,10 @@ export async function getFavorites() {
 	}
 }
 
-export async function getWatchList(page = 1) {
+export async function getFavoritesMaxPage(limit = 5) {
+	if (!isUserConnected()) return []
 	try {
-		let response = await fetch('/api/me/watchlists?page=' + page, {
+		let response = await fetch(paths.favorites.all + "?limit=" + limit, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -114,7 +117,24 @@ export async function getWatchList(page = 1) {
 		})
 
 		let json = await response.json()
-		return json.watchlists
+		return json.max_page
+	} catch (e) {
+		console.log(e)
+	}
+}
+
+export async function getWatchList(page = 1) {
+	try {
+		let response = await fetch(`${paths.alerts.all}?page=${page}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + getCookie('token')
+			}
+		})
+
+		let json = await response.json()
+		return json
 	} catch (e) {
 		console.log(e)
 	}
@@ -122,7 +142,7 @@ export async function getWatchList(page = 1) {
 
 export async function deleteWatch(alertId) {
 	try {
-		await fetch('/api/alerts/delete', {
+		await fetch(paths.alerts.default, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -135,15 +155,15 @@ export async function deleteWatch(alertId) {
 	}
 }
 
-export async function addWatch(alert) {
+export async function addWatch(slug, parameter, target) {
 	try {
-		await fetch('/api/alerts', {
+		await fetch(paths.alerts.default, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + getCookie('token')
 			},
-			body: JSON.stringify({ slug: alert.slug, target: alert.target, parameter: alert.parameter })
+			body: JSON.stringify({ slug: slug, target: target, parameter: parameter })
 		})
 	} catch (e) {
 		console.log(e)
@@ -152,7 +172,7 @@ export async function addWatch(alert) {
 
 export async function deleteUser() {
 	try {
-		await fetch('/api/me/delete', {
+		await fetch(paths.user.default, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -168,7 +188,7 @@ export async function deleteUser() {
 
 export async function getUser() {
 	try {
-		let response = await fetch('/api/me', {
+		let response = await fetch(paths.user.default, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -189,7 +209,7 @@ export async function getUser() {
 
 export async function removeSession() {
 	try {
-		let response = await fetch('/api/me/sessions/purge', {
+		let response = await fetch(paths.user['purge-sessions'], {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -229,7 +249,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 	async function updatePassword(oldPass, newPass) {
 		try {
 			const token = getCookie('token')
-			const response = await fetch('/api/me/update', {
+			const response = await fetch(paths.user.default, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -240,7 +260,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 400) {
 				document.getElementById('wrong-password').style.display = 'block'
-			} else if(response.status === 500) {
+			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
 		} catch (e) {
@@ -251,7 +271,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 	async function updateUsername(newUsername) {
 		try {
 			const token = getCookie('token')
-			const response = await fetch('/api/me/update', {
+			const response = await fetch(paths.user.default, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -262,7 +282,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 
 			if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
-			} else if(response.status === 500){
+			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
 		} catch (e) {
@@ -273,7 +293,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 	async function updateUsernameAndPassword(newUsername, oldPass, newPass) {
 		try {
 			const token = getCookie('token')
-			const response = await fetch('/api/me/update', {
+			const response = await fetch(paths.user.default, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -285,7 +305,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 			if (response.status === 400) {
 				document.getElementById('wrong-name').style.display = 'block'
 				document.getElementById('wrong-password').style.display = 'block'
-			} else if(response.status === 500){
+			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
 		} catch (e) {

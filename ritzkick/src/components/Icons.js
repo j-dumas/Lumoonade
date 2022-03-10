@@ -116,7 +116,7 @@ const Icons = {
 	},
 	Search: () => {
 		return <FontAwesomeIcon className="icon" icon={faSearch} />
-	},
+	}
 }
 
 export default Icons

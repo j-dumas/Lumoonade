@@ -2,6 +2,8 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { getCookie, setCookie, deleteCookie } from './CookieService'
 
+const paths = require('../api/routes.json')
+
 export function isUserConnected() {
 	const token = getCookie('token')
 
@@ -13,7 +15,7 @@ export function isUserConnected() {
 export async function logout(setConnection) {
 	try {
 		const token = getCookie('token')
-		const response = await fetch('/api/auth/logout', {
+		const response = await fetch(paths.auth.logout, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -32,7 +34,7 @@ export async function logout(setConnection) {
 
 export async function login(email, password, handleError) {
 	try {
-		let response = await fetch('/api/auth/login', {
+		let response = await fetch(paths.auth.login, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -54,7 +56,7 @@ export async function login(email, password, handleError) {
 
 export async function googleLogin(idToken) {
 	try {
-		let response = await fetch('/api/auth/login', {
+		let response = await fetch(paths.auth.google, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -78,7 +80,7 @@ export async function googleLogin(idToken) {
 
 export async function register(email, username, password, handleError) {
 	try {
-		let response = await fetch('/api/auth/register', {
+		let response = await fetch(paths.auth.register, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -87,13 +89,15 @@ export async function register(email, username, password, handleError) {
 		})
 
 		if (response.status === 201) {
-			await fetch('/api/confirmations', {
+			const response = await fetch(paths.confirmation.default, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ email: email })
-			}).catch((e) => console.log(e))
+			})
+
+			return response.status
 		} else {
 			handleError()
 		}
@@ -105,18 +109,18 @@ export async function register(email, username, password, handleError) {
 
 export async function confirmEmail(key) {
 	try {
-		const response = await fetch('/api/confirmation/verify/' + key, {
+		const response = await fetch(paths.confirmation.verify + key, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		})
 	} catch (e) {}
-} 
+}
 
-export async function resetPassword(key, password, passwordConfirmation){
+export async function resetPassword(key, password, passwordConfirmation) {
 	try {
-		let response = await fetch('/api/reset/redeem', {
+		let response = await fetch(paths.reset.redeem, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -126,7 +130,6 @@ export async function resetPassword(key, password, passwordConfirmation){
 				password: password,
 				confirmation: passwordConfirmation
 			})
-
 		})
 
 		return response.status
@@ -135,7 +138,7 @@ export async function resetPassword(key, password, passwordConfirmation){
 
 export async function sendForgotPassword(email) {
 	try {
-		let response = await fetch('/api/reset', {
+		let response = await fetch(paths.reset.default, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

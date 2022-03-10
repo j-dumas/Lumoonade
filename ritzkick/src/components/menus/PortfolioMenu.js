@@ -61,11 +61,11 @@ function PortfolioMenu(props) {
 				<div onClick={openWithdraw} className="detailed-menu-actions-icon">
 					<Icons.ArrowUp />
 				</div>
-				<WalletWithdraw isOpen={withdraw} close={closeWithdraw} />
+				<WalletWithdraw isOpen={withdraw} close={closeWithdraw} refresh={true} />
 				<div onClick={openDeposit} className="detailed-menu-actions-icon">
 					<Icons.ArrowDown />
 				</div>
-				<WalletDeposit isOpen={deposit} close={closeDeposit} />
+				<WalletDeposit isOpen={deposit} close={closeDeposit} refresh={true}/>
 			</div>
 		</div>
 	)

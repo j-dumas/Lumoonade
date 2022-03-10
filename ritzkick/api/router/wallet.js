@@ -7,6 +7,8 @@ const router = express.Router()
 const { Asset } = require('../../db/model/asset')
 require('../swagger_models')
 
+const paths = require('../routes.json')
+
 /**
  * Transaction Model
  * @typedef {object} Transaction
@@ -17,7 +19,7 @@ require('../swagger_models')
  */
 
 /**
- * POST /api/wallet/{name}/add
+ * POST /api/wallet/{name}
  * @summary Create a transaction in the user's wallet
  * @tags Wallet
  * @param {Transaction} request.body.required - Transaction details
@@ -36,7 +38,7 @@ require('../swagger_models')
  * }
  * @security BearerAuth
  */
-router.post('/api/wallet/:name/add', auth, async (req, res) => {
+router.post(`${paths.wallets['transaction-default']}:name`, auth, async (req, res) => {
 	try {
 		const asset = req.params.name
 		const wallet = await Wallet.findOne({ owner: req.user._id, asset })
@@ -63,7 +65,7 @@ router.post('/api/wallet/:name/add', auth, async (req, res) => {
 })
 
 /**
- * DELETE /api/wallet/{name}/remove
+ * DELETE /api/wallet/{name}
  * @summary Remove a transaction in the user's wallet
  * @tags Wallet
  * @param {object} request.body.required - id of the transaction
@@ -79,7 +81,7 @@ router.post('/api/wallet/:name/add', auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.delete('/api/wallet/:name/remove', auth, async (req, res) => {
+router.delete(`${paths.wallets['transaction-default']}:name`, auth, async (req, res) => {
 	try {
 		const asset = req.params.name
 		const wallet = await Wallet.findOne({ owner: req.user._id, asset })
@@ -99,7 +101,7 @@ router.delete('/api/wallet/:name/remove', auth, async (req, res) => {
 })
 
 /**
- * GET /api/wallet/{name}/content
+ * GET /api/wallet/{name}
  * @summary View all transactions in a user's specific wallet
  * @tags Wallet
  * @return {list} 200 - all transactions of the wallet
@@ -122,7 +124,7 @@ router.delete('/api/wallet/:name/remove', auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.get('/api/wallet/:name/content', auth, async (req, res) => {
+router.get(`${paths.wallets['transaction-default']}:name`, auth, async (req, res) => {
 	try {
 		const asset = req.params.name
 		const wallet = await Wallet.findOne({ owner: req.user._id, asset })
@@ -171,7 +173,7 @@ router.get('/api/wallet/:name/content', auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.get('/api/wallets/transactions', auth, async (req, res) => {
+router.get(paths.wallets.transactions, auth, async (req, res) => {
 	try {
 		const wallets = await Wallet.find({ owner: req.user._id })
 		if (wallets.length === 0) {
@@ -220,7 +222,7 @@ router.get('/api/wallets/transactions', auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.get('/api/wallets/detailed', auth, async (req, res) => {
+router.get(paths.wallets.detailed, auth, async (req, res) => {
 	try {
 		const wallets = await Wallet.find({ owner: req.user._id })
 		if (wallets.length === 0) {
@@ -309,7 +311,7 @@ router.get('/api/wallets/detailed', auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.post('/api/wallets', auth, async (req, res) => {
+router.post(paths.wallets.default, auth, async (req, res) => {
 	try {
 		const userId = req.user._id
 		let body = {
@@ -343,7 +345,7 @@ router.post('/api/wallets', auth, async (req, res) => {
 })
 
 /**
- * PUT /api/wallets/update
+ * PUT /api/wallets
  * @summary Modification of the user's wallet
  * @tags Wallet
  * @param {Wallet} request.body.required - Wallet
@@ -374,7 +376,7 @@ router.post('/api/wallets', auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.put('/api/wallets/update', auth, async (req, res) => {
+router.put(paths.wallets.default, auth, async (req, res) => {
 	try {
 		const user = req.user
 		let modification = Object.keys(req.body)
@@ -419,7 +421,7 @@ router.put('/api/wallets/update', auth, async (req, res) => {
 })
 
 /**
- * DELETE /api/wallets/delete
+ * DELETE /api/wallets
  * @summary Delete a wallet for the user
  * @tags Wallet
  * @param {object} request.body.required - Wallet
@@ -449,7 +451,7 @@ router.put('/api/wallets/update', auth, async (req, res) => {
  * }
  * @security BearerAuth
  */
-router.delete('/api/wallets/delete', auth, async (req, res) => {
+router.delete(paths.wallets.default, auth, async (req, res) => {
 	try {
 		const { asset } = req.body
 		if (!asset) {

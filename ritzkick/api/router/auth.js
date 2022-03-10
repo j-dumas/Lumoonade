@@ -87,7 +87,7 @@ router.post(paths.auth.login, loginLimiter, async (req, res) => {
 			throw new ConflictHttpError('Please confirm your email.')
 		}
 
-		const token = await user.makeAuthToken('localhost')
+		const token = await user.makeAuthToken(req.hostname.toString())
 		const profile = await user.makeProfile()
 		res.send({
 			user: profile,
@@ -175,7 +175,7 @@ router.post(paths.auth.logout, authentication, async (req, res) => {
 	}
 })
 
-router.post(paths.auth.google, async (req, res) => {
+router.post(paths.auth.google, loginLimiter, async (req, res) => {
 	try {
 		const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 		const client = new OAuth2Client(GOOGLE_CLIENT_ID)
@@ -189,7 +189,8 @@ router.post(paths.auth.google, async (req, res) => {
 			const data = {
 				email: payload['email'],
 				username: payload['name'],
-				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`
+				password: `${payload['iss']}.${payload['sub']}.${payload['name']}`,
+				google: true
 			}
 			user = new User(data)
 			await user.save()
@@ -199,7 +200,7 @@ router.post(paths.auth.google, async (req, res) => {
 
 		if (payload['email_verified']) {
 			await user.verified()
-			const token = await user.makeAuthToken('localhost')
+			const token = await user.makeAuthToken(req.hostname.toString())
 			const profile = await user.makeProfile()
 			returnPayload = {
 				user: profile,

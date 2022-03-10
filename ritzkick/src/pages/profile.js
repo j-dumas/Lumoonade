@@ -12,7 +12,7 @@ import { deleteCookie, getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 
-const CURRENCY = 'USD'
+const CURRENCY = 'cad'
 
 const Profile = () => {
 	const [viewState, setViewState] = useState(true)
@@ -25,7 +25,7 @@ const Profile = () => {
 		setUser(data)
 	}
 
-	async function updateUser(){
+	async function getCurrentUser() {
 		getUser().then((res) => setUser(res))
 	}
 
@@ -33,34 +33,46 @@ const Profile = () => {
 		if (getCookie('token') === undefined) {
 			router.push('/')
 		} else {
-			getUser().then((res) => setUser(res))
+			getCurrentUser().then((res) => setUser(res))
 		}
 	}, [])
 
 	return (
-		<div className="column first transparent layer4">
-			<div className="center">{user !== undefined && <ProfileHeader user={user} />}</div>
-			<div>
-				<div className="row center">
-					<button
-						className={viewState ? 'profile-nav-selected' : 'profile-nav'}
-						onClick={() => setViewState(true)}
-					>
-						Alertes
-					</button>
-					<button
-						className={viewState ? 'profile-nav' : 'profile-nav-selected'}
-						onClick={() => setViewState(false)}
-					>
-						Favoris
-					</button>
-				</div>
-				<hr className="line"></hr>
-			</div>
-			<div className="column center">{viewState ? <ProfileAlerts currency={CURRENCY}/> : <ProfileFavorite />}</div>
-			<hr className="line"></hr>
-			<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
-		</div>
+		<>
+			{
+				(user === undefined)
+					?
+						<div className='column center'>
+							<CircularProgress color='secondary' />
+						</div>
+					:
+						<div className="column principal first layer4">
+							<div className="center">{user !== undefined && <ProfileHeader user={user} updateUser={getCurrentUser} />}</div>
+							<div>
+								<div className="row center">
+									<button
+										className={viewState ? 'profile-nav-selected' : 'profile-nav'}
+										onClick={() => setViewState(true)}
+									>
+										Alertes
+									</button>
+									<button
+										className={viewState ? 'profile-nav' : 'profile-nav-selected'}
+										onClick={() => setViewState(false)}
+									>
+										Favoris
+									</button>
+								</div>
+								<hr className="line"></hr>
+							</div>
+							<div className="column center">
+								{viewState ? <ProfileAlerts currency={CURRENCY} /> : <ProfileFavorite />}
+							</div>
+							<hr className="line"></hr>
+							<div>{user !== undefined && <ProfilePurge user={user} removeSession={removeUserSession} />}</div>
+						</div>
+			}
+		</>
 	)
 }
 

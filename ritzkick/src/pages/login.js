@@ -17,12 +17,12 @@ const Login = () => {
 	useEffect(() => {
 		const token = getCookie('token')
 		if (token !== undefined) {
-			router.push("/")
+			router.push('/')
 		}
 	}, [])
 
 	return (
-		<section className='column center principal first layer1'>
+		<section className="column center principal first layer1">
 			<LoginForm />
 			<Bubbles />
 		</section>

@@ -10,11 +10,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
+const CURRENCY = "USD"
+
 const Asset = ({ assetData }) => {
 	return (
 		<>
-			<section className="section column principal first center">
-				<DetailedCryptoView slug={assetData.slug} currency="CAD" />
+			<section className="section column principal first h-center">
+				<DetailedCryptoView slug={assetData.slug} currency={CURRENCY} />
 			</section>
 		</>
 	)
@@ -50,7 +52,7 @@ export async function getStaticProps({ params, locale }) {
 	return {
 		props: {
 			assetData,
-			...(await serverSideTranslations(locale, ['common', 'crypto']))
+			...(await serverSideTranslations(locale, ['common', 'crypto', 'detailedchart', 'detailedmenu']))
 		}
 	}
 }
