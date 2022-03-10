@@ -49,11 +49,9 @@ export async function login(email, password, handleError) {
 		}
 		else if(response.status === 400 || response.status === 404){
 			handleError()
-		}
-		else if(response.status === 409){
+		} else if (response.status === 409) {
 			alert('Please validate your email')
-		}
-		else {
+		} else {
 			alert('Something went wrong')
 		}
 	} catch (e) {
