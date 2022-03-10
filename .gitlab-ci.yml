@@ -1,8 +1,8 @@
 image: node:16
 
 stages:
-    # - sec
-    # - tests
+    - sec
+    - tests
     - deploy
 
 #================
@@ -19,18 +19,18 @@ stages:
 # TESTING
 #================
 
-utests:
-    stage: tests
-    script:
-        - cd ritzkick && npm install
-        - npm run test-ci
-    services:
-        - mongo:latest
-    only:
-        refs:
-            - main
-        changes:
-            - ritzkick/**/*
+# utests:
+#     stage: tests
+#     script:
+#         - cd ritzkick && npm install
+#         - npm run test-ci
+#     services:
+#         - mongo:latest
+#     only:
+#         refs:
+#             - main
+#         changes:
+#             - ritzkick/**/*
 
 #================
 # DEPLOYMENT
