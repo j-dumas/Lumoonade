@@ -16,7 +16,7 @@ const Functions = {
 		return slugs
 	},
 
-	async GetSCryptocurrencySlugsBySeach(keyword, page = 1, limit = 16) {
+	async GetCryptocurrencySlugsBySearch(keyword, page = 1, limit = 16) {
 		const URI = `${paths.assets.search.db}${keyword}?page=${page}&limit=${limit}`
 
 		let response = await fetch(URI)

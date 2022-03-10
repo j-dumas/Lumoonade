@@ -1,0 +1,21 @@
+{
+	"added": "Alerte ajoutée !",
+	"title": "Ajouter une alerte",
+	"description": "L'alerte nous permet de vous envoyer un courriel lorsque la condition que vous entrez est atteinte",
+	"labels": {
+		"crypto": "Crypto",
+		"symbol": "Symbole",
+		"less": "Plus petit que la valeur",
+		"greater": "Plus grand que la valeur",
+		"value": "Valeur"
+	},
+	"validation": {
+		"between": {
+			"enter": "Veuillez entrer une valeur entre",
+			"and": "et"
+		},
+		"minimum": "Veuillez entrer une valeur minimale de"
+	},
+	"cancel": "Annuler",
+	"add": "Ajouter"
+}

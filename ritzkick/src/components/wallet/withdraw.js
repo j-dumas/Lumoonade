@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from '../hooks/useForm'
-import { addTransaction, createWallet } from '../../../services/UserService'
+import { addTransaction } from '../../../services/UserService'
 import Icons from '../../components/Icons'
 import Functions from 'services/CryptoService'
-import {
-	Alert,
-	Snackbar,
-	FormControl,
-	InputAdornment,
-	InputLabel,
-	OutlinedInput,
-	Select,
-	MenuItem,
-	FormHelperText
-} from '@mui/material'
-
-const CURRENCY = 'cad'
+import { Select, MenuItem } from '@mui/material'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8

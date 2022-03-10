@@ -1,5 +1,4 @@
-import { connection } from 'mongoose'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Navbar from '@/components/Navbar'
 
 function Header() {

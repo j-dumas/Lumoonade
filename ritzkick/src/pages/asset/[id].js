@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import DomHead from '@/components/DomHead'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import DetailedCryptoView from '@/components/views/DetailedCryptoView'
-import Layout from '@/layouts/Layout'
+import dynamic from 'next/dynamic'
 import Functions from 'services/CryptoService'
+import Layout from '@/layouts/Layout'
+import React from 'react'
+import { useRouter } from 'next/router'
 
+/* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
+
+const DetailedCryptoView = dynamic(() => import('@/components/views/DetailedCryptoView'), {
+	ssr: true,
+	loading: () => <div>Loading...</div>
+})
 
 const CURRENCY = 'USD'
 
 const Asset = ({ assetData }) => {
+	const router = useRouter()
+
+	if (router.isFallback) {
+		return <div>Loading...</div>
+	}
+
 	return (
 		<>
 			<section className="section column principal first h-center">
@@ -25,12 +34,12 @@ const Asset = ({ assetData }) => {
 Asset.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 	const router = useRouter()
-	const { id } = router.query
+	const id = router.query['id']
 
 	return (
 		<Layout
 			pageMeta={{
-				title: `${t('pages.asset.title')} ${id.toUpperCase()}`,
+				title: `${t('pages.asset.title')} ${id ? id.toUpperCase() : ''}`,
 				description: t('pages.asset.description')
 			}}
 		>
@@ -43,7 +52,7 @@ export async function getStaticPaths() {
 	const paths = await getAllAssetIds()
 	return {
 		paths,
-		fallback: false
+		fallback: true
 	}
 }
 
@@ -52,7 +61,7 @@ export async function getStaticProps({ params, locale }) {
 	return {
 		props: {
 			assetData,
-			...(await serverSideTranslations(locale, ['common', 'crypto', 'detailedchart', 'detailedmenu']))
+			...(await serverSideTranslations(locale, ['common', 'crypto', 'detailedchart', 'detailedmenu', 'alert']))
 		}
 	}
 }
@@ -61,6 +70,7 @@ export async function getAllAssetIds() {
 	let slugs = await Functions.GetAllAvailableSlug()
 
 	let ids = []
+	if (!slugs) return ids
 	slugs.map((slug) => {
 		ids.push({
 			params: {

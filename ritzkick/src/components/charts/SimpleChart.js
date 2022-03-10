@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Line } from 'react-chartjs-2'
-import Chart from 'chart.js/auto'
+import 'chart.js/auto'
 
 function SimpleChart(props) {
-	const [chartReference, setCR] = useState(React.createRef())
+	const [chartReference] = useState(React.createRef())
 
-	const [datas, setDatas] = useState(() => {
+	const [datas] = useState(() => {
 		return {
 			labels: props.data.response[0].timestamp,
 			datasets: [
