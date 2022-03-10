@@ -48,7 +48,7 @@
 		"home": "Accueil",
 		"assets": "Cryptos",
 		"compare": "Comparer",
-		"user": { "wallet": "Portefeuille", "profile": "Profil" },
+		"user": { "portfolio": "Portfolio", "profile": "Profil" },
 		"login": "Connexion",
 		"logout": "Déconnexion",
 		"register": "Inscription"

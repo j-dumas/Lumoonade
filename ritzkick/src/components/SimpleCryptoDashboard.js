@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SimpleCryptoView from '@/components/views/SimpleCryptoView'
 import { isUserConnected } from '../../services/AuthService'
 import { AreSlugsEqual } from '../../utils/crypto'
@@ -38,13 +38,12 @@ function SimpleCryptoDashboard(props) {
 						{!isUserConnected() ? <></> : <div className="icon" />}
 					</div>
 				</div>
-				{datas.map((element, i) => {
+				{datas.map((element) => {
 					let chartData = chartDatas.find((chartElement) => {
 						return chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()
 					})
-					let asset = null
 					if (props.assets) {
-						asset = props.assets.find((el) => {
+						props.assets.find((el) => {
 							return AreSlugsEqual(
 								el.name.toString().toUpperCase(),
 								element.symbol.toString().toUpperCase()

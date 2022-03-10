@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Line, Doughnut, Pie, Bar, Chart as Charts } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
-import GetColorBySlug from '../../../utils/color'
-import { getUserDashboardData } from '../../../services/dashboard-service'
+import GetColorBySlug from 'utils/color'
 import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
 function BarChart(props) {
-	const [chartReference, setCR] = useState(React.createRef())
+	const [chartReference] = useState(React.createRef())
 
-	const [data, setData] = useState({
+	const [data] = useState({
 		maintainAspectRatio: false,
 		responsive: false,
 		labels: [0],
@@ -162,7 +161,6 @@ function BarChart(props) {
 		}
 	}
 
-	let chartInstance = null
 	return !data ? (
 		<></>
 	) : (

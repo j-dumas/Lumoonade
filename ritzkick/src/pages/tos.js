@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
-import Functions from 'services/CryptoService'
-import { getFavorites } from 'services/UserService'
-import { isUserConnected } from 'services/AuthService'
-import { SlugArrayToSymbolArray } from 'utils/crypto'
-import { createSocket } from 'services/SocketService'
+import React from 'react'
 import Layout from '@/layouts/Layout'
-import Icons from '../components/Icons'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'

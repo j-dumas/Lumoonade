@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { getFavorites, addFavorite, deleteFavorite } from 'services/UserService'
+import React, { useCallback, useEffect, useState } from 'react'
+import { addFavorite, deleteFavorite, getFavorites } from 'services/UserService'
 import Icons from '@/components/Icons'
 import { isUserConnected } from 'services/AuthService'
 import { AreSlugsEqual, SymbolToSlug } from 'utils/crypto'
-import { DriveEtaOutlined } from '@mui/icons-material'
 
 function ButtonFavorite(props) {
 	const [favorite, setFavorite] = useState(false)

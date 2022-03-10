@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { deleteWatch } from 'services/UserService'
 import { Delete } from '@mui/icons-material'
 import format from '../../utils/formatter'

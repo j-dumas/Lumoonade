@@ -42,7 +42,7 @@
 		"home": "Home",
 		"assets": "Cryptos",
 		"compare": "Compare",
-		"user": { "wallet": "Wallet", "profile": "Profile" },
+		"user": { "portfolio": "Portfolio", "profile": "Profile" },
 		"login": "Log In",
 		"logout": "Log Out",
 		"register": "Register"

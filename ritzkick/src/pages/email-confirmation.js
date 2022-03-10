@@ -1,9 +1,11 @@
-import Bubbles from '@/components/Bubbles'
-import LayoutNoNav from '@/layouts/Layout-no-nav'
+import dynamic from 'next/dynamic'
 import EmailConfirmationCard from '@/components/EmailConfirmationCard'
+import LayoutNoNav from '@/layouts/Layout-no-nav'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+
+const Bubbles = dynamic(() => import('@/components/Bubbles'))
 
 const EmailConfirmation = () => {
 	return (

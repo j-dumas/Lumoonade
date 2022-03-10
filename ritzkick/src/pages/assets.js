@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import SimpleCryptoCardDashboard from '@/components/SimpleCryptoCardDashboard'
+import React, { useEffect, useState } from 'react'
+
+import { createSocket } from 'services/SocketService'
 import Functions from 'services/CryptoService'
 import { getFavorites } from 'services/UserService'
 import { isUserConnected } from 'services/AuthService'
-import { SlugArrayToSymbolArray } from 'utils/crypto'
-import { createSocket } from 'services/SocketService'
 import Layout from '@/layouts/Layout'
-import Icons from '../components/Icons'
+import Icons from '@/components/Icons'
 
+/* eslint-disable sort-imports */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { SlugArrayToSymbolArray } from 'utils/crypto'
+import dynamic from 'next/dynamic'
+
+const SimpleCryptoCardDashboard = dynamic(() => import('@/components/SimpleCryptoCardDashboard'))
 
 const CURRENCY = 'cad'
 
@@ -73,13 +77,16 @@ const Assets = () => {
 	}
 
 	async function searchAsset(keyword, page) {
-		let list = await Functions.GetSCryptocurrencySlugsBySeach(keyword, page, 12)
+		let list = await Functions.GetCryptocurrencySlugsBySearch(keyword, page, 12)
 		setPagination([page, list.max_page])
 		let symbols = []
-		list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
+		try {
+			list.assets.map((element) => symbols.push(element.symbol + '-' + CURRENCY))
+		} catch (_) {}
 		setSearchList(symbols)
 	}
 
+	console.log('RETURN')
 	return (
 		<section className="section column h-center principal first">
 			<section className="sub-section">

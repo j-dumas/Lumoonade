@@ -7,7 +7,7 @@ import BtcLogo from 'img/bubbles/bitcoin-btc-logo.svg'
 import DogeLogo from 'img/bubbles/dogecoin-doge-logo.svg'
 import ShibaLogo from 'img/bubbles/shiba-inu-shib-logo.svg'
 
-//https://cryptologos.cc/
+// https://cryptologos.cc/
 
 function Bubbles() {
 	return (

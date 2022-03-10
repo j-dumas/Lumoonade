@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SimpleCryptoCard from '@/components/SimpleCryptoCard'
 
 function SimpleCryptoCardDashboard(props) {
@@ -10,10 +10,9 @@ function SimpleCryptoCardDashboard(props) {
 		props.socket.on('graph', (data) => setChartDatas(data))
 		if (props.socket) return () => props.socket.disconnect()
 	}, [])
-	// row center start
 	return (
 		<section className={props.small == true ? 'dashboard-small' : 'dashboard'}>
-			{datas.map((element, i) => {
+			{datas.map((element) => {
 				let chartData = chartDatas.find((chartElement) => {
 					return chartElement.symbol.toString().toUpperCase() == element.symbol.toString().toUpperCase()
 				})

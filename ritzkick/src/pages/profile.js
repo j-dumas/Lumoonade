@@ -1,20 +1,24 @@
 import ProfileHeader from '@/components/ProfileHeader'
-import ProfileAlerts from '@/components/ProfileAlerts'
-import ProfileFavorite from '@/components/ProfileFavorite'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getUser, removeSession } from 'services/UserService'
-import ProfilePurge from '@/components/ProfilePurge'
 import Layout from '@/layouts/Layout'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import { deleteCookie, getCookie } from 'services/CookieService'
+import { getCookie } from 'services/CookieService'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
+import dynamic from 'next/dynamic'
+
+const ProfileAlerts = dynamic(() => import('@/components/ProfileAlerts'))
+const ProfileFavorite = dynamic(() => import('@/components/ProfileFavorite'))
+const ProfilePurge = dynamic(() => import('@/components/ProfilePurge'))
 
 const CURRENCY = 'cad'
 
 const Profile = () => {
+	const { t } = useTranslation('profile')
+
 	const [viewState, setViewState] = useState(true)
 	const [user, setUser] = useState(undefined)
 	const router = useRouter()
@@ -54,13 +58,13 @@ const Profile = () => {
 								className={viewState ? 'profile-nav-selected' : 'profile-nav'}
 								onClick={() => setViewState(true)}
 							>
-								Alertes
+								{t('alerts.title')}
 							</button>
 							<button
 								className={viewState ? 'profile-nav' : 'profile-nav-selected'}
 								onClick={() => setViewState(false)}
 							>
-								Favoris
+								{t('favorites.title')}
 							</button>
 						</div>
 						<hr className="line"></hr>
@@ -94,7 +98,7 @@ Profile.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'profile']))
+			...(await serverSideTranslations(locale, ['common', 'profile', 'forms', 'alert']))
 		}
 	}
 }

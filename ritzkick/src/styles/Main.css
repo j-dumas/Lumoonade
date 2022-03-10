@@ -324,10 +324,8 @@ label {
 }
 
 .gap-0 {
-	gap: 0px !important
+	gap: 0px !important;
 }
-
-
 
 .anim {
 	stroke: white;
@@ -338,23 +336,23 @@ label {
 
 @keyframes textAnimate {
 	0% {
-	  stroke-dasharray: 0 50%;
-	  stroke-dashoffset:  20%;
-	  fill: var(--navbar-color);
-	  stroke: var(--main-color);
+		stroke-dasharray: 0 50%;
+		stroke-dashoffset: 20%;
+		fill: var(--navbar-color);
+		stroke: var(--main-color);
 	}
-	
+
 	75% {
-	  stroke-dasharray: 50% 0;
-	  stroke-dashoffstet: -20%;
-	  fill: transparent;
-	  stroke: white;
+		stroke-dasharray: 50% 0;
+		stroke-dashoffstet: -20%;
+		fill: transparent;
+		stroke: white;
 	}
- 
+
 	100% {
-	 stroke-dasharray: 50% 0;
-	 stroke-dashoffstet: -20%;
-	 fill: white;
-	 stroke: white;
-   }
- }
+		stroke-dasharray: 50% 0;
+		stroke-dashoffstet: -20%;
+		fill: white;
+		stroke: white;
+	}
+}
