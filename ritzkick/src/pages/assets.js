@@ -39,7 +39,6 @@ const Assets = () => {
 	}
 
 	async function prepareFavSocket() {
-		console.log('CALL')
 		if (isUserConnected()) {
 			let symbols = SlugArrayToSymbolArray(await getFavorites(), CURRENCY, false)
 			setFavSocket(createSocket(['general', `graph-1d-30m`], symbols, `wss://${window.location.host}`))
@@ -69,8 +68,6 @@ const Assets = () => {
 
 	async function searchAsset(keyword, page) {
 		let list = await Functions.GetCryptocurrencySlugsBySearch(keyword, page, 12)
-
-		console.log(list)
 		setPagination([page, list.max_page])
 		let symbols = []
 		try {
@@ -79,6 +76,7 @@ const Assets = () => {
 		setSearchList(symbols)
 	}
 
+	console.log('RETURN')
 	return (
 		<section className="section column h-center principal first">
 			<section className="sub-section">

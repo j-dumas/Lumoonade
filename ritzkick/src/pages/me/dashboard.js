@@ -14,8 +14,8 @@ const CURRENCY = 'cad'
 const Dashboard = () => {
 	const [socket, setSocket] = useState()
 	const slug = 'btc-cad'
-	const dateRange = '1d'
-	const interval = '1h'
+	const [dateRange] = useState('1d')
+	const [interval] = useState('1h')
 	useEffect(async () => {
 		let userData = await getUserDashboardData()
 		let slugs = []

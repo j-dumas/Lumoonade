@@ -36,8 +36,8 @@ const Portfolio = () => {
 	const [socket, setSocket] = useState()
 	const [portfolioSocket, setPortfolioSocket] = useState()
 	const [slug] = useState('Value')
-	const dateRange = '1d'
-	const interval = '1h'
+	const [dateRange] = useState('1d')
+	const [interval] = useState('1h')
 	const [assets, setAssets] = useState()
 
 	useEffect(async () => {

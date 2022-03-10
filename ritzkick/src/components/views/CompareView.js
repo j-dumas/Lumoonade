@@ -16,8 +16,8 @@ const CompareView = (props) => {
 	const [compareList, setCompareList] = useState(getFirstCompareList())
 	const [userConnected, setUserConnected] = useState(false)
 
-	const dateRange = '5d'
-	const interval = '15m'
+	const [dateRange] = useState('5d')
+	const [interval] = useState('15m')
 	const [socket, setSocket] = useState()
 
 	useEffect(() => {

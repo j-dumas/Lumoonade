@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import GetColorBySlug from 'utils/color'
 import { AreSlugsEqual } from 'utils/crypto'
 
 function PieChart(props) {
-	const chartReference = React.createRef()
+	const [chartReference] = useState(React.createRef())
 
-	const data = {
+	const [data] = useState({
 		maintainAspectRatio: false,
 		responsive: false,
 		labels: [0],
@@ -16,7 +16,7 @@ function PieChart(props) {
 				backgroundColor: ['gray']
 			}
 		]
-	}
+	})
 
 	useEffect(async () => {
 		props.socket.on('data', (data) => {

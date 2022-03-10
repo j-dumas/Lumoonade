@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
@@ -6,9 +6,9 @@ import zoomPlugin from 'chartjs-plugin-zoom'
 Chart.register(zoomPlugin)
 
 function BarChart(props) {
-	const chartReference = React.createRef()
+	const [chartReference] = useState(React.createRef())
 
-	const data = {
+	const [data] = useState({
 		maintainAspectRatio: false,
 		responsive: false,
 		labels: [0],
@@ -18,7 +18,7 @@ function BarChart(props) {
 				backgroundColor: ['gray']
 			}
 		]
-	}
+	})
 
 	useEffect(async () => {
 		props.socket.on('data', (data) => {

@@ -9,12 +9,12 @@ const DetailedChart = dynamic(() => import('@/components/charts/DetailedChart'))
 const DetailedMenu = dynamic(() => import('@/components/menus/DetailedMenu'))
 
 function DetailedCryptoView(props) {
-	const slug = props.slug + '-' + props.currency
+	const [slug] = useState(props.slug + '-' + props.currency)
 	const [firstData, setFirstData] = useState()
 	const [socket, setSocket] = useState()
 
-	const dateRange = '5d'
-	const interval = '15m'
+	const [dateRange] = useState('5d')
+	const [interval] = useState('15m')
 
 	useEffect(async () => {
 		setFirstData(await Functions.GetCryptocurrencyInformationsBySlug(slug))

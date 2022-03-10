@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Line } from 'react-chartjs-2'
+import 'chart.js/auto'
 
 function SimpleChart(props) {
-	const chartReference = React.createRef()
+	const [chartReference] = useState(React.createRef())
 
-	const datas = () => {
+	const [datas] = useState(() => {
 		return {
 			labels: props.data.response[0].timestamp,
 			datasets: [
@@ -23,7 +24,7 @@ function SimpleChart(props) {
 				}
 			]
 		}
-	}
+	})
 
 	return (
 		<div className="simple-chart">
