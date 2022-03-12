@@ -42,11 +42,10 @@
 }
 
 .edit-popup {
+	max-width: 360px;
 	background-color: rgb(21, 22, 23, 0.96);
-	padding: 100px 100px;
-	border-radius: 10px;
-	margin-left: 5%;
-	margin-right: 5%;
+	padding: 20px;
+	border-radius: 5px;
 	text-align: center;
 }
 
@@ -70,8 +69,7 @@
 }
 
 #update-form {
-	min-width: 345px;
-	max-width: 600px;
+	max-width: 100%;
 }
 
 #rotate-button {
@@ -190,4 +188,8 @@ ul {
 
 .alert-title-card:hover {
 	background-color: var(--background-color-2);
+}
+
+#alerts-header {
+	margin-bottom: 20px;
 }

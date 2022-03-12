@@ -154,7 +154,7 @@ export default function ProfileAddAlerts(props) {
 				<div className="edit-popup">
 					<h1>{t('title')}</h1>
 					<p>{t('description')}</p>
-					<form className="row" onSubmit={(event) => handleSubmit(event)}>
+					<form className="column" onSubmit={(event) => handleSubmit(event)}>
 						<FormControl
 							sx={{ m: 1, width: '25%', minWidth: '50px' }}
 							className="inputField"
