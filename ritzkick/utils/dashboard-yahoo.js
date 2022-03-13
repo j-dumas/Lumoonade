@@ -1,6 +1,15 @@
 const moment = require('moment')
 const graph = require('app/socket/utils/graph')
 
+/**
+ * This function is used for handling multiple datas from yahoo and modifying it for the portfolio/dashboard
+ * @param {list} data yahoo's data
+ * @param {list} transactions transactions list
+ * @param {string} range '1d', '2d', '5d', ...
+ * @param {boolean} single true or false if you want a single line or multiple lines
+ * @param {string} timezone timezone of the user
+ * @returns the data modified for the portfolio
+ */
 const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, timezone = 'America/Toronto') => {
 	if (data.length === 0 || transactions.length === 0) return []
 	transactions = orderByDate(transactions)
@@ -9,7 +18,7 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, t
 		let timestamps = data[0].response[0].timestamp
 		timestamps.forEach((_, index) => {
 			let priceSum = 0
-			data.forEach((entry) => {
+			data.forEach(entry => {
 				let price = entry.response[0].indicators.quote[0].close[index]
 				priceSum += price
 			})
@@ -19,7 +28,7 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, t
 		return [data[0]]
 	}
 
-	data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
+	data.forEach(entry => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
 }
 
 const fromSymbol = (symbol, transactions) => {
@@ -47,10 +56,17 @@ const yahooToDashBoard = async (data = [], transactions = [], range, timezone) =
 		prices[index] = prices[index] * amountOfAssetsAtDate(timestamp, transactions)
 		timestamps[index] = graph.getDateFormat(range, timestamp, timezone)
 	})
+
 	return res
 }
 
-const amountOfAssetsAtDate = (timestamp, transactions) => {
+/**
+ * It gives you the amount you hold at a specific timestamp
+ * @param {number} timestamp timestamp in millis
+ * @param {list} transactions
+ * @returns the amount that you hold by this timestamp
+ */
+const amountOfAssetsAtDate = (timestamp, transactions = []) => {
 	let amount = 0
 	transactions.find((transac) => {
 		if (dateDiff(transac.when, moment(timestamp).format('YYYY-MM-DD')) <= 0) {
@@ -62,13 +78,23 @@ const amountOfAssetsAtDate = (timestamp, transactions) => {
 	return amount
 }
 
+/**
+ * Get the date difference in days
+ * @param {Date} date current date
+ * @param {Date} comp comparaison date
+ * @returns the difference in days
+ */
 const dateDiff = (date, comp) => {
 	return moment(date).diff(moment(comp), 'days')
 }
 
+/**
+ * Sort all transactions by date
+ * @param {list} transactions list of all transactions object
+ * @returns a copy of the list sorted.
+ */
 const orderByDate = (transactions = []) => {
 	if (transactions.length === 0) return []
-
 	let copy = [...transactions]
 	return copy.sort((a, b) => {
 		return Date.parse(a.when) - Date.parse(b.when)

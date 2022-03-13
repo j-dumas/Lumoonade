@@ -17,7 +17,7 @@ const topAssetSchema = new mongoose.Schema(
 	{
 		timestamps: true,
 		toJSON: {
-			transform: function (doc, ret) {
+			transform: function (_, ret) {
 				delete ret.__v
 				delete ret.createdAt
 				delete ret.updatedAt

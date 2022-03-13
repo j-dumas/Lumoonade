@@ -37,6 +37,5 @@ export async function getUserDashboardData() {
 	})
 
 	let json = await response.json()
-	console.log(json)
 	return json
 }

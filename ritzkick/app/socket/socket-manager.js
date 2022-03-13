@@ -60,8 +60,6 @@ const initialize = (server) => {
 		})
 	})
 
-	console.log(rm.total(), 'rooms created!')
-
 	serverSocket.on('connection', (socket) => {
 		// ---------------------------------------
 		// Verify if the incoming socket is valid.
@@ -103,7 +101,7 @@ const initialize = (server) => {
 			const { query } = client
 			const { append } = socket.handshake.auth
 			let socketRooms = rm.getRoomsOfSocket(id)
-			socketRooms = socketRooms.filter((r) => !newRoom.find((e) => e === r.name))
+			socketRooms = socketRooms.filter(r => !newRoom.find(e => e === r.name))
 			socketRooms.forEach((room) => {
 				socket.leave(room.name)
 				rm.disconnectFromRoom(socket, room.name)
@@ -141,6 +139,7 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
 				}
 
 				// Fix to do, maybe filter first then send. Or just remove the line since the ping rate is 1s.
+				// Do not remove this line, even if this is the final release
 				// socket.emit(r.graph ? 'graph' : 'data', r.getService().latestData())
 
 				handler.onUpdate(r)
@@ -159,6 +158,7 @@ const connectionProcess = (socket, rooms, query, append, graph) => {
  */
 const verifyIncomingSocket = (socket) => {
 	const { handshake } = socket
+	// Simple verification to make sure the socket is fully ready
 	if (!handshake.url.includes('socket.io/?') || handshake.auth.rooms.length === 0) {
 		socket.emit('reject')
 		socket.disconnect()

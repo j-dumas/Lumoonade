@@ -100,27 +100,27 @@ const userSchema = new mongoose.Schema(
 	}
 )
 
-// ---------------------------------
-//
-// ---------------------------------
+/**
+ * This is for creating a link between Wallet and User
+ */
 userSchema.virtual('wallet', {
 	ref: 'Wallet',
 	localField: 'wallet_list.wallet',
 	foreignField: '_id'
 })
 
-// ---------------------------------
-//
-// ---------------------------------
+/**
+ * This is for creating a link between Favorite and User
+ */
 userSchema.virtual('favorite', {
 	ref: 'Favorite',
 	localField: 'favorite_list.favorite',
 	foreignField: '_id'
 })
 
-// ---------------------------------
-//
-// ---------------------------------
+/**
+ * This is for creating a link between Watchlist and User
+ */
 userSchema.virtual('watchlist', {
 	ref: 'Watchlist',
 	localField: 'watchlist_list.watch',
@@ -232,6 +232,9 @@ userSchema.statics.findByCredentials = async (email, password) => {
 	return user
 }
 
+/**
+ * This is called when the .save() is called on the user
+ */
 userSchema.pre('save', async function (next) {
 	const user = this
 	const SECURE_SALT_NUMBER = 8
@@ -243,6 +246,9 @@ userSchema.pre('save', async function (next) {
 	next()
 })
 
+/**
+ * This is called when the user is getting removed.
+ */
 userSchema.pre('remove', async function (next) {
 	const user = this
 	await Permission.deleteMany({ user: user._id })

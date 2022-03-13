@@ -1,4 +1,5 @@
 class Room {
+
 	constructor(name, graph = false) {
 		this.name = name
 		this.clients = []
@@ -6,6 +7,9 @@ class Room {
 		this.graph = graph
 	}
 
+	/**
+	 * Purge all clients from the room.
+	 */
 	purge() {
 		this.clients.length = 0
 	}
@@ -17,6 +21,10 @@ class Room {
 		this.service = service
 	}
 
+	/**
+	 * Set the room to emit 'graph' calls
+	 * @param {boolean} state true or false if this is a graphical room
+	 */
 	setGraph(state) {
 		this.graph = state
 	}
@@ -25,6 +33,11 @@ class Room {
 		return this.service
 	}
 
+	/**
+	 * Append a new socket to the room.
+	 * @param {socket} socket new socket
+	 * @returns true or false if the action succeed.
+	 */
 	append(socket) {
 		if (this._exists(socket)) return false
 		this.clients.push({

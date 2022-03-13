@@ -5,9 +5,11 @@ const parser = require('../socket/utils/parser')
 const chalk = require('chalk')
 const email = require('./email')
 
+// Keeping the client and the list available for all other functions
 let client = undefined
 let listen = undefined
 
+const connectionUrl = `wss://${process.env.URL}:${process.env.PORT}/`
 const SERVICE_NAME = 'Robot'
 
 /**
@@ -24,21 +26,13 @@ const create = async () => {
 	listen = parser.rebuild(watchlists.map((w) => w.slug))
 	log(SERVICE_NAME, 'Found ' + watchlists.length + ' lists with ' + listen.length + ' unique search.')
 
-	// This will change in the future.
-	const connectionUrl = `wss://${process.env.URL}:${process.env.PORT}/`
-	console.log(connectionUrl)
 	log(SERVICE_NAME, listen)
-	console.log('data', listen)
 	client = new Client(connectionUrl, {
 		rejectUnauthorized: false,
 		auth: {
 			rooms: ['general'],
 			query: listen
 		}
-	})
-
-	client.on('connect_error', (err) => {
-		console.log(`connect_error due to ${err.message}`)
 	})
 
 	client.on('ready', (_) => {
@@ -49,14 +43,12 @@ const create = async () => {
 		log(SERVICE_NAME, 'Email Client got rejected.')
 	})
 
-	client.on('data', (data) => {
+	client.on('data', data => {
 		if (!data) return
-		data.forEach((d) => {
+		data.forEach(query => {
 			try {
-				tracker(d.symbol.toLowerCase(), d.regularMarketPrice)
-			} catch (e) {
-				console.log(e)
-			}
+				tracker(query.symbol.toLowerCase(), query.regularMarketPrice)
+			} catch (_) {}
 		})
 	})
 }
@@ -80,6 +72,7 @@ const tracker = async (slug, price) => {
  */
 const handleTracker = (list = [], price) => {
 	list.forEach((client) => {
+		// Using setTimeout for simplicity
 		setTimeout(() => {
 			User.findById(client.owner).then(async (user) => {
 				await user.removeWatchlistAlertAndSave(client._id)

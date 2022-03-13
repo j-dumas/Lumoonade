@@ -22,22 +22,21 @@ const helmetOptions = require('../config/helmet')
 
 expressJSDocSwagger(server)(swaggerOptions)
 
+// Setting the configuration of the application
 server.use(express.json())
 server.use(helmet(helmetOptions))
 
-setRouters()
+// Setting the application routers
+server.use(permRouter)
+server.use(shortcutRouter)
+server.use(resetRouter)
+server.use(authRouter)
+server.use(assetRouter)
+server.use(favoriteRouter)
+server.use(alertRouter)
+server.use(walletRouter)
+server.use(userRouter)
+server.use(confirmationRouter)
 
-function setRouters() {
-	server.use(permRouter)
-	server.use(shortcutRouter)
-	server.use(resetRouter)
-	server.use(authRouter)
-	server.use(assetRouter)
-	server.use(favoriteRouter)
-	server.use(alertRouter)
-	server.use(walletRouter)
-	server.use(userRouter)
-	server.use(confirmationRouter)
-}
 
 module.exports = server

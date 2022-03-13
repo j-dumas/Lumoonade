@@ -61,9 +61,15 @@ const slapToLowerCase = (list) => {
 	return copy.map((c) => String(c).toLowerCase())
 }
 
+/**
+ * Sort a list (asset list) in a specific order
+ * @param {list} list list of elements
+ * @param {list} order order of the elements
+ * @returns list formated in the specific order
+ */
 const sortListInSpecificOrder = (list = [], order = []) => {
 	let res = []
-	list.forEach((item) => {
+	list.forEach(item => {
 		let index = order.findIndex((od) => item.symbol.toLowerCase().includes(od.toLowerCase()))
 		res.splice(index, 0, item)
 	})

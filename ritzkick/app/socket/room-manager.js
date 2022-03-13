@@ -23,7 +23,8 @@ const aliveRooms = () => {
 }
 
 const activePortfolioRooms = () => {
-	return aliveRooms().filter((room) => room.name.toLowerCase().startsWith('dash-'))
+	const portfolioPrefix = 'dash-'
+	return aliveRooms().filter((room) => room.name.toLowerCase().startsWith(portfolioPrefix))
 }
 
 /**

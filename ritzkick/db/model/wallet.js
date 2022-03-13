@@ -38,6 +38,9 @@ const walletSchema = new mongoose.Schema(
 	}
 )
 
+/**
+ * This is creating a link between Transaction and Wallet
+ */
 walletSchema.virtual('hist', {
 	localField: 'history.transaction',
 	foreignField: '_id',

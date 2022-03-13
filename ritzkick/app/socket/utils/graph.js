@@ -75,6 +75,11 @@ const populate = () => {
 	})
 }
 
+/**
+ * This is a custom callback for cleanup purposes
+ * @param {list} data yahoo's response
+ * @returns cleaned data
+ */
 const cleanupCallback = (data) => {
 	try {
 		if (data.length === 0) return data
@@ -91,6 +96,11 @@ const cleanupCallback = (data) => {
 	} catch (_) {}
 }
 
+/**
+ * This callback is going to be called whenever we get data from yahoo's api.
+ * @param {Room} room Room object
+ * @param {list} data yahoo's data 
+ */
 const listenCallback = (room, data = []) => {
 	if (data.length === 0) return
 	try {
@@ -133,6 +143,13 @@ const getDateFormat = (range = '1d', value = new Date().getTime(), timezone = 'A
 	}
 }
 
+/**
+ * Adjust yahoo's data with the correct timestamps
+ * @param {list} data yahoo's data
+ * @param {string} range '1d', '2d', '5d', ...
+ * @param {string} timezone timezone
+ * @returns data modified with valid dates from the timezone
+ */
 const adjustDateMiddleware = (data = [], range, timezone) => {
 	if (data.length === 0) return
 	try {
@@ -140,9 +157,7 @@ const adjustDateMiddleware = (data = [], range, timezone) => {
 			data[0].response[0].timestamp[index] = getDateFormat(range, time, timezone)
 		})
 		return data
-	} catch (_) {
-		console.log('Error', _)
-	}
+	} catch (_) { }
 }
 
 module.exports = {

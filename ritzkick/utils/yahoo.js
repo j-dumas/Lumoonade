@@ -2,19 +2,23 @@ const axios = require('axios').default
 const validator = require('validator').default
 const api = process.env.YAHOO_API
 
-// --------------------------------------
-//  This parser feeds the object received with all the values from the data
-// --------------------------------------
+/**
+ * Parse data to a 'feed' list
+ * @param {list} data whatever data in a list
+ * @param {list} feed whatever data we want to keep
+ */
 const parser = (data, feed) => {
 	Object.keys(feed).forEach((x) => {
 		feed[x] = data[x]
 	})
 }
 
-// --------------------------------------
-//   **The symbol must be something available on yahoo finance**
-//  This function is used to fetch all informations about a "symbol" (not related to the market like volumes, supply, etc...)
-// --------------------------------------
+/**
+ * Fetch data from all symbols in the list
+ * @param {list} symbols list of symbols to fetch data from
+ * @param {object} param1 options as an object
+ * @returns all informations for a graph
+ */
 const fetchSymbol = async (symbols, { range = '1d', interval = '1h' } = {}) => {
 	let response = await axios({
 		url: `${api}spark?symbols=${symbols}&range=${range}&interval=${interval}&corsDomain=ca.finance.yahoo.com&.tsrc=finance`,
@@ -23,14 +27,11 @@ const fetchSymbol = async (symbols, { range = '1d', interval = '1h' } = {}) => {
 	return response.data.spark.result
 }
 
-// --------------------------------------
-//   **The symbols must be something available on yahoo finance**
-//  This function is used to get data related to the market like:
-//  - The current supply;
-//  - The volume;
-//  - The market change (% and $)
-//  - and much more...
-// --------------------------------------
+/**
+ * Fetch market datas from a list of symbols
+ * @param {list} symbols list of symbols
+ * @returns market data from all symbols
+ */
 const fetchMarketData = async (symbols) => {
 	if (validator.isEmpty(symbols)) return { result: [] }
 	let query = await axios({

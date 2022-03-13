@@ -1,6 +1,7 @@
 const axios = require('axios').default
 
 class Service {
+
 	constructor(room, url, config, ms = 1000) {
 		this.url = url
 		this.room = room
@@ -27,18 +28,34 @@ class Service {
 		return this.cleanupCallback(this.lastData)
 	}
 
+	/**
+	 * Bind a function to clean the data whenever axios returns data
+	 * @param {function} callback 
+	 */
 	cleanCallback(callback) {
 		this.cleanupCallback = callback
 	}
 
+	/**
+	 * Append more data in the url of your service
+	 * @param {string} data append more informations in the url
+	 */
 	setAppendData(data) {
 		this.appendUrlData = data
 	}
 
+	/**
+	 * Bind a function to be called whenever axios returns data
+	 * @param {function} callback 
+	 */
 	listenCallback(callback) {
 		this.callback = callback
 	}
 
+	/**
+	 * Set the configuration for axios
+	 * @param {object} config 
+	 */
 	setConfig(config) {
 		this.config = config
 	}
@@ -49,7 +66,7 @@ class Service {
 	run() {
 		if (this.running) return
 		this.running = true
-		// The services are always running on 1s delay
+		// The services are always running on 1s delay by default
 		this.routine = setInterval(() => {
 			axios({
 				url: this.url + this.query + this.appendUrlData,

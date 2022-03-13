@@ -46,7 +46,7 @@ const transactionSchema = new mongoose.Schema(
 	},
 	{
 		toJSON: {
-			transform: function (doc, ret) {
+			transform: function (_, ret) {
 				delete ret.owner
 				delete ret.wallet
 				delete ret.__v
@@ -55,6 +55,9 @@ const transactionSchema = new mongoose.Schema(
 	}
 )
 
+/**
+ * This is setting a new amount every time we update the transaction
+ */
 transactionSchema.pre('save', async function (next) {
 	const transaction = this
 	transaction.amount = transaction.paid / transaction.boughtAt
