@@ -56,5 +56,15 @@
 		"confirmation": "Are you sure you want to modify your profile ?",
 		"success": "Profile changed",
 		"modify": "Modify"
+	},
+	"forgot": {
+		"title": "Connexion Problems ?",
+		"description": "Enter your email address and we will send you a link to change your password",
+		"sent": "A confirmation email has been sent to",
+		"resend": "Resend email",
+		"register": "Create an account",
+		"back": "Get back to the login page",
+		"field": "Email",
+		"submit": "Send"
 	}
 }

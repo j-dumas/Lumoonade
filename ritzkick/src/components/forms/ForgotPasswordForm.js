@@ -9,7 +9,11 @@ import { sendForgotPassword } from 'services/AuthService'
 import { Email } from '@mui/icons-material'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material'
 
+import { useTranslation } from 'next-i18next'
+
 export default function ForgotPasswordForm() {
+	const { t } = useTranslation('forms')
+
 	const [email, setEmail] = useState(undefined)
 	const [open, setOpen] = useState(false)
 	const [confirmation, setConfirmation] = useState(false)
@@ -57,9 +61,9 @@ export default function ForgotPasswordForm() {
 				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
 			>
 				<Alert onClose={handleClose} severity="success">
-					{'Un email de confirmation a été envoyé à ' + email}
+					{`${t('forgot.sent')} ${email}`}
 					<button id="resend-email-button" onClick={handleResend}>
-						Re-send email
+						{t('forgot.resend')}
 					</button>
 				</Alert>
 			</Snackbar>
@@ -70,15 +74,15 @@ export default function ForgotPasswordForm() {
 				anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
 			>
 				<Alert onClose={handleConfirmationClose} severity="success">
-					{'Un email de confirmation a été renvoyé à ' + email}
+					{`${t('forgot.sent')} ${email}`}
 				</Alert>
 			</Snackbar>
 			<Container className="form">
-				<h1 className="form-title">Problème de connexion?</h1>
-				<h4>Entrez votre adresse courriel et nous vous enverrons un lien pour récupérer votre compte.</h4>
+				<h1 className="form-title">{t('forgot.title')}</h1>
+				<h4>{t('forgot.description')}</h4>
 				<form method="POST" onSubmit={(event) => handleSubmit(event)}>
 					<FormControl className="inputField" sx={{ m: 1, width: '100%' }} variant="filled">
-						<InputLabel htmlFor="outlined-adornment-courriel">Courriel</InputLabel>
+						<InputLabel htmlFor="outlined-adornment-courriel">{t('forgot.field')}</InputLabel>
 						<OutlinedInput
 							name="email"
 							id="outlined-adornment-courriel"
@@ -94,15 +98,15 @@ export default function ForgotPasswordForm() {
 							autoComplete="off"
 						/>
 					</FormControl>
-					<input type="submit" value="Envoyez"></input>
+					<input type="submit" value={t('forgot.submit')}></input>
 				</form>
 				<AndSeparator />
 				<Link href="/register">
-					<a className="link">Créer un compte</a>
+					<a className="link">{t('forgot.register')}</a>
 				</Link>
 				<Separator />
 				<Link href="/login">
-					<a className="link">Revenir à l&apos;écran de connexion</a>
+					<a className="link">{t('forgot.back')}</a>
 				</Link>
 			</Container>
 		</div>
