@@ -95,8 +95,8 @@ const LoginForm = () => {
 					<div className="link">{t('login.forgot-password')}</div>
 				</Link>
 			</form>
-			<AndSeparator />
-			<GoogleSignIn />
+			{/* <AndSeparator />
+			<GoogleSignIn /> */}
 
 			<div>
 				<Separator />

@@ -140,8 +140,8 @@ const RegisterForm = () => {
 					</div>
 					<input id="submitButton" type="submit" value={t('register.submit')} />
 				</form>
-				<AndSeparator />
-				<GoogleSignIn />
+				{/* <AndSeparator />
+				<GoogleSignIn /> */}
 				<div>
 					<Separator />
 					<div className="column">
