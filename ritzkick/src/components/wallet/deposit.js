@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useForm } from '../hooks/useForm'
-import { addTransaction } from '../../../services/UserService'
-import Icons from '../../components/Icons'
+import { useForm } from '@/components/hooks/useForm'
+import { addTransaction } from 'services/UserService'
+import Icons from '@/components/Icons'
 import Functions from 'services/CryptoService'
 import { Select, MenuItem } from '@mui/material'
+
+import { useTranslation } from 'next-i18next'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -17,6 +19,7 @@ const MenuProps = {
 }
 
 function WalletDeposit(props) {
+	const { t } = useTranslation('portfolio')
 	const [state, handleChange] = useForm({ asset: props.default })
 	const [date] = useState(new Date().toISOString().slice(0, 10))
 	const [data, setData] = useState()
@@ -58,13 +61,13 @@ function WalletDeposit(props) {
 		<div className={props.isOpen ? 'wallet' : 'no-display'}>
 			<form className="wallet-form column" onSubmit={handleSubmit}>
 				<div className="row space-between">
-					<p>Deposit</p>
+					<p>{t('deposit.title')}</p>
 					<div onClick={props.close}>
 						<Icons.Times />
 					</div>
 				</div>
 
-				<label htmlFor="asset">Asset</label>
+				<label htmlFor="asset">{t('deposit.asset')}</label>
 				{props.default ? (
 					<input name="" id="" value={props.default} disabled />
 				) : (
@@ -83,11 +86,11 @@ function WalletDeposit(props) {
 						))}
 					</Select>
 				)}
-				<label htmlFor="boughtAt">Bought at</label>
+				<label htmlFor="boughtAt">{t('deposit.at')}</label>
 				<input name="boughtAt" onChange={handleChange} className="wallet-input" type="number" required />
-				<label htmlFor="price">Amount (price)</label>
+				<label htmlFor="price">{t('deposit.amount')}</label>
 				<input name="price" onChange={handleChange} className="wallet-input" type="number" required />
-				<label htmlFor="date">Date</label>
+				<label htmlFor="date">{t('deposit.date')}</label>
 				<input
 					name="date"
 					max={date}
@@ -98,7 +101,7 @@ function WalletDeposit(props) {
 					required
 				/>
 				<button type="submit" value="Submit" onClick={props.close}>
-					Deposit
+					{t('deposit.submit')}
 				</button>
 			</form>
 		</div>

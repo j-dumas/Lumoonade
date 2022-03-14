@@ -23,6 +23,8 @@ const DetailedChart = dynamic(() => import('@/components/charts/DetailedChart'),
 const CURRENCY = 'cad'
 
 const Portfolio = () => {
+	const { t } = useTranslation('division')
+
 	const router = useRouter()
 	const [socket, setSocket] = useState()
 	const [portfolioSocket, setPortfolioSocket] = useState()
@@ -58,10 +60,10 @@ const Portfolio = () => {
 				<div className="detailed-chart detailed-div" />
 				<div className="row space-between stretch">
 					<div className="column pie-chart">
-						<p className="detailed-div-title">Assets division (%)</p>
+						<p className="detailed-div-title">{`${t('division')} (%)`}</p>
 					</div>
 					<div className="column bar-chart">
-						<p className="detailed-div-title">Assets division ($)</p>
+						<p className="detailed-div-title">{`${t('division')} ($)`}</p>
 					</div>
 				</div>
 				<div className="simple-crypto-dashboard v-center" />
@@ -102,7 +104,7 @@ Portfolio.getLayout = function getLayout(page) {
 export async function getStaticProps({ locale }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['common', 'dashboard', 'crypto', 'detailedchart']))
+			...(await serverSideTranslations(locale, ['common', 'portfolio', 'crypto', 'detailedchart', 'division']))
 		}
 	}
 }

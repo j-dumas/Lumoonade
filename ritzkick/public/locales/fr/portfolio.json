@@ -1,0 +1,25 @@
+{
+	"withdraw": {
+		"title": "Retirer",
+		"asset": "Crypto",
+		"at": "Retiré le",
+		"amount": "Montant (prix)",
+		"date": "Date",
+		"submit": "Retirer"
+	},
+	"deposit": {
+		"title": "Déposer",
+		"asset": "Crypto",
+		"at": "Déposer le",
+		"amount": "Montant (prix)",
+		"date": "Date",
+		"submit": "Déposer"
+	},
+	"dashboard": {
+		"market": "Prix du marché",
+		"amount": "Montant",
+		"total": "Total dépensé",
+		"change": "Changement",
+		"value": "Valeur"
+	}
+}

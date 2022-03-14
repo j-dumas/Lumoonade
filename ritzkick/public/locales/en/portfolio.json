@@ -1,0 +1,25 @@
+{
+	"withdraw": {
+		"title": "Withdraw",
+		"asset": "Crypto",
+		"at": "Withdraw at",
+		"amount": "Amount (price)",
+		"date": "Date",
+		"submit": "Withdraw"
+	},
+	"deposit": {
+		"title": "Deposit",
+		"asset": "Crypto",
+		"at": "Bought at",
+		"amount": "Amount (price)",
+		"date": "Date",
+		"submit": "Deposit"
+	},
+	"dashboard": {
+		"market": "Market Price",
+		"amount": "Amount",
+		"total": "Total spent",
+		"change": "Change",
+		"value": "Value"
+	}
+}

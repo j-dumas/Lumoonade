@@ -3,8 +3,11 @@ import { Pie } from 'react-chartjs-2'
 import GetColorBySlug from 'utils/color'
 import { AreSlugsEqual } from 'utils/crypto'
 import 'chart.js/auto'
+import { useTranslation } from 'next-i18next'
 
 function PieChart(props) {
+	const { t } = useTranslation('division')
+
 	const [chartReference] = useState(React.createRef())
 
 	const [data] = useState({
@@ -120,7 +123,7 @@ function PieChart(props) {
 		<></>
 	) : (
 		<div className="column pie-chart">
-			<p className="detailed-div-title">Assets division (%)</p>
+			<p className="detailed-div-title">{`${t('division')} (%)`}</p>
 			<Pie name="pie" data={data} options={pieOptions} ref={chartReference} />
 		</div>
 	)

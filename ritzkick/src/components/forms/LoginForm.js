@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
-import AndSeparator from '@/components/AndSeparator'
+// import AndSeparator from '@/components/AndSeparator'
 import Separator from '@/components/Separator'
 import { login } from 'services/AuthService'
 import Link from 'next/link'
@@ -8,10 +8,10 @@ import { useTranslation } from 'next-i18next'
 import { Email, Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import { useForm } from '@/components/hooks/useForm'
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
-const GoogleSignIn = dynamic(() => import('@/components/GoogleSignIn'))
+// const GoogleSignIn = dynamic(() => import('@/components/GoogleSignIn'))
 
 const LoginForm = () => {
 	const { t } = useTranslation('forms')

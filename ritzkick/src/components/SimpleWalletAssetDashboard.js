@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import SimpleWalletAssetView from '@/components/views/SimpleWalletAssetView'
 import { AreSlugsEqual } from 'utils/crypto'
+import { useTranslation } from 'next-i18next'
 
 function SimpleWalletAssetDashboard(props) {
+	const { t } = useTranslation('portfolio')
+
 	const [datas, setDatas] = useState([])
 
 	useEffect(() => {
@@ -24,15 +27,15 @@ function SimpleWalletAssetDashboard(props) {
 							<div className="simple-crypto-view-item-big row left h-center">
 								<p>Asset</p>
 							</div>
-							<p className="simple-crypto-view-item">Market price</p>
+							<p className="simple-crypto-view-item">{t('dashboard.market')}</p>
 						</div>
 						<div className="row simple-crypto-view-div">
-							<p className="simple-crypto-view-item">Amount</p>
-							<p className="simple-crypto-view-item">Total spent</p>
+							<p className="simple-crypto-view-item">{t('dashboard.amount')}</p>
+							<p className="simple-crypto-view-item">{t('dashboard.total')}</p>
 						</div>
 						<div className="row simple-crypto-view-div">
-							<p className="simple-crypto-view-item-big simple-crypto-change">Change</p>
-							<p className="simple-crypto-view-item">Value</p>
+							<p className="simple-crypto-view-item-big simple-crypto-change">{t('dashboard.change')}</p>
+							<p className="simple-crypto-view-item">{t('dashboard.value')}</p>
 						</div>
 					</div>
 				</div>

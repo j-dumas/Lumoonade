@@ -3,9 +3,11 @@ import { Bar } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import GetColorBySlug from 'utils/color'
 import zoomPlugin from 'chartjs-plugin-zoom'
+import { useTranslation } from 'next-i18next'
 Chart.register(zoomPlugin)
 
 function BarChart(props) {
+	const { t } = useTranslation('divison')
 	const [chartReference] = useState(React.createRef())
 
 	const [data] = useState({
@@ -165,7 +167,7 @@ function BarChart(props) {
 		<></>
 	) : (
 		<div className="column bar-chart">
-			<p className="detailed-div-title">Assets division ($)</p>
+			<p className="detailed-div-title">{`${t('division')} ($)`}</p>
 			<Bar name="bar" data={data} options={barOptions} ref={chartReference} />
 		</div>
 	)
