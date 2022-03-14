@@ -9,9 +9,10 @@ import { isUserConnected } from 'services/AuthService'
 import { createSocket } from 'services/SocketService'
 import { SlugArrayToSymbolArray } from 'utils/crypto'
 import dynamic from 'next/dynamic'
+
 import PortfolioMenu from '@/components/menus/PortfolioMenu'
 import PortfolioMenuD from '@/components/menus/PortfolioMenuD'
-/* const PortfolioMenu = dynamic(() => import('@/components/menus/PortfolioMenu'), { ssr: false })*/
+
 const SimpleWalletAssetDashboard = dynamic(() => import('@/components/SimpleWalletAssetDashboard'))
 const SimpleCryptoDashboard = dynamic(() => import('@/components/SimpleCryptoDashboard'))
 
@@ -82,7 +83,7 @@ const Portfolio = () => {
 		</section>
 	)
 }
-// <PieChart socket={socket} assets={assets}/> import PieChart from '../../components/charts/PieChart'
+
 Portfolio.getLayout = function getLayout(page) {
 	const { t } = useTranslation('common')
 
