@@ -17,7 +17,11 @@
 		"profile": { "title": "LUMOONADE | PROFIL", "description": "Paage de profil Lumoonade" },
 		"404": { "title": "LUMOONADE | 404", "description": "Lumoonade - Page non trouvée" },
 		"tos": { "title": "LUMOONADE | CONDITIONS", "description": "Page de conditions d'utilisation Lumoonade" },
-		"portfolio": { "title": "LUMOONADE | PORTFOLIO", "description": "Page de portfolio Lumoonade" }
+		"portfolio": { "title": "LUMOONADE | PORTFOLIO", "description": "Page de portfolio Lumoonade" },
+		"forgot": {
+			"title": "LUMOONADE | MOT DE PASSE OUBLIÉ",
+			"description": "Page d'oublie de mot de passe Lumoonade"
+		}
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade pour les CryptoCurrencies", "type": "website" },
 	"footer": {

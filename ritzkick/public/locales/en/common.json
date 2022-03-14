@@ -11,7 +11,8 @@
 		"profile": { "title": "LUMOONADE | PROFILE", "description": "Lumoonade profile page" },
 		"404": { "title": "LUMOONADE | 404", "description": "Lumoonade - page not found" },
 		"tos": { "title": "LUMOONADE | TOS", "description": "Lumoonade Terms of Service page" },
-		"portfolio": { "title": "LUMOONADE | PORTFOLIO", "description": "Lumoonade Portfolio page" }
+		"portfolio": { "title": "LUMOONADE | PORTFOLIO", "description": "Lumoonade Portfolio page" },
+		"forgot": { "title": "LUMOONADE | FORGOT PASSWORD", "description": "Lumoonade forgot password page" }
 	},
 	"meta": { "title": "Lumoonade", "description": "Lumoonade for CryptoCurrencies", "type": "website" },
 	"footer": {
