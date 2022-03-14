@@ -16,6 +16,6 @@ mongoose
 		await addSlugsToDB()
 		log.info('DB', 'Assets filled')
 	})
-	.catch(err => {
+	.catch((err) => {
 		log.error('DB', 'Unable to connect to the database', err.message)
 	})

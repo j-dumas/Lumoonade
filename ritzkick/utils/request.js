@@ -16,8 +16,8 @@ const getFastestApiResponse = async (urls, controller) => {
 
 /**
  * Make a promise for the Promise.race
- * @param {string} url 
- * @param {controller} controller 
+ * @param {string} url
+ * @param {controller} controller
  */
 const makePromiseForApi = (url, controller) => {
 	return new Promise((res, rej) => {

@@ -101,7 +101,7 @@ const initialize = (server) => {
 			const { query } = client
 			const { append } = socket.handshake.auth
 			let socketRooms = rm.getRoomsOfSocket(id)
-			socketRooms = socketRooms.filter(r => !newRoom.find(e => e === r.name))
+			socketRooms = socketRooms.filter((r) => !newRoom.find((e) => e === r.name))
 			socketRooms.forEach((room) => {
 				socket.leave(room.name)
 				rm.disconnectFromRoom(socket, room.name)

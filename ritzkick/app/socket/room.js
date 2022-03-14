@@ -1,5 +1,4 @@
 class Room {
-
 	constructor(name, graph = false) {
 		this.name = name
 		this.clients = []

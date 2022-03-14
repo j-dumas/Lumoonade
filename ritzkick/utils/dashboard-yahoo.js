@@ -18,7 +18,7 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, t
 		let timestamps = data[0].response[0].timestamp
 		timestamps.forEach((_, index) => {
 			let priceSum = 0
-			data.forEach(entry => {
+			data.forEach((entry) => {
 				let price = entry.response[0].indicators.quote[0].close[index]
 				priceSum += price
 			})
@@ -28,7 +28,7 @@ const yahooToDashBoard2 = (data = [], transactions = [], range, single = true, t
 		return [data[0]]
 	}
 
-	data.forEach(entry => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
+	data.forEach((entry) => yahooToDashBoard(entry, fromSymbol(entry.symbol, transactions), range, timezone))
 }
 
 const fromSymbol = (symbol, transactions) => {

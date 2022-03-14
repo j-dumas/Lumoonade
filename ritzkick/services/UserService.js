@@ -100,7 +100,7 @@ export async function getFavorites(limit = 1000, page = 1) {
 
 		let json = await response.json()
 		return json.favorites
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function getFavoritesMaxPage(limit = 5) {
@@ -131,7 +131,7 @@ export async function getWatchList(page = 1) {
 
 		let json = await response.json()
 		return json
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function deleteWatch(alertId) {
@@ -144,7 +144,7 @@ export async function deleteWatch(alertId) {
 			},
 			body: JSON.stringify({ id: alertId })
 		})
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function addWatch(slug, parameter, target) {
@@ -157,7 +157,7 @@ export async function addWatch(slug, parameter, target) {
 			},
 			body: JSON.stringify({ slug: slug, target: target, parameter: parameter })
 		})
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function deleteUser() {
@@ -171,7 +171,7 @@ export async function deleteUser() {
 		})
 
 		deleteCookie('token')
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function getUser() {
@@ -190,7 +190,7 @@ export async function getUser() {
 			let json = await response.json()
 			return json
 		}
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function removeSession() {
@@ -205,7 +205,7 @@ export async function removeSession() {
 
 		let json = await response.json()
 		return json.purged
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function updateUser(event, oldUsername, newUsername, oldPass, newPass, newPassConfirmation, setError) {
@@ -254,7 +254,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
-		} catch (_) { }
+		} catch (_) {}
 	}
 
 	async function updateUsername(newUsername, setError) {
@@ -278,7 +278,7 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
-		} catch (_) { }
+		} catch (_) {}
 	}
 
 	async function updateUsernameAndPassword(newUsername, oldPass, newPass, setError) {
@@ -303,6 +303,6 @@ export async function updateUser(event, oldUsername, newUsername, oldPass, newPa
 			} else if (response.status === 500) {
 				alert('Something went wrong')
 			}
-		} catch (_) { }
+		} catch (_) {}
 	}
 }

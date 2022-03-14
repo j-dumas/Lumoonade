@@ -43,9 +43,9 @@ const create = async () => {
 		log(SERVICE_NAME, 'Email Client got rejected.')
 	})
 
-	client.on('data', data => {
+	client.on('data', (data) => {
 		if (!data) return
-		data.forEach(query => {
+		data.forEach((query) => {
 			try {
 				tracker(query.symbol.toLowerCase(), query.regularMarketPrice)
 			} catch (_) {}

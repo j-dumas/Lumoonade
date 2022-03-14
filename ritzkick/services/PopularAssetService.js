@@ -7,7 +7,7 @@ const POPULAR_URL = 'https://price-api.crypto.com/price/v1/tokens'
 async function fetchPopularAssets() {
 	try {
 		const res = await axios.get(POPULAR_URL) // error code: 1020 cloudflare
-	} catch (_) { }
+	} catch (_) {}
 	const data = res.data['data']
 	for (const element of data) {
 		await addToDB(Popular, element)

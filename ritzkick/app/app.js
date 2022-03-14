@@ -38,5 +38,4 @@ server.use(walletRouter)
 server.use(userRouter)
 server.use(confirmationRouter)
 
-
 module.exports = server

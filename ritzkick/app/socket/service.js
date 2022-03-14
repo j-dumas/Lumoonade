@@ -1,7 +1,6 @@
 const axios = require('axios').default
 
 class Service {
-
 	constructor(room, url, config, ms = 1000) {
 		this.url = url
 		this.room = room
@@ -30,7 +29,7 @@ class Service {
 
 	/**
 	 * Bind a function to clean the data whenever axios returns data
-	 * @param {function} callback 
+	 * @param {function} callback
 	 */
 	cleanCallback(callback) {
 		this.cleanupCallback = callback
@@ -46,7 +45,7 @@ class Service {
 
 	/**
 	 * Bind a function to be called whenever axios returns data
-	 * @param {function} callback 
+	 * @param {function} callback
 	 */
 	listenCallback(callback) {
 		this.callback = callback
@@ -54,7 +53,7 @@ class Service {
 
 	/**
 	 * Set the configuration for axios
-	 * @param {object} config 
+	 * @param {object} config
 	 */
 	setConfig(config) {
 		this.config = config

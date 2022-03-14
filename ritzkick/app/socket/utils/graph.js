@@ -99,7 +99,7 @@ const cleanupCallback = (data) => {
 /**
  * This callback is going to be called whenever we get data from yahoo's api.
  * @param {Room} room Room object
- * @param {list} data yahoo's data 
+ * @param {list} data yahoo's data
  */
 const listenCallback = (room, data = []) => {
 	if (data.length === 0) return
@@ -157,7 +157,7 @@ const adjustDateMiddleware = (data = [], range, timezone) => {
 			data[0].response[0].timestamp[index] = getDateFormat(range, time, timezone)
 		})
 		return data
-	} catch (_) { }
+	} catch (_) {}
 }
 
 module.exports = {

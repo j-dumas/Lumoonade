@@ -27,7 +27,7 @@ export async function logout(setConnection) {
 			deleteCookie('token')
 			setConnection(false)
 		}
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function login(email, password, handleError) {
@@ -51,7 +51,7 @@ export async function login(email, password, handleError) {
 		} else {
 			alert('Something went wrong')
 		}
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function googleLogin(idToken) {
@@ -73,7 +73,7 @@ export async function googleLogin(idToken) {
 		} else {
 			alert('Something went wrong')
 		}
-	} catch (_) { }
+	} catch (_) {}
 }
 
 export async function register(email, username, password, handleError) {
