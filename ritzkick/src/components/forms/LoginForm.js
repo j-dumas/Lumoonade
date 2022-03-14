@@ -91,7 +91,7 @@ const LoginForm = () => {
 					/>
 				</FormControl>
 				<input id="submitButton" type="submit" onClick={handleSubmit} value={t('login.submit')} />
-				<Link href="/forgotPassword">
+				<Link href="/forgot-password">
 					<div className="link">{t('login.forgot-password')}</div>
 				</Link>
 			</form>

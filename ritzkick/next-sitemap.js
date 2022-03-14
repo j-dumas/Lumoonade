@@ -7,7 +7,7 @@ module.exports = {
 				userAgent: '*',
 				disallow: '/api/',
 				disallow: '/api/docs',
-				disallow: '/forgotPassword',
+				disallow: '/forgot-password',
 				disallow: '/email-confirmation',
 				disallow: '/reset-password',
 				disallow: '/404'
