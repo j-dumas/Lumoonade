@@ -12,8 +12,8 @@
 		// 		"memberSyntaxSortOrder": ["all", "multiple", "single", "none"]
 		// 	}
 		// ],
-		// "no-duplicate-imports": "error",
-		// "spaced-comment": "error"
+		"no-duplicate-imports": "error",
+		"spaced-comment": "error",
 		"no-empty": "off"
 	}
 }

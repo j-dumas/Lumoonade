@@ -11,7 +11,7 @@ import { SlugArrayToSymbolArray } from 'utils/crypto'
 import dynamic from 'next/dynamic'
 import PortfolioMenu from '@/components/menus/PortfolioMenu'
 import PortfolioMenuD from '@/components/menus/PortfolioMenuD'
-/*const PortfolioMenu = dynamic(() => import('@/components/menus/PortfolioMenu'), { ssr: false })*/
+/* const PortfolioMenu = dynamic(() => import('@/components/menus/PortfolioMenu'), { ssr: false })*/
 const SimpleWalletAssetDashboard = dynamic(() => import('@/components/SimpleWalletAssetDashboard'))
 const SimpleCryptoDashboard = dynamic(() => import('@/components/SimpleCryptoDashboard'))
 

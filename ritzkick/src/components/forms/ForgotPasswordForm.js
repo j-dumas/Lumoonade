@@ -4,10 +4,9 @@ import AndSeparator from '@/components/AndSeparator'
 import Separator from '@/components/Separator'
 import Link from 'next/link'
 import Snackbar from '@mui/material/Snackbar'
-import { Alert } from '@mui/material'
 import { sendForgotPassword } from 'services/AuthService'
 import { Email } from '@mui/icons-material'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material'
+import { Alert, FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material'
 
 import { useTranslation } from 'next-i18next'
 
